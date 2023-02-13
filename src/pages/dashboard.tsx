@@ -1,10 +1,20 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+
 import { api } from "../utils/api";
 
 const Dashboard: NextPage = () => {
-  const { data: users } = api.example.getUsers.useQuery();
+  const { data: sessionData } = useSession();
+  const { data: users } = api.example.getAllUsers.useQuery();
+
+  const userEmail = sessionData?.user.email as string;
+  const { data: user } = api.example.getUserByEmail.useQuery(userEmail);
+
+  const isDewa = user?.role === "DEWA";
+
+  console.log(sessionData);
   return (
     <>
       <Head>
@@ -27,7 +37,11 @@ const Dashboard: NextPage = () => {
             </Link>
           </div>
           <div className="text-slate-200">
-            <pre>{JSON.stringify(users, null, 2)}</pre>
+            {isDewa ? (
+              <pre>{JSON.stringify(users, null, 2)}</pre>
+            ) : (
+              <pre>{JSON.stringify(user, null, 2)}</pre>
+            )}
           </div>
         </div>
       </main>
