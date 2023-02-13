@@ -55,7 +55,7 @@ model User {
     image            String?
     accounts         Account[]
     sessions         Session[]
-    EventOrganizer   EventOrganizer? @relation(fields: [eventOrganizerId], references: [id])
+    eventOrganizer   EventOrganizer? @relation(fields: [eventOrganizerId], references: [id])
     eventOrganizerId String?         @map("event_organizer_id")
     role             Role            @default(ADMIN)
 }
@@ -77,12 +77,11 @@ model Address {
 }
 
 model EventOrganizer {
-    id        String   @id @default(cuid())
-    name      String   @unique()
-    date      DateTime
+    id        String  @id @default(cuid())
+    name      String  @unique()
     phone     String?
-    address   Address  @relation(fields: [addressId], references: [id])
-    addressId String   @map("address_id")
+    address   Address @relation(fields: [addressId], references: [id])
+    addressId String  @map("address_id")
     // EventOrg many2one -> User 
     users     User[]
     // EventOrg many2one -> Event 
