@@ -48,13 +48,15 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
+    id               String          @id @default(cuid())
+    name             String?
+    email            String?         @unique
+    emailVerified    DateTime?
+    image            String?
+    accounts         Account[]
+    sessions         Session[]
+    EventOrganizer   EventOrganizer? @relation(fields: [eventOrganizerId], references: [id])
+    eventOrganizerId String?
 }
 
 model VerificationToken {
@@ -63,4 +65,54 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Address {
+    id             String           @id @default(cuid())
+    street         String
+    city           String
+    postalCode     String
+    EventOrganizer EventOrganizer[]
+}
+
+model EventOrganizer {
+    id        String   @id @default(cuid())
+    name      String   @unique()
+    date      DateTime
+    phone     String?
+    address   Address  @relation(fields: [addressId], references: [id])
+    addressId String
+    // EventOrg many2one -> User 
+    users     User[]
+    // EventOrg many2one -> Event 
+    events    Event[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Event {
+    id               String          @id @default(cuid())
+    title            String          @unique()
+    date             DateTime
+    location         String
+    EventOrganizer   EventOrganizer? @relation(fields: [eventOrganizerId], references: [id])
+    eventOrganizerId String?
+    // Event many2one -> Guest 
+    guests           Guests[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Guests {
+    id          String    @id @default(cuid())
+    name        String
+    isCheckIn   Boolean   @default(false)
+    checkInDate DateTime?
+    Event       Event?    @relation(fields: [eventId], references: [id])
+    eventId     String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
