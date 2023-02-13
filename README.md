@@ -26,3 +26,8 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 ## How do I deploy this?
 
 Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+
+
+# DOCUMENTATION
+
+[Visual Doc](https://excalidraw.com/#json=3_Fallr3G5LHhB8gC_JgA,wsfBFIfCq-7W3ACxB3u0Og)
