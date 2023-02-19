@@ -7,6 +7,7 @@ import { api } from "../utils/api";
 
 const Dashboard: NextPage = () => {
   const { data: sessionData } = useSession();
+
   const { data: users } = api.example.getAllUsers.useQuery();
 
   const userEmail = sessionData?.user.email as string;

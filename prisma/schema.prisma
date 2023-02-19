@@ -100,14 +100,14 @@ model Event {
     location         String
     EventOrganizer   EventOrganizer? @relation(fields: [eventOrganizerId], references: [id])
     eventOrganizerId String?         @map("event_organizer_id")
-    // Event many2one -> Member
-    members          Member[]
+    // Event many2one -> Visitor
+    visitors         Visitor[]
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
 }
 
-model Member {
+model Visitor {
     id          String    @id @default(cuid())
     name        String
     isCheckIn   Boolean   @default(false) @map("is_check_in")
