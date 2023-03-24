@@ -1,6 +1,6 @@
 import type { ReactNode } from "react"
 import { Header } from "./Header"
-import { DrawerUI } from "./ui/drawer"
+import { DrawerUI } from "@/ui/drawer"
 
 type LayoutProps = { title?: string; children: ReactNode }
 

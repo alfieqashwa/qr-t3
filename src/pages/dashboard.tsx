@@ -2,8 +2,9 @@ import { type NextPage } from "next"
 import Link from "next/link"
 import { useSession } from "next-auth/react"
 
-import { api } from "../utils/api"
-import { Layout } from "../components/Layout"
+import { api } from "@/utils/api"
+import { H1Title } from "@/components/H1.Title"
+import { Layout } from "@/components/Layout"
 
 const Dashboard: NextPage = () => {
   const { data: sessionData } = useSession()
@@ -19,9 +20,7 @@ const Dashboard: NextPage = () => {
   return (
     <Layout>
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-          Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-        </h1>
+        <H1Title />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
           <Link
             className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
