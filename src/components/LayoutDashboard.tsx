@@ -4,7 +4,7 @@ import { DrawerUI } from "@/ui/drawer"
 
 type LayoutProps = { title?: string; children: ReactNode }
 
-export const Layout = ({ title = "", children }: LayoutProps): JSX.Element => {
+export const LayoutDashboard = ({ title = "Default", children }: LayoutProps): JSX.Element => {
   const titleHeader = `QR Ticket Concert | ${title}`
 
   return (

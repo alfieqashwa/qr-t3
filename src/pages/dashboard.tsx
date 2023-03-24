@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react"
 
 import { api } from "@/utils/api"
 import { H1Title } from "@/components/H1.Title"
-import { Layout } from "@/components/Layout"
+import { LayoutDashboard } from "@/components/LayoutDashboard"
 
 const Dashboard: NextPage = () => {
   const { data: sessionData } = useSession()
@@ -18,7 +18,7 @@ const Dashboard: NextPage = () => {
 
   console.log(sessionData)
   return (
-    <Layout>
+    <LayoutDashboard>
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
         <H1Title />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
@@ -38,7 +38,7 @@ const Dashboard: NextPage = () => {
           )}
         </div>
       </div>
-    </Layout>
+    </LayoutDashboard>
   )
 }
 
