@@ -28,8 +28,4 @@ export const exampleRouter = createTRPCRouter({
       include: { eventOrganizer: true }
     })
   }),
-
-  getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!"
-  }),
 })
