@@ -19,13 +19,13 @@ export const exampleRouter = createTRPCRouter({
     .input(z.string().email())
     .query(({ ctx, input }) => {
       return ctx.prisma.user.findUnique({
-        where: { email: input }
+        where: { email: input },
       })
     }),
 
   getAllUsers: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.user.findMany({
-      include: { eventOrganizer: true }
+      include: { eventOrganizer: true },
     })
   }),
 })

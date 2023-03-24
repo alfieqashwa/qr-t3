@@ -1,21 +1,21 @@
-import { type NextPage } from "next";
-import Head from "next/head";
-import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { type NextPage } from "next"
+import Head from "next/head"
+import Link from "next/link"
+import { useSession } from "next-auth/react"
 
-import { api } from "../utils/api";
+import { api } from "../utils/api"
 
 const Dashboard: NextPage = () => {
-  const { data: sessionData } = useSession();
+  const { data: sessionData } = useSession()
 
-  const { data: users } = api.example.getAllUsers.useQuery();
+  const { data: users } = api.example.getAllUsers.useQuery()
 
-  const userEmail = sessionData?.user.email as string;
-  const { data: user } = api.example.getUserByEmail.useQuery(userEmail);
+  const userEmail = sessionData?.user.email as string
+  const { data: user } = api.example.getUserByEmail.useQuery(userEmail)
 
-  const isDewa = user?.role === "DEWA";
+  const isDewa = user?.role === "DEWA"
 
-  console.log(sessionData);
+  console.log(sessionData)
   return (
     <>
       <Head>
@@ -47,7 +47,7 @@ const Dashboard: NextPage = () => {
         </div>
       </main>
     </>
-  );
-};
+  )
+}
 
-export default Dashboard;
+export default Dashboard
