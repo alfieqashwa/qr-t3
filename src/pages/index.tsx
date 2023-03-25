@@ -1,8 +1,8 @@
+import { H1Title } from "@/components/H1.Title"
 import { type NextPage } from "next"
 import { signIn, signOut, useSession } from "next-auth/react"
 import Head from "next/head"
 import Link from "next/link"
-import { H1Title } from "@/components/H1.Title"
 
 import { api } from "@/utils/api"
 

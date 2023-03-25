@@ -6,9 +6,9 @@ export function DrawerUI() {
 
   return (
     <>
-      <Drawer opened={opened} onClose={close} title="Authentication">
+      <Drawer opened={opened} onClose={close} title="Dashboard" style={{ background: "blue" }}>
         {/* Drawer content */}
-        <ul>
+        <ul className="bg-red-500">
           <li>Home</li>
           <li>Dashboard</li>
           <li>Setting</li>
