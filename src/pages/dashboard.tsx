@@ -1,22 +1,16 @@
+import type { GetServerSideProps } from "next"
 import { type NextPage } from "next"
 import Link from "next/link"
-import { useSession } from "next-auth/react"
 
-import { api } from "@/utils/api"
 import { H1Title } from "@/components/H1.Title"
 import { LayoutDashboard } from "@/components/LayoutDashboard"
 
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "../server/auth"
+
+
 const Dashboard: NextPage = () => {
-  const { data: sessionData } = useSession()
 
-  const { data: users } = api.example.getAllUsers.useQuery()
-
-  const userEmail = sessionData?.user.email as string
-  const { data: user } = api.example.getUserByEmail.useQuery(userEmail)
-
-  const isDewa = user?.role === "DEWA"
-
-  console.log(sessionData)
   return (
     <LayoutDashboard>
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
@@ -31,11 +25,6 @@ const Dashboard: NextPage = () => {
           </Link>
         </div>
         <div className="text-slate-200">
-          {isDewa ? (
-            <pre>{JSON.stringify(users, null, 2)}</pre>
-          ) : (
-            <pre>{JSON.stringify(user, null, 2)}</pre>
-          )}
         </div>
       </div>
     </LayoutDashboard>
@@ -43,3 +32,23 @@ const Dashboard: NextPage = () => {
 }
 
 export default Dashboard
+
+// If No Authenticated, then redirect to Home Page. Else, enter this page.
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getServerSession(ctx.req, ctx.res, authOptions)
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: {
+      session,
+    },
+  }
+}
