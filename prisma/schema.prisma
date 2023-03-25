@@ -51,7 +51,7 @@ model User {
     sessions         Session[]
     eventOrganizer   EventOrganizer? @relation(fields: [eventOrganizerId], references: [id])
     eventOrganizerId String?         @map("event_organizer_id")
-    role             Role            @default(ADMIN)
+    role             Role            @default(USER)
 }
 
 model VerificationToken {
@@ -119,4 +119,5 @@ enum Role {
     EDITOR // -> CRUD Only its Member/Members.
     OPERATOR // -> Read Only its Event/Events and Only get Access to Scanner Page.
     MEMBER // -> next feature: default Role when user register on web [strict Authorization].
+    USER
 }
