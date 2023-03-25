@@ -1,6 +1,5 @@
 import type { ReactNode } from "react"
 import { Header } from "./Header"
-import { DrawerUI } from "@/ui/drawer"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/router"
 
@@ -22,7 +21,6 @@ export const LayoutDashboard = ({ title = "Default", children }: LayoutProps): J
     <>
       <Header titleHeader={titleHeader} />
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <DrawerUI />
         {children}
       </main>
     </>
