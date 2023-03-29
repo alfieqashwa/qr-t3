@@ -18,11 +18,10 @@ export const LayoutDashboard = ({ title = "Default", children }: LayoutProps): J
   const userImage = sessionData?.user?.image
   // console.log(userEmail)
 
-  console.log(sessionData?.user.image)
   return (
     <>
       <Header titleHeader={titleHeader} />
-      <div className="bg-gradient-to-b from-black to-slate-900 text-zinc-50 relative container max-w-full">
+      <div className="bg-gradient-to-b from-black to-slate-900 text-zinc-50 relative container min-w-max max-w-full">
         <NavigationHeader image={userImage as string} />
         <Drawer />
         <main className="ml-[256px] min-h-screen py-4 mx-auto max-w-full">
@@ -61,7 +60,8 @@ const Drawer = () => (
       <li className="flex px-4 py-3 mx-2 items-center rounded-xl space-x-6 transition duration-150 ease-in-out hover:bg-zinc-800"><Settings /><h3 className="font-semibold tracking-wider">Home</h3></li>
       <li className="flex px-4 py-3 mx-2 items-center rounded-xl space-x-6 transition duration-150 ease-in-out hover:bg-zinc-800"><Settings /><h3 className="font-semibold tracking-wider">Events</h3></li>
       <li className="flex px-4 py-3 mx-2 items-center rounded-xl space-x-6 transition duration-150 ease-in-out hover:bg-zinc-800"><Settings /><h3 className="font-semibold tracking-wider">Visitors</h3></li>
-      <li className="flex px-4 py-3 mx-2 items-center rounded-xl space-x-6 transition duration-150 ease-in-out hover:bg-zinc-800"><Settings /><h3 className="font-semibold tracking-wider">Setting</h3></li>
+      {/* settings: "/dashboard/account" */}
+      <li className="flex px-4 py-3 mx-2 items-center rounded-xl space-x-6 transition duration-150 ease-in-out hover:bg-zinc-800"><Settings /><h3 className="font-semibold tracking-wider">Settings</h3></li>
     </ul>
   </aside>
 )
