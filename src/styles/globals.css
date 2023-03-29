@@ -4,9 +4,9 @@
 
 @layer components {
   .thom {
-    @apply outline outline-1 outline-pink-200 z-50;
+    @apply z-50 outline outline-1 outline-pink-200;
   }
   .kurt {
-    @apply outline outline-1 outline-sky-300 z-50;
+    @apply z-50 outline outline-1 outline-sky-300;
   }
 }

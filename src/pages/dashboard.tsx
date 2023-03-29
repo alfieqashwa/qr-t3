@@ -8,9 +8,7 @@ import { LayoutDashboard } from "@/components/LayoutDashboard"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "../server/auth"
 
-
 const Dashboard: NextPage = () => {
-
   return (
     <LayoutDashboard>
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
@@ -24,8 +22,7 @@ const Dashboard: NextPage = () => {
             <div className="text-lg">Just the basics - Go Home</div>
           </Link>
         </div>
-        <div className="text-slate-200">
-        </div>
+        <div className="text-slate-200"></div>
       </div>
     </LayoutDashboard>
   )
@@ -40,7 +37,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!session) {
     return {
       redirect: {
-        destination: '/',
+        destination: "/",
         permanent: false,
       },
     }

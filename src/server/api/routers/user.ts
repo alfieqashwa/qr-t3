@@ -6,7 +6,7 @@ export const userRouter = createTRPCRouter({
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx }) => {
       return ctx.prisma.user.findUnique({
-        where: { id: ctx.session.user.id }
+        where: { id: ctx.session.user.id },
       })
     }),
 })
