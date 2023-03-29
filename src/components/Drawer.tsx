@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, Home, Settings, Users } from "lucide-react";
+import { Calendar, LayoutDashboard, Settings, Users } from "lucide-react";
 import Link from "next/link";
 
 type DrawerProps = {
@@ -19,7 +19,7 @@ export const Drawer = ({ isToggle }: DrawerProps) => (
           href="/dashboard"
           className="mx-2 flex items-center space-x-6 rounded-xl px-4 py-3 transition duration-150 ease-in-out hover:bg-zinc-800"
         >
-          <Home className={`${isToggle ? "mx-auto" : ""}`} />
+          <LayoutDashboard className={`${isToggle ? "mx-auto" : ""}`} />
           {!isToggle && (
             <h3 className="font-semibold tracking-wider">Dashboard</h3>
           )}
