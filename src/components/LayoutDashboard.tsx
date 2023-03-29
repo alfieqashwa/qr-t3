@@ -2,6 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import type { ReactNode } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { Drawer } from "./Drawer";
 import { Header } from "./Header";
@@ -10,7 +11,17 @@ import { NavigationHeader } from "./NavigationHeader";
 type LayoutProps = { title: string; children: ReactNode };
 
 export const LayoutDashboard = ({ title, children }: LayoutProps) => {
-  const [isToggle, setIsToggle] = useState<boolean>(false);
+  const [isToggle, setIsToggle] = useState<boolean | undefined>(undefined);
+
+  useEffect(() => {
+    function fetchToggle() {
+      if (isToggle == undefined) {
+        return setIsToggle(false);
+      }
+      return isToggle;
+    }
+    fetchToggle();
+  }, [isToggle]);
 
   const { data: sessionData } = useSession();
   const userImage = sessionData?.user?.image;

@@ -11,8 +11,8 @@ import Image from "next/image";
 
 type NavigationProps = {
   image?: string;
-  isToggle: boolean;
-  setIsToggle: React.Dispatch<React.SetStateAction<boolean>>;
+  isToggle?: boolean;
+  setIsToggle: React.Dispatch<React.SetStateAction<boolean | undefined>>;
 };
 
 export const NavigationHeader = (props: NavigationProps) => (
