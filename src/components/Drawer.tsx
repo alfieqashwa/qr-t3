@@ -9,53 +9,77 @@ type DrawerProps = {
 
 export const Drawer = ({ isToggle }: DrawerProps) => (
   <aside
-    className={`fixed z-40 min-h-screen border-r-2 border-slate-700 bg-gradient-to-b from-black to-slate-900 pt-28 ${
-      isToggle ? "w-[128px]" : "w-[256px]"
+    className={`fixed z-40 min-h-screen border-r-2 border-slate-700 bg-gradient-to-b from-black to-slate-900 pt-28 transition duration-500 ease-in-out ${
+      isToggle ? "" : "w-[224px]"
     }`}
   >
     <ul>
       <li>
         <Link
           href="/dashboard"
-          className="mx-2 flex items-center space-x-6 rounded-xl px-4 py-3 transition duration-150 ease-in-out hover:bg-zinc-800"
+          className={`flex items-center space-x-6 rounded-xl px-6 py-3 transition duration-150 ease-in-out hover:bg-zinc-800 ${
+            isToggle ? "justify-end" : ""
+          }`}
         >
-          <LayoutDashboard className={`${isToggle ? "mx-auto" : ""}`} />
-          {!isToggle && (
-            <h3 className="font-semibold tracking-wider">Dashboard</h3>
-          )}
+          <LayoutDashboard />
+          <h3
+            className={`text-base font-semibold tracking-wider ${
+              isToggle ? "hidden" : ""
+            }`}
+          >
+            Dashboard
+          </h3>
         </Link>
       </li>
       <li>
         <Link
           href="/events"
-          className="mx-2 flex items-center space-x-6 rounded-xl px-4 py-3 transition duration-150 ease-in-out hover:bg-zinc-800"
+          className={`flex items-center space-x-6 rounded-xl px-6 py-3 transition duration-150 ease-in-out hover:bg-zinc-800 ${
+            isToggle ? "justify-end" : ""
+          }`}
         >
-          <Calendar className={`${isToggle ? "mx-auto" : ""}`} />
-          {!isToggle && (
-            <h3 className="font-semibold tracking-wider">Events</h3>
-          )}
+          <Calendar />
+          <h3
+            className={`text-base font-semibold tracking-wider ${
+              isToggle ? "hidden" : ""
+            }`}
+          >
+            Events
+          </h3>
         </Link>
       </li>
       <li>
         <Link
           href="/visitors"
-          className="mx-2 flex items-center space-x-6 rounded-xl px-4 py-3 transition duration-150 ease-in-out hover:bg-zinc-800"
+          className={`flex items-center space-x-6 rounded-xl px-6 py-3 transition duration-150 ease-in-out hover:bg-zinc-800 ${
+            isToggle ? "justify-end" : ""
+          }`}
         >
-          <Users className={`${isToggle ? "mx-auto" : ""}`} />
-          {!isToggle && (
-            <h3 className="font-semibold tracking-wider">Visitors</h3>
-          )}
+          <Users />
+          <h3
+            className={`text-base font-semibold tracking-wider ${
+              isToggle ? "hidden" : ""
+            }`}
+          >
+            Visitors
+          </h3>
         </Link>
       </li>
       <li>
         <Link
           href="/settings"
-          className="mx-2 flex items-center space-x-6 rounded-xl px-4 py-3 transition duration-150 ease-in-out hover:bg-zinc-800"
+          className={`flex items-center space-x-6 rounded-xl px-6 py-3 transition duration-150 ease-in-out hover:bg-zinc-800 ${
+            isToggle ? "justify-end" : ""
+          }`}
         >
-          <Settings className={`${isToggle ? "mx-auto" : ""}`} />
-          {!isToggle && (
-            <h3 className="font-semibold tracking-wider">Settings</h3>
-          )}
+          <Settings />
+          <h3
+            className={`text-base font-semibold tracking-wider ${
+              isToggle ? "hidden" : ""
+            }`}
+          >
+            Settings
+          </h3>
         </Link>
       </li>
     </ul>

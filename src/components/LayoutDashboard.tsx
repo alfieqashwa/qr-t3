@@ -9,15 +9,13 @@ import { NavigationHeader } from "./NavigationHeader";
 
 type LayoutProps = { title: string; children: ReactNode };
 
-export const LayoutDashboard = ({
-  title,
-  children,
-}: LayoutProps): JSX.Element => {
+export const LayoutDashboard = ({ title, children }: LayoutProps) => {
+  const [isToggle, setIsToggle] = useState<boolean>(false);
+
   const { data: sessionData } = useSession();
   const userImage = sessionData?.user?.image;
 
   const titleHeader = `${title} | QR Ticket Concert`;
-  const [isToggle, setIsToggle] = useState(false);
 
   return (
     <>
@@ -31,8 +29,8 @@ export const LayoutDashboard = ({
         <Drawer isToggle={isToggle} />
         {/* STARTS MAIN */}
         <main
-          className={`min-h-screen ${
-            isToggle ? "ml-[128px]" : "ml-[256px]"
+          className={`ml-[256px] min-h-screen transition-all duration-500 ease-in-out ${
+            isToggle ? "-translate-x-[128px]" : ""
           } px-8 py-8 pt-28`}
         >
           {children}
