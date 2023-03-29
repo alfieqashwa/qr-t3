@@ -9,7 +9,7 @@ type DrawerProps = {
 
 export const Drawer = ({ isToggle }: DrawerProps) => (
   <aside
-    className={`fixed z-30 min-h-screen border-r border-slate-900 bg-gradient-to-b from-black to-slate-900 pt-28 ${
+    className={`fixed z-40 min-h-screen border-r-2 border-slate-700 bg-gradient-to-b from-black to-slate-900 pt-28 ${
       isToggle ? "w-[128px]" : "w-[256px]"
     }`}
   >

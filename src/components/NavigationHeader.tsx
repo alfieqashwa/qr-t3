@@ -16,7 +16,7 @@ type NavigationProps = {
 };
 
 export const NavigationHeader = (props: NavigationProps) => (
-  <nav className="border-br fixed z-50 flex h-20 w-full justify-between border-slate-900 bg-gradient-to-br from-slate-800 via-black to-slate-800">
+  <nav className="fixed z-50 flex h-20 w-full justify-between border-b-2 border-slate-700 bg-gradient-to-br from-slate-800 via-black to-slate-800">
     <section className="flex h-16 min-w-[256px] items-center justify-end space-x-8 pr-6">
       <div className="flex w-full items-center justify-around">
         <Codesandbox size={36} />
