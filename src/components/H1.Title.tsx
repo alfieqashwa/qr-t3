@@ -1,3 +1,5 @@
+"use client";
+
 type H1TitleProps = {
   title: string;
 };
