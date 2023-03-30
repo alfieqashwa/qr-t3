@@ -8,7 +8,7 @@ import {
   User,
 } from "lucide-react";
 import Image from "next/image";
-import useToggleStore from "../store/useToggle";
+import useToggleStore from "@/store/useToggle";
 
 type NavigationProps = {
   image?: string;

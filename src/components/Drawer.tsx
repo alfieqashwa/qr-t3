@@ -2,14 +2,14 @@
 
 import { Calendar, LayoutDashboard, Settings, Users } from "lucide-react";
 import Link from "next/link";
-import useToggleStore from "../store/useToggle";
+import useToggleStore from "@/store/useToggle";
 
 export const Drawer = () => {
   const { toggle } = useToggleStore();
   return (
     <aside
       className={`fixed z-40 min-h-screen border-r-2 border-slate-700 bg-gradient-to-b from-black to-slate-900 pt-28 transition duration-500 ease-in-out ${
-        toggle ? "" : "w-[224px]"
+        toggle ? "" : ""
       }`}
     >
       <ul className="px-1">
@@ -18,14 +18,14 @@ export const Drawer = () => {
             href="/dashboard"
             className={`flex items-center rounded-xl py-3 transition duration-150 ease-in-out hover:bg-zinc-800 ${
               toggle
-                ? "flex-col justify-end space-y-3 px-2"
-                : "flex-row space-x-6 px-6"
+                ? "flex-row space-x-6 px-6"
+                : "flex-col justify-end space-y-3 px-2"
             }`}
           >
             <LayoutDashboard />
             <h3
               className={`font-semibold tracking-wider ${
-                toggle ? "text-[0.625rem]" : "text-base "
+                toggle ? "text-base " : "text-[0.625rem]"
               }`}
             >
               Dashboard
@@ -37,14 +37,14 @@ export const Drawer = () => {
             href="/events"
             className={`flex items-center rounded-xl py-3 transition duration-150 ease-in-out hover:bg-zinc-800 ${
               toggle
-                ? "flex-col justify-end space-y-3 px-2"
-                : "flex-row space-x-6 px-6"
+                ? "flex-row space-x-6 px-6"
+                : "flex-col justify-end space-y-3 px-2"
             }`}
           >
             <Calendar />
             <h3
               className={`font-semibold tracking-wider ${
-                toggle ? "text-[0.625rem]" : "text-base "
+                toggle ? "text-base" : "text-[0.625rem]"
               }`}
             >
               Events
@@ -56,14 +56,14 @@ export const Drawer = () => {
             href="/visitors"
             className={`flex items-center rounded-xl py-3 transition duration-150 ease-in-out hover:bg-zinc-800 ${
               toggle
-                ? "flex-col justify-end space-y-3 px-2"
-                : "flex-row space-x-6 px-6"
+                ? "flex-row space-x-6 px-6"
+                : "flex-col justify-end space-y-3 px-2"
             }`}
           >
             <Users />
             <h3
               className={`font-semibold tracking-wider ${
-                toggle ? "text-[0.625rem]" : "text-base "
+                toggle ? "text-base" : "text-[0.625rem]"
               }`}
             >
               Visitors
@@ -75,14 +75,14 @@ export const Drawer = () => {
             href="/settings"
             className={`flex items-center rounded-xl py-3 transition duration-150 ease-in-out hover:bg-zinc-800 ${
               toggle
-                ? "flex-col justify-end space-y-3 px-2"
-                : "flex-row space-x-6 px-6"
+                ? "flex-row space-x-6 px-6"
+                : "flex-col justify-end space-y-3 px-2"
             }`}
           >
             <Settings />
             <h3
               className={`font-semibold tracking-wider ${
-                toggle ? "text-[0.625rem]" : "text-base "
+                toggle ? "text-base" : "text-[0.625rem]"
               }`}
             >
               Settings
