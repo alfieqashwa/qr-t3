@@ -25,10 +25,14 @@ export const NavigationHeader = (props: NavigationProps) => {
           <h2 className="text-lg font-bold">LOGO</h2>
         </div>
         <button
-          className="rounded-full bg-slate-800 p-2.5 transition duration-300 ease-in-out hover:bg-slate-700"
+          className="rounded-full bg-zinc-900 p-2.5 transition duration-300 ease-in-out hover:bg-zinc-800"
           onClick={handleToggle}
         >
-          {toggle ? <SidebarOpen /> : <SidebarClose />}
+          {toggle ? (
+            <SidebarClose className="text-amber-200" />
+          ) : (
+            <SidebarOpen className="text-amber-200" />
+          )}
         </button>
       </section>
       <section className="flex w-full items-center justify-end space-x-8 px-8">
