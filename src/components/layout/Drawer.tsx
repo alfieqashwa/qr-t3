@@ -61,8 +61,14 @@ export const Drawer = () => {
       layout
       className="fixed z-40 min-h-screen border-r-2 border-slate-700 bg-gradient-to-b from-black to-slate-900 pt-28 transition duration-500 ease-in-out"
     >
-      <ul className="px-1">
-        <li className={`${pathname === "/dashboard" ? "text-amber-300" : ""}`}>
+      <ul className="space-y-2 px-1">
+        <li
+          className={`${
+            pathname === "/dashboard"
+              ? "rounded-xl border-r-2 border-b-2 border-amber-200 text-amber-300"
+              : ""
+          }`}
+        >
           <Link
             href="/dashboard"
             className={`flex items-center rounded-xl py-3 transition duration-150 ease-in-out hover:bg-zinc-800 ${
@@ -82,7 +88,13 @@ export const Drawer = () => {
             </motion.h3>
           </Link>
         </li>
-        <li className={`${pathname === "/events" ? "text-amber-300" : ""}`}>
+        <li
+          className={`${
+            pathname === "/events"
+              ? "rounded-xl border-r-2 border-b-2 border-amber-200 text-amber-300"
+              : ""
+          }`}
+        >
           <Link
             href="/events"
             className={`flex items-center rounded-xl py-3 transition duration-150 ease-in-out hover:bg-zinc-800 ${
@@ -102,7 +114,13 @@ export const Drawer = () => {
             </motion.h3>
           </Link>
         </li>
-        <li className={`${pathname === "/visitors" ? "text-amber-300" : ""}`}>
+        <li
+          className={`${
+            pathname === "/visitors"
+              ? "rounded-xl border-r-2 border-b-2 border-amber-200 text-amber-300"
+              : ""
+          }`}
+        >
           <Link
             href="/visitors"
             className={`flex items-center rounded-xl py-3 transition duration-150 ease-in-out hover:bg-zinc-800 ${
@@ -122,7 +140,13 @@ export const Drawer = () => {
             </motion.h3>
           </Link>
         </li>
-        <li className={`${pathname === "/settings" ? "text-amber-300" : ""}`}>
+        <li
+          className={`${
+            pathname === "/settings"
+              ? "rounded-xl border-r-2 border-b-2 border-amber-200 text-amber-300"
+              : ""
+          }`}
+        >
           <Link
             href="/settings"
             className={`flex items-center rounded-xl py-3 transition duration-150 ease-in-out hover:bg-zinc-800 ${
