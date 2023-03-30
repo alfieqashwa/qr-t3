@@ -8,7 +8,8 @@ import useToggleStore from "@/store/useToggle";
 import { useRouter } from "next/router";
 
 const aside = {
-  initial: { width: 96 },
+  initialClose: { width: 96 },
+  initialOpen: { width: 224 },
   open: {
     width: 224,
     transition: {
@@ -26,8 +27,11 @@ const aside = {
 };
 
 const head3 = {
-  initial: {
+  initialClose: {
     fontSize: "0.625rem",
+  },
+  initialOpen: {
+    fontSize: "1rem",
   },
   open: {
     fontSize: "1rem",
@@ -51,7 +55,7 @@ export const Drawer = () => {
 
   return (
     <motion.aside
-      initial="initial"
+      initial={toggle ? "initialOpen" : "initialClose"}
       animate={toggle ? "open" : "close"}
       variants={aside}
       layout
@@ -69,7 +73,7 @@ export const Drawer = () => {
           >
             <LayoutDashboard className="shrink-0" />
             <motion.h3
-              initial="initial"
+              initial={toggle ? "initialOpen" : "initialClose"}
               animate={toggle ? "open" : "close"}
               variants={head3}
               className="font-semibold tracking-wider"
@@ -89,7 +93,7 @@ export const Drawer = () => {
           >
             <Calendar className="shrink-0" />
             <motion.h3
-              initial="initial"
+              initial={toggle ? "initialOpen" : "initialClose"}
               animate={toggle ? "open" : "close"}
               variants={head3}
               className={`font-semibold tracking-wider`}
@@ -109,7 +113,7 @@ export const Drawer = () => {
           >
             <Users className="shrink-0" />
             <motion.h3
-              initial="initial"
+              initial={toggle ? "initialOpen" : "initialClose"}
               animate={toggle ? "open" : "close"}
               variants={head3}
               className="font-semibold tracking-wider"
@@ -129,7 +133,7 @@ export const Drawer = () => {
           >
             <Settings className="shrink-0" />
             <motion.h3
-              initial="initial"
+              initial={toggle ? "initialOpen" : "initialClose"}
               animate={toggle ? "open" : "close"}
               variants={head3}
               className="font-semibold tracking-wider"
