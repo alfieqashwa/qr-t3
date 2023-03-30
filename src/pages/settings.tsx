@@ -2,7 +2,7 @@ import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 
 import { H1Title } from "@/components/H1.Title";
-import { LayoutDashboard } from "@/components/LayoutDashboard";
+import { LayoutDashboard } from "@/components/layout/LayoutDashboard";
 
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../server/auth";

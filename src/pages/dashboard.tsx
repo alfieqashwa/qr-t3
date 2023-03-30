@@ -3,10 +3,10 @@ import { type NextPage } from "next";
 import Link from "next/link";
 
 import { H1Title } from "@/components/H1.Title";
-import { LayoutDashboard } from "@/components/LayoutDashboard";
 
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../server/auth";
+import { LayoutDashboard } from "@/components/layout/LayoutDashboard";
 
 const title = "Dashboard";
 const DashboardPage: NextPage = () => {
