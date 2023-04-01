@@ -1,15 +1,15 @@
-import { H1Title } from "@/components/H1.Title"
-import { type NextPage } from "next"
-import { signIn, signOut, useSession } from "next-auth/react"
-import Head from "next/head"
-import Link from "next/link"
+import { H1Title } from "@/components/H1.Title";
+import { type NextPage } from "next";
+import { signIn, signOut, useSession } from "next-auth/react";
+import Head from "next/head";
+import Link from "next/link";
 
-import { api } from "@/utils/api"
+import { api } from "@/utils/api";
 
 const Home: NextPage = () => {
   const hello = api.example.hello.useQuery({
     text: "The App is on development.",
-  })
+  });
 
   return (
     <>
@@ -20,7 +20,7 @@ const Home: NextPage = () => {
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-zinc-900">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-          <H1Title />
+          <H1Title title="Home" />
           <div className="flex flex-col items-center gap-2">
             <p className="text-2xl text-white">
               {hello.data ? hello.data.greeting : "Loading tRPC query..."}
@@ -30,13 +30,13 @@ const Home: NextPage = () => {
         </div>
       </main>
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
 
 const AuthShowcase: React.FC = () => {
-  const { data: sessionData } = useSession()
+  const { data: sessionData } = useSession();
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
@@ -60,5 +60,5 @@ const AuthShowcase: React.FC = () => {
         )}
       </section>
     </div>
-  )
-}
+  );
+};

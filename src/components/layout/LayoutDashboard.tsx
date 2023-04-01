@@ -20,12 +20,12 @@ export const LayoutDashboard = ({ title, children }: LayoutProps) => {
   return (
     <>
       <Header titleHeader={titleHeader} />
-      <div className="container relative min-w-fit max-w-full bg-gradient-to-b from-black to-slate-900 text-zinc-50">
+      <div>
         <NavigationHeader image={userImage as string} />
         <Drawer />
         {/* STARTS MAIN */}
         <main
-          className={`ml-[256px] min-h-screen px-8 py-8 pt-28 transition-all duration-500 ease-in-out ${
+          className={`ml-[256px] px-8 py-8 pt-28 transition-all duration-500 ease-in-out ${
             toggle ? "" : "-translate-x-[128px]"
           }`}
         >
