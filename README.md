@@ -30,3 +30,11 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 # DOCUMENTATION
 
 [Visual Doc](https://excalidraw.com/#json=3_Fallr3G5LHhB8gC_JgA,wsfBFIfCq-7W3ACxB3u0Og)
+
+## Docker run on local machine
+docker run --name <container_name> -e POSTGRES_USER=<user_name> -e  POSTGRES_PASSWORD=<passwd_name> -p 5432:5432 -d <image_name>
+
+Add more libs.
+- [Framer-motion](https://www.framer.com/motion/)
+- [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction)
+- [Lucide-React](https://lucide.dev/)
