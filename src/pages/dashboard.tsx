@@ -1,6 +1,5 @@
 import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
-import Link from "next/link";
 
 import { H1Title } from "@/components/H1.Title";
 
@@ -13,14 +12,32 @@ const DashboardPage: NextPage = () => {
   return (
     <LayoutDashboard title={title}>
       <H1Title title={title} />
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-        <Link
-          className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-          href="/"
-        >
-          <h3 className="text-2xl font-bold">Home →</h3>
-          <div className="text-lg">Just the basics - Go Home</div>
-        </Link>
+      <div className="mt-8 grid grid-cols-2 gap-8">
+        <section className="col-span-1 grid grid-cols-2 gap-8 ">
+          <div className="col-span-2 h-80 rounded-xl bg-slate-800 p-6 shadow-lg">
+            <h2>The Best Selling</h2>
+          </div>
+          <div className="col-span-1 h-32 rounded-xl bg-slate-800 p-6 shadow-lg">
+            <h2>The Best Selling</h2>
+          </div>
+          <div className="col-span-1 h-32 rounded-xl bg-slate-800 p-6 shadow-lg">
+            <h2>Lorem ipsum dolor</h2>
+          </div>
+          <div className="col-span-1 h-32 rounded-xl bg-slate-800 p-6 shadow-lg">
+            <h2>Lorem ipsum dolor</h2>
+          </div>
+          <div className="col-span-1 h-32 rounded-xl bg-slate-800 p-6 shadow-lg">
+            <h2>Lorem ipsum dolor</h2>
+          </div>
+        </section>
+        <section className="col-span-1 grid grid-cols-2 gap-8">
+          <div className="col-span-2 h-80 rounded-xl bg-slate-800 p-6 shadow-lg">
+            <h2>Lorem ipsum dolor</h2>
+          </div>
+          <div className="col-span-2 h-60 rounded-xl bg-slate-800 p-6 shadow-lg">
+            <h2>Lorem ipsum dolor</h2>
+          </div>
+        </section>
       </div>
     </LayoutDashboard>
   );
