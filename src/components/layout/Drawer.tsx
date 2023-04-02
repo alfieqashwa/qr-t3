@@ -6,48 +6,7 @@ import { Calendar, LayoutDashboard, Settings, Users } from "lucide-react";
 import Link from "next/link";
 import useToggleStore from "@/store/useToggle";
 import { useRouter } from "next/router";
-
-const aside = {
-  initialClose: { width: 96 },
-  initialOpen: { width: 224 },
-  open: {
-    width: 224,
-    transition: {
-      duration: 1,
-      type: "spring",
-    },
-  },
-  close: {
-    width: 96,
-    transition: {
-      duration: 1,
-      type: "spring",
-    },
-  },
-};
-
-const head3 = {
-  initialClose: {
-    fontSize: "0.625rem",
-  },
-  initialOpen: {
-    fontSize: "1rem",
-  },
-  open: {
-    fontSize: "1rem",
-    transition: {
-      duration: 1,
-      type: "spring",
-    },
-  },
-  close: {
-    fontSize: "0.625rem",
-    transition: {
-      duration: 1,
-      type: "spring",
-    },
-  },
-};
+import { asideVariant, titleVariant } from "@/src/utils/motion";
 
 export const Drawer = () => {
   const { toggle } = useToggleStore();
@@ -57,7 +16,7 @@ export const Drawer = () => {
     <motion.aside
       initial={toggle ? "initialOpen" : "initialClose"}
       animate={toggle ? "open" : "close"}
-      variants={aside}
+      variants={asideVariant}
       layout
       className="fixed z-40 min-h-screen border-r-2 border-slate-700 bg-gradient-to-b from-black to-slate-900 pt-28 transition duration-500 ease-in-out"
     >
@@ -81,7 +40,7 @@ export const Drawer = () => {
             <motion.h3
               initial={toggle ? "initialOpen" : "initialClose"}
               animate={toggle ? "open" : "close"}
-              variants={head3}
+              variants={titleVariant}
               className="font-semibold tracking-wider"
             >
               Dashboard
@@ -107,7 +66,7 @@ export const Drawer = () => {
             <motion.h3
               initial={toggle ? "initialOpen" : "initialClose"}
               animate={toggle ? "open" : "close"}
-              variants={head3}
+              variants={titleVariant}
               className={`font-semibold tracking-wider`}
             >
               Event
@@ -133,7 +92,7 @@ export const Drawer = () => {
             <motion.h3
               initial={toggle ? "initialOpen" : "initialClose"}
               animate={toggle ? "open" : "close"}
-              variants={head3}
+              variants={titleVariant}
               className="font-semibold tracking-wider"
             >
               Visitor
@@ -159,7 +118,7 @@ export const Drawer = () => {
             <motion.h3
               initial={toggle ? "initialOpen" : "initialClose"}
               animate={toggle ? "open" : "close"}
-              variants={head3}
+              variants={titleVariant}
               className="font-semibold tracking-wider"
             >
               Setting
