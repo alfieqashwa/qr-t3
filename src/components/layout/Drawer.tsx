@@ -90,13 +90,13 @@ export const Drawer = () => {
         </li>
         <li
           className={`${
-            pathname === "/events"
+            pathname === "/event"
               ? "rounded-xl border-r-2 border-b-2 border-amber-200 text-amber-300"
               : ""
           }`}
         >
           <Link
-            href="/events"
+            href="/event"
             className={`flex items-center rounded-xl py-3 transition duration-150 ease-in-out hover:bg-zinc-800 ${
               toggle
                 ? "flex-row space-x-6 px-6"
@@ -110,19 +110,19 @@ export const Drawer = () => {
               variants={head3}
               className={`font-semibold tracking-wider`}
             >
-              Events
+              Event
             </motion.h3>
           </Link>
         </li>
         <li
           className={`${
-            pathname === "/visitors"
+            pathname === "/visitor"
               ? "rounded-xl border-r-2 border-b-2 border-amber-200 text-amber-300"
               : ""
           }`}
         >
           <Link
-            href="/visitors"
+            href="/visitor"
             className={`flex items-center rounded-xl py-3 transition duration-150 ease-in-out hover:bg-zinc-800 ${
               toggle
                 ? "flex-row space-x-6 px-6"
@@ -136,19 +136,19 @@ export const Drawer = () => {
               variants={head3}
               className="font-semibold tracking-wider"
             >
-              Visitors
+              Visitor
             </motion.h3>
           </Link>
         </li>
         <li
           className={`${
-            pathname === "/settings"
+            pathname === "/setting"
               ? "rounded-xl border-r-2 border-b-2 border-amber-200 text-amber-300"
               : ""
           }`}
         >
           <Link
-            href="/settings"
+            href="/setting"
             className={`flex items-center rounded-xl py-3 transition duration-150 ease-in-out hover:bg-zinc-800 ${
               toggle
                 ? "flex-row space-x-6 px-6"
@@ -162,7 +162,7 @@ export const Drawer = () => {
               variants={head3}
               className="font-semibold tracking-wider"
             >
-              Settings
+              Setting
             </motion.h3>
           </Link>
         </li>
