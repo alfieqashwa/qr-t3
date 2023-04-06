@@ -13,7 +13,7 @@ const VisitorsPage: NextPage = () => {
   return (
     <LayoutDashboard title={title}>
       <H1Title title={title} />
-      <div className="kurt mt-4 grid h-[calc(100vh_-_18vh)] grid-cols-7 gap-8"></div>
+      <div className="kurt mt-4 h-[calc(100vh_-_17vh)]"></div>
     </LayoutDashboard>
   );
 };
