@@ -20,7 +20,16 @@ export const Drawer = () => {
       layout
       className="fixed z-40 min-h-screen border-r-2 border-slate-700 bg-gradient-to-b from-black to-slate-900 pt-28 transition duration-500 ease-in-out"
     >
-      <ul className="space-y-2 px-1.5">
+      <div className="flex items-center justify-center whitespace-nowrap">
+        <h3
+          className={`font-semibold text-zinc-400 ${
+            toggle ? "text-sm" : "text-xs"
+          }`}
+        >
+          Main Menu
+        </h3>
+      </div>
+      <ul className="mt-8 space-y-2 px-1.5">
         <li
           className={`${
             pathname === "/dashboard"
