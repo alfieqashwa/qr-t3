@@ -11,9 +11,9 @@ const title = "Events";
 const EventsPage: NextPage = () => {
   return (
     <LayoutDashboard title={title}>
-      <section className="mx-auto">
+      <section>
         <H1Title title={title} />
-        <div className="mt-8 grid grid-cols-7 gap-8">
+        <div className="mt-4 grid grid-cols-7 gap-8">
           <section className="col-span-5 flex h-16 w-full items-center justify-evenly rounded-xl bg-slate-800 p-6 shadow-lg">
             <div>
               <h2>Income</h2>

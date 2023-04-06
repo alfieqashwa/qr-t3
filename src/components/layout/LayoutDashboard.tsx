@@ -25,7 +25,7 @@ export const LayoutDashboard = ({ title, children }: LayoutProps) => {
         <Drawer />
         {/* STARTS MAIN */}
         <main
-          className={`ml-[256px] px-8 py-8 pt-28 transition-all duration-500 ease-in-out ${
+          className={`ml-[256px] px-8 pt-24 transition-all duration-500 ease-in-out ${
             toggle ? "" : "-translate-x-[128px]"
           }`}
         >

@@ -1,8 +1,6 @@
 import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 
-import { H1Title } from "@/components/H1.Title";
-
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../server/auth";
 import { LayoutDashboard } from "@/components/layout/LayoutDashboard";
@@ -11,7 +9,6 @@ const title = "Dashboard";
 const DashboardPage: NextPage = () => {
   return (
     <LayoutDashboard title={title}>
-      <H1Title title={title} />
       <div className="mt-8 grid grid-cols-2 gap-8">
         <section className="col-span-1 grid grid-cols-2 gap-8 ">
           <div className="col-span-2 h-80 rounded-xl bg-slate-800 p-6 shadow-lg">
