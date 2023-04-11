@@ -14,8 +14,8 @@ const EventsPage: NextPage = () => {
   return (
     <LayoutDashboard title={title}>
       <H1Title title={title} />
-      <div className="kurt mt-4 h-[calc(100vh_-_17vh)]">
-        <section className="thom flex w-full justify-center space-x-8">
+      <div className="mt-4 h-[calc(100vh_-_17vh)]">
+        <section className="flex w-full justify-center space-x-8">
           <div className="flex h-16 w-2/3 items-center justify-evenly rounded-xl bg-slate-800 p-6 shadow-lg">
             <div>
               <h2>Income</h2>
@@ -34,7 +34,7 @@ const EventsPage: NextPage = () => {
             <h2 className="font-semibold">Generate Order Report</h2>
           </button>
         </section>
-        <section className="thom mt-8 grid h-auto grid-cols-1 gap-8 rounded-xl shadow-lg">
+        <section className="grid h-auto grid-cols-1 gap-8 rounded-xl py-8 shadow-lg">
           <EventCard />
           <EventCard />
           <EventCard />
@@ -100,7 +100,7 @@ const EventCard = () => {
           recusandae quasi officiis tempora.
         </p>
       </article>
-      <div className="kurt flex w-5/12 items-center justify-around space-x-8 px-16">
+      <div className="flex w-5/12 items-center justify-around space-x-8 px-16">
         <section>
           <div className="relative h-14 w-14 rounded-full bg-emerald-900">
             <DollarSign
