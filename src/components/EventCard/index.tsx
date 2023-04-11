@@ -1,6 +1,17 @@
 import { CalendarDaysIcon, DollarSignIcon, TicketIcon } from "lucide-react";
 import Image from "next/image";
 
+/**
+// ?WIP DATA:
+    Image URL
+    Title
+    Location
+    Description
+    Price
+    Sum of ticket left
+    Event date
+ */
+
 export const EventCard = () => {
   return (
     <section className="flex w-full space-x-6 rounded-xl bg-slate-800 p-6 shadow-lg">
