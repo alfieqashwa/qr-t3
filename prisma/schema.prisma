@@ -51,7 +51,7 @@ model User {
     sessions         Session[]
     eventOrganizer   EventOrganizer? @relation(fields: [eventOrganizerId], references: [id])
     eventOrganizerId String?         @map("event_organizer_id")
-    role             Role            @default(USER)
+    role             Role            @default(ADMIN)
 }
 
 model VerificationToken {
@@ -96,9 +96,25 @@ model Event {
     eventOrganizerId String?         @map("event_organizer_id")
     // Event many2one -> Visitor
     visitors         Visitor[]
+    tickets          Ticket[]
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model Ticket {
+    id          String   @id @default(cuid())
+    type        Type     @default(REGULAR)
+    imageUrl    String?
+    title       String
+    location    String
+    description String
+    price       Float
+    date        DateTime
+    createdAt   DateTime @default(now()) @map("created_at")
+    updatedAt   DateTime @updatedAt @map("updated_at")
+    event       Event?   @relation(fields: [eventId], references: [id])
+    eventId     String?  @map("event_id")
 }
 
 model Visitor {
@@ -120,4 +136,10 @@ enum Role {
     OPERATOR // -> Read Only its Event/Events and Only get Access to Scanner Page.
     MEMBER // -> next feature: default Role when user register on web [strict Authorization].
     USER
+}
+
+enum Type {
+    REGULAR
+    VIP
+    VVIP
 }
