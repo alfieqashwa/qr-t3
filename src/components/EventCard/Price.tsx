@@ -2,7 +2,7 @@ import { DollarSign } from "lucide-react";
 
 export function Price() {
   return (
-    <>
+    <section>
       <div className="relative h-14 w-14 rounded-full bg-emerald-900">
         <DollarSign
           size={28}
@@ -12,6 +12,6 @@ export function Price() {
       <p className="mt-4 text-xs font-semibold text-slate-300">
         IDR <span>500K</span>
       </p>
-    </>
+    </section>
   );
 }

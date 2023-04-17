@@ -1,7 +1,7 @@
 import { Ticket as TicketIcon } from "lucide-react";
 
 export const Ticket = () => (
-  <>
+  <section>
     <div className="relative h-14 w-14 rounded-full bg-emerald-900">
       <TicketIcon
         size={28}
@@ -11,5 +11,5 @@ export const Ticket = () => (
     <p className="mt-4 text-xs font-semibold text-slate-300">
       <span>127</span> pcs left
     </p>
-  </>
+  </section>
 );

@@ -1,8 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import { CalendarDays, DollarSign, Ticket } from "lucide-react";
 import { Price } from "./Price";
 import { Schedule } from "./Schedule";
+import { Ticket } from "./Ticket";
 
 /**
 // ?WIP DATA:
