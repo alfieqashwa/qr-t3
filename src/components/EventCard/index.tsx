@@ -1,5 +1,8 @@
-import { CalendarDaysIcon, DollarSignIcon, TicketIcon } from "lucide-react";
+import React from "react";
 import Image from "next/image";
+import { CalendarDays, DollarSign, Ticket } from "lucide-react";
+import { Price } from "./Price";
+import { Schedule } from "./Schedule";
 
 /**
 // ?WIP DATA:
@@ -13,13 +16,17 @@ import Image from "next/image";
     Event date
  */
 
-export const EventCard = () => {
+type EventCardProps = {
+  imgUrl: string;
+};
+
+export default function EventCard({ imgUrl }: EventCardProps) {
   return (
     <section className="flex w-full space-x-6 rounded-xl bg-zinc-900 p-6 shadow-lg">
       <div className="relative w-2/12">
         <Image
           className="rounded-xl shadow-lg"
-          src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80"
+          src={imgUrl}
           alt="thumbnail"
           fill
           priority
@@ -44,44 +51,4 @@ export const EventCard = () => {
       </div>
     </section>
   );
-};
-
-const Price = () => (
-  <section>
-    <div className="relative h-14 w-14 rounded-full bg-emerald-900">
-      <DollarSignIcon
-        size={28}
-        className="absolute inset-x-1/2 inset-y-1/2 -translate-x-1/2 -translate-y-1/2"
-      />
-    </div>
-    <p className="mt-4 text-xs font-semibold text-slate-300">
-      IDR <span>500K</span>
-    </p>
-  </section>
-);
-
-const Ticket = () => (
-  <section>
-    <div className="relative h-14 w-14 rounded-full bg-emerald-900">
-      <TicketIcon
-        size={28}
-        className="absolute inset-x-1/2 inset-y-1/2 -translate-x-1/2 -translate-y-1/2"
-      />
-    </div>
-    <p className="mt-4 text-xs font-semibold text-slate-300">
-      <span>127</span> pcs left
-    </p>
-  </section>
-);
-
-const Schedule = () => (
-  <section>
-    <div className="relative h-14 w-14 rounded-full bg-emerald-900">
-      <CalendarDaysIcon
-        size={28}
-        className="absolute inset-x-1/2 inset-y-1/2 -translate-x-1/2 -translate-y-1/2"
-      />
-    </div>
-    <p className="mt-4 text-xs font-semibold text-slate-300">26 Juni 2023</p>
-  </section>
-);
+}

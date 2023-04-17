@@ -5,11 +5,11 @@ import { H1Title } from "@/components/H1.Title";
 import { LayoutDashboard } from "@/components/layout/LayoutDashboard";
 
 import { getServerSession } from "next-auth/next";
-import { EventCard } from "@/components/EventCard";
 import { authOptions } from "@/server/auth";
+import EventCard from "../components/EventCard";
 
 const title = "Events";
-const EventsPage: NextPage = () => {
+const EventPage: NextPage = (): JSX.Element => {
   return (
     <LayoutDashboard title={title}>
       <H1Title title={title} />
@@ -34,26 +34,12 @@ const EventsPage: NextPage = () => {
           </button>
         </section>
         <section className="grid h-auto grid-cols-1 gap-8 rounded-xl py-8 shadow-lg">
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
+          <EventCard imgUrl="/img/event-thumbnail.avif" />
         </section>
       </div>
     </LayoutDashboard>
   );
 };
-
-export default EventsPage;
 
 // If No Authenticated, then redirect to Home Page. Else, enter this page.
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -74,3 +60,5 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     },
   };
 };
+
+export default EventPage;
