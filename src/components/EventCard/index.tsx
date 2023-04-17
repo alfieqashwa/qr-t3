@@ -3,6 +3,7 @@ import Image from "next/image";
 
 /**
 // ?WIP DATA:
+    Ticket Type
     Image URL
     Title
     Location
