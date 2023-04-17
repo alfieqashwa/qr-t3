@@ -14,7 +14,7 @@ import Image from "next/image";
 
 export const EventCard = () => {
   return (
-    <section className="flex w-full space-x-6 rounded-xl bg-slate-800 p-6 shadow-lg">
+    <section className="flex w-full space-x-6 rounded-xl bg-zinc-900 p-6 shadow-lg">
       <div className="relative w-2/12">
         <Image
           className="rounded-xl shadow-lg"
