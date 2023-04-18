@@ -43,7 +43,7 @@ export const NavigationHeader = (props: NavigationProps) => {
             alt="profile"
             width={32}
             height={32}
-            className="ring-offset rounded-full ring-2 ring-purple-500"
+            className="ring-offset rounded-full ring-2 ring-emerald-700"
           />
         ) : (
           <User />

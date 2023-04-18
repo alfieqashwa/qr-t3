@@ -51,7 +51,7 @@ model User {
     sessions         Session[]
     eventOrganizer   EventOrganizer? @relation(fields: [eventOrganizerId], references: [id])
     eventOrganizerId String?         @map("event_organizer_id")
-    role             Role            @default(ADMIN)
+    role             Role            @default(USER)
 }
 
 model VerificationToken {
