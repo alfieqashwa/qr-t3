@@ -1,4 +1,4 @@
-import type { GetServerSideProps } from "next";
+import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { type NextPage } from "next";
 
 import { H1Title } from "@/components/H1.Title";
@@ -9,7 +9,9 @@ import { authOptions } from "@/server/auth";
 import EventCard from "../components/EventCard";
 
 const title = "Events";
-const EventPage: NextPage = (): JSX.Element => {
+const EventPage: NextPage = (
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+): JSX.Element => {
   return (
     <LayoutDashboard title={title}>
       <H1Title title={title} />
@@ -33,7 +35,8 @@ const EventPage: NextPage = (): JSX.Element => {
             <h2 className="font-semibold">Generate Order Report</h2>
           </button>
         </section>
-        <section className="grid h-auto grid-cols-1 gap-8 rounded-xl py-8 shadow-lg">
+        <section className="grid h-auto grid-cols-1 gap-8 py-8">
+          <EventCard imgUrl="/img/event-thumbnail.avif" />
           <EventCard imgUrl="/img/event-thumbnail.avif" />
         </section>
       </div>

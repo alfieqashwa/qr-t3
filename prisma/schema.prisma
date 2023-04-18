@@ -90,6 +90,7 @@ model EventOrganizer {
 model Event {
     id               String          @id @default(cuid())
     title            String          @unique()
+    imageUrl         String?
     date             DateTime
     location         String
     EventOrganizer   EventOrganizer? @relation(fields: [eventOrganizerId], references: [id])
@@ -103,18 +104,13 @@ model Event {
 }
 
 model Ticket {
-    id          String   @id @default(cuid())
-    type        Type     @default(REGULAR)
-    imageUrl    String?
-    title       String
-    location    String
-    description String
-    price       Float
-    date        DateTime
-    createdAt   DateTime @default(now()) @map("created_at")
-    updatedAt   DateTime @updatedAt @map("updated_at")
-    event       Event?   @relation(fields: [eventId], references: [id])
-    eventId     String?  @map("event_id")
+    id        String   @id @default(cuid())
+    type      Type     @default(REGULAR)
+    price     Float
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+    event     Event?   @relation(fields: [eventId], references: [id])
+    eventId   String?  @map("event_id")
 }
 
 model Visitor {
