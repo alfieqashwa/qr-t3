@@ -7,18 +7,16 @@ import { LayoutDashboard } from "@/components/layout/LayoutDashboard";
 
 import { api } from "@/utils/api";
 import { useRouter } from "next/router";
+import { CreateEO } from "@/src/components/EventOrganizer/createEO";
 
 const title = "Dashboard";
 const DashboardPage: NextPage = () => {
   const { query } = useRouter();
   const { data } = api.user.getEOId.useQuery(query?.id as string);
-
   return (
     <LayoutDashboard title={title}>
       {!data?.eventOrganizerId ? (
-        <div className="thom mt-8 h-[calc(100vh_-_17vh)]">
-          NO EO ID! (WIP) Create Form Event Organizer!!
-        </div>
+        <CreateEO />
       ) : (
         <div className="mt-8 grid grid-cols-2 gap-8">
           <section className="col-span-1 grid grid-cols-2 gap-8 ">
