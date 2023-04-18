@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { api } from "@/utils/api";
 
-const Home: NextPage = (props) => {
+const Home: NextPage = () => {
   const hello = api.example.hello.useQuery({
     text: "The App is on development.",
   });
@@ -36,6 +36,7 @@ export default Home;
 
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
+  const userId = sessionData?.user.id as string;
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <p className="text-center text-2xl text-white">
@@ -51,7 +52,7 @@ const AuthShowcase: React.FC = () => {
         {sessionData && (
           <Link
             className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition duration-300 ease-in-out hover:bg-white/20 active:bg-white/25"
-            href="/dashboard"
+            href={`${userId}/dashboard`}
           >
             Dashboard →
           </Link>

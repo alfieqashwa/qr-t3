@@ -5,11 +5,10 @@ import { H1Title } from "@/components/H1.Title";
 import { LayoutDashboard } from "@/components/layout/LayoutDashboard";
 
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../server/auth";
+import { authOptions } from "@/server/auth";
 
-const title = "Visitors";
-
-const VisitorsPage: NextPage = () => {
+const title = "Settings";
+const SettingsPage: NextPage = () => {
   return (
     <LayoutDashboard title={title}>
       <H1Title title={title} />
@@ -18,7 +17,7 @@ const VisitorsPage: NextPage = () => {
   );
 };
 
-export default VisitorsPage;
+export default SettingsPage;
 
 // If No Authenticated, then redirect to Home Page. Else, enter this page.
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

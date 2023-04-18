@@ -1,17 +1,15 @@
-import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../server/auth";
+import { authOptions } from "@/server/auth";
 import { LayoutDashboard } from "@/components/layout/LayoutDashboard";
 
 import { api } from "@/utils/api";
 import { useSession } from "next-auth/react";
 
 const title = "Dashboard";
-const DashboardPage: NextPage = (
-  props: InferGetServerSidePropsType<typeof getServerSideProps>
-) => {
+const DashboardPage: NextPage = () => {
   const { data: sessionData } = useSession();
   const userEmail = sessionData?.user.email as string;
   const eoId = api.user.getEOId.useQuery(userEmail);

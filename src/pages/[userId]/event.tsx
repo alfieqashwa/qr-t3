@@ -1,4 +1,4 @@
-import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 
 import { H1Title } from "@/components/H1.Title";
@@ -6,12 +6,10 @@ import { LayoutDashboard } from "@/components/layout/LayoutDashboard";
 
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/server/auth";
-import EventCard from "../components/EventCard";
+import EventCard from "../../components/EventCard";
 
 const title = "Events";
-const EventPage: NextPage = (
-  props: InferGetServerSidePropsType<typeof getServerSideProps>
-): JSX.Element => {
+const EventPage: NextPage = (): JSX.Element => {
   return (
     <LayoutDashboard title={title}>
       <H1Title title={title} />
