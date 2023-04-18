@@ -13,9 +13,8 @@ const DashboardPage: NextPage = (
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) => {
   const { data: sessionData } = useSession();
-  const eoId = api.user.getEOIdByUser.useQuery({
-    id: sessionData?.user.email as string,
-  });
+  const userEmail = sessionData?.user.email as string;
+  const eoId = api.user.getEOId.useQuery(userEmail);
   return (
     <LayoutDashboard title={title}>
       {!eoId.data?.eventOrganizerId ? (

@@ -9,11 +9,11 @@ export const userRouter = createTRPCRouter({
         where: { id: ctx.session.user.id },
       })
     }),
-  getEOIdByUser: protectedProcedure
-    .input(z.object({ id: z.string() }))
-    .query(async ({ ctx }) => {
+  getEOId: protectedProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
       return ctx.prisma.user.findUnique({
-        where: { id: ctx.session.user.id },
+        where: { id: input },
         select: { eventOrganizerId: true, }
       })
     })
