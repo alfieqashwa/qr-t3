@@ -11,13 +11,18 @@ import { CreateEO } from "@/src/components/EventOrganizer/createEO";
 
 const title = "Dashboard";
 const DashboardPage: NextPage = () => {
-  const { query } = useRouter();
-  const { data } = api.user.getEOId.useQuery(query?.id as string);
+  const {
+    query: { id },
+  } = useRouter();
+
+  const { data } = api.user.getEOId.useQuery(id as string, {
+    enabled: !!id,
+  });
+
+  console.log("DATA", data?.eventOrganizerId);
   return (
     <LayoutDashboard title={title}>
-      {!data?.eventOrganizerId ? (
-        <CreateEO />
-      ) : (
+      {!!data?.eventOrganizerId ? (
         <div className="mt-8 grid grid-cols-2 gap-8">
           <section className="col-span-1 grid grid-cols-2 gap-8 ">
             <div className="col-span-2 h-80 rounded-xl bg-slate-800 p-6 shadow-lg">
@@ -45,6 +50,8 @@ const DashboardPage: NextPage = () => {
             </div>
           </section>
         </div>
+      ) : (
+        <CreateEO />
       )}
     </LayoutDashboard>
   );
