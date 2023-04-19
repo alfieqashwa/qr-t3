@@ -1,18 +1,28 @@
-import { api } from "@/src/utils/api";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+
+interface IFormInput {
+  firstName: string;
+  lastName: string;
+}
 
 export const CreateEO = (): JSX.Element => {
-  //  const { mutate, error } = api.post.create.useMutation();
-  const { mutate, error } = api.eo.create.useMutation();
+  const { register, handleSubmit } = useForm<IFormInput>();
+
+  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
+
   return (
-    <div className="thom mt-8 h-[calc(100vh_-_17vh)]">
-      NO EO ID! (WIP) Create Form Event Organizer!!
-      <form>
-        <input name="name" />
-        {/* {error?.data?.code} */}
-      </form>
-    </div>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="thom mt-8 h-[calc(100vh_-_17vh)] text-slate-700"
+    >
+      <input {...register("firstName", { required: true, maxLength: 20 })} />
+      <input {...register("lastName", { pattern: /^[A-Za-z]+$/i })} />
+      <button type="submit">Submit</button>
+    </form>
   );
 };
+
 /**
  * FROM T3 DOCS
 <form onSubmit={(e) => {
