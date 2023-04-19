@@ -1,24 +1,76 @@
+import { api } from "@/src/utils/api";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
+import type { RouterOutputs } from "@/src/utils/api";
 
-interface IFormInput {
-  firstName: string;
-  lastName: string;
-}
+type FormInput = {
+  name: string;
+  phone: string;
+  street: string;
+  city: string;
+  postalCode: string;
+};
+
+type TCreateEO = RouterOutputs["eo"]["create"];
 
 export const CreateEO = (): JSX.Element => {
-  const { register, handleSubmit } = useForm<IFormInput>();
+  const { mutate } = api.eo.create.useMutation({
+    onSuccess: () => {
+      clearErrors();
+      reset();
+    },
+  });
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
+  const { register, handleSubmit, reset, clearErrors } = useForm<FormInput>();
+  const onSubmit: SubmitHandler<FormInput> = (data) => {
+    console.log(`DATA::: `, data);
+    mutate(data);
+  };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="thom mt-8 h-[calc(100vh_-_17vh)] text-slate-700"
+      className="thom mt-8 h-[calc(100vh_-_17vh)]"
     >
-      <input {...register("firstName", { required: true, maxLength: 20 })} />
-      <input {...register("lastName", { pattern: /^[A-Za-z]+$/i })} />
-      <button type="submit">Submit</button>
+      <div>
+        <label>Name</label>
+        <input
+          className="text-slate-700"
+          {...register("name", { required: true, maxLength: 20 })}
+        />
+      </div>
+      <div>
+        <label>Phone</label>
+        <input
+          className="text-slate-700"
+          {...register("phone", { required: true, maxLength: 20 })}
+        />
+      </div>
+      <div>
+        <h3>Address</h3>
+        <div>
+          <label>Street</label>
+          <input
+            className="text-slate-700"
+            {...register("street", { required: true, maxLength: 20 })}
+          />
+        </div>
+        <div>
+          <label>City</label>
+          <input
+            className="text-slate-700"
+            {...register("city", { required: true, maxLength: 20 })}
+          />
+        </div>
+        <div>
+          <label>Postal Code</label>
+          <input
+            className="text-slate-700"
+            {...register("postalCode", { required: true, maxLength: 20 })}
+          />
+        </div>
+        <button type="submit">Submit</button>
+      </div>
     </form>
   );
 };

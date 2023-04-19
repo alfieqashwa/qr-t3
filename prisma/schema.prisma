@@ -62,24 +62,17 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-model Address {
-    id             String           @id @default(cuid())
-    street         String
-    city           String
-    postalCode     String           @map("postal_code")
-    EventOrganizer EventOrganizer[]
-}
-
 model EventOrganizer {
-    id        String  @id @default(cuid())
-    name      String  @unique()
-    phone     String?
-    address   Address @relation(fields: [addressId], references: [id])
-    addressId String  @map("address_id")
+    id         String  @id @default(cuid())
+    name       String  @unique()
+    phone      String?
+    street     String
+    city       String
+    postalCode String  @map("postal_code")
     // EventOrg many2one -> User 
-    users     User[]
+    users      User[]
     // EventOrg many2one -> Event 
-    events    Event[]
+    events     Event[]
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
