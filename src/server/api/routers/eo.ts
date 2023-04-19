@@ -29,7 +29,7 @@ export const eoRouter = createTRPCRouter({
             city: input.city,
             postalCode: input.postalCode,
             users: {
-              create: {
+              connect: {
                 id: ctx.session.user.id
               }
             }

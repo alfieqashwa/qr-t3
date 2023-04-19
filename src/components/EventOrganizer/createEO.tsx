@@ -1,49 +1,70 @@
 import { api } from "@/src/utils/api";
-import type { SubmitHandler } from "react-hook-form";
-import { useForm } from "react-hook-form";
-// import type { RouterOutputs } from "@/src/utils/api";
-
-type FormInput = {
+import { useState } from "react";
+interface FormValues {
   name: string;
   phone: string;
   street: string;
   city: string;
   postalCode: string;
-};
-
-// type TCreateEO = RouterOutputs["eo"]["create"];
+}
 
 export const CreateEO = (): JSX.Element => {
-  const { register, handleSubmit, reset, clearErrors } = useForm<FormInput>();
-
-  const { mutate } = api.eo.create.useMutation({
-    onSuccess: () => {
-      clearErrors();
-      reset();
-    },
+  const [formValues, setFormValues] = useState<FormValues>({
+    name: "",
+    phone: "",
+    street: "",
+    city: "",
+    postalCode: "",
   });
 
-  const onSubmit: SubmitHandler<FormInput> = (data) => {
-    mutate(data);
+  const { name, phone, street, city, postalCode } = formValues;
+
+  const { mutate } = api.eo.create.useMutation();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get("name") as string;
+    const phone = formData.get("phone") as string;
+    const street = formData.get("street") as string;
+    const city = formData.get("city") as string;
+    const postalCode = formData.get("postalCode") as string;
+
+    // set the form values to state
+    setFormValues({
+      name,
+      phone,
+      street,
+      city,
+      postalCode,
+    });
+
+    // call the mutate function with the form data
+    mutate({ name, phone, street, city, postalCode });
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="thom mt-8 h-[calc(100vh_-_17vh)]"
-    >
+    <form onSubmit={handleSubmit} className="thom mt-8 h-[calc(100vh_-_17vh)]">
       <div>
         <label>Name</label>
         <input
           className="text-slate-700"
-          {...register("name", { required: true, maxLength: 20 })}
+          name="name"
+          value={name}
+          onChange={(e) =>
+            setFormValues({ ...formValues, name: e.target.value })
+          }
         />
       </div>
       <div>
         <label>Phone</label>
         <input
           className="text-slate-700"
-          {...register("phone", { required: true, maxLength: 20 })}
+          name="phone"
+          value={phone}
+          onChange={(e) =>
+            setFormValues({ ...formValues, phone: e.target.value })
+          }
         />
       </div>
       <div>
@@ -52,21 +73,33 @@ export const CreateEO = (): JSX.Element => {
           <label>Street</label>
           <input
             className="text-slate-700"
-            {...register("street", { required: true, maxLength: 20 })}
+            name="street"
+            value={street}
+            onChange={(e) =>
+              setFormValues({ ...formValues, street: e.target.value })
+            }
           />
         </div>
         <div>
           <label>City</label>
           <input
             className="text-slate-700"
-            {...register("city", { required: true, maxLength: 20 })}
+            name="city"
+            value={city}
+            onChange={(e) =>
+              setFormValues({ ...formValues, city: e.target.value })
+            }
           />
         </div>
         <div>
           <label>Postal Code</label>
           <input
             className="text-slate-700"
-            {...register("postalCode", { required: true, maxLength: 20 })}
+            name="postalCode"
+            value={postalCode}
+            onChange={(e) =>
+              setFormValues({ ...formValues, postalCode: e.target.value })
+            }
           />
         </div>
         <button type="submit">Submit</button>
