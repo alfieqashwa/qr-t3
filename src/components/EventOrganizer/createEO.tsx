@@ -1,7 +1,7 @@
 import { api } from "@/src/utils/api";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import type { RouterOutputs } from "@/src/utils/api";
+// import type { RouterOutputs } from "@/src/utils/api";
 
 type FormInput = {
   name: string;
@@ -11,9 +11,11 @@ type FormInput = {
   postalCode: string;
 };
 
-type TCreateEO = RouterOutputs["eo"]["create"];
+// type TCreateEO = RouterOutputs["eo"]["create"];
 
 export const CreateEO = (): JSX.Element => {
+  const { register, handleSubmit, reset, clearErrors } = useForm<FormInput>();
+
   const { mutate } = api.eo.create.useMutation({
     onSuccess: () => {
       clearErrors();
@@ -21,9 +23,7 @@ export const CreateEO = (): JSX.Element => {
     },
   });
 
-  const { register, handleSubmit, reset, clearErrors } = useForm<FormInput>();
   const onSubmit: SubmitHandler<FormInput> = (data) => {
-    console.log(`DATA::: `, data);
     mutate(data);
   };
 
