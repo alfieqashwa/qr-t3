@@ -3,7 +3,10 @@ import { authOptions } from "@/src/server/auth";
 import { api } from "@/src/utils/api";
 import type { GetServerSideProps, NextPage } from "next";
 import { getServerSession } from "next-auth";
-import { ProvincesCombobox } from "@/src/components/Combobox";
+import {
+  ProvincesCombobox,
+  RegenciesCombobox,
+} from "@/src/components/Combobox";
 
 const CreateEO: NextPage = (): JSX.Element => {
   const utils = api.useContext();
@@ -16,6 +19,10 @@ const CreateEO: NextPage = (): JSX.Element => {
 
   const { data: provinces, isLoading: isProvincesLoading } =
     api.address.getProvinces.useQuery();
+  const { data: regencies, isLoading: isRegenciesLoading } =
+    api.address.getRegencies.useQuery(undefined, {
+      enabled: !!provinces,
+    });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -57,15 +64,13 @@ const CreateEO: NextPage = (): JSX.Element => {
           name="street"
           placeholder="Street"
         />
-        <Input
-          className="mt-6 text-base"
-          type="text"
-          name="city"
-          placeholder="City"
-        />
         <ProvincesCombobox
           provinces={provinces}
           isLoading={isProvincesLoading}
+        />
+        <RegenciesCombobox
+          regencies={regencies}
+          isLoading={isRegenciesLoading}
         />
         <Input
           className="mt-6 text-base"
