@@ -1,8 +1,9 @@
-import { Input } from "@/src/components/ui/Input";
+import { Input } from "@/src/components/ui/input";
 import { authOptions } from "@/src/server/auth";
 import { api } from "@/src/utils/api";
 import type { GetServerSideProps, NextPage } from "next";
 import { getServerSession } from "next-auth";
+import { ProvincesCombobox } from "@/src/components/Combobox";
 
 const CreateEO: NextPage = (): JSX.Element => {
   const utils = api.useContext();
@@ -12,6 +13,9 @@ const CreateEO: NextPage = (): JSX.Element => {
       await utils.eo.invalidate();
     },
   });
+
+  const { data: provinces, isLoading: isProvincesLoading } =
+    api.address.getProvinces.useQuery();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,7 +31,7 @@ const CreateEO: NextPage = (): JSX.Element => {
   };
 
   return (
-    <div className="grid h-screen place-items-center">
+    <div className="grid min-h-screen place-items-center">
       <form
         onSubmit={handleSubmit}
         className="mx-auto flex w-1/3 flex-col justify-center rounded-2xl border-4 border-slate-500 px-16 py-12 shadow-xl"
@@ -58,6 +62,10 @@ const CreateEO: NextPage = (): JSX.Element => {
           type="text"
           name="city"
           placeholder="City"
+        />
+        <ProvincesCombobox
+          provinces={provinces}
+          isLoading={isProvincesLoading}
         />
         <Input
           className="mt-6 text-base"
