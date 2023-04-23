@@ -25,6 +25,9 @@ dependencies:
   '@trpc/server':
     specifier: ^10.9.0
     version: 10.9.0
+  clsx:
+    specifier: ^1.2.1
+    version: 1.2.1
   dayjs:
     specifier: ^1.11.7
     version: 1.11.7
@@ -52,6 +55,9 @@ dependencies:
   superjson:
     specifier: 1.9.1
     version: 1.9.1
+  tailwind-merge:
+    specifier: ^1.12.0
+    version: 1.12.0
   zod:
     specifier: ^3.20.2
     version: 3.20.2
@@ -915,6 +921,11 @@ packages:
 
   /client-only@0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
+    dev: false
+
+  /clsx@1.2.1:
+    resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
+    engines: {node: '>=6'}
     dev: false
 
   /color-convert@2.0.1:
@@ -2796,6 +2807,10 @@ packages:
       '@pkgr/utils': 2.3.1
       tslib: 2.5.0
     dev: true
+
+  /tailwind-merge@1.12.0:
+    resolution: {integrity: sha512-Y17eDp7FtN1+JJ4OY0Bqv9OA41O+MS8c1Iyr3T6JFLnOgLg3EvcyMKZAnQ8AGyvB5Nxm3t9Xb5Mhe139m8QT/g==}
+    dev: false
 
   /tailwindcss@3.2.0(postcss@8.4.14)(ts-node@10.9.1):
     resolution: {integrity: sha512-ARh/W0uH5UlWIC2nn02V0+5fyF0k6qZliyt4QYic2upOhPUE/Spu1EURNc9txJ3+4j8OEmdigqfDpw4d2tA4vA==}
