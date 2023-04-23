@@ -4,6 +4,7 @@ import Head from "next/head";
 import Link from "next/link";
 
 import { api } from "@/utils/api";
+import { env } from "../env/client.mjs";
 
 const Home: NextPage = () => {
   const hello = api.example.hello.useQuery({
@@ -36,7 +37,6 @@ export default Home;
 
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
-  const userId = sessionData?.user.id as string;
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <p className="text-center text-2xl text-white">
@@ -45,14 +45,21 @@ const AuthShowcase: React.FC = () => {
       <section className="space-x-8">
         <button
           className="rounded-full bg-zinc-700 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-          onClick={sessionData ? () => void signOut() : () => void signIn()}
+          onClick={
+            sessionData
+              ? () => void signOut()
+              : () =>
+                  void signIn("google", {
+                    callbackUrl: `${env.NEXT_PUBLIC_BASEURL}/dashboard`,
+                  })
+          }
         >
           {sessionData ? "Sign out" : "Sign in"}
         </button>
         {sessionData && (
           <Link
             className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition duration-300 ease-in-out hover:bg-white/20 active:bg-white/25"
-            href={`${userId}/dashboard`}
+            href="/dashboard"
           >
             Dashboard →
           </Link>

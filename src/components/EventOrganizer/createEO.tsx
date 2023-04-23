@@ -1,25 +1,13 @@
 import { api } from "@/src/utils/api";
-import { useState } from "react";
-interface FormValues {
-  name: string;
-  phone: string;
-  street: string;
-  city: string;
-  postalCode: string;
-}
 
 export const CreateEO = (): JSX.Element => {
-  const [formValues, setFormValues] = useState<FormValues>({
-    name: "",
-    phone: "",
-    street: "",
-    city: "",
-    postalCode: "",
+  const utils = api.useContext();
+  const { mutate } = api.eo.create.useMutation({
+    async onSuccess() {
+      // await utils.eo.getEO();
+      await utils.eo.invalidate();
+    },
   });
-
-  const { name, phone, street, city, postalCode } = formValues;
-
-  const { mutate } = api.eo.create.useMutation();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,15 +18,6 @@ export const CreateEO = (): JSX.Element => {
     const city = formData.get("city") as string;
     const postalCode = formData.get("postalCode") as string;
 
-    // set the form values to state
-    setFormValues({
-      name,
-      phone,
-      street,
-      city,
-      postalCode,
-    });
-
     // call the mutate function with the form data
     mutate({ name, phone, street, city, postalCode });
   };
@@ -47,60 +26,25 @@ export const CreateEO = (): JSX.Element => {
     <form onSubmit={handleSubmit} className="thom mt-8 h-[calc(100vh_-_17vh)]">
       <div>
         <label>Name</label>
-        <input
-          className="text-slate-700"
-          name="name"
-          value={name}
-          onChange={(e) =>
-            setFormValues({ ...formValues, name: e.target.value })
-          }
-        />
+        <input className="text-slate-700" name="name" />
       </div>
       <div>
         <label>Phone</label>
-        <input
-          className="text-slate-700"
-          name="phone"
-          value={phone}
-          onChange={(e) =>
-            setFormValues({ ...formValues, phone: e.target.value })
-          }
-        />
+        <input className="text-slate-700" name="phone" />
       </div>
       <div>
         <h3>Address</h3>
         <div>
           <label>Street</label>
-          <input
-            className="text-slate-700"
-            name="street"
-            value={street}
-            onChange={(e) =>
-              setFormValues({ ...formValues, street: e.target.value })
-            }
-          />
+          <input className="text-slate-700" name="street" />
         </div>
         <div>
           <label>City</label>
-          <input
-            className="text-slate-700"
-            name="city"
-            value={city}
-            onChange={(e) =>
-              setFormValues({ ...formValues, city: e.target.value })
-            }
-          />
+          <input className="text-slate-700" name="city" />
         </div>
         <div>
           <label>Postal Code</label>
-          <input
-            className="text-slate-700"
-            name="postalCode"
-            value={postalCode}
-            onChange={(e) =>
-              setFormValues({ ...formValues, postalCode: e.target.value })
-            }
-          />
+          <input className="text-slate-700" name="postalCode" />
         </div>
         <button type="submit">Submit</button>
       </div>
