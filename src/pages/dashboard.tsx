@@ -5,47 +5,37 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/server/auth";
 import { LayoutDashboard } from "@/components/layout/LayoutDashboard";
 
-import { api } from "@/utils/api";
-import { CreateEO } from "@/src/components/EventOrganizer/createEO";
-
 const title = "Dashboard";
 const DashboardPage: NextPage = () => {
-  const { data } = api.user.getEOId.useQuery();
-  const isUserHasEO = !!data?.eventOrganizer?.id;
-  console.log({ isUserHasEO });
   return (
     <LayoutDashboard title={title}>
-      {isUserHasEO ? (
-        <div className="mt-8 grid grid-cols-2 gap-8">
-          <section className="col-span-1 grid grid-cols-2 gap-8 ">
-            <div className="col-span-2 h-80 rounded-xl bg-slate-800 p-6 shadow-lg">
-              <h2>The Best Selling</h2>
-            </div>
-            <div className="col-span-1 h-32 rounded-xl bg-slate-800 p-6 shadow-lg">
-              <h2>The Best Selling</h2>
-            </div>
-            <div className="col-span-1 h-32 rounded-xl bg-slate-800 p-6 shadow-lg">
-              <h2>Lorem ipsum dolor</h2>
-            </div>
-            <div className="col-span-1 h-32 rounded-xl bg-slate-800 p-6 shadow-lg">
-              <h2>Lorem ipsum dolor</h2>
-            </div>
-            <div className="col-span-1 h-32 rounded-xl bg-slate-800 p-6 shadow-lg">
-              <h2>Lorem ipsum dolor</h2>
-            </div>
-          </section>
-          <section className="col-span-1 grid grid-cols-2 gap-8">
-            <div className="col-span-2 h-80 rounded-xl bg-slate-800 p-6 shadow-lg">
-              <h2>Lorem ipsum dolor</h2>
-            </div>
-            <div className="col-span-2 h-60 rounded-xl bg-slate-800 p-6 shadow-lg">
-              <h2>Lorem ipsum dolor</h2>
-            </div>
-          </section>
-        </div>
-      ) : (
-        <CreateEO />
-      )}
+      <div className="mt-8 grid grid-cols-2 gap-8">
+        <section className="col-span-1 grid grid-cols-2 gap-8 ">
+          <div className="col-span-2 h-80 rounded-xl bg-slate-800 p-6 shadow-lg">
+            <h2>The Best Selling</h2>
+          </div>
+          <div className="col-span-1 h-32 rounded-xl bg-slate-800 p-6 shadow-lg">
+            <h2>The Best Selling</h2>
+          </div>
+          <div className="col-span-1 h-32 rounded-xl bg-slate-800 p-6 shadow-lg">
+            <h2>Lorem ipsum dolor</h2>
+          </div>
+          <div className="col-span-1 h-32 rounded-xl bg-slate-800 p-6 shadow-lg">
+            <h2>Lorem ipsum dolor</h2>
+          </div>
+          <div className="col-span-1 h-32 rounded-xl bg-slate-800 p-6 shadow-lg">
+            <h2>Lorem ipsum dolor</h2>
+          </div>
+        </section>
+        <section className="col-span-1 grid grid-cols-2 gap-8">
+          <div className="col-span-2 h-80 rounded-xl bg-slate-800 p-6 shadow-lg">
+            <h2>Lorem ipsum dolor</h2>
+          </div>
+          <div className="col-span-2 h-60 rounded-xl bg-slate-800 p-6 shadow-lg">
+            <h2>Lorem ipsum dolor</h2>
+          </div>
+        </section>
+      </div>
     </LayoutDashboard>
   );
 };

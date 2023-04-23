@@ -37,6 +37,8 @@ export default Home;
 
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
+  const { data } = api.user.getEOId.useQuery();
+  const isUserHasEO = !!data?.eventOrganizer?.id;
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <p className="text-center text-2xl text-white">
@@ -50,7 +52,11 @@ const AuthShowcase: React.FC = () => {
               ? () => void signOut()
               : () =>
                   void signIn("google", {
-                    callbackUrl: `${env.NEXT_PUBLIC_BASEURL}/dashboard`,
+                    callbackUrl: `${
+                      isUserHasEO
+                        ? env.NEXT_PUBLIC_BASEURL + "/dashboard"
+                        : env.NEXT_PUBLIC_BASEURL + "/settings/create-eo"
+                    }`,
                   })
           }
         >

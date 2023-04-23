@@ -1,6 +1,9 @@
+import { authOptions } from "@/src/server/auth";
 import { api } from "@/src/utils/api";
+import type { GetServerSideProps, NextPage } from "next";
+import { getServerSession } from "next-auth";
 
-export const CreateEO = (): JSX.Element => {
+const CreateEO: NextPage = (): JSX.Element => {
   const utils = api.useContext();
   const { mutate } = api.eo.create.useMutation({
     async onSuccess() {
@@ -50,6 +53,28 @@ export const CreateEO = (): JSX.Element => {
       </div>
     </form>
   );
+};
+
+export default CreateEO;
+
+// If No Authenticated, then redirect to Home Page. Else, enter this page.
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getServerSession(ctx.req, ctx.res, authOptions);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      session,
+    },
+  };
 };
 
 /**
