@@ -110,7 +110,7 @@ export const Drawer = () => {
         </li>
         <li
           className={`${
-            pathname === "/setting"
+            pathname === "/settings"
               ? "rounded-xl border-r-2 border-b-2 border-amber-200 text-amber-300"
               : ""
           }`}

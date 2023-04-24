@@ -2,16 +2,17 @@ import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 
 import { H1Title } from "@/components/H1.Title";
-import { LayoutDashboard } from "@/components/layout/LayoutDashboard";
+import { Layout } from "@/src/components/layout";
 
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/server/auth";
 import EventCard from "@/components/EventCard";
+import { prisma } from "../server/db";
 
 const title = "Events";
 const EventPage: NextPage = (): JSX.Element => {
   return (
-    <LayoutDashboard title={title}>
+    <Layout title={title}>
       <H1Title title={title} />
       <div className="mt-4 h-[calc(100vh_-_17vh)]">
         <section className="flex w-full justify-center space-x-8">
@@ -38,7 +39,7 @@ const EventPage: NextPage = (): JSX.Element => {
           <EventCard imgUrl="/img/event-thumbnail.avif" />
         </section>
       </div>
-    </LayoutDashboard>
+    </Layout>
   );
 };
 
@@ -50,6 +51,20 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     return {
       redirect: {
         destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  const eoId = await prisma.user.findUnique({
+    where: { id: session?.user.id },
+    select: { eventOrganizerId: true },
+  });
+
+  if (!eoId?.eventOrganizerId) {
+    return {
+      redirect: {
+        destination: "/settings/create-eo",
         permanent: false,
       },
     };

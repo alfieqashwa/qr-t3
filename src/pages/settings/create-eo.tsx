@@ -6,6 +6,7 @@ import type { GetServerSideProps, NextPage } from "next";
 import { getServerSession } from "next-auth";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { prisma } from "@/server/db";
 
 const CreateEO: NextPage = (): JSX.Element => {
   const router = useRouter();
@@ -179,6 +180,19 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
   }
 
+  const eoId = await prisma.user.findUnique({
+    where: { id: session?.user.id },
+    select: { eventOrganizerId: true },
+  });
+
+  if (eoId?.eventOrganizerId) {
+    return {
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+  }
   return {
     props: {
       session,

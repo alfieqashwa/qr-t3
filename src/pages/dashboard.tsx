@@ -1,16 +1,15 @@
-"use client";
-
 import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 
-import { LayoutDashboard } from "@/components/layout/LayoutDashboard";
+import { Layout } from "@/src/components/layout";
 import { authOptions } from "@/server/auth";
 import { getServerSession } from "next-auth/next";
+import { prisma } from "@/server/db";
 
 const title = "Dashboard";
 const DashboardPage: NextPage = () => {
   return (
-    <LayoutDashboard title={title}>
+    <Layout title={title}>
       <div className="mt-8 grid grid-cols-2 gap-8">
         <section className="col-span-1 grid grid-cols-2 gap-8 ">
           <div className="col-span-2 h-80 rounded-xl bg-slate-800 p-6 shadow-lg">
@@ -38,7 +37,7 @@ const DashboardPage: NextPage = () => {
           </div>
         </section>
       </div>
-    </LayoutDashboard>
+    </Layout>
   );
 };
 
@@ -52,6 +51,20 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     return {
       redirect: {
         destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  const eoId = await prisma.user.findUnique({
+    where: { id: session?.user.id },
+    select: { eventOrganizerId: true },
+  });
+
+  if (!eoId?.eventOrganizerId) {
+    return {
+      redirect: {
+        destination: "/settings/create-eo",
         permanent: false,
       },
     };
