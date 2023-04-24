@@ -3,10 +3,8 @@ import { authOptions } from "@/src/server/auth";
 import { api } from "@/src/utils/api";
 import type { GetServerSideProps, NextPage } from "next";
 import { getServerSession } from "next-auth";
-import {
-  ProvincesCombobox,
-  RegenciesCombobox,
-} from "@/src/components/Combobox";
+import { CommandCombobox } from "@/src/components/Combobox";
+import { useCallback, useState } from "react";
 
 const CreateEO: NextPage = (): JSX.Element => {
   const utils = api.useContext();
@@ -17,11 +15,22 @@ const CreateEO: NextPage = (): JSX.Element => {
     },
   });
 
+  const [provinceValue, setProvinceValue] = useState<string>("");
+  const [regencyValue, setRegencyValue] = useState<string>("");
+
+  console.log(`PROVINCE_VAL::: `, JSON.stringify(provinceValue, null, 2));
   const { data: provinces, isLoading: isProvincesLoading } =
     api.address.getProvinces.useQuery();
+
+  // find selected province.id
+  const provinceId = provinces?.find(
+    (p) => p.name.toLowerCase() === provinceValue
+  )?.id;
+
   const { data: regencies, isLoading: isRegenciesLoading } =
     api.address.getRegencies.useQuery(undefined, {
-      enabled: !!provinces,
+      enabled: provinceValue !== "" || provinceValue !== undefined,
+      select: (data) => data.filter((d) => d.province_id === provinceId),
     });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -29,12 +38,24 @@ const CreateEO: NextPage = (): JSX.Element => {
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name") as string;
     const phone = formData.get("phone") as string;
+    const province = provinceValue;
+    const regency = "";
+    const district = "";
+    const village = "";
     const street = formData.get("street") as string;
-    const city = formData.get("city") as string;
     const postalCode = formData.get("postalCode") as string;
 
     // call the mutate function with the form data
-    mutate({ name, phone, street, city, postalCode });
+    mutate({
+      name,
+      phone,
+      province,
+      regency,
+      district,
+      village,
+      street,
+      postalCode,
+    });
   };
 
   return (
@@ -64,13 +85,17 @@ const CreateEO: NextPage = (): JSX.Element => {
           name="street"
           placeholder="Street"
         />
-        <ProvincesCombobox
-          provinces={provinces}
+        <CommandCombobox
+          datas={provinces}
           isLoading={isProvincesLoading}
+          value={provinceValue}
+          setValue={setProvinceValue}
         />
-        <RegenciesCombobox
-          regencies={regencies}
+        <CommandCombobox
+          datas={regencies}
           isLoading={isRegenciesLoading}
+          value={regencyValue}
+          setValue={setRegencyValue}
         />
         <Input
           className="mt-6 text-base"
