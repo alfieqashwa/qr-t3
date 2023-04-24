@@ -22,10 +22,13 @@ import type { RouterOutputs } from "@/utils/api";
 type CommandComboboxProps = {
   datas?:
     | RouterOutputs["address"]["getProvinces"]
-    | RouterOutputs["address"]["getRegencies"];
+    | RouterOutputs["address"]["getRegencies"]
+    | RouterOutputs["address"]["getDistricts"]
+    | RouterOutputs["address"]["getVillages"];
   isLoading: boolean;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  placeholder: string;
 };
 
 export function CommandCombobox({
@@ -33,6 +36,7 @@ export function CommandCombobox({
   isLoading,
   value,
   setValue,
+  placeholder,
 }: CommandComboboxProps) {
   const [open, setOpen] = React.useState(false);
 
@@ -44,17 +48,17 @@ export function CommandCombobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="mt-6 w-[200px] justify-between"
+          className="pl- mt-6 w-full justify-between text-base text-slate-400"
         >
           {value
             ? datas?.find((data) => data.name === value.toUpperCase())?.name
-            : "Select province..."}
+            : `Select ${placeholder}...`}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] bg-slate-900 p-0">
+      <PopoverContent className="w-auto bg-slate-900 p-0">
         <Command>
-          <CommandInput placeholder="Search province..." />
+          <CommandInput placeholder={`Search ${placeholder}...`} />
           <CommandEmpty>No framework found.</CommandEmpty>
           <CommandGroup>
             {datas?.map((data) => (

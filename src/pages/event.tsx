@@ -6,7 +6,7 @@ import { LayoutDashboard } from "@/components/layout/LayoutDashboard";
 
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/server/auth";
-import EventCard from "../../components/EventCard";
+import EventCard from "@/components/EventCard";
 
 const title = "Events";
 const EventPage: NextPage = (): JSX.Element => {

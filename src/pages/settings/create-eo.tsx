@@ -1,48 +1,74 @@
+import { CommandCombobox } from "@/src/components/Combobox";
 import { Input } from "@/src/components/ui/input";
 import { authOptions } from "@/src/server/auth";
 import { api } from "@/src/utils/api";
 import type { GetServerSideProps, NextPage } from "next";
 import { getServerSession } from "next-auth";
-import { CommandCombobox } from "@/src/components/Combobox";
-import { useCallback, useState } from "react";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 const CreateEO: NextPage = (): JSX.Element => {
-  const utils = api.useContext();
-  const { mutate } = api.eo.create.useMutation({
+  const router = useRouter();
+
+  // const utils = api.useContext();
+  const { mutate, isLoading } = api.eo.create.useMutation({
     async onSuccess() {
       // await utils.eo.getEO();
-      await utils.eo.invalidate();
+      // await utils.eo.invalidate();
+      await router.push("/dashboard");
     },
   });
 
   const [provinceValue, setProvinceValue] = useState<string>("");
   const [regencyValue, setRegencyValue] = useState<string>("");
+  const [districtValue, setDistrictValue] = useState<string>("");
+  const [villageValue, setVillageValue] = useState<string>("");
 
-  console.log(`PROVINCE_VAL::: `, JSON.stringify(provinceValue, null, 2));
   const { data: provinces, isLoading: isProvincesLoading } =
     api.address.getProvinces.useQuery();
 
   // find selected province.id
   const provinceId = provinces?.find(
-    (p) => p.name.toLowerCase() === provinceValue
+    (province) => province.name.toLowerCase() === provinceValue
   )?.id;
 
   const { data: regencies, isLoading: isRegenciesLoading } =
     api.address.getRegencies.useQuery(undefined, {
-      enabled: provinceValue !== "" || provinceValue !== undefined,
-      select: (data) => data.filter((d) => d.province_id === provinceId),
+      enabled: provinceValue !== "" && provinceValue !== undefined,
+      select: (data) =>
+        data.filter((district) => district.province_id === provinceId),
+    });
+
+  const regencyId = regencies?.find(
+    (r) => r.name.toLowerCase() === regencyValue
+  )?.id;
+
+  const { data: districts, isLoading: isDistrictsLoading } =
+    api.address.getDistricts.useQuery(undefined, {
+      enabled: regencyValue !== "" && regencyValue !== undefined,
+      select: (data) => data.filter((d) => d.regency_id === regencyId),
+    });
+
+  const districtId = districts?.find(
+    (district) => district.name.toLowerCase() === districtValue
+  )?.id;
+
+  const { data: villages, isLoading: isVillagesLoading } =
+    api.address.getVillages.useQuery(undefined, {
+      enabled: districtValue !== "" && districtValue !== undefined,
+      select: (data) => data.filter((d) => d.district_id === districtId),
     });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const name = formData.get("name") as string;
+    const name = formData.get("name")?.toString().toLowerCase() as string;
     const phone = formData.get("phone") as string;
     const province = provinceValue;
-    const regency = "";
-    const district = "";
-    const village = "";
-    const street = formData.get("street") as string;
+    const regency = regencyValue;
+    const district = districtValue;
+    const village = villageValue;
+    const street = formData.get("street")?.toString()?.toLowerCase() as string;
     const postalCode = formData.get("postalCode") as string;
 
     // call the mutate function with the form data
@@ -57,6 +83,13 @@ const CreateEO: NextPage = (): JSX.Element => {
       postalCode,
     });
   };
+
+  const disabled =
+    isLoading ||
+    provinceValue === "" ||
+    regencyValue === "" ||
+    districtValue === "" ||
+    villageValue === "";
 
   return (
     <div className="grid min-h-screen place-items-center">
@@ -90,12 +123,28 @@ const CreateEO: NextPage = (): JSX.Element => {
           isLoading={isProvincesLoading}
           value={provinceValue}
           setValue={setProvinceValue}
+          placeholder="province"
         />
         <CommandCombobox
           datas={regencies}
           isLoading={isRegenciesLoading}
           value={regencyValue}
           setValue={setRegencyValue}
+          placeholder="regency"
+        />
+        <CommandCombobox
+          datas={districts}
+          isLoading={isDistrictsLoading}
+          value={districtValue}
+          setValue={setDistrictValue}
+          placeholder="district"
+        />
+        <CommandCombobox
+          datas={villages}
+          isLoading={isVillagesLoading}
+          value={villageValue}
+          setValue={setVillageValue}
+          placeholder="village"
         />
         <Input
           className="mt-6 text-base"
@@ -106,7 +155,7 @@ const CreateEO: NextPage = (): JSX.Element => {
         <button
           className="duration mx-auto mt-12 h-12 w-1/2 rounded-xl border-2 border-slate-400 font-bold text-slate-400 transition hover:border-slate-300 hover:text-slate-300 disabled:cursor-not-allowed disabled:border-slate-700 disabled:text-slate-700"
           type="submit"
-          disabled
+          disabled={disabled}
         >
           Submit
         </button>

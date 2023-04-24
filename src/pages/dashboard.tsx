@@ -1,9 +1,11 @@
+"use client";
+
 import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/server/auth";
 import { LayoutDashboard } from "@/components/layout/LayoutDashboard";
+import { authOptions } from "@/server/auth";
+import { getServerSession } from "next-auth/next";
 
 const title = "Dashboard";
 const DashboardPage: NextPage = () => {

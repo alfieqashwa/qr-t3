@@ -4,7 +4,6 @@ import Head from "next/head";
 import Link from "next/link";
 
 import { api } from "@/utils/api";
-import { env } from "../env/client.mjs";
 
 const Home: NextPage = () => {
   const hello = api.example.hello.useQuery({
@@ -37,8 +36,7 @@ export default Home;
 
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
-  const { data } = api.user.getEOId.useQuery();
-  const isUserHasEO = !!data?.eventOrganizer?.id;
+
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <p className="text-center text-2xl text-white">
@@ -52,11 +50,7 @@ const AuthShowcase: React.FC = () => {
               ? () => void signOut()
               : () =>
                   void signIn("google", {
-                    callbackUrl: `${
-                      isUserHasEO
-                        ? env.NEXT_PUBLIC_BASEURL + "/dashboard"
-                        : env.NEXT_PUBLIC_BASEURL + "/settings/create-eo"
-                    }`,
+                    callbackUrl: "/dashboard",
                   })
           }
         >
