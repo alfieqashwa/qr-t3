@@ -66,8 +66,11 @@ model EventOrganizer {
     id         String  @id @default(cuid())
     name       String  @unique()
     phone      String?
+    province   String?
+    regency    String?
+    district   String?
+    village    String?
     street     String
-    city       String
     postalCode String  @map("postal_code")
     // EventOrg many2one -> User 
     users      User[]

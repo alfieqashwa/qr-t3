@@ -15,19 +15,25 @@ export const eoRouter = createTRPCRouter({
       z.object({
         name: z.string(),
         phone: z.string(),
+        province: z.string(),
+        regency: z.string(),
+        district: z.string(),
+        village: z.string(),
         street: z.string(),
-        city: z.string(),
         postalCode: z.string()
       })
-    ).mutation(async ({ ctx, input }) => {
+    ).mutation(async ({ ctx, input: { name, phone, province, regency, district, village, street, postalCode } }) => {
       try {
         await ctx.prisma.eventOrganizer.create({
           data: {
-            name: input.name,
-            phone: input.phone,
-            street: input.street,
-            city: input.city,
-            postalCode: input.postalCode,
+            name,
+            phone,
+            province,
+            regency,
+            district,
+            village,
+            street,
+            postalCode,
             users: {
               connect: {
                 id: ctx.session.user.id
