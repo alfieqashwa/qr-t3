@@ -13,7 +13,10 @@ export const eoRouter = createTRPCRouter({
   create: protectedProcedure
     .input(
       z.object({
-        name: z.string(),
+        name: z.string({
+          required_error: "Name is required",
+          invalid_type_error: "Name must be a string",
+        }).min(1).max(25),
         phone: z.string(),
         province: z.string(),
         regency: z.string(),

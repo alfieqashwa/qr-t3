@@ -7,17 +7,27 @@ import { getServerSession } from "next-auth";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { prisma } from "@/server/db";
+import { toast } from "react-hot-toast";
 
 const CreateEO: NextPage = (): JSX.Element => {
   const router = useRouter();
 
   // const utils = api.useContext();
-  const { mutate, isLoading } = api.eo.create.useMutation({
+  const { mutate, isLoading, error } = api.eo.create.useMutation({
     async onSuccess() {
       // await utils.eo.getEO();
       // await utils.eo.invalidate();
       await router.push("/dashboard");
     },
+    // onError(e) {
+    //   const errorMessage = e.data?.zodError?.fieldErrors.name;
+
+    //   if (errorMessage && errorMessage[0]) {
+    //     toast.error(errorMessage[0]);
+    //   } else {
+    //     toast.error("Failed to post! Please try again later.");
+    //   }
+    // },
   });
 
   const [provinceValue, setProvinceValue] = useState<string>("");
@@ -107,6 +117,10 @@ const CreateEO: NextPage = (): JSX.Element => {
           name="name"
           placeholder="Name"
         />
+        {error?.data?.zodError?.fieldErrors.name && (
+          <span className="text-red-500">ERROR!!!</span>
+        )}
+
         <Input
           className="mt-6 text-base"
           type="text"
