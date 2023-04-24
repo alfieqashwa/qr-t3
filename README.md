@@ -38,3 +38,9 @@ Add more libs.
 - [Framer-motion](https://www.framer.com/motion/)
 - [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction)
 - [Lucide-React](https://lucide.dev/)
+
+## TODOS:
+- [x] Create Drawer.
+- [x] Create Event Organizer Form.
+  - [x] Redirect pages into `settings/create-eo` if user has no eoID.
+  - [ ] Error handling.
