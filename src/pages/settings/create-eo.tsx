@@ -1,16 +1,16 @@
+import { prisma } from "@/server/db";
 import { CommandCombobox } from "@/src/components/Combobox";
+import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
+import { ToastAction } from "@/src/components/ui/toast";
+import { useToast } from "@/src/components/ui/use-toast";
 import { authOptions } from "@/src/server/auth";
 import { api } from "@/src/utils/api";
+import { Loader2 } from "lucide-react";
 import type { GetServerSideProps, NextPage } from "next";
 import { getServerSession } from "next-auth";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { prisma } from "@/server/db";
-import { ToastAction } from "@/src/components/ui/toast";
-import { useToast } from "@/src/components/ui/use-toast";
-import { Button } from "@/src/components/ui/button";
-import { Loader2 } from "lucide-react";
 
 const CreateEO: NextPage = (): JSX.Element => {
   const router = useRouter();
@@ -180,13 +180,6 @@ const CreateEO: NextPage = (): JSX.Element => {
             {error?.data?.zodError?.fieldErrors.postalCode}
           </span>
         )}
-        {/* <button
-          className="duration mx-auto mt-12 h-12 w-1/2 rounded-xl border-2 border-slate-400 font-bold text-slate-400 transition hover:border-slate-300 hover:text-slate-300 disabled:cursor-not-allowed disabled:border-slate-700 disabled:text-slate-700"
-          type="submit"
-          disabled={disabled}
-        >
-          Submit
-        </button> */}
         {isLoading ? (
           <Button disabled className="mt-12">
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
