@@ -48,7 +48,7 @@ export function CommandCombobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="pl- mt-6 w-full justify-between text-base text-slate-400"
+          className="mt-6 w-full justify-between pl-3"
         >
           {value
             ? datas?.find((data) => data.name === value.toUpperCase())?.name
@@ -56,7 +56,7 @@ export function CommandCombobox({
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto bg-slate-900 p-0">
+      <PopoverContent align="end" className="p-0">
         <Command>
           <CommandInput placeholder={`Search ${placeholder}...`} />
           <CommandEmpty>No framework found.</CommandEmpty>

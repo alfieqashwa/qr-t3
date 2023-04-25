@@ -126,30 +126,20 @@ const CreateEO: NextPage = (): JSX.Element => {
         <h1 className="text-center text-2xl font-bold text-slate-300">
           Create New Event Organizer
         </h1>
-        <Input
-          className="mt-10 text-base"
-          type="text"
-          name="name"
-          placeholder="Name"
-        />
+        <Input className="mt-10" type="text" name="name" placeholder="Name" />
         {error?.data?.zodError?.fieldErrors.name && (
           <span className="mt-1.5 text-xs font-medium text-red-400">
             {error?.data?.zodError?.fieldErrors.name}
           </span>
         )}
-        <Input
-          className="mt-6 text-base"
-          type="text"
-          name="phone"
-          placeholder="Phone"
-        />
+        <Input className="mt-6 " type="text" name="phone" placeholder="Phone" />
         {error?.data?.zodError?.fieldErrors.phone && (
           <span className="mt-1.5 text-xs font-medium text-red-400">
             {error?.data?.zodError?.fieldErrors.phone}
           </span>
         )}
         <Input
-          className="mt-6 text-base"
+          className="mt-6"
           type="text"
           name="street"
           placeholder="Street"
