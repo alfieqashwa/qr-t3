@@ -127,13 +127,13 @@ const CreateEO: NextPage = (): JSX.Element => {
         </h1>
         <Input className="mt-10" type="text" name="name" placeholder="Name" />
         {error?.data?.zodError?.fieldErrors.name && (
-          <span className="mt-1.5 text-xs font-medium text-red-400">
+          <span className="mt-1.5 text-sm text-destructive">
             {error?.data?.zodError?.fieldErrors.name}
           </span>
         )}
         <Input className="mt-6 " type="text" name="phone" placeholder="Phone" />
         {error?.data?.zodError?.fieldErrors.phone && (
-          <span className="mt-1.5 text-xs font-medium text-red-400">
+          <span className="mt-1.5 text-sm text-destructive">
             {error?.data?.zodError?.fieldErrors.phone}
           </span>
         )}
@@ -144,7 +144,7 @@ const CreateEO: NextPage = (): JSX.Element => {
           placeholder="Street"
         />
         {error?.data?.zodError?.fieldErrors.street && (
-          <span className="mt-1.5 text-xs font-medium text-red-400">
+          <span className="mt-1.5 text-sm text-destructive">
             {error?.data?.zodError?.fieldErrors.street}
           </span>
         )}
@@ -183,7 +183,7 @@ const CreateEO: NextPage = (): JSX.Element => {
           placeholder="Postal Code"
         />
         {error?.data?.zodError?.fieldErrors.postalCode && (
-          <span className="mt-1.5 text-xs font-medium text-red-400">
+          <span className="mt-1.5 text-sm text-destructive">
             {error?.data?.zodError?.fieldErrors.postalCode}
           </span>
         )}
