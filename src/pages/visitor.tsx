@@ -39,6 +39,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     select: { eventOrganizerId: true },
   });
 
+  // If user has not have EventOrganizerId, then redirect to page "/settings/create-eo"
   if (!eoId?.eventOrganizerId) {
     return {
       redirect: {

@@ -1,4 +1,5 @@
 import useToggleStore from "@/src/store/useToggle";
+import { cn } from "@/src/utils";
 import { titleVariant } from "@/src/utils/motion";
 import { motion } from "framer-motion";
 import { Calendar, LayoutDashboard, Settings, Users } from "lucide-react";
@@ -24,7 +25,7 @@ const LINKS = [
   },
 ];
 
-export const MenuList = () => {
+export const MenuList = (): JSX.Element => {
   const { toggle } = useToggleStore();
   const { pathname } = useRouter();
   return (
@@ -40,11 +41,12 @@ export const MenuList = () => {
         >
           <Link
             href={`/${link.path}`}
-            className={`flex items-center rounded-xl py-3 transition duration-150 ease-in-out hover:bg-zinc-800 ${
+            className={cn(
+              "flex items-center rounded-xl py-3 transition duration-150 ease-in-out hover:bg-zinc-800",
               toggle
                 ? "flex-row space-x-6 px-6"
                 : "flex-col justify-end space-y-3 px-2"
-            }`}
+            )}
           >
             {link.icon}
             {/* <LayoutDashboard className="shrink-0" /> */}

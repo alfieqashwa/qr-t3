@@ -6,6 +6,7 @@ import { Drawer } from "./Drawer";
 import { Header } from "./Header";
 import { NavigationHeader } from "./NavigationHeader";
 import useToggleStore from "@/store/useToggle";
+import { cn } from "@/src/utils";
 
 type LayoutProps = { title: string; children: ReactNode };
 
@@ -25,9 +26,10 @@ export const Layout = ({ title, children }: LayoutProps) => {
         <Drawer />
         {/* STARTS MAIN */}
         <main
-          className={`ml-[256px] px-8 pt-24 transition-all duration-500 ease-in-out ${
+          className={cn(
+            "ml-[256px] px-8 pt-24 transition-all duration-500 ease-in-out",
             toggle ? "" : "-translate-x-[128px]"
-          }`}
+          )}
         >
           {children}
         </main>

@@ -2,8 +2,9 @@ import { asideVariant } from "@/src/utils/motion";
 import useToggleStore from "@/store/useToggle";
 import { motion } from "framer-motion";
 import { MenuList } from "./MenuList";
+import { cn } from "@/src/utils";
 
-export const Drawer = () => {
+export const Drawer = (): JSX.Element => {
   const { toggle } = useToggleStore();
 
   return (
@@ -16,9 +17,10 @@ export const Drawer = () => {
     >
       <div className="flex items-center justify-center whitespace-nowrap">
         <h3
-          className={`font-semibold text-zinc-400 ${
+          className={cn(
+            "font-semibold text-zinc-400",
             toggle ? "text-sm" : "text-xs"
-          }`}
+          )}
         >
           Main Menu
         </h3>
