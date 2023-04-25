@@ -1,7 +1,15 @@
 import { prisma } from "@/server/db";
 import { CommandCombobox } from "@/src/components/Combobox";
 import { Button } from "@/src/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/src/components/ui/card";
 import { Input } from "@/src/components/ui/input";
+import { Label } from "@/src/components/ui/label";
 import { ToastAction } from "@/src/components/ui/toast";
 import { useToast } from "@/src/components/ui/use-toast";
 import { authOptions } from "@/src/server/auth";
@@ -111,86 +119,125 @@ const CreateEO: NextPage = (): JSX.Element => {
 
   return (
     <div className="grid min-h-screen place-items-center">
-      <form
-        onSubmit={handleSubmit}
-        className="mx-auto flex w-1/3 flex-col justify-center rounded-2xl border-4 border-slate-500 px-16 py-12 shadow-xl"
-      >
-        <h1 className="text-center text-2xl font-bold text-slate-300">
-          Create New Event Organizer
-        </h1>
-        <Input className="mt-10" type="text" name="name" placeholder="Name" />
-        {error?.data?.zodError?.fieldErrors.name && (
-          <span className="mt-1.5 text-sm text-destructive">
-            {error?.data?.zodError?.fieldErrors.name}
-          </span>
-        )}
-        <Input className="mt-6 " type="text" name="phone" placeholder="Phone" />
-        {error?.data?.zodError?.fieldErrors.phone && (
-          <span className="mt-1.5 text-sm text-destructive">
-            {error?.data?.zodError?.fieldErrors.phone}
-          </span>
-        )}
-        <Input
-          className="mt-6"
-          type="text"
-          name="street"
-          placeholder="Street"
-        />
-        {error?.data?.zodError?.fieldErrors.street && (
-          <span className="mt-1.5 text-sm text-destructive">
-            {error?.data?.zodError?.fieldErrors.street}
-          </span>
-        )}
-        <CommandCombobox
-          datas={provinces}
-          isLoading={isProvincesLoading}
-          value={provinceValue}
-          setValue={setProvinceValue}
-          placeholder="province"
-        />
-        <CommandCombobox
-          datas={regencies}
-          isLoading={isRegenciesLoading}
-          value={regencyValue}
-          setValue={setRegencyValue}
-          placeholder="regency"
-        />
-        <CommandCombobox
-          datas={districts}
-          isLoading={isDistrictsLoading}
-          value={districtValue}
-          setValue={setDistrictValue}
-          placeholder="district"
-        />
-        <CommandCombobox
-          datas={villages}
-          isLoading={isVillagesLoading}
-          value={villageValue}
-          setValue={setVillageValue}
-          placeholder="village"
-        />
-        <Input
-          className="mt-6 text-base"
-          type="text"
-          name="postalCode"
-          placeholder="Postal Code"
-        />
-        {error?.data?.zodError?.fieldErrors.postalCode && (
-          <span className="mt-1.5 text-sm text-destructive">
-            {error?.data?.zodError?.fieldErrors.postalCode}
-          </span>
-        )}
-        {isLoading ? (
-          <Button disabled className="mt-12">
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Please wait
-          </Button>
-        ) : (
-          <Button disabled={disabled} className="mt-12">
-            Submit
-          </Button>
-        )}
-      </form>
+      <Card className="w-1/3 shadow-md shadow-amber-300">
+        <CardHeader>
+          <CardTitle>Create New Event Organizer</CardTitle>
+          <CardDescription>Deploy your new EO in one-click.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit}>
+            <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  name="name"
+                  placeholder="Name of your Event Organizer"
+                />
+                {error?.data?.zodError?.fieldErrors.name && (
+                  <span className="text-xs text-destructive">
+                    {error?.data?.zodError?.fieldErrors.name}
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="phone">Phone</Label>
+                <Input
+                  id="phone"
+                  type="text"
+                  name="phone"
+                  placeholder="Phone Number"
+                />
+                {error?.data?.zodError?.fieldErrors.phone && (
+                  <span className="text-xs text-destructive">
+                    {error?.data?.zodError?.fieldErrors.phone}
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="street">Street</Label>
+                <Input
+                  id="street"
+                  type="text"
+                  name="street"
+                  placeholder="Street"
+                />
+                {error?.data?.zodError?.fieldErrors.street && (
+                  <span className="text-xs text-destructive">
+                    {error?.data?.zodError?.fieldErrors.street}
+                  </span>
+                )}
+              </div>
+              <CardDescription className="mt-2">Select Address</CardDescription>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="name">Province</Label>
+                <CommandCombobox
+                  datas={provinces}
+                  isLoading={isProvincesLoading}
+                  value={provinceValue}
+                  setValue={setProvinceValue}
+                  placeholder="province"
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="name">Regency</Label>
+                <CommandCombobox
+                  datas={regencies}
+                  isLoading={isRegenciesLoading}
+                  value={regencyValue}
+                  setValue={setRegencyValue}
+                  placeholder="regency"
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="district">Distric</Label>
+                <CommandCombobox
+                  datas={districts}
+                  isLoading={isDistrictsLoading}
+                  value={districtValue}
+                  setValue={setDistrictValue}
+                  placeholder="district"
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="village">Village</Label>
+                <CommandCombobox
+                  datas={villages}
+                  isLoading={isVillagesLoading}
+                  value={villageValue}
+                  setValue={setVillageValue}
+                  placeholder="village"
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="postalCode">Postal Code</Label>
+                <Input
+                  id="postalCode"
+                  type="text"
+                  name="postalCode"
+                  placeholder="Postal Code"
+                />
+                {error?.data?.zodError?.fieldErrors.postalCode && (
+                  <span className="text-xs text-destructive">
+                    {error?.data?.zodError?.fieldErrors.postalCode}
+                  </span>
+                )}
+              </div>
+              {isLoading ? (
+                <Button disabled className="w-full">
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Please wait
+                </Button>
+              ) : (
+                <Button disabled={disabled} className="mt-2 w-full">
+                  Submit
+                </Button>
+              )}
+            </div>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 };
