@@ -40,7 +40,17 @@ Add more libs.
 - [Lucide-React](https://lucide.dev/)
 
 ## TODOS:
-- [x] Create Drawer.
-- [x] Create Event Organizer Form.
-  - [x] Redirect pages into `settings/create-eo` if user has no eoID.
-  - [ ] Error handling.
+- [x] Create Drawer
+- [x] Create Event Organizer Form (Admin Access)
+  - [x] Redirect pages into `settings/create-eo` if user has no eoID
+  - [x] Error handling
+  - [x] Success handling
+  - [x] Setup UI Form
+  - [x] Config RBAC
+  - [ ] Config User as Admin after success created Event Organizer
+- [ ] Setting Profile
+  - [ ] Create Logout Button (Admin Access)
+  - [ ] Fetch EO Information (Admin Access)
+  - [ ] Update EO Information (Admin Access)
+  - [ ] Delete EO Information (Admin Access)
+  - [ ] Create Editor and Operator Users (Admin Access)
