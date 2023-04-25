@@ -19,28 +19,20 @@ const CreateEO: NextPage = (): JSX.Element => {
     async onSuccess() {
       // await utils.eo.getEO();
       // await utils.eo.invalidate();
+      toast({
+        title: "Succeed!",
+        variant: "default",
+        description: "Your message has been sent.",
+      });
       await router.push("/dashboard");
     },
-    onError(e) {
-      const errorMessage = e.data?.zodError?.fieldErrors;
-
-      if (errorMessage && errorMessage[0]) {
-        toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: "There was a problem with your request.",
-          action: <ToastAction altText="Try again">Try again</ToastAction>,
-        });
-        // toast.error(errorMessage[0]);
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: "There was a problem with your request.",
-          action: <ToastAction altText="Try again">Try again</ToastAction>,
-        });
-        // toast.error("Failed to post! Please try again later.");
-      }
+    onError() {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
     },
   });
 
