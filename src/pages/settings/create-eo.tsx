@@ -7,10 +7,13 @@ import { getServerSession } from "next-auth";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { prisma } from "@/server/db";
-import { toast } from "react-hot-toast";
+import { ToastDestructive } from "@/src/components/ToastDestructive";
+import { ToastAction } from "@/src/components/ui/toast";
+import { useToast } from "@/src/components/ui/use-toast";
 
 const CreateEO: NextPage = (): JSX.Element => {
   const router = useRouter();
+  const { toast } = useToast();
 
   // const utils = api.useContext();
   const { mutate, isLoading, error } = api.eo.create.useMutation({
@@ -19,15 +22,27 @@ const CreateEO: NextPage = (): JSX.Element => {
       // await utils.eo.invalidate();
       await router.push("/dashboard");
     },
-    // onError(e) {
-    //   const errorMessage = e.data?.zodError?.fieldErrors.name;
+    onError(e) {
+      const errorMessage = e.data?.zodError?.fieldErrors;
 
-    //   if (errorMessage && errorMessage[0]) {
-    //     toast.error(errorMessage[0]);
-    //   } else {
-    //     toast.error("Failed to post! Please try again later.");
-    //   }
-    // },
+      if (errorMessage && errorMessage[0]) {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        });
+        // toast.error(errorMessage[0]);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        });
+        // toast.error("Failed to post! Please try again later.");
+      }
+    },
   });
 
   const [provinceValue, setProvinceValue] = useState<string>("");
@@ -118,21 +133,32 @@ const CreateEO: NextPage = (): JSX.Element => {
           placeholder="Name"
         />
         {error?.data?.zodError?.fieldErrors.name && (
-          <span className="text-red-500">ERROR!!!</span>
+          <span className="mt-1.5 text-xs font-medium text-red-400">
+            {error?.data?.zodError?.fieldErrors.name}
+          </span>
         )}
-
         <Input
           className="mt-6 text-base"
           type="text"
           name="phone"
           placeholder="Phone"
         />
+        {error?.data?.zodError?.fieldErrors.phone && (
+          <span className="mt-1.5 text-xs font-medium text-red-400">
+            {error?.data?.zodError?.fieldErrors.phone}
+          </span>
+        )}
         <Input
           className="mt-6 text-base"
           type="text"
           name="street"
           placeholder="Street"
         />
+        {error?.data?.zodError?.fieldErrors.street && (
+          <span className="mt-1.5 text-xs font-medium text-red-400">
+            {error?.data?.zodError?.fieldErrors.street}
+          </span>
+        )}
         <CommandCombobox
           datas={provinces}
           isLoading={isProvincesLoading}
@@ -167,6 +193,11 @@ const CreateEO: NextPage = (): JSX.Element => {
           name="postalCode"
           placeholder="Postal Code"
         />
+        {error?.data?.zodError?.fieldErrors.postalCode && (
+          <span className="mt-1.5 text-xs font-medium text-red-400">
+            {error?.data?.zodError?.fieldErrors.postalCode}
+          </span>
+        )}
         <button
           className="duration mx-auto mt-12 h-12 w-1/2 rounded-xl border-2 border-slate-400 font-bold text-slate-400 transition hover:border-slate-300 hover:text-slate-300 disabled:cursor-not-allowed disabled:border-slate-700 disabled:text-slate-700"
           type="submit"
