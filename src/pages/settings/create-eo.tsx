@@ -7,7 +7,6 @@ import { getServerSession } from "next-auth";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { prisma } from "@/server/db";
-import { ToastDestructive } from "@/src/components/ToastDestructive";
 import { ToastAction } from "@/src/components/ui/toast";
 import { useToast } from "@/src/components/ui/use-toast";
 
