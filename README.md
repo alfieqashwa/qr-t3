@@ -49,8 +49,10 @@ Add more libs.
   - [x] Config RBAC
   - [x] Config User as Admin after success created Event Organizer
 - [ ] Setting Profile
+  - [x] Fetch Profile Information
+  - [x] Fetch EO Information (All Auth Access of eo-user's list)
   - [ ] Create Logout Button (Admin Access)
-  - [ ] Fetch EO Information (Admin Access)
   - [ ] Update EO Information (Admin Access)
   - [ ] Delete EO Information (Admin Access)
-  - [ ] Create Editor and Operator Users (Admin Access)
+- [ ] CRUD Editor and Operator Users (Admin Access)
+- [ ] Deactivate (Admin Access)
