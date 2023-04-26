@@ -1,6 +1,5 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import type { ReactNode } from "react";
 import { Drawer } from "./Drawer";
 import { Header } from "./Header";
@@ -13,16 +12,13 @@ type LayoutProps = { title: string; children: ReactNode };
 export const Layout = ({ title, children }: LayoutProps) => {
   const { toggle } = useToggleStore();
 
-  const { data: sessionData } = useSession();
-  const userImage = sessionData?.user?.image;
-
   const titleHeader = `${title} | QR Ticket Concert`;
 
   return (
     <>
       <Header titleHeader={titleHeader} />
       <div>
-        <NavigationHeader image={userImage as string} />
+        <NavigationHeader />
         <Drawer />
         {/* STARTS MAIN */}
         <main

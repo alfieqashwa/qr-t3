@@ -1,5 +1,6 @@
 "use client";
 
+import useToggleStore from "@/store/useToggle";
 import {
   Bell,
   Codesandbox,
@@ -7,15 +8,14 @@ import {
   SidebarOpen,
   User,
 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
-import useToggleStore from "@/store/useToggle";
 
-type NavigationProps = {
-  image?: string;
-};
-
-export const NavigationHeader = (props: NavigationProps) => {
+export const NavigationHeader = () => {
   const { toggle, handleToggle } = useToggleStore();
+
+  const { data } = useSession();
+  const userImage = data?.user?.image as string;
 
   return (
     <nav className="fixed z-50 flex h-20 w-full justify-between border-b-2 border-slate-700 bg-gradient-to-br from-slate-800 via-black to-slate-800">
@@ -37,18 +37,20 @@ export const NavigationHeader = (props: NavigationProps) => {
       </section>
       <section className="flex w-full items-center justify-end space-x-8 px-8">
         <Bell />
-        {props.image ? (
-          <Image
-            src={props.image}
-            alt="profile"
-            width={32}
-            height={32}
-            className="ring-offset rounded-full ring-2 ring-emerald-700"
-          />
-        ) : (
-          <User />
-        )}
+        {!!userImage ? <UserAvatar image={userImage} /> : <User />}
       </section>
     </nav>
+  );
+};
+
+const UserAvatar = ({ image }: { image: string }) => {
+  return (
+    <Image
+      src={image}
+      alt="profile"
+      width={36}
+      height={36}
+      className="rounded-full border-2 border-amber-300"
+    />
   );
 };

@@ -3,7 +3,7 @@ import { createTRPCRouter, protectedProcedure } from "../trpc"
 export const userRouter = createTRPCRouter({
   me: protectedProcedure
     .query(async ({ ctx }) => {
-      return await ctx.prisma.user.findFirst({
+      return await ctx.prisma.user.findUnique({
         where: { id: ctx.session.user.id },
       })
     }),
@@ -14,6 +14,14 @@ export const userRouter = createTRPCRouter({
         data: {
           role: "ADMIN"
         }
+      })
+    }),
+
+  getEOByUserId: protectedProcedure
+    .query(async ({ ctx }) => {
+      return await ctx.prisma.user.findUnique({
+        where: { id: ctx.session.user.id },
+        include: { eventOrganizer: true }
       })
     })
 })
