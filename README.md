@@ -47,7 +47,7 @@ Add more libs.
   - [x] Success handling
   - [x] Setup UI Form
   - [x] Config RBAC
-  - [ ] Config User as Admin after success created Event Organizer
+  - [x] Config User as Admin after success created Event Organizer
 - [ ] Setting Profile
   - [ ] Create Logout Button (Admin Access)
   - [ ] Fetch EO Information (Admin Access)

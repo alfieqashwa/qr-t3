@@ -1,24 +1,18 @@
-import { z } from "zod"
 import { createTRPCRouter, protectedProcedure } from "../trpc"
 
 export const userRouter = createTRPCRouter({
   me: protectedProcedure
-    .input(z.object({ id: z.string() }))
     .query(async ({ ctx }) => {
-      return ctx.prisma.user.findUnique({
+      return await ctx.prisma.user.findFirst({
         where: { id: ctx.session.user.id },
       })
     }),
-  getEOId: protectedProcedure
-    .query(async ({ ctx }) => {
-      return ctx.prisma.user.findUnique({
+  updateRole: protectedProcedure
+    .mutation(async ({ ctx }) => {
+      return await ctx.prisma.user.update({
         where: { id: ctx.session.user.id },
-        include: {
-          eventOrganizer: {
-            select: {
-              id: true
-            }
-          }
+        data: {
+          role: "ADMIN"
         }
       })
     })

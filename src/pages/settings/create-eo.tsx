@@ -24,11 +24,15 @@ const CreateEO: NextPage = (): JSX.Element => {
   const router = useRouter();
   const { toast } = useToast();
 
+  const updateUserRoleAsAdmin = api.user.updateRole.useMutation();
   // const utils = api.useContext();
   const { mutate, isLoading, error } = api.eo.create.useMutation({
     async onSuccess() {
       // await utils.eo.getEO();
       // await utils.eo.invalidate();
+
+      // update user role as admin
+      await updateUserRoleAsAdmin.mutateAsync();
       toast({
         title: "Succeed!",
         variant: "default",
@@ -263,7 +267,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   });
 
   // If user has EventOrganizerId, then cannot enter this page "/settings/create-eo"
-  if (eoId?.eventOrganizerId) {
+  if (!!eoId?.eventOrganizerId) {
     return {
       redirect: {
         destination: "/dashboard",
