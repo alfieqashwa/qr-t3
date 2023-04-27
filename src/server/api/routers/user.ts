@@ -23,5 +23,12 @@ export const userRouter = createTRPCRouter({
         where: { id: ctx.session.user.id },
         include: { eventOrganizer: true }
       })
-    })
+    }),
+  userRole: protectedProcedure
+    .query(async ({ ctx }) => {
+      return await ctx.prisma.user.findUnique({
+        where: { id: ctx.session.user.id },
+        select: { role: true }
+      })
+    }),
 })

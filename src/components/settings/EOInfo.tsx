@@ -1,4 +1,6 @@
+import type { RouterOutputs } from "@/src/utils/api";
 import type { EventOrganizer } from "@prisma/client";
+import { Role } from "@prisma/client";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -7,11 +9,15 @@ dayjs.extend(relativeTime);
 
 type EOInfoProps = {
   eo?: EventOrganizer | null;
+  userRole?: RouterOutputs["user"]["userRole"];
 };
 
-export function EOInfo({ eo }: EOInfoProps) {
+export function EOInfo({ eo, userRole }: EOInfoProps) {
   const createdAt = dayjs(eo?.createdAt).format("dddd, DD MMMM YYYY, HH:mm");
   const updateAt = dayjs().to(dayjs(eo?.updatedAt));
+
+  const isDewa = userRole?.role === Role.DEWA;
+  const isAdmin = userRole?.role === Role.ADMIN;
 
   return (
     <div className="mx-auto w-full">
@@ -35,15 +41,17 @@ export function EOInfo({ eo }: EOInfoProps) {
               <Field label="district" value={eo.district} />
               <Field label="village" value={eo.village} />
             </div>
-            <div>
-              {/* // TODO */}
-              <small className="text-rose-400">
-                TODOS: only Dewa and Admin who can see below!
-              </small>
-              <Field label="Created At" value={createdAt} />
-              <Field label="Updated At" value={updateAt} />
-              <Field label="ID" value={eo.id} />
-            </div>
+            {!!isDewa ||
+              (!!isAdmin && (
+                <div>
+                  <small className="text-rose-400">
+                    ✅ only Dewa and Admin who can see below!
+                  </small>
+                  <Field label="Created At" value={createdAt} />
+                  <Field label="Updated At" value={updateAt} />
+                  <Field label="ID" value={eo.id} />
+                </div>
+              ))}
           </article>
         ) : null}
       </section>

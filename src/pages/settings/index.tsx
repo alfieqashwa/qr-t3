@@ -18,7 +18,12 @@ import { EOInfo, ProfileInfo } from "@/src/components/settings";
 
 const title = "Settings";
 const SettingsPage: NextPage = () => {
-  const { data: profile, isLoading } = api.user.getEOByUserId.useQuery();
+  const { data: profile, isLoading: isProfileLoading } =
+    api.user.getEOByUserId.useQuery();
+  const { data: userRole, isLoading: isUserRoleLoading } =
+    api.user.userRole.useQuery();
+
+  const isLoading = isProfileLoading || isUserRoleLoading;
 
   return (
     <Layout title={title}>
@@ -31,10 +36,12 @@ const SettingsPage: NextPage = () => {
             <TabsTrigger value="profile">Profile</TabsTrigger>
           </TabsList>
           <TabsContent value="event-organizer">
-            <EOInfo eo={profile?.eventOrganizer} />
+            {userRole != null && (
+              <EOInfo eo={profile?.eventOrganizer} userRole={userRole} />
+            )}
           </TabsContent>
           <TabsContent value="profile">
-            <ProfileInfo profile={profile} />
+            <ProfileInfo profile={profile} userRole={userRole} />
           </TabsContent>
         </Tabs>
       </div>

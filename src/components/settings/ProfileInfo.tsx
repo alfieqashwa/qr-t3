@@ -1,12 +1,17 @@
 import type { RouterOutputs } from "@/src/utils/api";
+import { Role } from "@prisma/client";
 import { User } from "lucide-react";
 import Image from "next/image";
 
 type ProfileProps = {
   profile?: RouterOutputs["user"]["getEOByUserId"];
+  userRole?: RouterOutputs["user"]["userRole"];
 };
 
-export function ProfileInfo({ profile }: ProfileProps) {
+export function ProfileInfo({ profile, userRole }: ProfileProps) {
+  const isDewa = userRole?.role === Role.DEWA;
+  const isAdmin = userRole?.role === Role.ADMIN;
+
   return (
     <div className="mx-auto w-full">
       <h1 className="text-2xl font-semibold capitalize leading-none tracking-tight">
@@ -40,14 +45,18 @@ export function ProfileInfo({ profile }: ProfileProps) {
               <p className="mt-2 font-semibold">
                 Login as <span>{profile.email as string}</span>
               </p>
-              <div className="mt-2 space-x-2">
-                <small className="font-semibold capitalize">id:</small>
-                <small className="font-semibold capitalize">{profile.id}</small>
-              </div>
-              {/* // TODO */}
-              <small className="text-rose-400">
-                TODOS: only Dewa and Admin who can see ID!
-              </small>
+              {!!isDewa ||
+                (!!isAdmin && (
+                  <div className="mt-2 space-x-2">
+                    <small className="font-semibold capitalize">id:</small>
+                    <small className="font-semibold capitalize">
+                      {profile.id}
+                    </small>
+                    <small className="text-rose-400">
+                      ✅ only Dewa and Admin who can see ID!
+                    </small>
+                  </div>
+                ))}
             </div>
           </article>
         ) : null}
