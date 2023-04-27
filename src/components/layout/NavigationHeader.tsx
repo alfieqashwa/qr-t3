@@ -9,7 +9,7 @@ import {
   User,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
+import { UserAvatar } from "./UserAvatar";
 
 export const NavigationHeader = () => {
   const { toggle, handleToggle } = useToggleStore();
@@ -40,17 +40,5 @@ export const NavigationHeader = () => {
         {!!userImage ? <UserAvatar image={userImage} /> : <User />}
       </section>
     </nav>
-  );
-};
-
-const UserAvatar = ({ image }: { image: string }) => {
-  return (
-    <Image
-      src={image}
-      alt="profile"
-      width={36}
-      height={36}
-      className="rounded-full border-2 border-amber-300"
-    />
   );
 };

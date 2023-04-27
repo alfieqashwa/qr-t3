@@ -34,7 +34,7 @@ export const MenuList = (): JSX.Element => {
         <li
           className={`${
             pathname === `/${link.path}`
-              ? "rounded-xl border-r-2 border-b-2 border-amber-200 text-amber-300"
+              ? "rounded-xl border-r-2 border-b-2 border-amber-200 text-amber-200 hover:text-amber-300"
               : ""
           }`}
           key={link.path}
