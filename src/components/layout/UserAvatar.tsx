@@ -44,7 +44,7 @@ export const UserAvatar = ({ image }: { image: string }) => (
         {AVATAR_MENU_LIST?.map((menu, i) => {
           const { title, href, disabled, icon: Icon } = menu;
           return (
-            <Link href={href} key={`${i}_${menu.title}`}>
+            <Link href={href} key={`${i}_${title}`}>
               <MenubarItem
                 disabled={disabled}
                 className="group hover:cursor-pointer"

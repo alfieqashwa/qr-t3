@@ -51,7 +51,8 @@ Add more libs.
 - [ ] Setting Profile
   - [x] Fetch Profile Information
   - [x] Fetch EO Information (All Auth Access of eo-user's list)
-  - [ ] Create Logout Button (Admin Access)
+  - [x] Create User Avatar Menu List
+  - [x] Create Logout Button
   - [ ] Update EO Information (Admin Access)
   - [ ] Delete EO Information (Admin Access)
 - [ ] CRUD Editor and Operator Users (Admin Access)
