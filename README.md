@@ -48,6 +48,7 @@ Add more libs.
   - [x] Setup UI Form
   - [x] Config RBAC
   - [x] Config User as Admin after success created Event Organizer
+- [x] Setup userRole API to configure specific authorization
 - [ ] Setting Profile
   - [x] Fetch Profile Information
   - [x] Fetch EO Information (All Auth Access of eo-user's list)
