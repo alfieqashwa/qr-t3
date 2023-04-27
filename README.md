@@ -54,7 +54,6 @@ Add more libs.
   - [x] Fetch EO Information (All Auth Access of eo-user's list)
   - [x] Create User Avatar Menu List
   - [x] Create Logout Button
-  - [ ] Update EO Information (Admin Access)
-  - [ ] Delete EO Information (Admin Access)
+  - [ ] Update EO Information Dialog Form (Admin Access)
 - [ ] CRUD Editor and Operator Users (Admin Access)
 - [ ] Deactivate (Admin Access)

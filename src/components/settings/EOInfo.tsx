@@ -4,6 +4,7 @@ import { Role } from "@prisma/client";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { UpdateEventOrganizerDialog } from "./UpdateDialog";
 
 dayjs.extend(relativeTime);
 
@@ -50,6 +51,13 @@ export function EOInfo({ eo, userRole }: EOInfoProps) {
                   <Field label="Created At" value={createdAt} />
                   <Field label="Updated At" value={updateAt} />
                   <Field label="ID" value={eo.id} />
+                  <UpdateEventOrganizerDialog
+                    id={eo.id}
+                    name={eo.name}
+                    phone={eo.phone}
+                    street={eo.street}
+                    postalCode={eo.postalCode}
+                  />
                 </div>
               ))}
           </article>

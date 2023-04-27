@@ -36,7 +36,7 @@ const CreateEO: NextPage = (): JSX.Element => {
       toast({
         title: "Succeed!",
         variant: "default",
-        description: "Your message has been sent.",
+        description: "Your form has been created.",
       });
       await router.push("/dashboard");
     },

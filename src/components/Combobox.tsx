@@ -51,7 +51,7 @@ export function CommandCombobox({
           className="mt-6 w-full justify-between pl-3"
         >
           {value
-            ? datas?.find((data) => data.name === value.toUpperCase())?.name
+            ? datas?.find((data) => data.name === value?.toUpperCase())?.name
             : `Select ${placeholder}...`}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -72,7 +72,7 @@ export function CommandCombobox({
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    value.toUpperCase() === data.name
+                    value?.toUpperCase() === data.name
                       ? "opacity-100"
                       : "opacity-0"
                   )}
