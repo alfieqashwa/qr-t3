@@ -17,7 +17,9 @@ import { CardDescription } from "../ui/card";
 import { useState } from "react";
 import { CommandCombobox } from "../Combobox";
 import { Loader2 } from "lucide-react";
-import { useRouter } from "next/router";
+
+/* auto-closed after succeed submit the dialog form */
+const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
 
 type Props = {
   id: string;
@@ -33,9 +35,10 @@ export function UpdateEventOrganizerDialog({
   street,
   postalCode,
 }: Props) {
-  const router = useRouter();
   const utils = api.useContext();
   const { toast } = useToast();
+
+  const [open, setOpen] = useState(false);
 
   const { mutate, isLoading, error } = api.eo.update.useMutation({
     async onSuccess() {
@@ -44,8 +47,9 @@ export function UpdateEventOrganizerDialog({
         variant: "default",
         description: "Your message has been sent.",
       });
-      await utils.eo.invalidate();
-      router.reload();
+      await utils.user.getEOByUserId.invalidate();
+      await wait().then(() => setOpen(false));
+      // router.reload();
     },
     onError() {
       toast({
@@ -132,7 +136,7 @@ export function UpdateEventOrganizerDialog({
     villageValue === "";
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">Update Event Organizer</Button>
       </DialogTrigger>
