@@ -155,6 +155,7 @@ export function UpdateEventOrganizerDialog({
                 name="name"
                 value={nameValue}
                 onChange={(e) => setNameValue(e.target.value)}
+                className="capitalize"
               />
               {error?.data?.zodError?.fieldErrors.name && (
                 <span className="text-xs text-destructive">
@@ -170,8 +171,12 @@ export function UpdateEventOrganizerDialog({
                 name="phone"
                 value={phoneValue}
                 onChange={(e) => setPhoneValue(e.target.value)}
-                className="capitalize"
               />
+              {error?.data?.zodError?.fieldErrors.phone && (
+                <span className="text-xs text-destructive">
+                  {error?.data?.zodError?.fieldErrors.phone}
+                </span>
+              )}
             </div>
             {/* Street */}
             <div className="flex flex-col space-y-1.5">
@@ -185,6 +190,11 @@ export function UpdateEventOrganizerDialog({
                 onChange={(e) => setStreetValue(e.target.value)}
                 className="capitalize"
               />
+              {error?.data?.zodError?.fieldErrors.street && (
+                <span className="text-xs text-destructive">
+                  {error?.data?.zodError?.fieldErrors.street}
+                </span>
+              )}
             </div>
             <CardDescription className="mt-2">Select Address</CardDescription>
             <div className="flex flex-col space-y-1.5">
@@ -235,7 +245,6 @@ export function UpdateEventOrganizerDialog({
                 name="postalCode"
                 value={postalCodeValue}
                 onChange={(e) => setPostalCodeValue(e.target.value)}
-                // onChange={(e) => setPostalCode(e.target.value)}
               />
               {error?.data?.zodError?.fieldErrors.postalCode && (
                 <span className="text-xs text-destructive">
