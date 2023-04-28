@@ -19,7 +19,6 @@ export function EOInfo({ eo, userRole }: EOInfoProps) {
 
   const isDewa = userRole?.role === Role.DEWA;
   const isAdmin = userRole?.role === Role.ADMIN;
-
   return (
     <div className="mx-auto w-full">
       <h1 className="text-2xl font-semibold capitalize leading-none tracking-tight">
@@ -42,15 +41,17 @@ export function EOInfo({ eo, userRole }: EOInfoProps) {
               <Field label="district" value={eo.district} />
               <Field label="village" value={eo.village} />
             </div>
-            {!!isDewa ||
-              (!!isAdmin && (
-                <div>
-                  <small className="text-rose-400">
-                    ✅ only Dewa and Admin who can see below!
-                  </small>
-                  <Field label="Created At" value={createdAt} />
-                  <Field label="Updated At" value={updateAt} />
-                  <Field label="ID" value={eo.id} />
+            <div>
+              <small className="text-rose-400">
+                ✅ only Dewa and Admin who can see below!
+              </small>
+              <Field label="Created At" value={createdAt} />
+              <Field label="Updated At" value={updateAt} />
+              <Field label="ID" value={eo.id} />
+            </div>
+            {isDewa ||
+              (isAdmin && (
+                <div className="flex justify-end space-x-4">
                   <UpdateEventOrganizerDialog
                     id={eo.id}
                     name={eo.name}
@@ -58,6 +59,7 @@ export function EOInfo({ eo, userRole }: EOInfoProps) {
                     street={eo.street}
                     postalCode={eo.postalCode}
                   />
+                  {/* // TODO: Delete Dialog Button */}
                 </div>
               ))}
           </article>
