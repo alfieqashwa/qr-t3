@@ -57,9 +57,9 @@ Add more libs.
   - [x] Update EO Information Dialog Form (Admin Access)
   - [x] Delete EO Information Dialog Form (Admin Access)
   - [x] Update User Role back to USER after success deleted Event Organizer
-- [ ] CRUD Editor and Operator Users (Admin Access)
-- [ ] Deactivate (Admin Access):
+- [x] Deactivate (Admin Access):
 - [ ] Create custom procedure:
   - [x]  adminOrDewaOnlyProcedure
   - [ ]  editorOrAdminOrDewaOnlyProcedure
   - [ ]  operatorOrEditorOrAdminOrDewaOnlyProcedure
+- [ ] CRUD Editor and Operator Users (Admin Access)
