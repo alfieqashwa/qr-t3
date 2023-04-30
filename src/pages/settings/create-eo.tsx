@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/src/components/ui/card";
+import { DialogFooter } from "@/src/components/ui/dialog";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
 import { ToastAction } from "@/src/components/ui/toast";
@@ -17,6 +18,7 @@ import { api } from "@/src/utils/api";
 import { Loader2 } from "lucide-react";
 import type { GetServerSideProps, NextPage } from "next";
 import { getServerSession } from "next-auth";
+import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -224,16 +226,26 @@ const CreateEO: NextPage = (): JSX.Element => {
                   </span>
                 )}
               </div>
-              {isLoading ? (
-                <Button disabled className="w-full">
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Please wait
+              <DialogFooter className="mx-auto mt-2 w-full">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-1/2"
+                  onClick={() => void signOut()}
+                >
+                  Sign Out
                 </Button>
-              ) : (
-                <Button disabled={disabled} className="mt-2 w-full">
-                  Submit
-                </Button>
-              )}
+                {isLoading ? (
+                  <Button disabled className="w-1/2">
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Please wait
+                  </Button>
+                ) : (
+                  <Button disabled={disabled} className="w-1/2">
+                    Submit
+                  </Button>
+                )}
+              </DialogFooter>
             </div>
           </form>
         </CardContent>
