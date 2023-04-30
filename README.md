@@ -41,7 +41,7 @@ Add more libs.
 
 ## TODOS:
 - [x] Create Drawer
-- [x] Create Event Organizer Form (Admin Access)
+- [x] Create Event Organizer Form (Admin Access):
   - [x] Redirect pages into `settings/create-eo` if user has no eoID
   - [x] Error handling
   - [x] Success handling
@@ -49,7 +49,7 @@ Add more libs.
   - [x] Config RBAC
   - [x] Config User Role as Admin after success created Event Organizer
 - [x] Setup userRole API to configure specific authorization
-- [x] Setting Profile
+- [x] Setting Profile:
   - [x] Fetch Profile Information
   - [x] Fetch EO Information (All Auth Access of eo-user's list)
   - [x] Create User Avatar Menu List
@@ -58,4 +58,8 @@ Add more libs.
   - [x] Delete EO Information Dialog Form (Admin Access)
   - [x] Update User Role back to USER after success deleted Event Organizer
 - [ ] CRUD Editor and Operator Users (Admin Access)
-- [ ] Deactivate (Admin Access)
+- [ ] Deactivate (Admin Access):
+- [ ] Create custom procedure:
+  - [x]  adminOrDewaOnlyProcedure
+  - [ ]  editorOrAdminOrDewaOnlyProcedure
+  - [ ]  operatorOrEditorOrAdminOrDewaOnlyProcedure
