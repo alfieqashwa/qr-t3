@@ -5,12 +5,12 @@ import Image from "next/image";
 
 type ProfileProps = {
   profile?: RouterOutputs["user"]["getEOByUserId"];
-  userRole?: RouterOutputs["user"]["userRole"];
+  userRole?: Role;
 };
 
 export function ProfileInfo({ profile, userRole }: ProfileProps) {
-  const isDewa = userRole?.role === Role.DEWA;
-  const isAdmin = userRole?.role === Role.ADMIN;
+  const isDewa = userRole === Role.DEWA;
+  const isAdmin = userRole === Role.ADMIN;
 
   return (
     <div className="mx-auto w-full">

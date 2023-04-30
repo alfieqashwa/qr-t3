@@ -1,4 +1,3 @@
-import type { RouterOutputs } from "@/src/utils/api";
 import type { EventOrganizer } from "@prisma/client";
 import { Role } from "@prisma/client";
 import dayjs from "dayjs";
@@ -10,15 +9,15 @@ dayjs.extend(relativeTime);
 
 type EOInfoProps = {
   eo?: EventOrganizer | null;
-  userRole?: RouterOutputs["user"]["userRole"];
+  userRole?: Role;
 };
 
 export function EOInfo({ eo, userRole }: EOInfoProps) {
   const createdAt = dayjs(eo?.createdAt).format("dddd, DD MMMM YYYY, HH:mm");
   const updateAt = dayjs().to(dayjs(eo?.updatedAt));
 
-  const isDewa = userRole?.role === Role.DEWA;
-  const isAdmin = userRole?.role === Role.ADMIN;
+  const isDewa = userRole === Role.DEWA;
+  const isAdmin = userRole === Role.ADMIN;
   return (
     <div className="mx-auto w-full">
       <h1 className="text-2xl font-semibold capitalize leading-none tracking-tight">

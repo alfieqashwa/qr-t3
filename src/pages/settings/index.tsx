@@ -19,16 +19,11 @@ import { useSession } from "next-auth/react";
 
 const title = "Settings";
 const SettingsPage: NextPage = () => {
-  const { data: profile, isLoading: isProfileLoading } =
-    api.user.getEOByUserId.useQuery();
-  const { data: userRole, isLoading: isUserRoleLoading } =
-    api.user.userRole.useQuery();
-
-  const isLoading = isProfileLoading || isUserRoleLoading;
-
   const { data: session } = useSession();
+  const { data: profile, isLoading } = api.user.getEOByUserId.useQuery();
 
-  console.log(JSON.stringify(session?.user.role, null, 2));
+  const userRole = session?.user.role;
+  console.log({ userRole });
 
   return (
     <Layout title={title}>
@@ -41,9 +36,7 @@ const SettingsPage: NextPage = () => {
             <TabsTrigger value="profile">Profile</TabsTrigger>
           </TabsList>
           <TabsContent value="event-organizer">
-            {userRole != null && (
-              <EOInfo eo={profile?.eventOrganizer} userRole={userRole} />
-            )}
+            <EOInfo eo={profile?.eventOrganizer} userRole={userRole} />
           </TabsContent>
           <TabsContent value="profile">
             <ProfileInfo profile={profile} userRole={userRole} />
