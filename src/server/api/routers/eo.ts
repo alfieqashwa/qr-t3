@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { createTRPCRouter, protectedProcedure } from "../trpc"
+import { adminAndDewaOnlyProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
 
 export const eoRouter = createTRPCRouter({
   create: protectedProcedure
@@ -55,7 +55,7 @@ export const eoRouter = createTRPCRouter({
         where: { users: { some: { id: ctx.session.user.id } } }
       })
     }),
-  update: protectedProcedure
+  update: adminAndDewaOnlyProcedure
     .input(
       z.object({
         id: z.string().cuid(),
@@ -104,7 +104,7 @@ export const eoRouter = createTRPCRouter({
         console.error(err)
       }
     }),
-  delete: protectedProcedure
+  delete: adminAndDewaOnlyProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input }) => {
       try {
