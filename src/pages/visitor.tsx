@@ -6,7 +6,6 @@ import { Layout } from "@/src/components/layout";
 
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/server/auth";
-import { prisma } from "../server/db";
 
 const title = "Visitors";
 
@@ -34,13 +33,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
   }
 
-  const eoId = await prisma.user.findUnique({
-    where: { id: session?.user.id },
-    select: { eventOrganizerId: true },
-  });
-
   // If user has not have EventOrganizerId, then redirect to page "/settings/create-eo"
-  if (!eoId?.eventOrganizerId) {
+  if (!session.user.eventOrganizerId) {
     return {
       redirect: {
         destination: "/settings/create-eo",

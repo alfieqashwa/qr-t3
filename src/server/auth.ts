@@ -22,12 +22,14 @@ declare module "next-auth" {
       id: string
       // ...other properties
       role: Role
+      eventOrganizerId?: string | null
     } & DefaultSession["user"]
   }
 
   interface User {
     // ...other properties
     role: Role
+    eventOrganizerId?: string | null
   }
 }
 
@@ -41,7 +43,9 @@ export const authOptions: NextAuthOptions = {
     session({ session, user }) {
       if (session.user) {
         session.user.id = user.id
-        session.user.role = user.role // <-- put other properties on the session here
+        // <-- put other properties on the session here
+        session.user.role = user.role
+        session.user.eventOrganizerId = user.eventOrganizerId ?? null
       }
       return session
     },

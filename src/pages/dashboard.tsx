@@ -4,7 +4,6 @@ import { type NextPage } from "next";
 import { Layout } from "@/src/components/layout";
 import { authOptions } from "@/server/auth";
 import { getServerSession } from "next-auth/next";
-import { prisma } from "@/server/db";
 
 const title = "Dashboard";
 const DashboardPage: NextPage = () => {
@@ -47,6 +46,7 @@ export default DashboardPage;
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerSession(ctx.req, ctx.res, authOptions);
 
+  console.log({ session });
   if (!session) {
     return {
       redirect: {
@@ -56,13 +56,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
   }
 
-  const eoId = await prisma.user.findUnique({
-    where: { id: session?.user.id },
-    select: { eventOrganizerId: true },
-  });
-
   // If user has not have EventOrganizerId, then redirect to page "/settings/create-eo"
-  if (!eoId?.eventOrganizerId) {
+  if (!session.user.eventOrganizerId) {
     return {
       redirect: {
         destination: "/settings/create-eo",

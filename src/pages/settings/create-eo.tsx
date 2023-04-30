@@ -1,4 +1,3 @@
-import { prisma } from "@/server/db";
 import { CommandCombobox } from "@/src/components/Combobox";
 import { Button } from "@/src/components/ui/button";
 import {
@@ -269,13 +268,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
   }
 
-  const eoId = await prisma.user.findUnique({
-    where: { id: session?.user.id },
-    select: { eventOrganizerId: true },
-  });
-
   // If user has EventOrganizerId, then cannot enter this page "/settings/create-eo"
-  if (!!eoId?.eventOrganizerId) {
+  if (session && session.user.eventOrganizerId) {
     return {
       redirect: {
         destination: "/dashboard",
