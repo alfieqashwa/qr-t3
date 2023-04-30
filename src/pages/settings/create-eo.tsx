@@ -25,14 +25,10 @@ const CreateEO: NextPage = (): JSX.Element => {
   const { toast } = useToast();
 
   const updateUserRoleAsAdmin = api.user.updateRole.useMutation();
-  // const utils = api.useContext();
   const { mutate, isLoading, error } = api.eo.create.useMutation({
     async onSuccess() {
-      // await utils.eo.getEO();
-      // await utils.eo.invalidate();
-
-      // update user role as admin
-      await updateUserRoleAsAdmin.mutateAsync();
+      // update user role as ADMIN
+      await updateUserRoleAsAdmin.mutateAsync({ role: "ADMIN" });
       toast({
         title: "Succeed!",
         variant: "default",

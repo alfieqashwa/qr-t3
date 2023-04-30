@@ -1,4 +1,6 @@
+import { z } from "zod"
 import { createTRPCRouter, protectedProcedure } from "../trpc"
+import { Role } from "@prisma/client"
 
 export const userRouter = createTRPCRouter({
   me: protectedProcedure
@@ -8,11 +10,12 @@ export const userRouter = createTRPCRouter({
       })
     }),
   updateRole: protectedProcedure
-    .mutation(async ({ ctx }) => {
+    .input(z.object({ role: z.nativeEnum(Role) }))
+    .mutation(async ({ ctx, input }) => {
       return await ctx.prisma.user.update({
         where: { id: ctx.session.user.id },
         data: {
-          role: "ADMIN"
+          role: input.role
         }
       })
     }),
