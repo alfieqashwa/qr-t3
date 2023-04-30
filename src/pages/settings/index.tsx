@@ -23,7 +23,6 @@ const SettingsPage: NextPage = () => {
   const { data: profile, isLoading } = api.user.getEOByUserId.useQuery();
 
   const userRole = session?.user.role;
-  console.log({ userRole });
 
   return (
     <Layout title={title}>

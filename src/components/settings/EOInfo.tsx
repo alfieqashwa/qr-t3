@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/id";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { UpdateEventOrganizerDialog } from "./UpdateDialog";
+import { DeleteEventOrganizerDialog } from "./DeleteDialog";
 
 dayjs.extend(relativeTime);
 
@@ -58,7 +59,7 @@ export function EOInfo({ eo, userRole }: EOInfoProps) {
                     street={eo.street}
                     postalCode={eo.postalCode}
                   />
-                  {/* // TODO: Delete Dialog Button */}
+                  <DeleteEventOrganizerDialog id={eo.id} />
                 </div>
               ))}
           </article>

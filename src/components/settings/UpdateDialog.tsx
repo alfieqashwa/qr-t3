@@ -45,11 +45,10 @@ export function UpdateEventOrganizerDialog({
       toast({
         title: "Succeed!",
         variant: "default",
-        description: "Your message has been sent.",
+        description: "Your EO has been updated.",
       });
       await utils.user.getEOByUserId.invalidate();
       await wait().then(() => setOpen(false));
-      // router.reload();
     },
     onError() {
       toast({

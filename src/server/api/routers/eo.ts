@@ -101,7 +101,16 @@ export const eoRouter = createTRPCRouter({
           }
         })
       } catch (err) {
-        console.log(err)
+        console.error(err)
+      }
+    }),
+  delete: protectedProcedure
+    .input(z.object({ id: z.string().cuid() }))
+    .mutation(async ({ ctx, input }) => {
+      try {
+        await ctx.prisma.eventOrganizer.delete({ where: { id: input.id } })
+      } catch (err) {
+        console.error(err)
       }
     })
 })
