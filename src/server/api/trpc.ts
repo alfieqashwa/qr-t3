@@ -122,16 +122,16 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
 const isAdminOrIsDewa = t.middleware(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" })
-  } else if (ctx.session?.user.role === Role.DEWA || ctx.session?.user.role === Role.ADMIN) {
+  }
+  if (ctx.session?.user.role === Role.USER || ctx.session?.user.role === Role.MEMBER || ctx.session?.user.role === Role.OPERATOR || ctx.session?.user.role === Role.EDITOR) {
     return next({
       ctx: {
         // infers the `session` as non-nullable
         session: { ...ctx.session, user: ctx.session?.user },
       },
     })
-  } else {
-    throw new TRPCError({ code: "UNAUTHORIZED" })
   }
+  throw new TRPCError({ code: "UNAUTHORIZED" })
 })
 /**
  * Protected (authed) procedure
