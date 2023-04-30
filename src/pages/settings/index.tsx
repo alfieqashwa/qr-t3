@@ -15,6 +15,7 @@ import {
 } from "@/src/components/ui/tabs";
 import { api } from "@/src/utils/api";
 import { EOInfo, ProfileInfo } from "@/src/components/settings";
+import { useSession } from "next-auth/react";
 
 const title = "Settings";
 const SettingsPage: NextPage = () => {
@@ -24,6 +25,10 @@ const SettingsPage: NextPage = () => {
     api.user.userRole.useQuery();
 
   const isLoading = isProfileLoading || isUserRoleLoading;
+
+  const { data: session } = useSession();
+
+  console.log(JSON.stringify(session?.user.role, null, 2));
 
   return (
     <Layout title={title}>
