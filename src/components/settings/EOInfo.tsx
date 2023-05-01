@@ -1,24 +1,21 @@
 import type { EventOrganizer } from "@prisma/client";
-import { Role } from "@prisma/client";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { UpdateEventOrganizerDialog } from "./UpdateDialog";
 import { DeleteEventOrganizerDialog } from "./DeleteDialog";
+import { AdminAndDewaOnly } from "../Authed/AdminAndDewaOnly";
 
 dayjs.extend(relativeTime);
 
 type EOInfoProps = {
   eo?: EventOrganizer | null;
-  userRole?: Role;
 };
 
-export function EOInfo({ eo, userRole }: EOInfoProps) {
+export function EOInfo({ eo }: EOInfoProps) {
   const createdAt = dayjs(eo?.createdAt).format("dddd, DD MMMM YYYY, HH:mm");
   const updateAt = dayjs().to(dayjs(eo?.updatedAt));
 
-  const isDewa = userRole === Role.DEWA;
-  const isAdmin = userRole === Role.ADMIN;
   return (
     <div className="mx-auto w-full">
       <h1 className="text-2xl font-semibold capitalize leading-none tracking-tight">
@@ -49,19 +46,18 @@ export function EOInfo({ eo, userRole }: EOInfoProps) {
               <Field label="Updated At" value={updateAt} />
               <Field label="ID" value={eo.id} />
             </div>
-            {isDewa ||
-              (isAdmin && (
-                <div className="flex justify-end space-x-4">
-                  <UpdateEventOrganizerDialog
-                    id={eo.id}
-                    name={eo.name}
-                    phone={eo.phone}
-                    street={eo.street}
-                    postalCode={eo.postalCode}
-                  />
-                  <DeleteEventOrganizerDialog id={eo.id} />
-                </div>
-              ))}
+            <AdminAndDewaOnly>
+              <div className="flex justify-end space-x-4">
+                <UpdateEventOrganizerDialog
+                  id={eo.id}
+                  name={eo.name}
+                  phone={eo.phone}
+                  street={eo.street}
+                  postalCode={eo.postalCode}
+                />
+                <DeleteEventOrganizerDialog id={eo.id} />
+              </div>
+            </AdminAndDewaOnly>
           </article>
         ) : null}
       </section>

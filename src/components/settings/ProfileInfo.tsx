@@ -1,17 +1,13 @@
 import type { RouterOutputs } from "@/src/utils/api";
-import { Role } from "@prisma/client";
 import { User } from "lucide-react";
 import Image from "next/image";
+import { AdminAndDewaOnly } from "../Authed/AdminAndDewaOnly";
 
 type ProfileProps = {
   profile?: RouterOutputs["user"]["getEOByUserId"];
-  userRole?: Role;
 };
 
-export function ProfileInfo({ profile, userRole }: ProfileProps) {
-  const isDewa = userRole === Role.DEWA;
-  const isAdmin = userRole === Role.ADMIN;
-
+export function ProfileInfo({ profile }: ProfileProps) {
   return (
     <div className="mx-auto w-full">
       <h1 className="text-2xl font-semibold capitalize leading-none tracking-tight">
@@ -45,18 +41,17 @@ export function ProfileInfo({ profile, userRole }: ProfileProps) {
               <p className="mt-2 font-semibold">
                 Login as <span>{profile.email as string}</span>
               </p>
-              {!!isDewa ||
-                (!!isAdmin && (
-                  <div className="mt-2 space-x-2">
-                    <small className="font-semibold capitalize">id:</small>
-                    <small className="font-semibold capitalize">
-                      {profile.id}
-                    </small>
-                    <small className="text-rose-400">
-                      ✅ only Dewa and Admin who can see ID!
-                    </small>
-                  </div>
-                ))}
+              <AdminAndDewaOnly>
+                <div className="mt-2 space-x-2">
+                  <small className="font-semibold capitalize">id:</small>
+                  <small className="font-semibold capitalize">
+                    {profile.id}
+                  </small>
+                  <small className="text-rose-400">
+                    ✅ only Dewa and Admin who can see ID!
+                  </small>
+                </div>
+              </AdminAndDewaOnly>
             </div>
           </article>
         ) : null}

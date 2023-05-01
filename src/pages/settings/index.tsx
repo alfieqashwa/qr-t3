@@ -14,15 +14,11 @@ import {
 } from "@/src/components/ui/tabs";
 import { api } from "@/src/utils/api";
 import { EOInfo, ProfileInfo } from "@/src/components/settings";
-import { useSession } from "next-auth/react";
 
 const title = "Settings" as const;
 
 const SettingsPage: NextPage = () => {
-  const { data: session } = useSession();
   const { data: profile, isLoading } = api.user.getEOByUserId.useQuery();
-
-  const userRole = session?.user.role;
 
   return (
     <Layout title={title}>
@@ -35,10 +31,10 @@ const SettingsPage: NextPage = () => {
             <TabsTrigger value="profile">Profile</TabsTrigger>
           </TabsList>
           <TabsContent value="event-organizer">
-            <EOInfo eo={profile?.eventOrganizer} userRole={userRole} />
+            <EOInfo eo={profile?.eventOrganizer} />
           </TabsContent>
           <TabsContent value="profile">
-            <ProfileInfo profile={profile} userRole={userRole} />
+            <ProfileInfo profile={profile} />
           </TabsContent>
         </Tabs>
       </div>
