@@ -8,7 +8,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/server/auth";
 import EventCard from "@/components/EventCard";
 
-const title = "Events";
+const title = "Events" as const;
 const EventPage: NextPage = (): JSX.Element => {
   return (
     <Layout title={title}>

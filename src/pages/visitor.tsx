@@ -7,7 +7,7 @@ import { Layout } from "@/src/components/layout";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/server/auth";
 
-const title = "Visitors";
+const title = "Visitors" as const;
 
 const VisitorsPage: NextPage = () => {
   return (

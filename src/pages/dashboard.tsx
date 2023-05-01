@@ -5,7 +5,7 @@ import { Layout } from "@/src/components/layout";
 import { authOptions } from "@/server/auth";
 import { getServerSession } from "next-auth/next";
 
-const title = "Dashboard";
+const title = "Dashboard" as const;
 const DashboardPage: NextPage = () => {
   return (
     <Layout title={title}>
