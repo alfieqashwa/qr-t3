@@ -6,7 +6,6 @@ import { Layout } from "@/src/components/layout";
 
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/server/auth";
-import { prisma } from "@/src/server/db";
 import {
   Tabs,
   TabsContent,
@@ -61,12 +60,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
   }
 
-  const eoId = await prisma.user.findUnique({
-    where: { id: session?.user.id },
-    select: { eventOrganizerId: true },
-  });
-
-  if (!eoId?.eventOrganizerId) {
+  if (!session.user.eventOrganizerId) {
     return {
       redirect: {
         destination: "/settings/create-eo",
