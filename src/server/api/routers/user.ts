@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { createTRPCRouter, protectedProcedure } from "../trpc"
+import { adminAndDewaOnlyProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
 import { Role } from "@prisma/client"
 
 export const userRouter = createTRPCRouter({
@@ -34,4 +34,26 @@ export const userRouter = createTRPCRouter({
         select: { role: true }
       })
     }),
+
+  create: adminAndDewaOnlyProcedure
+    .input(z.object({
+      name: z.string(),
+      email: z.string().email(),
+      emailVerified: z.string().email(),
+      image: z.string().nullable(),
+      role: z.nativeEnum(Role),
+      eventOrganizerId: z.string().cuid()
+    }))
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.prisma.user.create({
+        data: {
+          name: input.name,
+          email: input.email,
+          emailVerified: input.emailVerified,
+          image: input.image,
+          role: input.role,
+          eventOrganizerId: input.eventOrganizerId
+        }
+      })
+    })
 })
