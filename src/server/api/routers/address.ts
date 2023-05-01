@@ -1,8 +1,8 @@
-import { REGENCIES } from "@/src/data/address/regencies"
 import { createTRPCRouter, protectedProcedure } from "../trpc"
-import { PROVINCES } from "@/src/data/address/provinces"
-import { DISTIRCTS } from "@/src/data/address/districts"
-import { VILLAGES } from "@/src/data/address/villages"
+import { REGENCIES } from "@/src/constants/regencies"
+import { PROVINCES } from "@/src/constants/provinces"
+import { DISTIRCTS } from "@/src/constants/districts"
+import { VILLAGES } from "@/src/constants/villages"
 
 export const addressRouter = createTRPCRouter({
   getProvinces: protectedProcedure.query(() => PROVINCES),

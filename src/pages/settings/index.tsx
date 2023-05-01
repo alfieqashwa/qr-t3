@@ -17,6 +17,7 @@ import { EOInfo, ProfileInfo } from "@/src/components/settings";
 import { useSession } from "next-auth/react";
 
 const title = "Settings" as const;
+
 const SettingsPage: NextPage = () => {
   const { data: session } = useSession();
   const { data: profile, isLoading } = api.user.getEOByUserId.useQuery();
