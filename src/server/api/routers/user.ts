@@ -55,5 +55,9 @@ export const userRouter = createTRPCRouter({
           eventOrganizerId: input.eventOrganizerId
         }
       })
+    }),
+  getAll: adminAndDewaOnlyProcedure
+    .query(({ ctx }) => {
+      return ctx.prisma.user.findMany()
     })
 })

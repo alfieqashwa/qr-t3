@@ -14,12 +14,17 @@ import {
 } from "@/src/components/ui/tabs";
 import { api } from "@/src/utils/api";
 import { EOInfo, ProfileInfo } from "@/src/components/settings";
+import { TeamInfo } from "@/src/components/settings/TeamInfo";
+import { AdminAndDewaOnly } from "@/src/components/Authed/AdminAndDewaOnly";
 
 const title = "Settings" as const;
 
 const SettingsPage: NextPage = () => {
-  const { data: profile, isLoading } = api.user.getEOByUserId.useQuery();
+  const { data: profile, isLoading: isProfileLoading } =
+    api.user.getEOByUserId.useQuery();
+  const { data: teams, isLoading: isTeamsLoading } = api.user.getAll.useQuery();
 
+  const isLoading = isProfileLoading || isTeamsLoading;
   return (
     <Layout title={title}>
       {isLoading && <p>Loading...</p>}
@@ -29,6 +34,7 @@ const SettingsPage: NextPage = () => {
           <TabsList className="mb-6">
             <TabsTrigger value="event-organizer">Event Organizer</TabsTrigger>
             <TabsTrigger value="profile">Profile</TabsTrigger>
+            <TabsTrigger value="team-info">Team Info</TabsTrigger>
           </TabsList>
           <TabsContent value="event-organizer">
             <EOInfo eo={profile?.eventOrganizer} />
@@ -36,6 +42,11 @@ const SettingsPage: NextPage = () => {
           <TabsContent value="profile">
             <ProfileInfo profile={profile} />
           </TabsContent>
+          <AdminAndDewaOnly>
+            <TabsContent value="team-info">
+              <TeamInfo eo={profile?.eventOrganizer} teams={teams} />
+            </TabsContent>
+          </AdminAndDewaOnly>
         </Tabs>
       </div>
     </Layout>

@@ -124,14 +124,14 @@ const isAdminOrIsDewa = t.middleware(({ ctx, next }) => {
     throw new TRPCError({ code: "UNAUTHORIZED" })
   }
   if (ctx.session?.user.role === Role.USER || ctx.session?.user.role === Role.MEMBER || ctx.session?.user.role === Role.OPERATOR || ctx.session?.user.role === Role.EDITOR) {
-    return next({
-      ctx: {
-        // infers the `session` as non-nullable
-        session: { ...ctx.session, user: ctx.session?.user },
-      },
-    })
+    throw new TRPCError({ code: "UNAUTHORIZED" })
   }
-  throw new TRPCError({ code: "UNAUTHORIZED" })
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session?.user },
+    },
+  })
 })
 /**
  * Protected (authed) procedure

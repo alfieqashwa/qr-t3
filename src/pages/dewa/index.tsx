@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   });
 
   const isDewa = user && user.role === Role.DEWA;
-  console.log({ isDewa });
+  // console.log({ isDewa });
 
   // sample authorization based on user.role
   if (!isDewa) {
