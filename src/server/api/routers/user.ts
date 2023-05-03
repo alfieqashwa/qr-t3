@@ -37,24 +37,28 @@ export const userRouter = createTRPCRouter({
 
   create: adminAndDewaOnlyProcedure
     .input(z.object({
-      name: z.string(),
+      name: z.string({
+        required_error: "Name is required",
+        invalid_type_error: "Name must be a string",
+      }).min(3).max(25),
       email: z.string().email(),
-      emailVerified: z.string().email(),
-      image: z.string().nullable(),
+      image: z.string().url().optional(),
       role: z.nativeEnum(Role),
-      eventOrganizerId: z.string().cuid()
     }))
     .mutation(async ({ ctx, input }) => {
-      return await ctx.prisma.user.create({
-        data: {
-          name: input.name,
-          email: input.email,
-          emailVerified: input.emailVerified,
-          image: input.image,
-          role: input.role,
-          eventOrganizerId: input.eventOrganizerId
-        }
-      })
+      try {
+        return await ctx.prisma.user.create({
+          data: {
+            name: input.name,
+            email: input.email,
+            image: input.image,
+            role: input.role,
+            eventOrganizerId: ctx.session.user.eventOrganizerId
+          }
+        })
+      } catch (err) {
+        console.error(err)
+      }
     }),
   getAll: adminAndDewaOnlyProcedure
     .query(({ ctx }) => {

@@ -38,15 +38,15 @@ export function EOInfo({ eo }: EOInfoProps) {
               <Field label="district" value={eo.district} />
               <Field label="village" value={eo.village} />
             </div>
-            <div>
-              <small className="text-rose-400">
-                ✅ only Dewa and Admin who can see below!
-              </small>
-              <Field label="Created At" value={createdAt} />
-              <Field label="Updated At" value={updateAt} />
-              <Field label="ID" value={eo.id} />
-            </div>
             <AdminAndDewaOnly>
+              <div>
+                <small className="text-rose-400">
+                  ✅ only Dewa and Admin who can see below!
+                </small>
+                <Field label="Created At" value={createdAt} />
+                <Field label="Updated At" value={updateAt} />
+                <Field label="ID" value={eo.id} />
+              </div>
               <div className="flex justify-end space-x-4">
                 <UpdateEventOrganizerDialog
                   id={eo.id}

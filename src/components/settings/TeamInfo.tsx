@@ -2,8 +2,7 @@ import type { EventOrganizer } from "@prisma/client";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { UpdateEventOrganizerDialog } from "./UpdateDialog";
-import { DeleteEventOrganizerDialog } from "./DeleteDialog";
+import { CreateNewUserDialog } from "./CreateDialog";
 import { AdminAndDewaOnly } from "../Authed/AdminAndDewaOnly";
 import type { RouterOutputs } from "@/src/utils/api";
 
@@ -39,24 +38,17 @@ export function TeamInfo({ eo, teams }: UserInfoProps) {
               <Field label="district" value={eo.district} />
               <Field label="village" value={eo.village} />
             </div>
-            <div>
-              <small className="text-rose-400">
-                ✅ only Dewa and Admin who can see below!
-              </small>
-              <Field label="Created At" value={createdAt} />
-              <Field label="Updated At" value={updateAt} />
-              <Field label="ID" value={eo.id} />
-            </div>
             <AdminAndDewaOnly>
+              <div>
+                <small className="text-rose-400">
+                  ✅ only Dewa and Admin who can see below!
+                </small>
+                <Field label="Created At" value={createdAt} />
+                <Field label="Updated At" value={updateAt} />
+                <Field label="ID" value={eo.id} />
+              </div>
               <div className="flex justify-end space-x-4">
-                <UpdateEventOrganizerDialog
-                  id={eo.id}
-                  name={eo.name}
-                  phone={eo.phone}
-                  street={eo.street}
-                  postalCode={eo.postalCode}
-                />
-                <DeleteEventOrganizerDialog id={eo.id} />
+                <CreateNewUserDialog />
               </div>
             </AdminAndDewaOnly>
           </article>
