@@ -30,7 +30,7 @@ const SettingsPage: NextPage = () => {
       {isLoading && <p>Loading...</p>}
       <H1Title title={title} />
       <div className="mt-4 h-[calc(100vh_-_17vh)]">
-        <Tabs defaultValue="event-organizer">
+        <Tabs defaultValue="team-info">
           <TabsList className="mb-6">
             <TabsTrigger value="event-organizer">Event Organizer</TabsTrigger>
             <TabsTrigger value="profile">Profile</TabsTrigger>
@@ -44,7 +44,7 @@ const SettingsPage: NextPage = () => {
           </TabsContent>
           <AdminAndDewaOnly>
             <TabsContent value="team-info">
-              <TeamInfo eo={profile?.eventOrganizer} teams={teams} />
+              <TeamInfo teams={teams} />
             </TabsContent>
           </AdminAndDewaOnly>
         </Tabs>
