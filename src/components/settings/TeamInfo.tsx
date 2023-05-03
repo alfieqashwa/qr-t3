@@ -1,11 +1,11 @@
-import type { EventOrganizer } from "@prisma/client";
+import { EventOrganizer, Role } from "@prisma/client";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { CreateNewUserDialog } from "./CreateDialog";
 import { AdminAndDewaOnly } from "../Authed/AdminAndDewaOnly";
 import type { RouterOutputs } from "@/src/utils/api";
 import { Button } from "../ui/button";
+import { useSession } from "next-auth/react";
 
 dayjs.extend(relativeTime);
 
@@ -16,6 +16,8 @@ type UserInfoProps = {
 export function TeamInfo({ teams }: UserInfoProps) {
   // const createdAt = dayjs(eo?.createdAt).format("dddd, DD MMMM YYYY, HH:mm");
   // const updateAt = dayjs().to(dayjs(eo?.updatedAt));
+
+  const { data } = useSession();
 
   console.log(`TEAMS::: `, JSON.stringify(teams, null, 2));
   return (
@@ -29,29 +31,36 @@ export function TeamInfo({ teams }: UserInfoProps) {
         <table className="w-full table-auto text-xs font-semibold">
           <thead>
             <tr>
-              <th className="px-4 py-2 text-left">Name</th>
-              <th className="px-4 py-2 text-left">Email</th>
-              <th className="px-4 py-2 text-center">Role</th>
-              <th className="px-4 py-2 text-center">Edit</th>
-              <th className="px-4 py-2 text-center">Delete</th>
+              <th className="px-4 py-2 text-left text-sm">Name</th>
+              <th className="px-4 py-2 text-left text-sm">Email</th>
+              <th className="px-4 py-2 text-center text-sm">Role</th>
+              <th className="sr-only">Edit</th>
+              <th className="sr-only">Delete</th>
             </tr>
           </thead>
           <tbody>
             {teams?.map((team) => (
-              <tr key={`ID-${team.id}`}>
-                <td className="px-4 py-2">{team.name}</td>
+              <tr className="divide-y divide-slate-700" key={`ID-${team.id}`}>
+                <td className="px-4 py-2 text-sm capitalize">{team.name}</td>
                 <td className="px-4 py-2">{team.email}</td>
-                <td className="px-4 py-2 text-center">{team.role}</td>
-                <td className="px-4 py-2 text-center">
-                  <Button variant="outline" className="text-xs font-semibold">
-                    Edit User
-                  </Button>
+                <td className="px-4 py-2 text-center text-yellow-500">
+                  {team.role}
                 </td>
-                <td className="px-4 py-2 text-center">
-                  <Button variant="outline" className="text-xs font-semibold">
-                    Delete User
-                  </Button>
-                </td>
+                <AdminAndDewaOnly>
+                  <td className="py-2 text-right">
+                    <Button variant="outline" className="text-xs font-semibold">
+                      Edit User
+                    </Button>
+                  </td>
+                  <td className="py-2 pr-4 text-right">
+                    <Button
+                      variant="destructive"
+                      className="text-xs font-semibold"
+                    >
+                      Delete User
+                    </Button>
+                  </td>
+                </AdminAndDewaOnly>
               </tr>
             ))}
           </tbody>

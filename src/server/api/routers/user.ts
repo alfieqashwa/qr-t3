@@ -62,6 +62,9 @@ export const userRouter = createTRPCRouter({
     }),
   getAll: adminAndDewaOnlyProcedure
     .query(({ ctx }) => {
-      return ctx.prisma.user.findMany()
+      return ctx.prisma.user.findMany({
+        // exclude "DEWA" & "ADMIN" user
+        where: { role: "EDITOR" || "OPERATOR" },
+      })
     })
 })
