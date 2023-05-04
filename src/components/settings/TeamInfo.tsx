@@ -4,26 +4,33 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { AdminAndDewaOnly } from "../Authed/AdminAndDewaOnly";
 import { api } from "@/src/utils/api";
 import { Button } from "../ui/button";
-import { CreateNewUserDialog } from "./CreateDialog";
+import { CreateNewTeamDialog } from "./CreateNewTeamDialog";
+import type { EventOrganizer } from "@prisma/client";
+import { DeleteTeamDialog } from "./DeleteTeamDialog";
 
 dayjs.extend(relativeTime);
 
-export function TeamInfo() {
+type Props = {
+  eo?: EventOrganizer | null;
+};
+
+export function TeamInfo({ eo }: Props) {
   // const createdAt = dayjs(eo?.createdAt).format("dddd, DD MMMM YYYY, HH:mm");
   // const updateAt = dayjs().to(dayjs(eo?.updatedAt));
 
   const { data: teams, isLoading } = api.user.getAll.useQuery();
   if (isLoading) <p>Loading Team....</p>;
+
   return (
     <div className="mx-auto w-full">
-      <h1 className="text-2xl font-semibold capitalize leading-none tracking-tight">
-        Team
+      <h1 className="text-2xl font-semibold leading-none tracking-tight">
+        Team of <span className="capitalize text-amber-400">{eo?.name}</span>
       </h1>
       <h4 className="mt-2 text-slate-400">Information of your team members</h4>
       <div className="mt-4 border-t-2 border-slate-800"></div>
       {!teams || teams?.length < 1 ? (
         <section className="mt-4 grid h-72 place-items-center rounded-md border-4 border-slate-800 p-4">
-          <CreateNewUserDialog />
+          <CreateNewTeamDialog />
         </section>
       ) : (
         <section className="mt-4 rounded-md border-4 border-slate-800 p-4">
@@ -55,12 +62,7 @@ export function TeamInfo() {
                       </Button>
                     </td>
                     <td className="py-3 pr-4 text-right">
-                      <Button
-                        variant="destructive"
-                        className="text-xs font-semibold"
-                      >
-                        Delete User
-                      </Button>
+                      <DeleteTeamDialog id={team.id} username={team.name} />
                     </td>
                   </AdminAndDewaOnly>
                 </tr>
@@ -68,7 +70,7 @@ export function TeamInfo() {
             </tbody>
           </table>
           <div className="mt-24 flex justify-end space-x-4">
-            <CreateNewUserDialog />
+            <CreateNewTeamDialog />
           </div>
         </section>
       )}

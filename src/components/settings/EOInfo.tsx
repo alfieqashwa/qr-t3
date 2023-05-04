@@ -2,8 +2,8 @@ import type { EventOrganizer } from "@prisma/client";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { UpdateEventOrganizerDialog } from "./UpdateDialog";
-import { DeleteEventOrganizerDialog } from "./DeleteDialog";
+import { UpdateEventOrganizerDialog } from "./UpdateEventOrganizerDialog";
+import { DeleteEventOrganizerDialog } from "./DeleteEventOrganizerDialog";
 import { AdminAndDewaOnly } from "../Authed/AdminAndDewaOnly";
 
 dayjs.extend(relativeTime);

@@ -44,7 +44,7 @@ const SettingsPage: NextPage = () => {
             <ProfileInfo profile={profile} />
           </TabsContent>
           <TabsContent value="team-info">
-            <TeamInfo />
+            <TeamInfo eo={profile?.eventOrganizer} />
           </TabsContent>
         </Tabs>
       </div>

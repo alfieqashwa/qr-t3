@@ -20,7 +20,7 @@ import { useToast } from "../ui/use-toast";
 /* auto-closed after succeed submit the dialog form */
 const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
 
-export function CreateNewUserDialog() {
+export function CreateNewTeamDialog() {
   const utils = api.useContext();
   const { toast } = useToast();
 

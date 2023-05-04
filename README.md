@@ -63,7 +63,7 @@ Add more libs.
   - [ ]  editorOrAdminOrDewaOnlyProcedure
   - [ ]  operatorOrEditorOrAdminOrDewaOnlyProcedure
 - [ ] CRUD Editor and Operator Users (Admin Access)
-  -[x] Create API Create-Team & Create Dialog Form
-  -[ ] Create API Team-List & Table list
-  -[ ] Create API Update-Team & Update Dialog Form
-  -[ ] Create API Delete-Team & Delete Dialog Form
+  -[x] Create-Team API & Create Dialog Form
+  -[x] Team-List API & Table list
+  -[ ] API Update-Team & Update Dialog Form
+  -[x] Delete-Team API & Delete Dialog Form

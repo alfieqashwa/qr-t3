@@ -20,26 +20,25 @@ const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
 
 type Props = {
   id: string;
+  username: string | null;
 };
 
-export function DeleteEventOrganizerDialog({ id }: Props) {
+export function DeleteTeamDialog({ id, username }: Props) {
   const router = useRouter();
   const utils = api.useContext();
   const { toast } = useToast();
 
   const [open, setOpen] = useState(false);
 
-  const updateRoleBackAsUser = api.user.updateRole.useMutation();
-  const { mutate, isLoading } = api.eo.delete.useMutation({
+  const { mutate, isLoading } = api.user.delete.useMutation({
     async onSuccess() {
-      // update user role back as USER
-      await updateRoleBackAsUser.mutateAsync({ role: "USER" });
+      // delete user from team
       toast({
         title: "Succeed!",
         variant: "default",
-        description: "Your EO has been deleted.",
+        description: "Your Team has been deleted.",
       });
-      await utils.user.getEOByUserId.invalidate();
+      await utils.user.getAll.invalidate();
       await wait().then(() => setOpen(false));
       await router.replace("/settings/create-eo");
     },
@@ -64,7 +63,7 @@ export function DeleteEventOrganizerDialog({ id }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Delete Event Organizer</Button>
+        <Button variant="destructive">Delete</Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-1/2">
@@ -72,8 +71,14 @@ export function DeleteEventOrganizerDialog({ id }: Props) {
           <DialogHeader>
             <DialogTitle>Are You Sure?</DialogTitle>
             <DialogDescription>
-              You can&apos;t undo this changes. Click delete when you&apos;re
-              sure to delete your Event Organizer.
+              <p>
+                You can&apos;t undo this changes. Click delete when you&apos;re
+                sure to delete{" "}
+                <span className="font-medium capitalize text-amber-300">
+                  {username}
+                </span>{" "}
+                from your Team.
+              </p>
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

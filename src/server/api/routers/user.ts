@@ -66,5 +66,16 @@ export const userRouter = createTRPCRouter({
         // exclude "DEWA" & "ADMIN" user
         where: { role: "EDITOR" || "OPERATOR" },
       })
+    }),
+  delete: adminAndDewaOnlyProcedure
+    .input(z.object({ id: z.string().cuid() }))
+    .mutation(async ({ ctx, input }) => {
+      try {
+        return await ctx.prisma.user.delete({
+          where: { id: input.id }
+        })
+      } catch (err) {
+        console.error(err)
+      }
     })
 })
