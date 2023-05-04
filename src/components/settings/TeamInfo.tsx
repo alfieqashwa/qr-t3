@@ -15,10 +15,12 @@ type Props = {
 };
 
 export function TeamInfo({ eo }: Props) {
-  // const createdAt = dayjs(eo?.createdAt).format("dddd, DD MMMM YYYY, HH:mm");
-  // const updateAt = dayjs().to(dayjs(eo?.updatedAt));
+  const eventOrganizerId = eo?.id as string;
+  const { data: teams, isLoading } = api.user.getAllByEOId.useQuery(
+    { eventOrganizerId },
+    { enabled: !!eventOrganizerId }
+  );
 
-  const { data: teams, isLoading } = api.user.getAll.useQuery();
   if (isLoading) <p>Loading Team....</p>;
 
   return (

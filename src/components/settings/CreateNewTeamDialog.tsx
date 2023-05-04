@@ -33,7 +33,7 @@ export function CreateNewTeamDialog() {
         variant: "default",
         description: "Your new team has been created.",
       });
-      await utils.user.getAll.invalidate();
+      await utils.user.getAllByEOId.invalidate();
       await wait().then(() => setOpen(false));
     },
     onError() {

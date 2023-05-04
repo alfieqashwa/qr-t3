@@ -60,11 +60,15 @@ export const userRouter = createTRPCRouter({
         console.error(err)
       }
     }),
-  getAll: adminAndDewaOnlyProcedure
-    .query(({ ctx }) => {
+  getAllByEOId: adminAndDewaOnlyProcedure
+    .input(z.object({ eventOrganizerId: z.string().cuid() }))
+    .query(({ ctx, input }) => {
       return ctx.prisma.user.findMany({
-        // exclude "DEWA" & "ADMIN" user
-        where: { role: "EDITOR" || "OPERATOR" },
+        where: {
+          eventOrganizerId: input.eventOrganizerId,
+          role: Role.EDITOR || Role.OPERATOR
+        },
+        orderBy: { name: "asc" } // A -> Z
       })
     }),
   delete: adminAndDewaOnlyProcedure

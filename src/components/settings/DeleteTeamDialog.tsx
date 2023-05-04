@@ -38,9 +38,9 @@ export function DeleteTeamDialog({ id, username }: Props) {
         variant: "default",
         description: "Your Team has been deleted.",
       });
-      await utils.user.getAll.invalidate();
+      await utils.user.getAllByEOId.invalidate();
       await wait().then(() => setOpen(false));
-      await router.replace("/settings/create-eo");
+      await router.replace("/settings");
     },
     onError() {
       toast({
@@ -70,13 +70,13 @@ export function DeleteTeamDialog({ id, username }: Props) {
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>Are You Sure?</DialogTitle>
-            <DialogDescription>
+            <DialogDescription asChild>
               <p>
                 You can&apos;t undo this changes. Click delete when you&apos;re
-                sure to delete{" "}
-                <span className="font-medium capitalize text-amber-300">
+                sure to delete
+                <span className="px-1.5 font-medium capitalize text-amber-300">
                   {username}
-                </span>{" "}
+                </span>
                 from your Team.
               </p>
             </DialogDescription>
