@@ -65,7 +65,7 @@ Add more libs.
 - [ ] CRUD Editor and Operator Users (Admin Access)
   -[x] Create-Team API & Create Dialog Form
   -[x] Fetch all Teams based on EO-ID API & Setup Table list
-  -[ ] API Update-Team & Update Dialog Form
+  -[x] API Update-Team & Update Dialog Form
   -[x] Delete-Team API & Delete Dialog Form
 - [ ] Loading Configuration (UI)
 - [ ] Breakpoint (Mobile - Tablet - Desktop) (UI)
