@@ -11,9 +11,9 @@ export function ProfileInfo({ profile }: ProfileProps) {
   return (
     <div className="mx-auto w-full">
       <h1 className="text-2xl font-semibold capitalize leading-none tracking-tight">
-        {profile?.name}!
+        {profile?.name}
       </h1>
-      <h4 className="mt-2 text-slate-400">Information of user profile.</h4>
+      <h4 className="mt-2 text-slate-400">Information of user profile</h4>
       <div className="mt-4 border-t-2 border-slate-800"></div>
       <section className="mt-4 rounded-md border-4 border-slate-800 p-8">
         {!!profile ? (

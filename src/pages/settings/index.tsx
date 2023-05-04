@@ -22,19 +22,20 @@ const title = "Settings" as const;
 const SettingsPage: NextPage = () => {
   const { data: profile, isLoading: isProfileLoading } =
     api.user.getEOByUserId.useQuery();
-  const { data: teams, isLoading: isTeamsLoading } = api.user.getAll.useQuery();
 
-  const isLoading = isProfileLoading || isTeamsLoading;
+  const isLoading = isProfileLoading;
   return (
     <Layout title={title}>
       {isLoading && <p>Loading...</p>}
       <H1Title title={title} />
       <div className="mt-4 h-[calc(100vh_-_17vh)]">
-        <Tabs defaultValue="team-info">
+        <Tabs defaultValue="event-organizer">
           <TabsList className="mb-6">
             <TabsTrigger value="event-organizer">Event Organizer</TabsTrigger>
             <TabsTrigger value="profile">Profile</TabsTrigger>
-            <TabsTrigger value="team-info">Team Info</TabsTrigger>
+            <AdminAndDewaOnly>
+              <TabsTrigger value="team-info">Team Info</TabsTrigger>
+            </AdminAndDewaOnly>
           </TabsList>
           <TabsContent value="event-organizer">
             <EOInfo eo={profile?.eventOrganizer} />
@@ -42,11 +43,9 @@ const SettingsPage: NextPage = () => {
           <TabsContent value="profile">
             <ProfileInfo profile={profile} />
           </TabsContent>
-          <AdminAndDewaOnly>
-            <TabsContent value="team-info">
-              <TeamInfo teams={teams} />
-            </TabsContent>
-          </AdminAndDewaOnly>
+          <TabsContent value="team-info">
+            <TeamInfo />
+          </TabsContent>
         </Tabs>
       </div>
     </Layout>

@@ -40,6 +40,38 @@ declare module "next-auth" {
  **/
 export const authOptions: NextAuthOptions = {
   callbacks: {
+    // configure registeredUser created by ADMIN
+    async signIn({ account, user }) {
+      const email = user?.email as string
+      const registeredUser = await prisma.user.findUnique({
+        where: { email }
+      })
+
+      if (registeredUser) {
+        await prisma.user.update({
+          where: { id: registeredUser.id },
+          data: {
+            name: user.name,
+            image: user.image,
+            role: registeredUser.role,
+            eventOrganizerId: registeredUser.eventOrganizerId,
+            accounts: {
+              create: {
+                provider: account?.provider as string,
+                type: account?.type as string,
+                providerAccountId: account?.providerAccountId as string,
+                access_token: account?.access_token,
+                expires_at: account?.expires_at,
+                scope: account?.scope,
+                token_type: account?.token_type,
+                id_token: account?.id_token,
+              }
+            }
+          }
+        })
+      }
+      return true
+    },
     session({ session, user }) {
       if (session.user) {
         session.user.id = user.id

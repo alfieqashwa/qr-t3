@@ -1,32 +1,25 @@
-import { EventOrganizer, Role } from "@prisma/client";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { AdminAndDewaOnly } from "../Authed/AdminAndDewaOnly";
-import type { RouterOutputs } from "@/src/utils/api";
+import { api } from "@/src/utils/api";
 import { Button } from "../ui/button";
-import { useSession } from "next-auth/react";
 import { CreateNewUserDialog } from "./CreateDialog";
 
 dayjs.extend(relativeTime);
 
-type UserInfoProps = {
-  teams?: RouterOutputs["user"]["getAll"];
-};
-
-export function TeamInfo({ teams }: UserInfoProps) {
+export function TeamInfo() {
   // const createdAt = dayjs(eo?.createdAt).format("dddd, DD MMMM YYYY, HH:mm");
   // const updateAt = dayjs().to(dayjs(eo?.updatedAt));
 
-  const { data } = useSession();
-
-  console.log(`TEAMS::: `, JSON.stringify(teams, null, 2));
+  const { data: teams, isLoading } = api.user.getAll.useQuery();
+  if (isLoading) <p>Loading Team....</p>;
   return (
     <div className="mx-auto w-full">
       <h1 className="text-2xl font-semibold capitalize leading-none tracking-tight">
         Team
       </h1>
-      <h4 className="mt-2 text-slate-400">Information of your team members.</h4>
+      <h4 className="mt-2 text-slate-400">Information of your team members</h4>
       <div className="mt-4 border-t-2 border-slate-800"></div>
       {!teams || teams?.length < 1 ? (
         <section className="mt-4 grid h-72 place-items-center rounded-md border-4 border-slate-800 p-4">

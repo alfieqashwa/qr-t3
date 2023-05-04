@@ -22,7 +22,7 @@ export function EOInfo({ eo }: EOInfoProps) {
         {eo?.name}
       </h1>
       <h4 className="mt-2 text-slate-400">
-        Information of your Event Organizer.
+        Information of your Event Organizer
       </h4>
       <div className="mt-4 border-t-2 border-slate-800"></div>
       <section className="mt-4 rounded-md border-4 border-slate-800 p-8">
