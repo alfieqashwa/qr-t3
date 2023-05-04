@@ -1,6 +1,6 @@
+import { Role } from "@prisma/client"
 import { z } from "zod"
 import { adminAndDewaOnlyProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
-import { Role } from "@prisma/client"
 
 export const userRouter = createTRPCRouter({
   me: protectedProcedure
@@ -61,15 +61,28 @@ export const userRouter = createTRPCRouter({
       }
     }),
   getAllByEOId: adminAndDewaOnlyProcedure
-    .input(z.object({ eventOrganizerId: z.string().cuid() }))
-    .query(({ ctx, input }) => {
+    .query(({ ctx }) => {
       return ctx.prisma.user.findMany({
         where: {
-          eventOrganizerId: input.eventOrganizerId,
-          role: Role.EDITOR || Role.OPERATOR
+          eventOrganizerId: ctx.session.user.eventOrganizerId,
         },
         orderBy: { name: "asc" } // A -> Z
       })
+    }),
+  updateTeam: adminAndDewaOnlyProcedure
+    .input(z.object({
+      id: z.string().cuid(),
+      role: z.nativeEnum(Role),
+    }))
+    .mutation(async ({ ctx, input: { id, role } }) => {
+      try {
+        return await ctx.prisma.user.update({
+          where: { id },
+          data: { role, eventOrganizerId: ctx.session.user.eventOrganizerId }
+        })
+      } catch (err) {
+        console.error(err)
+      }
     }),
   delete: adminAndDewaOnlyProcedure
     .input(z.object({ id: z.string().cuid() }))

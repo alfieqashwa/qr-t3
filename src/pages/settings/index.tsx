@@ -4,8 +4,10 @@ import { type NextPage } from "next";
 import { H1Title } from "@/components/H1.Title";
 import { Layout } from "@/src/components/layout";
 
-import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/server/auth";
+import { AdminAndDewaOnly } from "@/src/components/Authed/AdminAndDewaOnly";
+import { EOInfo, ProfileInfo } from "@/src/components/settings";
+import { TeamInfo } from "@/src/components/settings/TeamInfo";
 import {
   Tabs,
   TabsContent,
@@ -13,17 +15,13 @@ import {
   TabsTrigger,
 } from "@/src/components/ui/tabs";
 import { api } from "@/src/utils/api";
-import { EOInfo, ProfileInfo } from "@/src/components/settings";
-import { TeamInfo } from "@/src/components/settings/TeamInfo";
-import { AdminAndDewaOnly } from "@/src/components/Authed/AdminAndDewaOnly";
+import { getServerSession } from "next-auth/next";
 
 const title = "Settings" as const;
 
 const SettingsPage: NextPage = () => {
-  const { data: profile, isLoading: isProfileLoading } =
-    api.user.getEOByUserId.useQuery();
+  const { data: profile, isLoading } = api.user.getEOByUserId.useQuery();
 
-  const isLoading = isProfileLoading;
   return (
     <Layout title={title}>
       {isLoading && <p>Loading...</p>}

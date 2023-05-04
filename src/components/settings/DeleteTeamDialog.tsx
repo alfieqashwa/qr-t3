@@ -74,7 +74,7 @@ export function DeleteTeamDialog({ id, username }: Props) {
               <p>
                 You can&apos;t undo this changes. Click delete when you&apos;re
                 sure to delete
-                <span className="px-1.5 font-medium capitalize text-amber-300">
+                <span className="px-1.5 font-medium uppercase text-amber-300">
                   {username}
                 </span>
                 from your Team.
