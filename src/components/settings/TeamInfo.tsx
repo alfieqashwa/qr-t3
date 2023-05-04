@@ -6,6 +6,7 @@ import { AdminAndDewaOnly } from "../Authed/AdminAndDewaOnly";
 import type { RouterOutputs } from "@/src/utils/api";
 import { Button } from "../ui/button";
 import { useSession } from "next-auth/react";
+import { CreateNewUserDialog } from "./CreateDialog";
 
 dayjs.extend(relativeTime);
 
@@ -27,45 +28,57 @@ export function TeamInfo({ teams }: UserInfoProps) {
       </h1>
       <h4 className="mt-2 text-slate-400">Information of your team members.</h4>
       <div className="mt-4 border-t-2 border-slate-800"></div>
-      <section className="mt-4 rounded-md border-4 border-slate-800 p-4">
-        <table className="w-full table-auto text-xs font-semibold">
-          <thead>
-            <tr>
-              <th className="px-4 py-2 text-left text-sm">Name</th>
-              <th className="px-4 py-2 text-left text-sm">Email</th>
-              <th className="px-4 py-2 text-center text-sm">Role</th>
-              <th className="sr-only">Edit</th>
-              <th className="sr-only">Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {teams?.map((team) => (
-              <tr className="divide-y divide-slate-700" key={`ID-${team.id}`}>
-                <td className="px-4 py-2 text-sm capitalize">{team.name}</td>
-                <td className="px-4 py-2">{team.email}</td>
-                <td className="px-4 py-2 text-center text-yellow-500">
-                  {team.role}
-                </td>
-                <AdminAndDewaOnly>
-                  <td className="py-2 text-right">
-                    <Button variant="outline" className="text-xs font-semibold">
-                      Edit User
-                    </Button>
-                  </td>
-                  <td className="py-2 pr-4 text-right">
-                    <Button
-                      variant="destructive"
-                      className="text-xs font-semibold"
-                    >
-                      Delete User
-                    </Button>
-                  </td>
-                </AdminAndDewaOnly>
+      {!teams || teams?.length < 1 ? (
+        <section className="mt-4 grid h-72 place-items-center rounded-md border-4 border-slate-800 p-4">
+          <CreateNewUserDialog />
+        </section>
+      ) : (
+        <section className="mt-4 rounded-md border-4 border-slate-800 p-4">
+          <table className="w-full table-auto text-xs font-semibold">
+            <thead>
+              <tr>
+                <th className="px-4 py-2 text-left text-sm">Name</th>
+                <th className="px-4 py-2 text-left text-sm">Email</th>
+                <th className="px-4 py-2 text-center text-sm">Role</th>
+                <th className="sr-only">Edit</th>
+                <th className="sr-only">Delete</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
+            </thead>
+            <tbody>
+              {teams?.map((team) => (
+                <tr className="divide-y divide-slate-700" key={`ID-${team.id}`}>
+                  <td className="px-4 py-2 text-sm capitalize">{team.name}</td>
+                  <td className="px-4 py-2">{team.email}</td>
+                  <td className="px-4 py-2 text-center text-yellow-500">
+                    {team.role}
+                  </td>
+                  <AdminAndDewaOnly>
+                    <td className="py-2 text-right">
+                      <Button
+                        variant="outline"
+                        className="text-xs font-semibold"
+                      >
+                        Edit User
+                      </Button>
+                    </td>
+                    <td className="py-2 pr-4 text-right">
+                      <Button
+                        variant="destructive"
+                        className="text-xs font-semibold"
+                      >
+                        Delete User
+                      </Button>
+                    </td>
+                  </AdminAndDewaOnly>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="mt-16 flex justify-end space-x-4">
+            <CreateNewUserDialog />
+          </div>
+        </section>
+      )}
     </div>
   );
 }
