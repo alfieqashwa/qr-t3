@@ -64,7 +64,7 @@ export function CreateNewUserDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Create New Team</Button>
+        <Button variant="default">Create New Team</Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-1/2">
