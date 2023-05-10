@@ -5,7 +5,6 @@ import { AdminAndDewaOnly } from "../Authed/AdminAndDewaOnly";
 import { api } from "@/src/utils/api";
 import { CreateNewTeamDialog } from "./CreateNewTeamDialog";
 import type { EventOrganizer } from "@prisma/client";
-import { Role } from "@prisma/client";
 import { DeleteTeamDialog } from "./DeleteTeamDialog";
 import { UpdateTeamDialog } from "./UpdateTeamDialog";
 
@@ -18,7 +17,7 @@ type Props = {
 export function TeamInfo({ eo }: Props) {
   const eventOrganizerId = eo?.id as string;
   const { data: teams, isLoading } = api.user.getAllByEOId.useQuery(undefined, {
-    enabled: !!eventOrganizerId,
+    enabled: eventOrganizerId !== undefined,
   });
 
   if (isLoading) <p>Loading Team....</p>;
@@ -46,34 +45,27 @@ export function TeamInfo({ eo }: Props) {
               </tr>
             </thead>
             <tbody>
-              {teams
-                ?.filter(
-                  (team) =>
-                    team.role === Role.EDITOR || team.role === Role.OPERATOR
-                )
-                .map((team) => (
-                  <tr key={`ID-${team.id}`}>
-                    <td className="px-4 py-3 text-sm capitalize">
-                      {team.name}
+              {teams.map((team) => (
+                <tr key={`ID-${team.id}`}>
+                  <td className="px-4 py-3 text-sm capitalize">{team.name}</td>
+                  <td className="px-4 py-3">{team.email}</td>
+                  <td className="px-4 py-3 text-center text-yellow-500">
+                    {team.role}
+                  </td>
+                  <AdminAndDewaOnly>
+                    <td className="py-3 text-right">
+                      <UpdateTeamDialog
+                        id={team.id}
+                        role={team.role}
+                        username={team.name}
+                      />
                     </td>
-                    <td className="px-4 py-3">{team.email}</td>
-                    <td className="px-4 py-3 text-center text-yellow-500">
-                      {team.role}
+                    <td className="py-3 pr-4 text-right">
+                      <DeleteTeamDialog id={team.id} username={team.name} />
                     </td>
-                    <AdminAndDewaOnly>
-                      <td className="py-3 text-right">
-                        <UpdateTeamDialog
-                          id={team.id}
-                          role={team.role}
-                          username={team.name}
-                        />
-                      </td>
-                      <td className="py-3 pr-4 text-right">
-                        <DeleteTeamDialog id={team.id} username={team.name} />
-                      </td>
-                    </AdminAndDewaOnly>
-                  </tr>
-                ))}
+                  </AdminAndDewaOnly>
+                </tr>
+              ))}
             </tbody>
           </table>
           <div className="mt-24 flex justify-end space-x-4">

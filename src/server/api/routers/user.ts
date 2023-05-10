@@ -65,6 +65,10 @@ export const userRouter = createTRPCRouter({
       return ctx.prisma.user.findMany({
         where: {
           eventOrganizerId: ctx.session.user.eventOrganizerId,
+          OR: [
+            { role: { equals: Role.EDITOR } },
+            { role: { equals: Role.OPERATOR } },
+          ]
         },
         orderBy: { name: "asc" } // A -> Z
       })
