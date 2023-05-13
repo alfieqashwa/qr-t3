@@ -1,21 +1,23 @@
 "use client";
 
+import { api } from "@/src/utils/api";
 import useToggleStore from "@/store/useToggle";
 import {
   Bell,
   Codesandbox,
+  Loader2,
   SidebarClose,
   SidebarOpen,
   User,
 } from "lucide-react";
-import { useSession } from "next-auth/react";
-import { UserAvatar } from "./UserAvatar";
+import { UserProfile } from "./UserProfile";
 
 export const NavigationHeader = () => {
   const { toggle, handleToggle } = useToggleStore();
 
-  const { data } = useSession();
-  const userImage = data?.user?.image as string;
+  const { data: me, isLoading } = api.user.me.useQuery(undefined, {});
+  const userImage = me?.image;
+  const userImageUpdate = me?.imageUpdate;
 
   return (
     <nav className="fixed z-50 flex h-20 w-full justify-between border-b-2 border-slate-700 bg-gradient-to-br from-slate-800 via-black to-slate-800">
@@ -37,8 +39,35 @@ export const NavigationHeader = () => {
       </section>
       <section className="flex w-full items-center justify-end space-x-8 px-8">
         <Bell />
-        {!!userImage ? <UserAvatar image={userImage} /> : <User />}
+        <UserAvatar
+          isLoading={isLoading}
+          userImage={userImage}
+          userImageUpdate={userImageUpdate}
+        />
       </section>
     </nav>
   );
 };
+
+type UserAvatarProps = {
+  isLoading: boolean;
+  userImageUpdate?: string | null;
+  userImage?: string | null;
+};
+const UserAvatar = ({
+  isLoading,
+  userImage,
+  userImageUpdate,
+}: UserAvatarProps) => (
+  <>
+    {isLoading ? (
+      <Loader2 size={24} className="animate-spin" />
+    ) : !!userImageUpdate ? (
+      <UserProfile image={userImageUpdate} />
+    ) : !!userImage ? (
+      <UserProfile image={userImage} />
+    ) : (
+      <User />
+    )}
+  </>
+);

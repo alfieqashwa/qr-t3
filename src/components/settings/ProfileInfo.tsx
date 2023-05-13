@@ -10,6 +10,29 @@ import { ToastAction } from "../ui/toast";
 
 export function ProfileInfo() {
   const { data: profile, isLoading } = api.user.me.useQuery();
+  const utils = api.useContext();
+  const { mutate, error } = api.user.updateImageProfile.useMutation({
+    async onSuccess() {
+      toast({
+        title: "Succeed!",
+        variant: "default",
+        description: "Upload Completed",
+      });
+      await utils.user.me.invalidate();
+    },
+    onError() {
+      console.error(
+        `ERROR_UPDATE_IMAGE`,
+        error?.data?.zodError?.fieldErrors.updateImage as string[]
+      );
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
+    },
+  });
 
   if (!!isLoading) return <Loading />;
   return (
@@ -23,14 +46,26 @@ export function ProfileInfo() {
         {!!profile ? (
           <article className="flex flex-col items-center space-y-6">
             <div className="mx-auto">
-              {!!profile.image && !!profile.name ? (
-                <Image
-                  src={profile.image}
-                  alt={profile.name}
-                  width={128}
-                  height={128}
-                  className="rounded-full ring-4 ring-amber-300 ring-offset-2 ring-offset-slate-600"
-                />
+              {!!profile.imageUpdate && !!profile.name ? (
+                <div className="relative h-36 w-36">
+                  <Image
+                    src={profile.imageUpdate}
+                    alt={profile.name}
+                    fill
+                    className="rounded-full ring-4 ring-amber-300 ring-offset-2 ring-offset-slate-600"
+                  />
+                </div>
+              ) : !!profile.image && !!profile.name ? (
+                <div className="relative h-36 w-36">
+                  <Image
+                    src={profile.image}
+                    alt={profile.name}
+                    fill
+                    // width={128}
+                    // height={128}
+                    className="rounded-full ring-4 ring-amber-300 ring-offset-2 ring-offset-slate-600"
+                  />
+                </div>
               ) : (
                 <div className="rounded-full p-4 ring-4 ring-amber-300 ring-offset-2 ring-offset-slate-600">
                   <User size={128} />
@@ -65,22 +100,13 @@ export function ProfileInfo() {
             onClientUploadComplete={(res) => {
               // Do something with the response
               console.log("Files: ", res);
-              toast({
-                title: "Succeed!",
-                variant: "default",
-                description: "Upload Completed",
+              const imageUpdate = res?.[0]?.fileUrl as string;
+              mutate({
+                imageUpdate,
               });
             }}
             onUploadError={(error: Error) => {
               console.error(`ERROR! ${error.message}`);
-              toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: "There was a problem with your request.",
-                action: (
-                  <ToastAction altText="Try again">Try again</ToastAction>
-                ),
-              });
             }}
           />
         </div>

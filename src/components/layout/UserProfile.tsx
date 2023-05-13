@@ -28,13 +28,13 @@ const AVATAR_MENU_LIST = [
   },
 ] as const;
 
-export const UserAvatar = ({ image }: { image: string }) => (
-  <Menubar className="h-12 w-12 items-center justify-center rounded-full border-2 border-amber-200 p-0 transition duration-300 ease-in-out hover:border-amber-300">
+export const UserProfile = ({ image }: { image: string }) => (
+  <Menubar className="h-12 w-12 items-center justify-center rounded-full border-2 border-amber-300 p-0 transition duration-300 ease-in-out hover:border-amber-300">
     <MenubarMenu>
       <MenubarTrigger className="rounded-full px-0 py-0 hover:cursor-pointer">
         <Image
           src={image}
-          alt="profile"
+          alt="User Avatar"
           width={44}
           height={44}
           className="rounded-full"

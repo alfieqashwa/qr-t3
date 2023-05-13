@@ -83,5 +83,19 @@ export const userRouter = createTRPCRouter({
       } catch (err) {
         console.error(err)
       }
+    }),
+  updateImageProfile: adminProcedure
+    .input(z.object({ imageUpdate: z.string().url() }))
+    .mutation(async ({ ctx, input: { imageUpdate } }) => {
+      try {
+        return await ctx.prisma.user.update({
+          where: { id: ctx.session.user.id },
+          data: {
+            imageUpdate
+          }
+        })
+      } catch (err) {
+        console.error(err)
+      }
     })
 })
