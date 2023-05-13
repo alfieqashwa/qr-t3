@@ -4,27 +4,20 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { AdminAndDewaOnly } from "../Authed/AdminAndDewaOnly";
 import { api } from "@/src/utils/api";
 import { CreateNewTeamDialog } from "./CreateNewTeamDialog";
-import type { EventOrganizer } from "@prisma/client";
 import { DeleteTeamDialog } from "./DeleteTeamDialog";
 import { UpdateTeamDialog } from "./UpdateTeamDialog";
 
 dayjs.extend(relativeTime);
 
-type Props = {
-  eo?: EventOrganizer | null;
-};
-
-export function TeamInfo({ eo }: Props) {
-  const eventOrganizerId = eo?.id as string;
-  const { data: teams, isLoading } = api.user.getAllByEOId.useQuery(undefined, {
-    enabled: eventOrganizerId !== undefined,
-  });
+export function TeamInfo() {
+  const { data: teams, isLoading } = api.user.getAllByEOId.useQuery();
+  const EOName = teams?.[0]?.eventOrganizer?.name;
 
   if (isLoading) <p>Loading Team....</p>;
   return (
     <div className="mx-auto w-full">
       <h1 className="text-2xl font-semibold leading-none tracking-tight">
-        Team of <span className="capitalize text-amber-400">{eo?.name}</span>
+        Team of <span className="capitalize text-amber-400">{EOName}</span>
       </h1>
       <h4 className="mt-2 text-slate-400">Information of your team members</h4>
       <div className="mt-4 border-t-2 border-slate-800"></div>

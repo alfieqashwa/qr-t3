@@ -70,7 +70,8 @@ export const userRouter = createTRPCRouter({
             { role: { equals: Role.OPERATOR } },
           ]
         },
-        orderBy: { name: "asc" } // A -> Z
+        orderBy: { name: "asc" }, // A -> Z
+        include: { eventOrganizer: { select: { name: true } } } // include EO but only select the name of EO
       })
     }),
   updateTeam: adminAndDewaOnlyProcedure
