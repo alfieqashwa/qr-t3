@@ -19,22 +19,6 @@ export const userRouter = createTRPCRouter({
         }
       })
     }),
-
-  getEOByUserId: protectedProcedure
-    .query(async ({ ctx }) => {
-      return await ctx.prisma.user.findUnique({
-        where: { id: ctx.session.user.id },
-        include: { eventOrganizer: true }
-      })
-    }),
-  userRole: protectedProcedure
-    .query(async ({ ctx }) => {
-      return await ctx.prisma.user.findUnique({
-        where: { id: ctx.session.user.id },
-        select: { role: true }
-      })
-    }),
-
   create: adminAndDewaOnlyProcedure
     .input(z.object({
       name: z.string({

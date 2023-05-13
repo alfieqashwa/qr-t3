@@ -47,7 +47,7 @@ export function UpdateEventOrganizerDialog({
         variant: "default",
         description: "Your EO has been updated.",
       });
-      await utils.user.getEOByUserId.invalidate();
+      await utils.eo.read.invalidate();
       await wait().then(() => setOpen(false));
     },
     onError() {

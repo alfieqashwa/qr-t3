@@ -39,7 +39,7 @@ export function DeleteEventOrganizerDialog({ id }: Props) {
         variant: "default",
         description: "Your EO has been deleted.",
       });
-      await utils.user.getEOByUserId.invalidate();
+      await utils.eo.read.invalidate();
       await wait().then(() => setOpen(false));
       await router.replace("/settings/create-eo");
     },
