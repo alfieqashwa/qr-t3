@@ -1,6 +1,6 @@
 import { Role } from "@prisma/client"
 import { z } from "zod"
-import { adminAndDewaOnlyProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
+import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
 
 export const userRouter = createTRPCRouter({
   me: protectedProcedure
@@ -19,7 +19,7 @@ export const userRouter = createTRPCRouter({
         }
       })
     }),
-  create: adminAndDewaOnlyProcedure
+  create: adminProcedure
     .input(z.object({
       name: z.string({
         required_error: "Name is required",
@@ -44,7 +44,7 @@ export const userRouter = createTRPCRouter({
         console.error(err)
       }
     }),
-  getAllByEOId: adminAndDewaOnlyProcedure
+  getAllByEOId: adminProcedure
     .query(({ ctx }) => {
       return ctx.prisma.user.findMany({
         where: {
@@ -58,7 +58,7 @@ export const userRouter = createTRPCRouter({
         include: { eventOrganizer: { select: { name: true } } } // include EO but only select the name of EO
       })
     }),
-  updateTeam: adminAndDewaOnlyProcedure
+  updateTeam: adminProcedure
     .input(z.object({
       id: z.string().cuid(),
       role: z.nativeEnum(Role),
@@ -73,7 +73,7 @@ export const userRouter = createTRPCRouter({
         console.error(err)
       }
     }),
-  delete: adminAndDewaOnlyProcedure
+  delete: adminProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input }) => {
       try {

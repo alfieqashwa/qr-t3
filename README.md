@@ -67,5 +67,6 @@ Add more libs.
   -[x] Fetch all Teams based on EO-ID API & Setup Table list
   -[x] API Update-Team & Update Dialog Form
   -[x] Delete-Team API & Delete Dialog Form
-- [ ] Loading Configuration (UI)
+- [x] Loading Configuration (UI)
+- [ ] Image Uploader
 - [ ] Breakpoint (Mobile - Tablet - Desktop) (UI)

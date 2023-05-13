@@ -3,13 +3,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 
-import { api } from "@/utils/api";
-
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({
-    text: "The App is on development.",
-  });
-
   return (
     <>
       <Head>
@@ -21,9 +15,6 @@ const Home: NextPage = () => {
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
           <h2 className="text-md font-semibold text-amber-300">Home</h2>
           <div className="flex flex-col items-center gap-2">
-            <p className="text-2xl text-white">
-              {hello.data ? hello.data.greeting : "Loading tRPC query..."}
-            </p>
             <AuthShowcase />
           </div>
         </div>
