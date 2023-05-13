@@ -6,6 +6,7 @@ import { api } from "@/src/utils/api";
 import { CreateNewTeamDialog } from "./CreateNewTeamDialog";
 import { DeleteTeamDialog } from "./DeleteTeamDialog";
 import { UpdateTeamDialog } from "./UpdateTeamDialog";
+import { Skeleton } from "../ui/skeleton";
 
 dayjs.extend(relativeTime);
 
@@ -13,7 +14,9 @@ export function TeamInfo() {
   const { data: teams, isLoading } = api.user.getAllByEOId.useQuery();
   const EOName = teams?.[0]?.eventOrganizer?.name;
 
-  if (isLoading) <p>Loading Team....</p>;
+  if (isLoading) {
+    return <Skeleton className="mx-auto h-96 w-full" />;
+  }
   return (
     <div className="mx-auto w-full">
       <h1 className="text-2xl font-semibold leading-none tracking-tight">

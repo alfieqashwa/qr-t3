@@ -5,6 +5,7 @@ import { UpdateEventOrganizerDialog } from "./UpdateEventOrganizerDialog";
 import { DeleteEventOrganizerDialog } from "./DeleteEventOrganizerDialog";
 import { AdminAndDewaOnly } from "../Authed/AdminAndDewaOnly";
 import { api } from "@/src/utils/api";
+import { Skeleton } from "../ui/skeleton";
 
 dayjs.extend(relativeTime);
 
@@ -13,8 +14,9 @@ export function EOInfo() {
   const createdAt = dayjs(eo?.createdAt).format("dddd, DD MMMM YYYY, HH:mm");
   const updateAt = dayjs().to(dayjs(eo?.updatedAt));
 
-  if (isLoading) <p>Loading EO Info...</p>;
-
+  if (isLoading) {
+    return <Skeleton className="mx-auto h-96 w-full" />;
+  }
   return (
     <div className="mx-auto w-full">
       <h1 className="text-2xl font-semibold capitalize leading-none tracking-tight">
