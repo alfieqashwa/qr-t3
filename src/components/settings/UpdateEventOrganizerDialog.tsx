@@ -59,14 +59,10 @@ export function UpdateEventOrganizerDialog({
     },
   });
 
-  const [nameValue, setNameValue] = useState<string>(name);
-  const [phoneValue, setPhoneValue] = useState<string>(phone);
-  const [streetValue, setStreetValue] = useState<string>(street);
   const [provinceValue, setProvinceValue] = useState<string>("");
   const [regencyValue, setRegencyValue] = useState<string>("");
   const [districtValue, setDistrictValue] = useState<string>("");
   const [villageValue, setVillageValue] = useState<string>("");
-  const [postalCodeValue, setPostalCodeValue] = useState<string>(postalCode);
 
   const { data: provinces, isLoading: isProvincesLoading } =
     api.address.getProvinces.useQuery();
@@ -105,14 +101,18 @@ export function UpdateEventOrganizerDialog({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const name = nameValue.toLowerCase();
-    const phone = phoneValue;
-    const street = streetValue.toLowerCase();
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get("name")?.toString().toLowerCase() as string;
+    const phone = formData.get("phone") as string;
+    const street = formData.get("street")?.toString().toLowerCase() as string;
     const province = provinceValue;
     const regency = regencyValue;
     const district = districtValue;
     const village = villageValue;
-    const postalCode = postalCodeValue.toLowerCase();
+    const postalCode = formData
+      .get("postalCode")
+      ?.toString()
+      .toLowerCase() as string;
 
     mutate({
       id,
@@ -155,8 +155,7 @@ export function UpdateEventOrganizerDialog({
               <Input
                 id="name"
                 name="name"
-                value={nameValue}
-                onChange={(e) => setNameValue(e.target.value)}
+                defaultValue={name}
                 className="capitalize"
               />
               {error?.data?.zodError?.fieldErrors.name && (
@@ -168,12 +167,7 @@ export function UpdateEventOrganizerDialog({
             {/* Phone */}
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="phone">Phone</Label>
-              <Input
-                id="phone"
-                name="phone"
-                value={phoneValue}
-                onChange={(e) => setPhoneValue(e.target.value)}
-              />
+              <Input id="phone" name="phone" defaultValue={phone} />
               {error?.data?.zodError?.fieldErrors.phone && (
                 <span className="text-xs text-destructive">
                   {error?.data?.zodError?.fieldErrors.phone}
@@ -188,8 +182,7 @@ export function UpdateEventOrganizerDialog({
               <Input
                 id="street"
                 name="street"
-                value={streetValue}
-                onChange={(e) => setStreetValue(e.target.value)}
+                defaultValue={street}
                 className="capitalize"
               />
               {error?.data?.zodError?.fieldErrors.street && (
@@ -245,8 +238,7 @@ export function UpdateEventOrganizerDialog({
                 id="postalCode"
                 type="text"
                 name="postalCode"
-                value={postalCodeValue}
-                onChange={(e) => setPostalCodeValue(e.target.value)}
+                defaultValue={postalCode}
               />
               {error?.data?.zodError?.fieldErrors.postalCode && (
                 <span className="text-xs text-destructive">
