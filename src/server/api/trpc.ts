@@ -133,6 +133,36 @@ const isAdmin = t.middleware(({ ctx, next }) => {
     },
   })
 })
+
+const isEditor = t.middleware(({ ctx, next }) => {
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({ code: "UNAUTHORIZED" })
+  }
+  if (ctx.session?.user.role === Role.USER || ctx.session?.user.role === Role.MEMBER || ctx.session?.user.role === Role.OPERATOR) {
+    throw new TRPCError({ code: "UNAUTHORIZED" })
+  }
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session?.user },
+    },
+  })
+})
+
+const isOperator = t.middleware(({ ctx, next }) => {
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({ code: "UNAUTHORIZED" })
+  }
+  if (ctx.session?.user.role === Role.USER || ctx.session?.user.role === Role.MEMBER) {
+    throw new TRPCError({ code: "UNAUTHORIZED" })
+  }
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session?.user },
+    },
+  })
+})
 /**
  * Protected (authed) procedure
  *
@@ -144,3 +174,5 @@ const isAdmin = t.middleware(({ ctx, next }) => {
  */
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed)
 export const adminProcedure = t.procedure.use(isAdmin)
+export const editorProcedure = t.procedure.use(isEditor)
+export const operatorProcedure = t.procedure.use(isOperator)
