@@ -2,14 +2,12 @@ import { User } from "lucide-react";
 import Image from "next/image";
 import { AdminAndDewaOnly } from "../Authed/AdminAndDewaOnly";
 import { api } from "@/src/utils/api";
-import { Skeleton } from "../ui/skeleton";
+import { Loading } from "../Loading";
 
 export function ProfileInfo() {
   const { data: profile, isLoading } = api.user.me.useQuery();
 
-  if (isLoading) {
-    return <Skeleton className="mx-auto h-96 w-full" />;
-  }
+  if (!!isLoading) return <Loading />;
   return (
     <div className="mx-auto w-full">
       <h1 className="text-2xl font-semibold capitalize leading-none tracking-tight">

@@ -1,11 +1,11 @@
+import { api } from "@/src/utils/api";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { UpdateEventOrganizerDialog } from "./UpdateEventOrganizerDialog";
-import { DeleteEventOrganizerDialog } from "./DeleteEventOrganizerDialog";
 import { AdminAndDewaOnly } from "../Authed/AdminAndDewaOnly";
-import { api } from "@/src/utils/api";
-import { Skeleton } from "../ui/skeleton";
+import { Loading } from "../Loading";
+import { DeleteEventOrganizerDialog } from "./DeleteEventOrganizerDialog";
+import { UpdateEventOrganizerDialog } from "./UpdateEventOrganizerDialog";
 
 dayjs.extend(relativeTime);
 
@@ -14,9 +14,7 @@ export function EOInfo() {
   const createdAt = dayjs(eo?.createdAt).format("dddd, DD MMMM YYYY, HH:mm");
   const updateAt = dayjs().to(dayjs(eo?.updatedAt));
 
-  if (isLoading) {
-    return <Skeleton className="mx-auto h-96 w-full" />;
-  }
+  if (!!isLoading) return <Loading />;
   return (
     <div className="mx-auto w-full">
       <h1 className="text-2xl font-semibold capitalize leading-none tracking-tight">
