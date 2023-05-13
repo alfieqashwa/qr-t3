@@ -1,20 +1,19 @@
-import type { EventOrganizer } from "@prisma/client";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { UpdateEventOrganizerDialog } from "./UpdateEventOrganizerDialog";
 import { DeleteEventOrganizerDialog } from "./DeleteEventOrganizerDialog";
 import { AdminAndDewaOnly } from "../Authed/AdminAndDewaOnly";
+import { api } from "@/src/utils/api";
 
 dayjs.extend(relativeTime);
 
-type EOInfoProps = {
-  eo?: EventOrganizer | null;
-};
-
-export function EOInfo({ eo }: EOInfoProps) {
+export function EOInfo() {
+  const { data: eo, isLoading } = api.eo.read.useQuery();
   const createdAt = dayjs(eo?.createdAt).format("dddd, DD MMMM YYYY, HH:mm");
   const updateAt = dayjs().to(dayjs(eo?.updatedAt));
+
+  if (isLoading) <p>Loading EO Info...</p>;
 
   return (
     <div className="mx-auto w-full">

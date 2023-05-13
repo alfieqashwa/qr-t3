@@ -36,7 +36,7 @@ const SettingsPage: NextPage = () => {
             </AdminAndDewaOnly>
           </TabsList>
           <TabsContent value="event-organizer">
-            <EOInfo eo={profile?.eventOrganizer} />
+            <EOInfo />
           </TabsContent>
           <TabsContent value="profile">
             <ProfileInfo profile={profile} />
