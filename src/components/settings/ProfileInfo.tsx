@@ -3,6 +3,10 @@ import Image from "next/image";
 import { AdminAndDewaOnly } from "../Authed/AdminAndDewaOnly";
 import { api } from "@/src/utils/api";
 import { Loading } from "../Loading";
+import { UploadDropzone } from "@uploadthing/react";
+import type { OurFileRouter } from "@/src/server/uploadthing/router";
+import { toast } from "../ui/use-toast";
+import { ToastAction } from "../ui/toast";
 
 export function ProfileInfo() {
   const { data: profile, isLoading } = api.user.me.useQuery();
@@ -55,6 +59,31 @@ export function ProfileInfo() {
             </div>
           </article>
         ) : null}
+        <div className="mt-4 flex flex-col items-center justify-center gap-4">
+          <UploadDropzone<OurFileRouter>
+            endpoint="withMdwr"
+            onClientUploadComplete={(res) => {
+              // Do something with the response
+              console.log("Files: ", res);
+              toast({
+                title: "Succeed!",
+                variant: "default",
+                description: "Upload Completed",
+              });
+            }}
+            onUploadError={(error: Error) => {
+              console.error(`ERROR! ${error.message}`);
+              toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+                action: (
+                  <ToastAction altText="Try again">Try again</ToastAction>
+                ),
+              });
+            }}
+          />
+        </div>
       </section>
     </div>
   );
