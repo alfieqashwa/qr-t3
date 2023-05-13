@@ -59,10 +59,10 @@ Add more libs.
   - [x] Update User Role back to USER after success deleted Event Organizer
 - [x] Deactivate (Admin Access):
 - [ ] Create custom procedure:
-  - [x]  adminOrDewaOnlyProcedure
-  - [ ]  editorOrAdminOrDewaOnlyProcedure
-  - [ ]  operatorOrEditorOrAdminOrDewaOnlyProcedure
-- [ ] CRUD Editor and Operator Users (Admin Access)
+  - [x]  adminProcedure
+  - [x]  editorProcedure
+  - [x]  operatorProcedure
+- [x] CRUD Editor and Operator Users (Admin Access)
   -[x] Create-Team API & Create Dialog Form
   -[x] Fetch all Teams based on EO-ID API & Setup Table list
   -[x] API Update-Team & Update Dialog Form
