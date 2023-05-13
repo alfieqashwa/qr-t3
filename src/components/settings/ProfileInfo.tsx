@@ -1,13 +1,13 @@
-import type { RouterOutputs } from "@/src/utils/api";
 import { User } from "lucide-react";
 import Image from "next/image";
 import { AdminAndDewaOnly } from "../Authed/AdminAndDewaOnly";
+import { api } from "@/src/utils/api";
 
-type ProfileProps = {
-  profile?: RouterOutputs["user"]["getEOByUserId"];
-};
+export function ProfileInfo() {
+  const { data: profile, isLoading } = api.user.me.useQuery();
 
-export function ProfileInfo({ profile }: ProfileProps) {
+  if (isLoading) <p>Loading Profile...</p>;
+
   return (
     <div className="mx-auto w-full">
       <h1 className="text-2xl font-semibold capitalize leading-none tracking-tight">
