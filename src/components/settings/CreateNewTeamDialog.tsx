@@ -11,14 +11,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { api } from "@/src/utils/api";
+import { wait } from "@/src/utils/wait";
 import { Role } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { ToastAction } from "../ui/toast";
 import { useToast } from "../ui/use-toast";
-
-/* auto-closed after succeed submit the dialog form */
-const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
 
 export function CreateNewTeamDialog() {
   const utils = api.useContext();
@@ -34,6 +32,7 @@ export function CreateNewTeamDialog() {
         description: "Your new team has been created.",
       });
       await utils.user.getAllByEOId.invalidate();
+      /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(false));
     },
     onError() {

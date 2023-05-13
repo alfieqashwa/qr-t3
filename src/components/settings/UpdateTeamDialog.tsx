@@ -16,9 +16,6 @@ import { useState } from "react";
 import { ToastAction } from "../ui/toast";
 import { useToast } from "../ui/use-toast";
 
-/* auto-closed after succeed submit the dialog form */
-const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
-
 type Props = {
   id: string;
   role: Role;
@@ -39,6 +36,7 @@ export function UpdateTeamDialog({ id, role, username }: Props) {
         description: "Your new team has been created.",
       });
       await utils.user.getAllByEOId.invalidate();
+      /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(false));
     },
     onError() {
@@ -117,6 +115,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { wait } from "@/src/utils/wait";
 
 export function SelectRole({ role }: { role: Role }) {
   return (

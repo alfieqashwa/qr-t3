@@ -14,9 +14,7 @@ import { useState } from "react";
 import { ToastAction } from "../ui/toast";
 import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/router";
-
-/* auto-closed after succeed submit the dialog form */
-const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
+import { wait } from "@/src/utils/wait";
 
 type Props = {
   id: string;
@@ -40,6 +38,7 @@ export function DeleteEventOrganizerDialog({ id }: Props) {
         description: "Your EO has been deleted.",
       });
       await utils.eo.read.invalidate();
+      /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(false));
       await router.replace("/settings/create-eo");
     },

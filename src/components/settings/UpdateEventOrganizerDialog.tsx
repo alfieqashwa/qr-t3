@@ -17,9 +17,7 @@ import { CardDescription } from "../ui/card";
 import { useState } from "react";
 import { CommandCombobox } from "../Combobox";
 import { Loader2 } from "lucide-react";
-
-/* auto-closed after succeed submit the dialog form */
-const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
+import { wait } from "@/src/utils/wait";
 
 type Props = {
   id: string;
@@ -48,6 +46,7 @@ export function UpdateEventOrganizerDialog({
         description: "Your EO has been updated.",
       });
       await utils.eo.read.invalidate();
+      /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(false));
     },
     onError() {
