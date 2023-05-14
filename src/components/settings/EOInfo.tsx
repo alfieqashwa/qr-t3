@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/id";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { AdminAndDewaOnly } from "../Authed/AdminAndDewaOnly";
-import { Loading } from "../Loading";
+import { LoadingSpinner } from "../Loading";
 import { DeleteEventOrganizerDialog } from "./DeleteEventOrganizerDialog";
 import { UpdateEventOrganizerDialog } from "./UpdateEventOrganizerDialog";
 
@@ -14,7 +14,7 @@ export function EOInfo() {
   const createdAt = dayjs(eo?.createdAt).format("dddd, DD MMMM YYYY, HH:mm");
   const updateAt = dayjs().to(dayjs(eo?.updatedAt));
 
-  if (!!isLoading) return <Loading />;
+  if (!!isLoading) return <LoadingSpinner />;
   return (
     <div className="mx-auto w-full">
       <h1 className="text-2xl font-semibold capitalize leading-none tracking-tight">

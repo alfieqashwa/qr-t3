@@ -2,7 +2,7 @@ import { User } from "lucide-react";
 import Image from "next/image";
 import { AdminAndDewaOnly } from "../Authed/AdminAndDewaOnly";
 import { api } from "@/src/utils/api";
-import { Loading } from "../Loading";
+import { LoadingSpinner } from "../Loading";
 import { UploadDropzone } from "@uploadthing/react";
 import type { OurFileRouter } from "@/src/server/uploadthing/router";
 import { toast } from "../ui/use-toast";
@@ -34,7 +34,7 @@ export function ProfileInfo() {
     },
   });
 
-  if (!!isLoading) return <Loading />;
+  if (!!isLoading) return <LoadingSpinner />;
   return (
     <div className="mx-auto w-full">
       <h1 className="text-2xl font-semibold capitalize leading-none tracking-tight">
