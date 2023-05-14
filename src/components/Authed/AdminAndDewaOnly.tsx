@@ -7,9 +7,13 @@ type Props = {
 };
 
 export function AdminAndDewaOnly({ children }: Props): JSX.Element | null {
-  const { data: session } = useSession();
+  const session = useSession();
 
-  if (session?.user.role === Role.ADMIN || session?.user.role === Role.DEWA) {
+  if (session.status !== "authenticated") return null;
+  if (
+    session.data.user.role === Role.ADMIN ||
+    session.data.user.role === Role.DEWA
+  ) {
     return <>{children}</>;
   }
   return null;
