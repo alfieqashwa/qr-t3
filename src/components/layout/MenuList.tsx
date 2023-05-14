@@ -6,31 +6,35 @@ import { Calendar, LayoutDashboard, Settings, Users } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const LINKS = [
+export const MENU_LINKS = [
   {
     path: "dashboard",
-    icon: <LayoutDashboard className="shrink-0" />,
+    iconDefault: <LayoutDashboard className="shrink-0" />,
+    iconSmall: <LayoutDashboard size={18} className="shrink-0" />,
   },
   {
     path: "event",
-    icon: <Calendar className="shrink-0" />,
+    iconDefault: <Calendar className="shrink-0" />,
+    iconSmall: <Calendar size={18} className="shrink-0" />,
   },
   {
     path: "visitor",
-    icon: <Users className="shrink-0" />,
+    iconDefault: <Users className="shrink-0" />,
+    iconSmall: <Users size={18} className="shrink-0" />,
   },
   {
     path: "settings",
-    icon: <Settings className="shrink-0" />,
+    iconDefault: <Settings className="shrink-0" />,
+    iconSmall: <Settings size={18} className="shrink-0" />,
   },
-];
+] as const;
 
 export const MenuList = (): JSX.Element => {
   const { toggle } = useToggleStore();
   const { pathname } = useRouter();
   return (
     <ul className="mt-8 space-y-2 px-1.5">
-      {LINKS?.map((link) => (
+      {MENU_LINKS?.map((link) => (
         <li
           className={`${
             pathname === `/${link.path}`
@@ -48,7 +52,7 @@ export const MenuList = (): JSX.Element => {
                 : "flex-col justify-end space-y-3 px-2"
             )}
           >
-            {link.icon}
+            {link.iconDefault}
             {/* <LayoutDashboard className="shrink-0" /> */}
             <motion.h3
               initial={toggle ? "initialOpen" : "initialClose"}

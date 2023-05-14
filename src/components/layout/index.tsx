@@ -23,8 +23,8 @@ export const Layout = ({ title, children }: LayoutProps) => {
         {/* STARTS MAIN */}
         <main
           className={cn(
-            "ml-[256px] px-8 pt-24 transition-all duration-500 ease-in-out",
-            toggle ? "" : "-translate-x-[128px]"
+            "thom px-8 pt-24 transition-all duration-500 ease-in-out md:ml-[256px]",
+            toggle ? "" : "md:-translate-x-[128px]"
           )}
         >
           {children}

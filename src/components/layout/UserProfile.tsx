@@ -1,4 +1,3 @@
-import { Fish, Settings, User } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,22 +10,8 @@ import {
   MenubarShortcut,
   MenubarTrigger,
 } from "~/components/ui/menubar";
-
-const AVATAR_MENU_LIST = [
-  { title: "Home", href: "/", disabled: false, icon: <Fish size={16} /> },
-  {
-    title: "Profile",
-    href: "/profile",
-    disabled: true,
-    icon: <User size={18} />,
-  },
-  {
-    title: "Settings",
-    href: "/settings",
-    disabled: false,
-    icon: <Settings size={16} />,
-  },
-] as const;
+import { MENU_LINKS } from "./MenuList";
+import { LogOut } from "lucide-react";
 
 export const UserProfile = ({ image }: { image: string }) => (
   <Menubar className="h-12 w-12 items-center justify-center rounded-full border-2 border-amber-300 p-0 transition duration-300 ease-in-out hover:border-amber-300">
@@ -41,15 +26,12 @@ export const UserProfile = ({ image }: { image: string }) => (
         />
       </MenubarTrigger>
       <MenubarContent>
-        {AVATAR_MENU_LIST?.map((menu, i) => {
-          const { title, href, disabled, icon: Icon } = menu;
+        {MENU_LINKS?.map((link) => {
+          const { path, iconSmall: Icon } = link;
           return (
-            <Link href={href} key={`${i}_${title}`}>
-              <MenubarItem
-                disabled={disabled}
-                className="group hover:cursor-pointer"
-              >
-                {title}
+            <Link href={`/${path}`} key={path}>
+              <MenubarItem className="group capitalize hover:cursor-pointer">
+                {path}
                 <MenubarShortcut className="text-amber-200 transition duration-300 ease-in-out group-hover:text-amber-300">
                   {Icon}
                 </MenubarShortcut>
@@ -59,7 +41,10 @@ export const UserProfile = ({ image }: { image: string }) => (
           );
         })}
         <MenubarItem onClick={() => signOut()} className="hover:cursor-pointer">
-          Sign Out <MenubarShortcut></MenubarShortcut>
+          Sign Out
+          <MenubarShortcut className="text-amber-200 transition duration-300 ease-in-out group-hover:text-amber-300">
+            <LogOut size={18} className="shrink-0" />
+          </MenubarShortcut>
         </MenubarItem>
       </MenubarContent>
     </MenubarMenu>

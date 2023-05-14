@@ -13,7 +13,7 @@ export const Drawer = (): JSX.Element => {
       animate={toggle ? "open" : "close"}
       variants={asideVariant}
       layout
-      className="fixed z-40 min-h-screen border-r-2 border-slate-700 bg-gradient-to-b from-black to-slate-900 pt-28 transition duration-500 ease-in-out"
+      className="fixed z-40 hidden min-h-screen border-r-2 border-slate-700 bg-gradient-to-b from-black to-slate-900 pt-28 transition duration-500 ease-in-out md:block"
     >
       <div className="flex items-center justify-center whitespace-nowrap">
         <h3
