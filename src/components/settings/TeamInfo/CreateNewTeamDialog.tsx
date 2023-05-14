@@ -10,13 +10,12 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
 import { api } from "@/src/utils/api";
 import { wait } from "@/src/utils/wait";
-import { Role } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
-import { ToastAction } from "../ui/toast";
-import { useToast } from "../ui/use-toast";
 
 export function CreateNewTeamDialog() {
   const utils = api.useContext();
@@ -129,6 +128,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Role } from "@prisma/client";
 
 export function SelectRole() {
   return (

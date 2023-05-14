@@ -8,13 +8,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
 import { api } from "@/src/utils/api";
-import { Loader2 } from "lucide-react";
-import { useState } from "react";
-import { ToastAction } from "../ui/toast";
-import { useToast } from "../ui/use-toast";
-import { useRouter } from "next/router";
 import { wait } from "@/src/utils/wait";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 type Props = {
   id: string;

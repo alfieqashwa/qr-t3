@@ -9,12 +9,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
 import { api } from "@/src/utils/api";
 import { Role } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
-import { ToastAction } from "../ui/toast";
-import { useToast } from "../ui/use-toast";
 
 type Props = {
   id: string;
