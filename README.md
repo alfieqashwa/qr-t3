@@ -68,5 +68,5 @@ Add more libs.
   -[x] API Update-Team & Update Dialog Form
   -[x] Delete-Team API & Delete Dialog Form
 - [x] Loading Configuration (UI)
-- [ ] Image Uploader
+- [x] Image Uploader
 - [ ] Breakpoint (Mobile - Tablet - Desktop) (UI)

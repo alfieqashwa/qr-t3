@@ -94,7 +94,7 @@ export function ProfileInfo() {
             </div>
           </article>
         ) : null}
-        <div className="mt-4 flex flex-col items-center justify-center gap-4">
+        <div className="mt-4 flex flex-col items-center justify-center gap-4 hover:cursor-pointer">
           <UploadDropzone<OurFileRouter>
             endpoint="withMdwr"
             onClientUploadComplete={(res) => {
