@@ -58,7 +58,7 @@ Add more libs.
   - [x] Delete EO Information Dialog Form (Admin Access)
   - [x] Update User Role back to USER after success deleted Event Organizer
 - [x] Deactivate (Admin Access):
-- [ ] Create custom procedure:
+- [x] Create custom procedure:
   - [x]  adminProcedure
   - [x]  editorProcedure
   - [x]  operatorProcedure
