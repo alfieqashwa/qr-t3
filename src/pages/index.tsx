@@ -58,7 +58,6 @@ const AuthShowcase = (): JSX.Element | null => {
           </Link>
         )}
       </section>
-      <pre>{JSON.stringify(session.data, null, 2)}</pre>
     </div>
   );
 };
