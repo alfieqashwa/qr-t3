@@ -6,8 +6,7 @@ import { Layout } from "@/src/components/layout";
 
 import { authOptions } from "@/server/auth";
 import { AdminAndDewaOnly } from "@/src/components/Authed/AdminAndDewaOnly";
-import { EOInfo, ProfileInfo } from "@/src/components/settings";
-import { TeamInfo } from "@/src/components/settings/TeamInfo";
+import { EOInfo, ProfileInfo, TeamInfo } from "@/src/components/settings";
 import {
   Tabs,
   TabsContent,
