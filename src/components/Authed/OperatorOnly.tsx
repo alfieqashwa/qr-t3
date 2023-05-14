@@ -6,13 +6,15 @@ type Props = {
   children: ReactNode;
 };
 
-export function AdminOnly({ children }: Props): JSX.Element | null {
+export function OperatorOnly({ children }: Props): JSX.Element | null {
   const session = useSession();
 
   if (session.status !== "authenticated") return null;
   if (
     session.data.user.role === Role.DEWA ||
-    session.data.user.role === Role.ADMIN
+    session.data.user.role === Role.ADMIN ||
+    session.data.user.role === Role.EDITOR ||
+    session.data.user.role === Role.OPERATOR
   ) {
     return <>{children}</>;
   }
