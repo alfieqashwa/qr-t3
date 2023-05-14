@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/id";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { api } from "~/src/utils/api";
-import { AdminAndDewaOnly } from "../Authed/AdminAndDewaOnly";
+import { AdminOnly } from "../Authed/AdminOnly";
 import { LoadingSpinner } from "../Loading";
 import { DeleteEventOrganizerDialog } from "./DeleteEventOrganizerDialog";
 import { UpdateEventOrganizerDialog } from "./UpdateEventOrganizerDialog";
@@ -37,7 +37,7 @@ export function EOInfo() {
               <Field label="district" value={eo.district} />
               <Field label="village" value={eo.village} />
             </div>
-            <AdminAndDewaOnly>
+            <AdminOnly>
               <div>
                 <small className="text-rose-400">
                   ✅ only Dewa and Admin who can see below!
@@ -56,7 +56,7 @@ export function EOInfo() {
                 />
                 <DeleteEventOrganizerDialog id={eo.id} />
               </div>
-            </AdminAndDewaOnly>
+            </AdminOnly>
           </article>
         ) : null}
       </section>

@@ -25,10 +25,8 @@ const Home: NextPage = () => {
 
 export default Home;
 
-const AuthShowcase = (): JSX.Element | null => {
+const AuthShowcase = (): JSX.Element => {
   const session = useSession();
-
-  if (session.status !== "authenticated") return null;
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">

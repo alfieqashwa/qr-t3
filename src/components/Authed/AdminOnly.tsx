@@ -6,7 +6,7 @@ type Props = {
   children: ReactNode;
 };
 
-export function AdminAndDewaOnly({ children }: Props): JSX.Element | null {
+export function AdminOnly({ children }: Props): JSX.Element | null {
   const session = useSession();
 
   if (session.status !== "authenticated") return null;

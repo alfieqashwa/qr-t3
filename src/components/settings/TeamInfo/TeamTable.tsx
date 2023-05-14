@@ -1,4 +1,4 @@
-import { AdminAndDewaOnly } from "~/components/Authed/AdminAndDewaOnly";
+import { AdminOnly } from "~/components/Authed/AdminOnly";
 import type { RouterOutputs } from "~/src/utils/api";
 import { DeleteTeamDialog } from "./DeleteTeamDialog";
 import { UpdateTeamDialog } from "./UpdateTeamDialog";
@@ -27,7 +27,7 @@ export function TableTeam({ teams }: TableTeamProps) {
             <td className="px-4 py-3 text-center text-yellow-500">
               {team.role}
             </td>
-            <AdminAndDewaOnly>
+            <AdminOnly>
               <td className="py-3 text-right">
                 <UpdateTeamDialog
                   id={team.id}
@@ -38,7 +38,7 @@ export function TableTeam({ teams }: TableTeamProps) {
               <td className="py-3 pr-4 text-right">
                 <DeleteTeamDialog id={team.id} username={team.name} />
               </td>
-            </AdminAndDewaOnly>
+            </AdminOnly>
           </tr>
         ))}
       </tbody>

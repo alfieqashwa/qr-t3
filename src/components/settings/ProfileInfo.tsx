@@ -1,7 +1,7 @@
 import { UploadDropzone } from "@uploadthing/react";
 import { User } from "lucide-react";
 import Image from "next/image";
-import { AdminAndDewaOnly } from "~/components/Authed/AdminAndDewaOnly";
+import { AdminOnly } from "~/components/Authed/AdminOnly";
 import { LoadingSpinner } from "~/components/Loading";
 import { ToastAction } from "~/components/ui/toast";
 import { toast } from "~/components/ui/use-toast";
@@ -80,7 +80,7 @@ export function ProfileInfo() {
               <p className="mt-2 font-semibold">
                 Login as <span>{profile.email as string}</span>
               </p>
-              <AdminAndDewaOnly>
+              <AdminOnly>
                 <div className="mt-2 space-x-2">
                   <small className="font-semibold capitalize">id:</small>
                   <small className="font-semibold capitalize">
@@ -90,7 +90,7 @@ export function ProfileInfo() {
                     ✅ only Dewa and Admin who can see ID!
                   </small>
                 </div>
-              </AdminAndDewaOnly>
+              </AdminOnly>
             </div>
           </article>
         ) : null}

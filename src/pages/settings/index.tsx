@@ -6,7 +6,7 @@ import { Layout } from "~/src/components/layout";
 
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "~/server/auth";
-import { AdminAndDewaOnly } from "~/src/components/Authed/AdminAndDewaOnly";
+import { AdminOnly } from "~/src/components/Authed/AdminOnly";
 import { EOInfo, ProfileInfo, TeamInfo } from "~/src/components/settings";
 import {
   Tabs,
@@ -26,9 +26,9 @@ const SettingsPage: NextPage = () => {
           <TabsList className="mb-6">
             <TabsTrigger value="event-organizer">Event Organizer</TabsTrigger>
             <TabsTrigger value="profile">Profile</TabsTrigger>
-            <AdminAndDewaOnly>
+            <AdminOnly>
               <TabsTrigger value="team-info">Team Info</TabsTrigger>
-            </AdminAndDewaOnly>
+            </AdminOnly>
           </TabsList>
           <TabsContent value="event-organizer">
             <EOInfo />
