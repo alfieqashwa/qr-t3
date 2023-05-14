@@ -1,13 +1,13 @@
 import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 
-import { H1Title } from "@/components/H1.Title";
-import { Layout } from "@/src/components/layout";
+import { H1Title } from "~/components/H1.Title";
+import { Layout } from "~/src/components/layout";
 
-import { authOptions } from "@/server/auth";
-import { prisma } from "@/src/server/db";
 import { Role } from "@prisma/client";
 import { getServerSession } from "next-auth/next";
+import { authOptions } from "~/server/auth";
+import { prisma } from "~/src/server/db";
 
 const title = "Dewa";
 const SettingsPage: NextPage = () => {

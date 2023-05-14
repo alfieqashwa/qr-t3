@@ -17,13 +17,14 @@
     "noUncheckedIndexedAccess": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "@/pages/*": ["src/pages/*"],
-      "@/components/*": ["src/components/*"],
-      "@/ui/*": ["src/components/ui/*"],
-      "@/server/*": ["src/server/*"],
-      "@/utils/*": ["src/utils/*"],
-      "@/store/*": ["src/store/*"]
+      "~/*": ["./*"],
+      "~/pages/*": ["src/pages/*"],
+      "~/components/*": ["src/components/*"],
+      "~/ui/*": ["src/components/ui/*"],
+      "~/server/*": ["src/server/*"],
+      "~/utils/*": ["src/utils/*"],
+      "~/store/*": ["src/store/*"],
+      "~/styles/*": ["src/styles/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"],

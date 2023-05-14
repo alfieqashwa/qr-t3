@@ -1,12 +1,12 @@
-import { AdminAndDewaOnly } from "@/components/Authed/AdminAndDewaOnly";
-import { LoadingSpinner } from "@/components/Loading";
-import { ToastAction } from "@/components/ui/toast";
-import { toast } from "@/components/ui/use-toast";
-import type { OurFileRouter } from "@/src/server/uploadthing/router";
-import { api } from "@/src/utils/api";
 import { UploadDropzone } from "@uploadthing/react";
 import { User } from "lucide-react";
 import Image from "next/image";
+import { AdminAndDewaOnly } from "~/components/Authed/AdminAndDewaOnly";
+import { LoadingSpinner } from "~/components/Loading";
+import { ToastAction } from "~/components/ui/toast";
+import { toast } from "~/components/ui/use-toast";
+import type { OurFileRouter } from "~/src/server/uploadthing/router";
+import { api } from "~/src/utils/api";
 
 export function ProfileInfo() {
   const { data: profile, isLoading } = api.user.me.useQuery();

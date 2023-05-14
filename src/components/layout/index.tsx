@@ -4,8 +4,8 @@ import type { ReactNode } from "react";
 import { Drawer } from "./Drawer";
 import { Header } from "./Header";
 import { NavigationHeader } from "./NavigationHeader";
-import useToggleStore from "@/store/useToggle";
-import { cn } from "@/src/utils";
+import useToggleStore from "~/store/useToggle";
+import { cn } from "~/src/utils";
 
 type LayoutProps = { title: string; children: ReactNode };
 

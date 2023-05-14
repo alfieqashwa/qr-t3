@@ -1,6 +1,6 @@
-import useToggleStore from "@/src/store/useToggle";
-import { cn } from "@/src/utils";
-import { titleVariant } from "@/src/utils/motion";
+import useToggleStore from "~/src/store/useToggle";
+import { cn } from "~/src/utils";
+import { titleVariant } from "~/src/utils/motion";
 import { motion } from "framer-motion";
 import { Calendar, LayoutDashboard, Settings, Users } from "lucide-react";
 import Link from "next/link";

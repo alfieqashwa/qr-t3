@@ -1,9 +1,9 @@
 import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 
-import { Layout } from "@/src/components/layout";
-import { authOptions } from "@/server/auth";
 import { getServerSession } from "next-auth/next";
+import { authOptions } from "~/server/auth";
+import { Layout } from "~/src/components/layout";
 
 const title = "Dashboard" as const;
 const DashboardPage: NextPage = () => {

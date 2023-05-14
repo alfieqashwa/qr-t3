@@ -1,7 +1,7 @@
-import { api } from "@/src/utils/api";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { api } from "~/src/utils/api";
 import { AdminAndDewaOnly } from "../Authed/AdminAndDewaOnly";
 import { LoadingSpinner } from "../Loading";
 import { DeleteEventOrganizerDialog } from "./DeleteEventOrganizerDialog";

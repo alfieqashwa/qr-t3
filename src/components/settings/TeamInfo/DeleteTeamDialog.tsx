@@ -1,4 +1,7 @@
-import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { Button } from "~/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,14 +10,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { ToastAction } from "@/components/ui/toast";
-import { useToast } from "@/components/ui/use-toast";
-import { api } from "@/src/utils/api";
-import { wait } from "@/src/utils/wait";
-import { Loader2 } from "lucide-react";
-import { useRouter } from "next/router";
-import { useState } from "react";
+} from "~/components/ui/dialog";
+import { ToastAction } from "~/components/ui/toast";
+import { useToast } from "~/components/ui/use-toast";
+import { api } from "~/src/utils/api";
+import { wait } from "~/src/utils/wait";
 
 type Props = {
   id: string;

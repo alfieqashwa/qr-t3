@@ -1,5 +1,5 @@
-import { AdminAndDewaOnly } from "@/components/Authed/AdminAndDewaOnly";
-import type { RouterOutputs } from "@/src/utils/api";
+import { AdminAndDewaOnly } from "~/components/Authed/AdminAndDewaOnly";
+import type { RouterOutputs } from "~/src/utils/api";
 import { DeleteTeamDialog } from "./DeleteTeamDialog";
 import { UpdateTeamDialog } from "./UpdateTeamDialog";
 

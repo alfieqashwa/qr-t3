@@ -1,6 +1,6 @@
 import { UploadButton, UploadDropzone } from "@uploadthing/react";
 
-import type { OurFileRouter } from "@/server/uploadthing/router";
+import type { OurFileRouter } from "~/server/uploadthing/router";
 
 export const UploadFile = () => (
   <>

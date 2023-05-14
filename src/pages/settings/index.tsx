@@ -1,19 +1,19 @@
 import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 
-import { H1Title } from "@/components/H1.Title";
-import { Layout } from "@/src/components/layout";
+import { H1Title } from "~/components/H1.Title";
+import { Layout } from "~/src/components/layout";
 
-import { authOptions } from "@/server/auth";
-import { AdminAndDewaOnly } from "@/src/components/Authed/AdminAndDewaOnly";
-import { EOInfo, ProfileInfo, TeamInfo } from "@/src/components/settings";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "~/server/auth";
+import { AdminAndDewaOnly } from "~/src/components/Authed/AdminAndDewaOnly";
+import { EOInfo, ProfileInfo, TeamInfo } from "~/src/components/settings";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@/src/components/ui/tabs";
-import { getServerSession } from "next-auth/next";
+} from "~/src/components/ui/tabs";
 
 const title = "Settings" as const;
 

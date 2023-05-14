@@ -1,19 +1,3 @@
-import { CommandCombobox } from "@/src/components/Combobox";
-import { Button } from "@/src/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/src/components/ui/card";
-import { DialogFooter } from "@/src/components/ui/dialog";
-import { Input } from "@/src/components/ui/input";
-import { Label } from "@/src/components/ui/label";
-import { ToastAction } from "@/src/components/ui/toast";
-import { useToast } from "@/src/components/ui/use-toast";
-import { authOptions } from "@/src/server/auth";
-import { api } from "@/src/utils/api";
 import { Role } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import type { GetServerSideProps, NextPage } from "next";
@@ -21,6 +5,22 @@ import { getServerSession } from "next-auth";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { CommandCombobox } from "~/src/components/Combobox";
+import { Button } from "~/src/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "~/src/components/ui/card";
+import { DialogFooter } from "~/src/components/ui/dialog";
+import { Input } from "~/src/components/ui/input";
+import { Label } from "~/src/components/ui/label";
+import { ToastAction } from "~/src/components/ui/toast";
+import { useToast } from "~/src/components/ui/use-toast";
+import { authOptions } from "~/src/server/auth";
+import { api } from "~/src/utils/api";
 
 const CreateEO: NextPage = (): JSX.Element => {
   const router = useRouter();

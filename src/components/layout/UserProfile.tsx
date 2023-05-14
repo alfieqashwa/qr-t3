@@ -1,3 +1,7 @@
+import { Fish, Settings, User } from "lucide-react";
+import { signOut } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
 import {
   Menubar,
   MenubarContent,
@@ -6,11 +10,7 @@ import {
   MenubarSeparator,
   MenubarShortcut,
   MenubarTrigger,
-} from "@/components/ui/menubar";
-import { Fish, Settings, User } from "lucide-react";
-import { signOut } from "next-auth/react";
-import Image from "next/image";
-import Link from "next/link";
+} from "~/components/ui/menubar";
 
 const AVATAR_MENU_LIST = [
   { title: "Home", href: "/", disabled: false, icon: <Fish size={16} /> },

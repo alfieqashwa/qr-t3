@@ -1,11 +1,11 @@
 import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 
-import { H1Title } from "@/components/H1.Title";
-import { Layout } from "@/src/components/layout";
+import { H1Title } from "~/components/H1.Title";
+import { Layout } from "~/src/components/layout";
 
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/server/auth";
+import { authOptions } from "~/server/auth";
 
 const title = "Visitors" as const;
 

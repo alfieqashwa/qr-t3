@@ -1,4 +1,8 @@
-import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
+import { CommandCombobox } from "~/components/Combobox";
+import { Button } from "~/components/ui/button";
+import { CardDescription } from "~/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -7,17 +11,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { api } from "@/src/utils/api";
+} from "~/components/ui/dialog";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
+import { ToastAction } from "~/components/ui/toast";
+import { api } from "~/src/utils/api";
+import { wait } from "~/src/utils/wait";
 import { useToast } from "../ui/use-toast";
-import { ToastAction } from "../ui/toast";
-import { CardDescription } from "../ui/card";
-import { useState } from "react";
-import { CommandCombobox } from "../Combobox";
-import { Loader2 } from "lucide-react";
-import { wait } from "@/src/utils/wait";
 
 type Props = {
   id: string;

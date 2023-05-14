@@ -1,8 +1,8 @@
-import { LoadingSpinner } from "@/components/Loading";
-import { api } from "@/src/utils/api";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { LoadingSpinner } from "~/components/Loading";
+import { api } from "~/src/utils/api";
 import { CreateNewTeamDialog } from "./CreateNewTeamDialog";
 import { TableTeam } from "./TeamTable";
 

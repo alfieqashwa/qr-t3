@@ -1,7 +1,5 @@
 "use client";
 
-import { api } from "@/src/utils/api";
-import useToggleStore from "@/store/useToggle";
 import {
   Bell,
   Codesandbox,
@@ -10,6 +8,8 @@ import {
   SidebarOpen,
   User,
 } from "lucide-react";
+import { api } from "~/src/utils/api";
+import useToggleStore from "~/store/useToggle";
 import { UserProfile } from "./UserProfile";
 
 export const NavigationHeader = () => {

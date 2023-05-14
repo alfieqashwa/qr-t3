@@ -1,4 +1,6 @@
-import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
+import { Button } from "~/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,15 +9,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ToastAction } from "@/components/ui/toast";
-import { useToast } from "@/components/ui/use-toast";
-import { api } from "@/src/utils/api";
-import { wait } from "@/src/utils/wait";
-import { Loader2 } from "lucide-react";
-import { useState } from "react";
+} from "~/components/ui/dialog";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
+import { ToastAction } from "~/components/ui/toast";
+import { useToast } from "~/components/ui/use-toast";
+import { api } from "~/src/utils/api";
+import { wait } from "~/src/utils/wait";
 
 export function CreateNewTeamDialog() {
   const utils = api.useContext();
@@ -119,6 +119,7 @@ export function CreateNewTeamDialog() {
   );
 }
 
+import { Role } from "@prisma/client";
 import {
   Select,
   SelectContent,
@@ -127,8 +128,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Role } from "@prisma/client";
+} from "~/components/ui/select";
 
 export function SelectRole() {
   return (

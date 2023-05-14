@@ -1,8 +1,8 @@
-import { asideVariant } from "@/src/utils/motion";
-import useToggleStore from "@/store/useToggle";
 import { motion } from "framer-motion";
+import { cn } from "~/src/utils";
+import { asideVariant } from "~/src/utils/motion";
+import useToggleStore from "~/store/useToggle";
 import { MenuList } from "./MenuList";
-import { cn } from "@/src/utils";
 
 export const Drawer = (): JSX.Element => {
   const { toggle } = useToggleStore();
