@@ -84,7 +84,7 @@ export const userRouter = createTRPCRouter({
         console.error(err)
       }
     }),
-  updateImageProfile: adminProcedure
+  updateImageProfile: protectedProcedure
     .input(z.object({ imageUpdate: z.string().url() }))
     .mutation(async ({ ctx, input: { imageUpdate } }) => {
       try {
