@@ -25,19 +25,21 @@ const Home: NextPage = () => {
 
 export default Home;
 
-const AuthShowcase: React.FC = () => {
-  const { data: sessionData } = useSession();
+const AuthShowcase = (): JSX.Element | null => {
+  const session = useSession();
+
+  if (session.status !== "authenticated") return null;
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <p className="text-center text-2xl text-white">
-        {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
+        {session.data && <span>Logged in as {session.data.user?.name}</span>}
       </p>
       <section className="space-x-8">
         <button
           className="rounded-full bg-zinc-700 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
           onClick={
-            sessionData
+            session.data
               ? () => void signOut()
               : () =>
                   void signIn("google", {
@@ -45,9 +47,9 @@ const AuthShowcase: React.FC = () => {
                   })
           }
         >
-          {sessionData ? "Sign out" : "Sign in"}
+          {session.data ? "Sign out" : "Sign in"}
         </button>
-        {sessionData && (
+        {session.data && (
           <Link
             className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition duration-300 ease-in-out hover:bg-white/20 active:bg-white/25"
             href="/dashboard"
@@ -56,6 +58,7 @@ const AuthShowcase: React.FC = () => {
           </Link>
         )}
       </section>
+      <pre>{JSON.stringify(session.data, null, 2)}</pre>
     </div>
   );
 };

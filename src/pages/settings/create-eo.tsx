@@ -14,6 +14,7 @@ import { ToastAction } from "@/src/components/ui/toast";
 import { useToast } from "@/src/components/ui/use-toast";
 import { authOptions } from "@/src/server/auth";
 import { api } from "@/src/utils/api";
+import { Role } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import type { GetServerSideProps, NextPage } from "next";
 import { getServerSession } from "next-auth";
@@ -29,7 +30,7 @@ const CreateEO: NextPage = (): JSX.Element => {
   const { mutate, isLoading, error } = api.eo.create.useMutation({
     async onSuccess() {
       // update user role as ADMIN
-      await updateUserRoleAsAdmin.mutateAsync({ role: "ADMIN" });
+      await updateUserRoleAsAdmin.mutateAsync({ role: Role.ADMIN });
       toast({
         title: "Succeed!",
         variant: "default",
