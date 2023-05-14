@@ -72,3 +72,8 @@ Add more libs.
   -[ ] How to set upload button on top of the user avatar itself
   -[ ] Add tooltip whenever user hovering the user avatar
 - [ ] Breakpoint (Mobile - Tablet - Desktop) (UI)
+  - [ ] Home
+  - [ ] Dashboard
+  - [ ] Event
+  - [ ] Visitor
+  - [ ] Settings
