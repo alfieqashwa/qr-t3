@@ -1,7 +1,7 @@
 import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 
-import { H1Title } from "~/components/H1.Title";
+import { H1Title } from "~/src/components/HeaderTitle";
 import { Layout } from "~/src/components/layout";
 
 import { Role } from "@prisma/client";

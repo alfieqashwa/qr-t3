@@ -1,7 +1,7 @@
 import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 
-import { H1Title } from "~/components/H1.Title";
+import { HeaderTitle } from "~/src/components/HeaderTitle";
 import { Layout } from "~/src/components/layout";
 
 import { getServerSession } from "next-auth/next";
@@ -20,14 +20,20 @@ const title = "Settings" as const;
 const SettingsPage: NextPage = () => {
   return (
     <Layout title={title}>
-      <H1Title title={title} />
+      <HeaderTitle title={title} />
       <div className="mt-4 h-[calc(100vh_-_17vh)]">
         <Tabs defaultValue="event-organizer">
           <TabsList className="mb-6">
-            <TabsTrigger value="event-organizer">Event Organizer</TabsTrigger>
-            <TabsTrigger value="profile">Profile</TabsTrigger>
+            <TabsTrigger className="text-xs md:text-sm" value="event-organizer">
+              Event Organizer
+            </TabsTrigger>
+            <TabsTrigger className="text-xs md:text-sm" value="profile">
+              Profile
+            </TabsTrigger>
             <AdminOnly>
-              <TabsTrigger value="team-info">Team Info</TabsTrigger>
+              <TabsTrigger className="text-xs md:text-sm" value="team-info">
+                Team Info
+              </TabsTrigger>
             </AdminOnly>
           </TabsList>
           <TabsContent value="event-organizer">

@@ -1,7 +1,7 @@
 import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 
-import { H1Title } from "~/components/H1.Title";
+import { HeaderTitle } from "~/src/components/HeaderTitle";
 import { Layout } from "~/src/components/layout";
 
 import { getServerSession } from "next-auth/next";
@@ -12,7 +12,7 @@ const title = "Events" as const;
 const EventPage: NextPage = (): JSX.Element => {
   return (
     <Layout title={title}>
-      <H1Title title={title} />
+      <HeaderTitle title={title} />
       <div className="mt-4 h-[calc(100vh_-_17vh)]">
         <section className="flex w-full justify-center space-x-8">
           <div className="flex h-16 w-2/3 items-center justify-evenly rounded-xl bg-slate-800 p-6 shadow-lg">
