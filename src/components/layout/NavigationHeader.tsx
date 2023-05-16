@@ -36,7 +36,7 @@ export const NavigationHeader = () => {
           )}
         </button>
       </section>
-      <section className="flex w-full items-center justify-end space-x-8 px-8">
+      <section className="flex w-full items-center justify-end space-x-4 px-4 md:space-x-8 md:px-8">
         <Bell />
         <UserAvatar
           isLoading={isLoading}

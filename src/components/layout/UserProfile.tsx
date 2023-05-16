@@ -16,14 +16,8 @@ import { LogOut } from "lucide-react";
 export const UserProfile = ({ image }: { image: string }) => (
   <Menubar className="h-12 w-12 items-center justify-center rounded-full border-2 border-amber-300 p-0 transition duration-300 ease-in-out hover:border-amber-300">
     <MenubarMenu>
-      <MenubarTrigger className="rounded-full px-0 py-0 hover:cursor-pointer">
-        <Image
-          src={image}
-          alt="User Avatar"
-          width={44}
-          height={44}
-          className="rounded-full"
-        />
+      <MenubarTrigger className="relative h-10 w-10 rounded-full px-0 py-0 hover:cursor-pointer">
+        <Image src={image} alt="User Avatar" fill className="rounded-full" />
       </MenubarTrigger>
       <MenubarContent>
         {MENU_LINKS?.map((link) => {
