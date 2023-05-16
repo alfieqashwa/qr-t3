@@ -1,4 +1,4 @@
-import { Loader2 } from "lucide-react";
+import { Edit, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { CommandCombobox } from "~/components/Combobox";
 import { Button } from "~/components/ui/button";
@@ -136,7 +136,10 @@ export function UpdateEventOrganizerDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Update Event Organizer</Button>
+        <Button variant="outline" className="flex items-center space-x-1">
+          <Edit size={16} />
+          <span>Update</span>
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-1/2">

@@ -1,4 +1,4 @@
-import { Loader2 } from "lucide-react";
+import { Loader2, Trash2 } from "lucide-react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
@@ -63,7 +63,10 @@ export function DeleteEventOrganizerDialog({ id }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="destructive">Delete Event Organizer</Button>
+        <Button variant="destructive" className="flex items-center space-x-1">
+          <Trash2 size={16} />
+          <span>Delete</span>
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-1/2">

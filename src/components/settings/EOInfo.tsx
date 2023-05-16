@@ -17,14 +17,14 @@ export function EOInfo() {
   if (!!isLoading) return <LoadingSpinner />;
   return (
     <div className="mx-auto w-full">
-      <h1 className="text-2xl font-semibold capitalize leading-none tracking-tight">
+      <h1 className="text-xl font-semibold capitalize leading-none tracking-tight md:text-2xl">
         {eo?.name}
       </h1>
-      <h4 className="mt-2 text-slate-400">
+      <h4 className="mt-2 text-xs font-semibold text-slate-400">
         Information of your Event Organizer
       </h4>
       <div className="mt-4 border-t-2 border-slate-800"></div>
-      <section className="mt-4 rounded-md border-4 border-slate-800 p-8">
+      <section className="mt-4 rounded-md border-4 border-slate-800 p-4 md:p-8">
         {!!eo ? (
           <article className="flex flex-col space-y-6">
             <div>
@@ -74,8 +74,12 @@ function Field(props: FieldProps) {
 
   return (
     <div className="space-x-2">
-      <small className="text-lg font-semibold capitalize">{props.label}:</small>
-      <small className="text-lg font-semibold capitalize">{value}</small>
+      <small className="text-sm font-medium capitalize md:text-base md:font-semibold">
+        {props.label}:
+      </small>
+      <small className="text-sm font-medium capitalize md:text-base md:font-semibold">
+        {value}
+      </small>
     </div>
   );
 }
