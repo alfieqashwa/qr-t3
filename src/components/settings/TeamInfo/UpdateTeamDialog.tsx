@@ -64,7 +64,9 @@ export function UpdateTeamDialog({ id, role, username }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Edit Role</Button>
+        <Button variant="outline" className="whitespace-nowrap">
+          Edit Role
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-1/2">

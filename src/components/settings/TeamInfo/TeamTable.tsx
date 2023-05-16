@@ -15,20 +15,22 @@ export function TableTeam({ teams }: TableTeamProps) {
           <th className="px-4 pb-4 text-left text-sm">Name</th>
           <th className="px-4 pb-4 text-left text-sm">Email</th>
           <th className="px-4 pb-4 text-center text-sm">Role</th>
-          <th className="sr-only">Edit Role</th>
-          <th className="sr-only">Delete</th>
+          <th className="sr-only px-4">Edit Role</th>
+          <th className="sr-only px-4">Delete</th>
         </tr>
       </thead>
       <tbody>
         {teams.map((team) => (
           <tr key={`ID-${team.id}`}>
-            <td className="px-4 py-3 text-sm capitalize">{team.name}</td>
+            <td className="whitespace-nowrap px-4 py-3 text-sm capitalize">
+              {team.name}
+            </td>
             <td className="px-4 py-3">{team.email}</td>
             <td className="px-4 py-3 text-center text-yellow-500">
               {team.role}
             </td>
             <AdminOnly>
-              <td className="py-3 text-right">
+              <td className="py-3 pr-4 text-right md:pr-0">
                 <UpdateTeamDialog
                   id={team.id}
                   role={team.role}
