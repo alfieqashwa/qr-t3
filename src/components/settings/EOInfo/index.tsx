@@ -1,10 +1,12 @@
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { AdminOnly } from "~/components/Authed/AdminOnly";
+import { LoadingSpinner } from "~/components/Loading";
+import { HeaderSettings } from "~/components/settings/HeaderSettings";
 import { api } from "~/src/utils/api";
-import { AdminOnly } from "../Authed/AdminOnly";
-import { LoadingSpinner } from "../Loading";
 import { DeleteEventOrganizerDialog } from "./DeleteEventOrganizerDialog";
+import { Field } from "./Field";
 import { UpdateEventOrganizerDialog } from "./UpdateEventOrganizerDialog";
 
 dayjs.extend(relativeTime);
@@ -17,12 +19,10 @@ export function EOInfo() {
   if (!!isLoading) return <LoadingSpinner />;
   return (
     <div className="mx-auto w-full">
-      <h1 className="text-xl font-semibold capitalize leading-none tracking-tight md:text-2xl">
-        {eo?.name}
-      </h1>
-      <h4 className="mt-2 text-xs font-semibold text-slate-400">
-        Information of your Event Organizer
-      </h4>
+      <HeaderSettings
+        title={eo?.name as string}
+        subTitle="Information of your Event Organizer"
+      />
       <div className="mt-4 border-t-2 border-slate-800"></div>
       <section className="mt-4 rounded-md border-4 border-slate-800 p-4 md:p-8">
         {!!eo ? (
@@ -60,26 +60,6 @@ export function EOInfo() {
           </article>
         ) : null}
       </section>
-    </div>
-  );
-}
-
-type FieldProps = {
-  label: string;
-  value: string | null;
-};
-
-function Field(props: FieldProps) {
-  const value = props.value ? props.value : "";
-
-  return (
-    <div className="space-x-2">
-      <small className="text-sm font-medium capitalize md:text-base md:font-semibold">
-        {props.label}:
-      </small>
-      <small className="text-sm font-medium capitalize md:text-base md:font-semibold">
-        {value}
-      </small>
     </div>
   );
 }

@@ -13,8 +13,8 @@ import {
 } from "~/components/ui/dialog";
 import { api } from "~/src/utils/api";
 import { wait } from "~/src/utils/wait";
-import { ToastAction } from "../ui/toast";
-import { useToast } from "../ui/use-toast";
+import { ToastAction } from "../../ui/toast";
+import { useToast } from "../../ui/use-toast";
 
 type Props = {
   id: string;

@@ -17,7 +17,7 @@ import { Label } from "~/components/ui/label";
 import { ToastAction } from "~/components/ui/toast";
 import { api } from "~/src/utils/api";
 import { wait } from "~/src/utils/wait";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "~/components/ui/use-toast";
 
 type Props = {
   id: string;
