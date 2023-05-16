@@ -77,3 +77,5 @@ Add more libs.
   - [x] Event
   - [ ] Visitor
   - [x] Settings
+- [ ] Setup DB on Planet Scale
+- [ ] Deploy on Vercel
