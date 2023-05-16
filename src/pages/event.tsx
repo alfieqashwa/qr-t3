@@ -33,7 +33,7 @@ const EventPage: NextPage = (): JSX.Element => {
             <h2 className="font-semibold">Generate Order Report</h2>
           </button>
         </section>
-        <section className="grid h-auto grid-cols-1 gap-8 py-8">
+        <section className="mt-2 grid h-auto grid-cols-1 gap-4 py-4 lg:mt-0 lg:gap-8 lg:py-8">
           <EventCard imgUrl="/img/event-thumbnail.avif" />
           <EventCard imgUrl="/img/event-thumbnail.avif" />
         </section>

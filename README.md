@@ -76,4 +76,4 @@ Add more libs.
   - [ ] Dashboard
   - [ ] Event
   - [ ] Visitor
-  - [ ] Settings
+  - [x] Settings
