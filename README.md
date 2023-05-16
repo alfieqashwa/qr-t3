@@ -74,6 +74,6 @@ Add more libs.
 - [ ] Breakpoint (Mobile - Tablet - Desktop) (UI)
   - [ ] Home
   - [ ] Dashboard
-  - [ ] Event
+  - [x] Event
   - [ ] Visitor
   - [x] Settings

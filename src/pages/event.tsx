@@ -14,8 +14,8 @@ const EventPage: NextPage = (): JSX.Element => {
     <Layout title={title}>
       <HeaderTitle title={title} />
       <div className="mt-4 h-[calc(100vh_-_17vh)]">
-        <section className="flex w-full justify-center space-x-8">
-          <div className="flex h-16 w-2/3 items-center justify-evenly rounded-xl bg-slate-800 p-6 shadow-lg">
+        <section className="flex w-full flex-col justify-center space-y-4 lg:flex-row lg:space-y-0 lg:space-x-8">
+          <div className="flex h-16 items-center justify-evenly rounded-xl bg-slate-800 p-6 shadow-lg lg:w-2/3">
             <div>
               <h2>Income</h2>
             </div>
@@ -26,13 +26,16 @@ const EventPage: NextPage = (): JSX.Element => {
               <h2>Visitor</h2>
             </div>
             <div>
-              <h2>This Week</h2>
+              <h2 className="whitespace-nowrap">This Week</h2>
             </div>
           </div>
-          <button className="grid h-16 w-1/3 place-content-center rounded-xl bg-emerald-700 p-6 shadow-lg">
-            <h2 className="font-semibold">Generate Order Report</h2>
+          <button className="mx-auto grid h-16 w-2/3 place-content-center rounded-xl bg-emerald-700 p-6 shadow-lg lg:w-1/3">
+            <h2 className="whitespace-nowrap font-semibold">
+              Generate Order Report
+            </h2>
           </button>
         </section>
+
         <section className="mt-2 grid h-auto grid-cols-1 gap-4 py-4 lg:mt-0 lg:gap-8 lg:py-8">
           <EventCard imgUrl="/img/event-thumbnail.avif" />
           <EventCard imgUrl="/img/event-thumbnail.avif" />
