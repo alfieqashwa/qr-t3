@@ -71,11 +71,11 @@ Add more libs.
 - [x] Image Uploader
   - [ ] How to set upload button on top of the user avatar itself
   - [ ] Add tooltip whenever user hovering the user avatar
-- [ ] Breakpoint (Mobile - Tablet - Desktop) (UI)
+- [x] Breakpoint Layout (Mobile - Tablet - Desktop) (UI)
   - [x] Home
   - [x] Dashboard
   - [x] Event
-  - [ ] Visitor
+  - [x] Visitor
   - [x] Settings
 - [ ] Setup DB on Planet Scale
 - [ ] Deploy on Vercel
