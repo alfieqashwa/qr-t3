@@ -16,7 +16,7 @@ export const NavigationHeader = () => {
     <nav className="fixed z-50 flex h-20 w-full justify-between border-b-2 border-slate-700 bg-gradient-to-br from-slate-800 via-black to-slate-800">
       <section className="flex h-16 items-center justify-end space-x-8 pl-6">
         <div className="flex w-full items-center justify-around">
-          <Codesandbox size={36} />
+          <Codesandbox size={36} className="animate-spin" />
         </div>
         <button
           className="hidden rounded-full bg-zinc-900 p-2.5 transition duration-300 ease-in-out hover:bg-zinc-800 md:block"
