@@ -1,7 +1,7 @@
 import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 
-import { H1Title } from "~/src/components/HeaderTitle";
+import { HeaderTitle } from "~/src/components/HeaderTitle";
 import { Layout } from "~/src/components/layout";
 
 import { Role } from "@prisma/client";
@@ -13,7 +13,7 @@ const title = "Dewa";
 const SettingsPage: NextPage = () => {
   return (
     <Layout title={title}>
-      <H1Title title={title} />
+      <HeaderTitle title={title} />
       <div className="mt-4 h-[calc(100vh_-_17vh)]">
         <h3>{title} is here...</h3>
       </div>
