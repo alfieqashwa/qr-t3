@@ -61,7 +61,6 @@ export function UpdateTeamDialog({ id, currentRole, username }: Props) {
     });
   };
 
-  // console.log({ role });
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
