@@ -1,5 +1,3 @@
-"use client";
-
 import { Bell, Codesandbox, SidebarClose, SidebarOpen } from "lucide-react";
 import { api } from "~/src/utils/api";
 import useToggleStore from "~/store/useToggle";
