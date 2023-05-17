@@ -19,22 +19,22 @@ export const asideVariant = {
 
 export const titleVariant = {
   initialClose: {
-    fontSize: "0.625rem",
+    fontSize: ".625rem",
   },
   initialOpen: {
-    fontSize: "1rem",
+    fontSize: ".875rem",
   },
   open: {
-    fontSize: "1rem",
+    fontSize: ".875rem",
     transition: {
-      duration: 1,
+      duration: .75,
       type: "spring",
     },
   },
   close: {
-    fontSize: "0.625rem",
+    fontSize: ".625rem",
     transition: {
-      duration: 1,
+      duration: .75,
       type: "spring",
     },
   },
