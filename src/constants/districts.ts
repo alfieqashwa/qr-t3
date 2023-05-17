@@ -1,4 +1,4 @@
-export const DISTIRCTS = [
+export const DISTRICTS = [
   { id: "1101010", regency_id: "1101", name: "TEUPAH SELATAN" },
   { id: "1101020", regency_id: "1101", name: "SIMEULUE TIMUR" },
   { id: "1101021", regency_id: "1101", name: "TEUPAH BARAT" },
