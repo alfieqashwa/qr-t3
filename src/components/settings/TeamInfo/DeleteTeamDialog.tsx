@@ -62,7 +62,9 @@ export function DeleteTeamDialog({ id, username }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="destructive">Delete</Button>
+        <Button variant="destructive" size="sm">
+          Delete
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-1/2">
@@ -80,17 +82,22 @@ export function DeleteTeamDialog({ id, username }: Props) {
               </p>
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter>
-            <Button type="button" onClick={() => setOpen(false)}>
+          <DialogFooter className="mt-4 flex flex-row items-center justify-end space-x-2">
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => setOpen(false)}
+            >
               Cancel
             </Button>
             {isLoading ? (
-              <Button disabled variant="destructive">
+              <Button disabled variant="destructive" size="sm">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Please wait
               </Button>
             ) : (
-              <Button type="submit" variant="destructive">
+              <Button type="submit" variant="destructive" size="sm">
                 Delete
               </Button>
             )}

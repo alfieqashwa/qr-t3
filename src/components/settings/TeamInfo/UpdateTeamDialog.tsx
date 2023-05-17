@@ -18,11 +18,11 @@ import { api } from "~/src/utils/api";
 
 type Props = {
   id: string;
-  role: Role;
+  currentRole: Role;
   username: string | null;
 };
 
-export function UpdateTeamDialog({ id, role, username }: Props) {
+export function UpdateTeamDialog({ id, currentRole, username }: Props) {
   const utils = api.useContext();
   const { toast } = useToast();
 
@@ -61,10 +61,11 @@ export function UpdateTeamDialog({ id, role, username }: Props) {
     });
   };
 
+  // console.log({ role });
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="whitespace-nowrap">
+        <Button variant="outline" size="sm" className="whitespace-nowrap">
           Edit Role
         </Button>
       </DialogTrigger>
@@ -72,7 +73,7 @@ export function UpdateTeamDialog({ id, role, username }: Props) {
       <DialogContent className="sm:max-w-1/2">
         <DialogHeader>
           <DialogTitle>Update Team</DialogTitle>
-          <DialogDescription>
+          <DialogDescription asChild>
             <p>
               Edit
               <span className="px-1.5 font-medium uppercase text-amber-300">
@@ -85,21 +86,31 @@ export function UpdateTeamDialog({ id, role, username }: Props) {
         <form className="grid gap-4 py-3" onSubmit={handleSubmit}>
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="name">User Role</Label>
-            <SelectRole role={role} />
+            <SelectRole role={currentRole} />
             {error?.data?.zodError?.fieldErrors.role && (
               <span className="text-xs text-destructive">
                 {error.data.zodError.fieldErrors.role}
               </span>
             )}
           </div>
-          <DialogFooter>
+          <DialogFooter className="mt-4 flex flex-row items-center justify-end space-x-2">
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => setOpen(false)}
+            >
+              Cancel
+            </Button>
             {isLoading ? (
-              <Button disabled>
+              <Button disabled size="sm">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Please wait
               </Button>
             ) : (
-              <Button type="submit">Update Team</Button>
+              <Button type="submit" size="sm">
+                Update
+              </Button>
             )}
           </DialogFooter>
         </form>

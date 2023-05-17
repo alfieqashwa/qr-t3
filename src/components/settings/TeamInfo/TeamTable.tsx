@@ -33,7 +33,7 @@ export function TableTeam({ teams }: TableTeamProps) {
               <td className="py-3 pr-4 text-right md:pr-0">
                 <UpdateTeamDialog
                   id={team.id}
-                  role={team.role}
+                  currentRole={team.role}
                   username={team.name}
                 />
               </td>

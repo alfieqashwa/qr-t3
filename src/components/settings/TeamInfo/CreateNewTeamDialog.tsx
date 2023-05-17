@@ -62,7 +62,9 @@ export function CreateNewTeamDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="default">Create New Team</Button>
+        <Button variant="default" size="sm">
+          Create New Team
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-1/2">
@@ -105,12 +107,14 @@ export function CreateNewTeamDialog() {
           </div>
           <DialogFooter>
             {isLoading ? (
-              <Button disabled>
+              <Button disabled size="sm">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Please wait
               </Button>
             ) : (
-              <Button type="submit">Create Team</Button>
+              <Button type="submit" size="sm">
+                Create Team
+              </Button>
             )}
           </DialogFooter>
         </form>

@@ -136,7 +136,11 @@ export function UpdateEventOrganizerDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="flex items-center space-x-1">
+        <Button
+          variant="outline"
+          size="sm"
+          className="flex items-center space-x-1"
+        >
           <Edit size={16} />
           <span>Update</span>
         </Button>
@@ -252,12 +256,12 @@ export function UpdateEventOrganizerDialog({
           </div>
           <DialogFooter>
             {isLoading ? (
-              <Button disabled>
+              <Button disabled size="sm">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Please wait
               </Button>
             ) : (
-              <Button disabled={disabled} type="submit">
+              <Button disabled={disabled} type="submit" size="sm">
                 Save changes
               </Button>
             )}
