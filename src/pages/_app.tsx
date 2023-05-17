@@ -5,8 +5,8 @@ import { type AppType } from "next/app";
 import { api } from "~/utils/api";
 
 import { Toaster } from "~/components/ui/toaster";
+import "@uploadthing/react/styles.css"; // <-- must before "~/styles/gloals.css"
 import "~/styles/globals.css";
-import "@uploadthing/react/styles.css";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
