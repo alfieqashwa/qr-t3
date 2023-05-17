@@ -15,24 +15,15 @@ import {
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { ToastAction } from "~/components/ui/toast";
+import { useToast } from "~/components/ui/use-toast";
+import type { RouterOutputs } from "~/src/utils/api";
 import { api } from "~/src/utils/api";
 import { wait } from "~/src/utils/wait";
-import { useToast } from "~/components/ui/use-toast";
 
 type Props = {
-  id: string;
-  name: string;
-  phone: string;
-  street: string;
-  postalCode: string;
+  currentEO: RouterOutputs["eo"]["read"];
 };
-export function UpdateEventOrganizerDialog({
-  id,
-  name,
-  phone,
-  street,
-  postalCode,
-}: Props) {
+export function UpdateEventOrganizerDialog({ currentEO }: Props) {
   const utils = api.useContext();
   const { toast } = useToast();
 
@@ -59,10 +50,18 @@ export function UpdateEventOrganizerDialog({
     },
   });
 
-  const [provinceValue, setProvinceValue] = useState<string>("");
-  const [regencyValue, setRegencyValue] = useState<string>("");
-  const [districtValue, setDistrictValue] = useState<string>("");
-  const [villageValue, setVillageValue] = useState<string>("");
+  const [provinceValue, setProvinceValue] = useState<string>(
+    currentEO?.province as string
+  );
+  const [regencyValue, setRegencyValue] = useState<string>(
+    currentEO?.regency as string
+  );
+  const [districtValue, setDistrictValue] = useState<string>(
+    currentEO?.district as string
+  );
+  const [villageValue, setVillageValue] = useState<string>(
+    currentEO?.village as string
+  );
 
   const { data: provinces, isLoading: isProvincesLoading } =
     api.address.getProvinces.useQuery();
@@ -99,8 +98,17 @@ export function UpdateEventOrganizerDialog({
       select: (data) => data.filter((d) => d.district_id === districtId),
     });
 
+  /*
+    disabled-button validation!
+    to avoid not-matching between provinceId-regencyId-districtId-villageId records into database
+  */
+  const villageId = villages?.find(
+    (village) => village.name.toLowerCase() === villageValue
+  )?.id;
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const id = currentEO?.id as string;
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name")?.toString().toLowerCase() as string;
     const phone = formData.get("phone") as string;
@@ -127,11 +135,7 @@ export function UpdateEventOrganizerDialog({
     });
   };
 
-  const disabled =
-    provinceValue === "" ||
-    regencyValue === "" ||
-    districtValue === "" ||
-    villageValue === "";
+  const disabled = regencyId == null || districtId == null || villageId == null;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -162,7 +166,7 @@ export function UpdateEventOrganizerDialog({
               <Input
                 id="name"
                 name="name"
-                defaultValue={name}
+                defaultValue={currentEO?.name}
                 className="capitalize"
               />
               {error?.data?.zodError?.fieldErrors.name && (
@@ -174,7 +178,7 @@ export function UpdateEventOrganizerDialog({
             {/* Phone */}
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="phone">Phone</Label>
-              <Input id="phone" name="phone" defaultValue={phone} />
+              <Input id="phone" name="phone" defaultValue={currentEO?.phone} />
               {error?.data?.zodError?.fieldErrors.phone && (
                 <span className="text-xs text-destructive">
                   {error?.data?.zodError?.fieldErrors.phone}
@@ -189,7 +193,7 @@ export function UpdateEventOrganizerDialog({
               <Input
                 id="street"
                 name="street"
-                defaultValue={street}
+                defaultValue={currentEO?.street}
                 className="capitalize"
               />
               {error?.data?.zodError?.fieldErrors.street && (
@@ -245,7 +249,7 @@ export function UpdateEventOrganizerDialog({
                 id="postalCode"
                 type="text"
                 name="postalCode"
-                defaultValue={postalCode}
+                defaultValue={currentEO?.postalCode}
               />
               {error?.data?.zodError?.fieldErrors.postalCode && (
                 <span className="text-xs text-destructive">

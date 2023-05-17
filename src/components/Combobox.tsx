@@ -59,7 +59,7 @@ export function CommandCombobox({
       <PopoverContent align="end" className="p-0">
         <Command>
           <CommandInput placeholder={`Search ${placeholder}...`} />
-          <CommandEmpty>No framework found.</CommandEmpty>
+          <CommandEmpty>No select found.</CommandEmpty>
           <CommandGroup>
             {datas?.map((data) => (
               <CommandItem
