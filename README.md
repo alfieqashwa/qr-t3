@@ -69,11 +69,11 @@ Add more libs.
   -[x] Delete-Team API & Delete Dialog Form
 - [x] Loading Configuration (UI)
 - [x] Image Uploader
-  -[ ] How to set upload button on top of the user avatar itself
-  -[ ] Add tooltip whenever user hovering the user avatar
+  - [ ] How to set upload button on top of the user avatar itself
+  - [ ] Add tooltip whenever user hovering the user avatar
 - [ ] Breakpoint (Mobile - Tablet - Desktop) (UI)
-  - [ ] Home
-  - [ ] Dashboard
+  - [x] Home
+  - [x] Dashboard
   - [x] Event
   - [ ] Visitor
   - [x] Settings
