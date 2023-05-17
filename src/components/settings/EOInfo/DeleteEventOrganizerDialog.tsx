@@ -72,23 +72,30 @@ export function DeleteEventOrganizerDialog({ id }: Props) {
       <DialogContent className="sm:max-w-1/2">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Are You Sure?</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-base md:text-lg">
+              Are You Sure?
+            </DialogTitle>
+            <DialogDescription className="text-xs md:text-sm">
               You can&apos;t undo this changes. Click delete when you&apos;re
               sure to delete your Event Organizer.
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter>
-            <Button type="button" onClick={() => setOpen(false)}>
+          <DialogFooter className="mt-4 flex flex-row justify-end space-x-2">
+            <Button
+              type="button"
+              size="sm"
+              variant="ghost"
+              onClick={() => setOpen(false)}
+            >
               Cancel
             </Button>
             {isLoading ? (
-              <Button disabled variant="destructive">
+              <Button disabled size="sm" variant="destructive">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Please wait
               </Button>
             ) : (
-              <Button type="submit" variant="destructive">
+              <Button type="submit" size="sm" variant="destructive">
                 Delete
               </Button>
             )}
