@@ -54,7 +54,7 @@ const CreateEO: NextPage = (): JSX.Element => {
   const [villageValue, setVillageValue] = useState<string>("");
 
   const { data: provinces, isLoading: isProvincesLoading } =
-    api.address.getProvinces.useQuery();
+    api.address.provinces.useQuery();
 
   // find selected province.id
   const provinceId = provinces?.find(
@@ -62,10 +62,10 @@ const CreateEO: NextPage = (): JSX.Element => {
   )?.id;
 
   const { data: regencies, isLoading: isRegenciesLoading } =
-    api.address.getRegencies.useQuery(undefined, {
+    api.address.regencies.useQuery(undefined, {
       enabled: provinceValue !== "" && provinceValue !== undefined,
       select: (data) =>
-        data.filter((district) => district.province_id === provinceId),
+        data.filter((district) => district.provinceId === provinceId),
     });
 
   const regencyId = regencies?.find(
@@ -73,9 +73,9 @@ const CreateEO: NextPage = (): JSX.Element => {
   )?.id;
 
   const { data: districts, isLoading: isDistrictsLoading } =
-    api.address.getDistricts.useQuery(undefined, {
+    api.address.districts.useQuery(undefined, {
       enabled: regencyValue !== "" && regencyValue !== undefined,
-      select: (data) => data.filter((d) => d.regency_id === regencyId),
+      select: (data) => data.filter((d) => d.regencyId === regencyId),
     });
 
   const districtId = districts?.find(
@@ -83,9 +83,9 @@ const CreateEO: NextPage = (): JSX.Element => {
   )?.id;
 
   const { data: villages, isLoading: isVillagesLoading } =
-    api.address.getVillages.useQuery(undefined, {
+    api.address.villages.useQuery(undefined, {
       enabled: districtValue !== "" && districtValue !== undefined,
-      select: (data) => data.filter((d) => d.district_id === districtId),
+      select: (data) => data.filter((d) => d.districtId === districtId),
     });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

@@ -19,10 +19,10 @@ import type { RouterOutputs } from "~/utils/api";
 
 type CommandComboboxProps = {
   datas?:
-    | RouterOutputs["address"]["getProvinces"]
-    | RouterOutputs["address"]["getRegencies"]
-    | RouterOutputs["address"]["getDistricts"]
-    | RouterOutputs["address"]["getVillages"];
+    | RouterOutputs["address"]["provinces"]
+    | RouterOutputs["address"]["regencies"]
+    | RouterOutputs["address"]["districts"]
+    | RouterOutputs["address"]["villages"];
   isLoading: boolean;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
