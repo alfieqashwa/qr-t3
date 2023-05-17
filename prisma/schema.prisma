@@ -122,6 +122,29 @@ model Visitor {
     updatedAt DateTime @updatedAt @map("updated_at")
 }
 
+model Province {
+    id   String @id
+    name String
+}
+
+model Regency {
+    id         String @id
+    provinceId String @map("province_id")
+    name       String
+}
+
+model District {
+    id        String @id
+    regencyId String @map("regency_id")
+    name      String
+}
+
+model Village {
+    id         String @id
+    districtId String @map("district_id")
+    name       String
+}
+
 enum Role {
     DEWA // -> Full Access.
     ADMIN // -> CRUD Only its Event/Events && Member/Members && Invite Editor.
