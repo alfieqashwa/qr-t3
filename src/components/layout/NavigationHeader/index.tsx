@@ -1,16 +1,9 @@
 "use client";
 
-import {
-  Bell,
-  Codesandbox,
-  Loader2,
-  SidebarClose,
-  SidebarOpen,
-  User,
-} from "lucide-react";
+import { Bell, Codesandbox, SidebarClose, SidebarOpen } from "lucide-react";
 import { api } from "~/src/utils/api";
 import useToggleStore from "~/store/useToggle";
-import { UserProfile } from "./UserProfile";
+import { UserAvatar } from "./UserAvatar";
 
 export const NavigationHeader = () => {
   const { toggle, handleToggle } = useToggleStore();
@@ -47,26 +40,3 @@ export const NavigationHeader = () => {
     </nav>
   );
 };
-
-type UserAvatarProps = {
-  isLoading: boolean;
-  userImageUpdate?: string | null;
-  userImage?: string | null;
-};
-const UserAvatar = ({
-  isLoading,
-  userImage,
-  userImageUpdate,
-}: UserAvatarProps) => (
-  <>
-    {isLoading ? (
-      <Loader2 size={24} className="animate-spin" />
-    ) : !!userImageUpdate ? (
-      <UserProfile image={userImageUpdate} />
-    ) : !!userImage ? (
-      <UserProfile image={userImage} />
-    ) : (
-      <User />
-    )}
-  </>
-);
