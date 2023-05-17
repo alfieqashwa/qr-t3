@@ -60,7 +60,7 @@ export function ProfileInfo() {
             </div>
           </article>
         ) : null}
-        <div className="mx-auto mt-4 flex w-2/3 flex-col items-center justify-center gap-4 hover:cursor-pointer">
+        <div className="mx-auto w-1/2 whitespace-nowrap hover:cursor-pointer">
           <UploadDropzone<OurFileRouter>
             endpoint="withMdwr"
             onClientUploadComplete={(res) => {

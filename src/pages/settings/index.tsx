@@ -21,9 +21,9 @@ const SettingsPage: NextPage = () => {
   return (
     <Layout title={title}>
       <HeaderTitle title={title} />
-      <div className="mt-4 h-[calc(100vh_-_17vh)]">
+      <div className="h-[calc(100vh_-_17vh)]">
         <Tabs defaultValue="event-organizer">
-          <TabsList className="mb-6">
+          <TabsList className="mb-3">
             <TabsTrigger className="text-xs md:text-sm" value="event-organizer">
               Event Organizer
             </TabsTrigger>
