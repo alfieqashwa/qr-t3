@@ -258,7 +258,15 @@ export function UpdateEventOrganizerDialog({ currentEO }: Props) {
               )}
             </div>
           </div>
-          <DialogFooter>
+          <DialogFooter className="mt-4 flex flex-row items-center justify-end space-x-2">
+            <Button
+              type="button"
+              size="sm"
+              variant="ghost"
+              onClick={() => setOpen(false)}
+            >
+              Cancel
+            </Button>
             {isLoading ? (
               <Button disabled size="sm">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
