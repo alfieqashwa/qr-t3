@@ -53,40 +53,36 @@ const CreateEO: NextPage = (): JSX.Element => {
   const [districtValue, setDistrictValue] = useState<string>("");
   const [villageValue, setVillageValue] = useState<string>("");
 
-  const { data: provinces, isLoading: isProvincesLoading } =
-    api.address.provinces.useQuery();
+  const provincesQuery = api.address.provinces.useQuery();
 
   // find selected province.id
-  const provinceId = provinces?.find(
+  const provinceId = provincesQuery?.data?.find(
     (province) => province.name.toLowerCase() === provinceValue
   )?.id;
 
-  const { data: regencies, isLoading: isRegenciesLoading } =
-    api.address.regencies.useQuery(undefined, {
-      enabled: provinceValue !== "" && provinceValue !== undefined,
-      select: (data) =>
-        data.filter((district) => district.provinceId === provinceId),
-    });
+  const regenciesQuery = api.address.regencies.useQuery(undefined, {
+    enabled: provinceValue !== "" && provinceValue !== undefined,
+    select: (data) =>
+      data.filter((district) => district.provinceId === provinceId),
+  });
 
-  const regencyId = regencies?.find(
+  const regencyId = regenciesQuery?.data?.find(
     (r) => r.name.toLowerCase() === regencyValue
   )?.id;
 
-  const { data: districts, isLoading: isDistrictsLoading } =
-    api.address.districts.useQuery(undefined, {
-      enabled: regencyValue !== "" && regencyValue !== undefined,
-      select: (data) => data.filter((d) => d.regencyId === regencyId),
-    });
+  const districtsQuery = api.address.districts.useQuery(undefined, {
+    enabled: regencyValue !== "" && regencyValue !== undefined,
+    select: (data) => data.filter((d) => d.regencyId === regencyId),
+  });
 
-  const districtId = districts?.find(
+  const districtId = districtsQuery?.data?.find(
     (district) => district.name.toLowerCase() === districtValue
   )?.id;
 
-  const { data: villages, isLoading: isVillagesLoading } =
-    api.address.villages.useQuery(undefined, {
-      enabled: districtValue !== "" && districtValue !== undefined,
-      select: (data) => data.filter((d) => d.districtId === districtId),
-    });
+  const villagesQuery = api.address.villages.useQuery(undefined, {
+    enabled: districtValue !== "" && districtValue !== undefined,
+    select: (data) => data.filter((d) => d.districtId === districtId),
+  });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -175,8 +171,8 @@ const CreateEO: NextPage = (): JSX.Element => {
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="name">Province</Label>
                 <CommandCombobox
-                  datas={provinces}
-                  isLoading={isProvincesLoading}
+                  datas={provincesQuery.data}
+                  isLoading={provincesQuery.isLoading}
                   value={provinceValue}
                   setValue={setProvinceValue}
                   placeholder="province"
@@ -185,8 +181,8 @@ const CreateEO: NextPage = (): JSX.Element => {
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="name">Regency</Label>
                 <CommandCombobox
-                  datas={regencies}
-                  isLoading={isRegenciesLoading}
+                  datas={regenciesQuery.data}
+                  isLoading={regenciesQuery.isLoading}
                   value={regencyValue}
                   setValue={setRegencyValue}
                   placeholder="regency"
@@ -195,8 +191,8 @@ const CreateEO: NextPage = (): JSX.Element => {
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="district">Distric</Label>
                 <CommandCombobox
-                  datas={districts}
-                  isLoading={isDistrictsLoading}
+                  datas={districtsQuery.data}
+                  isLoading={districtsQuery.isLoading}
                   value={districtValue}
                   setValue={setDistrictValue}
                   placeholder="district"
@@ -205,8 +201,8 @@ const CreateEO: NextPage = (): JSX.Element => {
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="village">Village</Label>
                 <CommandCombobox
-                  datas={villages}
-                  isLoading={isVillagesLoading}
+                  datas={villagesQuery.data}
+                  isLoading={villagesQuery.isLoading}
                   value={villageValue}
                   setValue={setVillageValue}
                   placeholder="village"
