@@ -7,7 +7,7 @@ type TableTeamProps = {
   teams: RouterOutputs["user"]["getAllByEOId"];
 };
 
-export function TableTeam({ teams }: TableTeamProps) {
+export function TableTeam({ teams }: TableTeamProps): JSX.Element {
   return (
     <table className="w-full table-auto text-xs font-semibold">
       <thead>
@@ -23,14 +23,14 @@ export function TableTeam({ teams }: TableTeamProps) {
         {teams.map((team) => (
           <tr key={`ID-${team.id}`}>
             <td className="whitespace-nowrap px-4 py-3 text-sm capitalize">
-              {team.name}
+              {team.name ?? <PendingStatus />}
             </td>
             <td className="px-4 py-3">{team.email}</td>
             <td className="px-4 py-3 text-center text-yellow-500">
               {team.role}
             </td>
             <AdminOnly>
-              <td className="py-3 pr-4 text-right md:pr-0">
+              <td className="py-3 pr-4 text-right lg:pr-0">
                 <UpdateTeamDialog
                   id={team.id}
                   currentRole={team.role}
@@ -47,3 +47,7 @@ export function TableTeam({ teams }: TableTeamProps) {
     </table>
   );
 }
+
+const PendingStatus = () => (
+  <pre className="text-xs text-yellow-200">pending status</pre>
+);

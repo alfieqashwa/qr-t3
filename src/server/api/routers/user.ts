@@ -47,7 +47,6 @@ export const userRouter = createTRPCRouter({
           OR: [
             { role: { equals: Role.EDITOR } },
             { role: { equals: Role.OPERATOR } },
-            { role: { equals: Role.USER } }
           ]
         },
         orderBy: { name: "asc" }, // A -> Z
