@@ -79,6 +79,7 @@ Add more libs.
   - [x] Event
   - [x] Visitor
   - [x] Settings
+- [x] Store Addresses [PROVINCES, REGENCIES, DISTRICTS, VILLAGES] into database using prisma db seed
 - [ ] Setup DB on Planet Scale
 - [ ] Deploy on Vercel
 
