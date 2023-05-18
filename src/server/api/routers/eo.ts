@@ -106,11 +106,9 @@ export const eoRouter = createTRPCRouter({
     }),
   delete: adminProcedure
     .input(z.object({ id: z.string().cuid() }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input: { id } }) => {
       try {
-        await ctx.prisma.eventOrganizer.delete({
-          where: { id: input.id },
-        })
+        await ctx.prisma.eventOrganizer.delete({ where: { id }, })
       } catch (err) {
         console.error(err)
       }

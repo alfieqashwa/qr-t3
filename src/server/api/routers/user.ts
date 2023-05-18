@@ -11,11 +11,11 @@ export const userRouter = createTRPCRouter({
     }),
   updateRole: protectedProcedure
     .input(z.object({ role: z.nativeEnum(Role) }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input: { role } }) => {
       return await ctx.prisma.user.update({
         where: { id: ctx.session.user.id },
         data: {
-          role: input.role
+          role
         }
       })
     }),
@@ -29,15 +29,15 @@ export const userRouter = createTRPCRouter({
       image: z.string().url().optional(),
       role: z.nativeEnum(Role),
     }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input: { name, email, image, role } }) => {
       try {
         return await ctx.prisma.user.create({
           data: {
-            name: input.name,
-            email: input.email,
-            image: input.image,
-            role: input.role,
-            eventOrganizerId: ctx.session.user.eventOrganizerId
+            name,
+            email,
+            image,
+            role,
+            eventOrganizerId: ctx.session.user.eventOrganizerId,
           }
         })
       } catch (err) {
@@ -75,10 +75,10 @@ export const userRouter = createTRPCRouter({
     }),
   delete: adminProcedure
     .input(z.object({ id: z.string().cuid() }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input: { id } }) => {
       try {
         return await ctx.prisma.user.delete({
-          where: { id: input.id }
+          where: { id }
         })
       } catch (err) {
         console.error(err)
