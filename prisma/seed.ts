@@ -1,59 +1,62 @@
+/*
+import { PROVINCES } from "../src/constants/provinces"
+import { REGENCIES } from "../src/constants/regencies"
+import { DISTRICTS } from "../src/constants/districts"
+import { VILLAGES } from "../src/constants/villages"
+*/
 import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 async function main() {
-  // const weddingEO = await prisma.eventOrganizer.create({
-  //   data: {
-  //     name: "Qashwa Wedding",
-  //     phone: "081122224444",
-  //     address: {
-  //       create: {
-  //         street: "Komp Diknas RT 003/06, Block C No.5, Cipayung",
-  //         city: "Tangerang Selatan",
-  //         postalCode: "15411",
-  //       },
-  //     },
-  //     events: {
-  //       create: {
-  //         title: "Anya & Ryan Wedding",
-  //         date: "2023-03-13T20:00:00.000Z",
-  //         location: "The Tribata Dharmawangsa",
-  //       },
-  //     },
-  //     users: {
-  //       connect: {
-  //         email: process.env.emailQ,
-  //       },
-  //     },
-  //   },
-  // })
+  /*
+  ============ ATTENTION ===============
+  ! Instead of using third-api, it's a good idea to store the addresses into its own database
+  ! Comment-out to store address when setup or do migration into new database
+  ! `pnpm dlx prisma db seed` OR `pnpm db:seed`
 
-  // const musicEO = await prisma.eventOrganizer.create({
-  //   data: {
-  //     name: "Cello Music Organizer",
-  //     phone: "081244443333",
-  //     address: {
-  //       create: {
-  //         street: "Komp Kejaksaan, Block G No.10, Cipayung",
-  //         city: "Tangerang Selatan",
-  //         postalCode: "15415",
-  //       },
-  //     },
-  //     events: {
-  //       create: {
-  //         title: "Konser Padi 2023",
-  //         date: "2023-05-20T21:30:00.000Z",
-  //         location: "Lapangan D Senayan",
-  //       },
-  //     },
-  //     users: {
-  //       connect: {
-  //         email: process.env.emailC,
-  //       },
-  //     },
-  //   },
-  // })
+    ================== PROVINCES ======================
+    const provinces = await prisma.province.createMany({ data: PROVINCES })
+    console.log({ provinces })
+  
+    ================== REGENCIES ======================
+    const getRegencies = REGENCIES.map((r) => ({ id: r.id, provinceId: r.province_id, name: r.name })
+    const regencies = await prisma.regency.createMany({ data: getRegencies })
+    console.log({ regencies })
+  
+    ================== DISTRICTS ======================
+    const getDistricts = DISTRICTS.map((d) => ({ id: d.id, regencyId: d.regency_id, name: d.name }))
+    const districts = await prisma.district.createMany({ data: getDistricts })
+    console.log({ districts })
+  
+    ================== VILLAGES ======================
+    const getVillages = VILLAGES.map((v) => ({ id: v.id, districtId: v.district_id, name: v.name }))
+    const villages = await prisma.village.createMany({ data: getVillages })
+    console.log({ villages })
+  
+  */
 
-  // console.log({ weddingEO, musicEO })
+  /*
+    ============= FIND & CAPTURE IF THERE'RE ANY DUPLICATED ID =======================
+    interface Village {
+      id: string
+      district_id: string
+      name: string
+    }
+
+    function hasDuplicateIds(array: Village[]): string[] {
+      const ids: Set<string> = new Set()
+      const duplicateIds: string[] = []
+
+      for (const obj of array) {
+        if (ids.has(obj.id)) {
+          duplicateIds.push(obj.id)
+        } else {
+          ids.add(obj.id)
+        }
+      }
+      return duplicateIds
+    }
+    console.log(hasDuplicateIds(VILLAGES)) // Output: false
+  */
 }
 main()
   .then(async () => {
