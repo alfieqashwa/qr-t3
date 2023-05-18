@@ -1,4 +1,4 @@
-import { AdminOnly } from "~/components/Authed/AdminOnly";
+import { AdminOnly } from "~/components/Authed";
 import type { RouterOutputs } from "~/src/utils/api";
 import { DeleteTeamDialog } from "./DeleteTeamDialog";
 import { UpdateTeamDialog } from "./UpdateTeamDialog";

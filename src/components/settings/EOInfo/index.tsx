@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { AdminOnly } from "~/components/Authed/AdminOnly";
+import { AdminOnly } from "~/components/Authed";
 import { LoadingSpinner } from "~/components/Loading";
 import { HeaderSettings } from "~/components/settings/HeaderSettings";
 import { api } from "~/src/utils/api";
