@@ -2,7 +2,7 @@ import { Role } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import type { GetServerSideProps, NextPage } from "next";
 import { getServerSession } from "next-auth";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { CommandCombobox } from "~/src/components/Combobox";
@@ -23,7 +23,7 @@ import { authOptions } from "~/src/server/auth";
 import { api } from "~/src/utils/api";
 
 const CreateEO: NextPage = (): JSX.Element => {
-  const router = useRouter();
+  const [session, router] = [useSession(), useRouter()];
   const { toast } = useToast();
 
   const updateUserRoleAsAdmin = api.user.updateRole.useMutation();
@@ -107,6 +107,35 @@ const CreateEO: NextPage = (): JSX.Element => {
       street,
       postalCode,
     });
+  };
+
+  const deleteMeIfISignedOut = api.user.deleteMe.useMutation({
+    onSuccess() {
+      toast({
+        title: "Succeed!",
+        variant: "default",
+        description: "See you later.",
+      });
+    },
+    onError() {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
+    },
+  });
+
+  const deleteUser = () => {
+    if (session.status !== "authenticated") return;
+    const id = session.data.user.id;
+
+    // delete user from db & signed-out if not fill the form and submit
+    deleteMeIfISignedOut.mutate({
+      id,
+    });
+    void signOut();
   };
 
   const disabled =
@@ -227,7 +256,7 @@ const CreateEO: NextPage = (): JSX.Element => {
                   type="button"
                   variant="outline"
                   className="w-1/2"
-                  onClick={() => void signOut()}
+                  onClick={deleteUser}
                 >
                   Sign Out
                 </Button>
@@ -237,7 +266,7 @@ const CreateEO: NextPage = (): JSX.Element => {
                     Please wait
                   </Button>
                 ) : (
-                  <Button disabled={disabled} className="w-1/2">
+                  <Button type="submit" disabled={disabled} className="w-1/2">
                     Submit
                   </Button>
                 )}
