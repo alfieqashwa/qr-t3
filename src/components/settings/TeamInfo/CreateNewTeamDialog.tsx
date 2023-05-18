@@ -48,12 +48,10 @@ export function CreateNewTeamDialog() {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const name = formData.get("name")?.toString().toLowerCase() as string;
     const email = formData.get("email")?.toString().toLowerCase() as string;
     const role = formData.get("role") as Role;
 
     mutate({
-      name,
       email,
       role,
     });
@@ -76,16 +74,6 @@ export function CreateNewTeamDialog() {
           </DialogDescription>
         </DialogHeader>
         <form className="grid gap-4 py-3" onSubmit={handleSubmit}>
-          {/* Name */}
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">Name</Label>
-            <Input id="name" name="name" className="capitalize" />
-            {error?.data?.zodError?.fieldErrors.name && (
-              <span className="text-xs text-destructive">
-                {error.data.zodError.fieldErrors.name}
-              </span>
-            )}
-          </div>
           {/* Email */}
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="email">Email</Label>

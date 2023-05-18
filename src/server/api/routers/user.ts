@@ -21,19 +21,14 @@ export const userRouter = createTRPCRouter({
     }),
   create: adminProcedure
     .input(z.object({
-      name: z.string({
-        required_error: "Name is required",
-        invalid_type_error: "Name must be a string",
-      }).min(3).max(25),
       email: z.string().email(),
       image: z.string().url().optional(),
       role: z.nativeEnum(Role),
     }))
-    .mutation(async ({ ctx, input: { name, email, image, role } }) => {
+    .mutation(async ({ ctx, input: { email, image, role } }) => {
       try {
         return await ctx.prisma.user.create({
           data: {
-            name,
             email,
             image,
             role,
@@ -52,6 +47,7 @@ export const userRouter = createTRPCRouter({
           OR: [
             { role: { equals: Role.EDITOR } },
             { role: { equals: Role.OPERATOR } },
+            { role: { equals: Role.USER } }
           ]
         },
         orderBy: { name: "asc" }, // A -> Z
@@ -96,6 +92,17 @@ export const userRouter = createTRPCRouter({
         })
       } catch (err) {
         console.error(err)
+      }
+    }),
+  deleteSelfUser: protectedProcedure
+    .mutation(async ({ ctx }) => {
+      try {
+        return await ctx.prisma.user.delete({
+          where: { id: ctx.session.user.id }
+        })
+      } catch (err) {
+        console.error(err)
+
       }
     })
 })
