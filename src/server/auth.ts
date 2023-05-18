@@ -47,7 +47,7 @@ export const authOptions: NextAuthOptions = {
         where: { email }
       })
 
-      if (!user.eventOrganizerId && registeredUser) {
+      if (!user.eventOrganizerId && !!registeredUser) {
         await prisma.user.update({
           where: { id: registeredUser.id },
           data: {
