@@ -42,7 +42,9 @@ Add more libs.
 ## TODOS:
 - [x] Create Drawer
 - [x] Create Event Organizer Form (Admin Access):
-  - [x] Redirect pages into `settings/create-eo` if user has no eoID
+  - [x] Redirect pages into `settings/create-eo` if user doesn't have eoID
+  - [x] Redirect nto `/dashboard` page if user has eoID
+  - [x] Delete new user from DB if signed-out before fill createEO form
   - [x] Error handling
   - [x] Success handling
   - [x] Setup UI Form
@@ -63,10 +65,10 @@ Add more libs.
   - [x]  editorProcedure
   - [x]  operatorProcedure
 - [x] CRUD Editor and Operator Users (Admin Access)
-  -[x] Create-Team API & Create Dialog Form
-  -[x] Fetch all Teams based on EO-ID API & Setup Table list
-  -[x] API Update-Team & Update Dialog Form
-  -[x] Delete-Team API & Delete Dialog Form
+  - [x] Create-Team API & Create Dialog Form
+  - [x] Fetch all Teams based on EO-ID API & Setup Table list
+  - [x] API Update-Team & Update Dialog Form
+  - [x] Delete-Team API & Delete Dialog Form
 - [x] Loading Configuration (UI)
 - [x] Image Uploader
   - [ ] How to set upload button on top of the user avatar itself
@@ -79,3 +81,25 @@ Add more libs.
   - [x] Settings
 - [ ] Setup DB on Planet Scale
 - [ ] Deploy on Vercel
+
+## Upgrade Version
+- [ ] Setup Event Page
+  - [ ] Configure Event CRUD
+- [ ] Setup Visitor Page
+  - [ ] Configure Visitor CRUD
+- [ ] Setup Dashboard Page
+  - [ ] Setup Charts
+  - [ ] Setup Table
+  - [ ] Setup Search
+  - [ ] Setup Filter
+  - [ ] Setup Pagination
+## Upgrade Version
+- [ ] Setup QR-Code
+  - [ ] Create QR-Code Generator
+  - [ ] Read QR-Code
+
+
+## Future Planning for DayDreamer
+- [ ] Convert App into Turbopack
+- [ ] Create Documentation Web
+- [ ] Setup React-Native (QR-Code Reader/Validator)
