@@ -46,15 +46,15 @@ export function ProfileInfo() {
           <article className="flex flex-col items-center space-y-6">
             <ProfileImage profile={profile} />
             <div className="space-x-2 text-center">
-              <small className="text-sm font-medium capitalize md:text-base md:font-semibold">
+              <small className="text-sm font-medium capitalize lg:text-base lg:font-semibold">
                 role:
               </small>
-              <small className="text-sm font-medium md:text-base md:font-semibold">
+              <small className="text-sm font-medium lg:text-base lg:font-semibold">
                 {profile.role}
               </small>
             </div>
             <div>
-              <small className="text-sm font-medium md:text-base md:font-semibold">
+              <small className="text-sm font-medium lg:text-base lg:font-semibold">
                 Login as <span>{profile.email as string}</span>
               </small>
             </div>

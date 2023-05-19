@@ -17,7 +17,7 @@ export const NavigationHeader = () => {
           <Codesandbox size={36} className="animate-spin" />
         </div>
         <button
-          className="hidden rounded-full bg-zinc-900 p-2.5 transition duration-300 ease-in-out hover:bg-zinc-800 md:block"
+          className="hidden rounded-full bg-zinc-900 p-2.5 transition duration-300 ease-in-out hover:bg-zinc-800 lg:block"
           onClick={handleToggle}
         >
           {toggle ? (
@@ -27,7 +27,7 @@ export const NavigationHeader = () => {
           )}
         </button>
       </section>
-      <section className="flex w-full items-center justify-end space-x-4 px-4 md:space-x-8 md:px-8">
+      <section className="flex w-full items-center justify-end space-x-4 px-4 lg:space-x-8 lg:px-8">
         <Bell />
         <UserAvatar
           isLoading={isLoading}

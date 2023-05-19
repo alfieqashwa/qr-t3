@@ -14,7 +14,7 @@ export const ProfileImage = ({ profile }: ProfileImageProps): JSX.Element => {
   return (
     <div className="mx-auto">
       {isImageUpdateExist ? (
-        <div className="relative h-28 w-28 md:h-36 md:w-36">
+        <div className="relative h-28 w-28 lg:h-36 lg:w-36">
           <Image
             src={isImageUpdateExist ? imageUpdate : image}
             alt={name}

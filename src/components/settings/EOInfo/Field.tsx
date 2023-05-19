@@ -8,10 +8,10 @@ export function Field(props: FieldProps) {
 
   return (
     <div className="space-x-2">
-      <small className="text-sm font-medium capitalize md:text-base md:font-semibold">
+      <small className="text-sm font-medium capitalize lg:text-base lg:font-semibold">
         {props.label}:
       </small>
-      <small className="text-sm font-medium capitalize md:text-base md:font-semibold">
+      <small className="text-sm font-medium capitalize lg:text-base lg:font-semibold">
         {value}
       </small>
     </div>

@@ -4,7 +4,7 @@ import type { OurFileRouter } from "~/server/uploadthing/router";
 
 export const UploadFile = () => (
   <>
-    <div className="kurt flex flex-col items-center justify-center gap-4">
+    <div className="flex flex-col items-center justify-center gap-4">
       <span className="text-center font-bold">
         {`Upload a file using a button:`}
       </span>
@@ -21,7 +21,7 @@ export const UploadFile = () => (
         }}
       />
     </div>
-    <div className="thom flex flex-col items-center justify-center gap-4">
+    <div className="flex flex-col items-center justify-center gap-4">
       <span className="text-center font-bold">{`...or using a dropzone:`}</span>
       <UploadDropzone<OurFileRouter>
         endpoint="withMdwr"

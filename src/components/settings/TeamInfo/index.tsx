@@ -25,7 +25,7 @@ export function TeamInfo(): JSX.Element {
           <CreateNewTeamDialog />
         </section>
       ) : (
-        <section className="relative mt-4 min-w-[360px] rounded-md border-4 border-slate-800 p-2 md:p-4">
+        <section className="relative mt-4 min-w-[360px] rounded-md border-4 border-slate-800 p-2 lg:p-4">
           <div className="overflow-y-auto">
             <TableTeam teams={teams.data} />
           </div>

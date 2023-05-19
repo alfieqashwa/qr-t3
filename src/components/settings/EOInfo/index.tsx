@@ -25,7 +25,7 @@ export function EOInfo() {
         subTitle="Information of your Event Organizer"
       />
       <div className="mt-4 border-t-2 border-slate-800"></div>
-      <section className="mt-4 rounded-md border-4 border-slate-800 p-4 md:p-8">
+      <section className="mt-4 rounded-md border-4 border-slate-800 p-4 lg:p-8">
         <article className="flex flex-col space-y-6">
           <div>
             <Field label="phone" value={eo.phone} />

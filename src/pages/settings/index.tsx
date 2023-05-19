@@ -24,14 +24,14 @@ const SettingsPage: NextPage = () => {
       <div className="h-[calc(100vh_-_17vh)]">
         <Tabs defaultValue="event-organizer">
           <TabsList className="mb-3">
-            <TabsTrigger className="text-xs md:text-sm" value="event-organizer">
+            <TabsTrigger className="text-xs lg:text-sm" value="event-organizer">
               Event Organizer
             </TabsTrigger>
-            <TabsTrigger className="text-xs md:text-sm" value="profile">
+            <TabsTrigger className="text-xs lg:text-sm" value="profile">
               Profile
             </TabsTrigger>
             <AdminOnly>
-              <TabsTrigger className="text-xs md:text-sm" value="team-info">
+              <TabsTrigger className="text-xs lg:text-sm" value="team-info">
                 Team Info
               </TabsTrigger>
             </AdminOnly>
