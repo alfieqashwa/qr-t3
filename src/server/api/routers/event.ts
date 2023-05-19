@@ -12,7 +12,7 @@ export const eventRouter = createTRPCRouter({
       title: z.string().min(3).max(25),
       thumbnail: z.string().url(),
       location: z.string().min(3).max(25),
-      date: z.date(),
+      date: z.string().datetime(),
       description: z.string().min(15).max(50)
     }))
     .mutation(async ({ ctx, input: { title, thumbnail, location, date, description } }) => {
@@ -30,7 +30,7 @@ export const eventRouter = createTRPCRouter({
       title: z.string().min(3).max(25),
       thumbnail: z.string().url(),
       location: z.string().min(3).max(25),
-      date: z.date(),
+      date: z.string().datetime(),
       description: z.string().min(15).max(50)
     }))
     .mutation(async ({ ctx, input: { id, title, thumbnail, location, date, description } }) => {
