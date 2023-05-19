@@ -19,7 +19,7 @@ export function EOInfo() {
   if (eo == null) return null;
   if (isLoading) return <LoadingSpinner />;
   return (
-    <div className="mx-auto w-full">
+    <div>
       <HeaderSettings
         title={eo.name}
         subTitle="Information of your Event Organizer"

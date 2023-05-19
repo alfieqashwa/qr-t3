@@ -1,5 +1,3 @@
-import { Fragment } from "react";
-
 type HeaderSettingsProps = {
   title: string;
   subTitle: string;
@@ -7,11 +5,11 @@ type HeaderSettingsProps = {
 
 export function HeaderSettings({ title, subTitle }: HeaderSettingsProps) {
   return (
-    <Fragment>
+    <header>
       <h1 className="text-xl font-semibold capitalize leading-none tracking-tight lg:text-2xl">
         {title}
       </h1>
       <h4 className="mt-2 text-xs font-semibold text-slate-400">{subTitle}</h4>
-    </Fragment>
+    </header>
   );
 }
