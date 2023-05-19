@@ -21,7 +21,7 @@ const EventPage: NextPage = (): JSX.Element => {
               Event
             </TabsTrigger>
             <TabsTrigger className="text-xs lg:text-sm" value="income">
-              Income
+              Ticket
             </TabsTrigger>
             <TabsTrigger className="text-xs lg:text-sm" value="visitor">
               Visitor
@@ -31,7 +31,7 @@ const EventPage: NextPage = (): JSX.Element => {
             <EventList />
           </TabsContent>
           <TabsContent value="income">
-            <h1>INCOME</h1>
+            <h1>Ticket</h1>
           </TabsContent>
           <TabsContent value="visitor">
             <h1>VISITOR</h1>
