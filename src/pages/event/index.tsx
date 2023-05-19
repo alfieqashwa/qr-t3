@@ -5,8 +5,9 @@ import { HeaderTitle } from "~/src/components/HeaderTitle";
 import { Layout } from "~/src/components/layout";
 
 import { getServerSession } from "next-auth/next";
-import EventCard from "~/components/EventCard";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { authOptions } from "~/server/auth";
+import { EventList } from "~/src/components/event-list";
 
 const title = "Events" as const;
 const EventPage: NextPage = (): JSX.Element => {
@@ -14,32 +15,28 @@ const EventPage: NextPage = (): JSX.Element => {
     <Layout title={title}>
       <HeaderTitle title={title} />
       <div className="mt-4 h-[calc(100vh_-_17vh)]">
-        <section className="flex w-full flex-col justify-center space-y-4 lg:flex-row lg:space-y-0 lg:space-x-8">
-          <div className="flex h-16 items-center justify-evenly rounded-xl bg-slate-800 p-6 shadow-lg lg:w-2/3">
-            <div>
-              <h2>Income</h2>
-            </div>
-            <div>
-              <h2>Event</h2>
-            </div>
-            <div>
-              <h2>Visitor</h2>
-            </div>
-            <div>
-              <h2 className="whitespace-nowrap">This Week</h2>
-            </div>
-          </div>
-          <button className="mx-auto grid h-16 w-2/3 place-content-center rounded-xl bg-emerald-700 p-6 shadow-lg lg:w-1/3">
-            <h2 className="whitespace-nowrap font-semibold">
-              Generate Order Report
-            </h2>
-          </button>
-        </section>
-
-        <section className="mt-2 grid h-auto grid-cols-1 gap-4 py-4 lg:mt-0 lg:gap-8 lg:py-8">
-          <EventCard imgUrl="/img/event-thumbnail.avif" />
-          <EventCard imgUrl="/img/event-thumbnail.avif" />
-        </section>
+        <Tabs defaultValue="event-list">
+          <TabsList className="mb-3">
+            <TabsTrigger className="text-xs lg:text-sm" value="event-list">
+              Event
+            </TabsTrigger>
+            <TabsTrigger className="text-xs lg:text-sm" value="income">
+              Income
+            </TabsTrigger>
+            <TabsTrigger className="text-xs lg:text-sm" value="visitor">
+              Visitor
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="event-list">
+            <EventList />
+          </TabsContent>
+          <TabsContent value="income">
+            <h1>INCOME</h1>
+          </TabsContent>
+          <TabsContent value="visitor">
+            <h1>VISITOR</h1>
+          </TabsContent>
+        </Tabs>
       </div>
     </Layout>
   );

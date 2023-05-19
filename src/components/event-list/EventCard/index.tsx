@@ -22,19 +22,19 @@ type EventCardProps = {
 
 export default function EventCard({ imgUrl }: EventCardProps) {
   return (
-    <section className="flex w-full flex-col rounded-xl bg-zinc-900 p-3 shadow-lg lg:flex-row lg:space-x-6 lg:p-6">
-      <div className="relative h-40 w-full lg:h-auto lg:w-2/12">
+    <section className="flex w-full flex-col rounded-xl bg-zinc-900 p-3 shadow-lg xl:flex-row xl:space-x-6 xl:p-6">
+      <div className="relative h-40 w-full xl:h-auto xl:w-60">
         <Image
-          className="rounded-xl shadow-lg"
+          className="rounded-xl object-cover shadow-lg"
           src={imgUrl}
           alt="thumbnail"
           fill
           priority
         />
       </div>
-      <article className="mt-4 lg:mt-0 lg:w-5/12">
+      <article className="mt-4 xl:mt-0 xl:w-5/12">
         <div className="font-semibold">
-          <h3 className="text-xl text-slate-300 lg:text-2xl">
+          <h3 className="text-xl text-slate-300 xl:text-2xl">
             Konser Band Dewa 19
           </h3>
           <p className="mt-1 text-sm text-emerald-400">JakSel, Jakarta</p>
@@ -46,7 +46,7 @@ export default function EventCard({ imgUrl }: EventCardProps) {
           recusandae quasi officiis tempora.
         </p>
       </article>
-      <div className="mt-4 flex items-center justify-center space-x-6 lg:mt-0 lg:w-5/12 lg:justify-around lg:space-x-8 lg:px-16">
+      <div className="mt-4 flex items-center justify-center space-x-6 xl:mt-0 xl:w-5/12 xl:justify-around xl:space-x-8 xl:px-16">
         <Price />
         <Ticket />
         <Schedule />

@@ -87,7 +87,7 @@ model EventOrganizer {
 model Event {
     id               String          @id @default(cuid())
     title            String          @unique()
-    imageUrl         String?
+    thumbnail        String?
     date             DateTime
     location         String
     eventOrganizer   EventOrganizer? @relation(fields: [eventOrganizerId], references: [id], onDelete: Cascade)

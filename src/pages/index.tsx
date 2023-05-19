@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { AuthShowcase } from "~/components/Authed";
+import { AuthShowcase } from "~/src/components/authed";
 
 const Home: NextPage = () => {
   return (
