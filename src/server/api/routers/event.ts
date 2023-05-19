@@ -12,13 +12,14 @@ export const eventRouter = createTRPCRouter({
       title: z.string().min(3).max(25),
       thumbnail: z.string().url(),
       location: z.string().min(3).max(25),
-      date: z.string().datetime(),
-      description: z.string().min(15).max(50)
+      date: z.date(),
+      description: z.string().min(15).max(50),
+      eventOrganizerId: z.string().cuid()
     }))
-    .mutation(async ({ ctx, input: { title, thumbnail, location, date, description } }) => {
+    .mutation(async ({ ctx, input: { title, thumbnail, location, date, description, eventOrganizerId } }) => {
       try {
         return await ctx.prisma.event.create({
-          data: { title, thumbnail, location, date, description, eventOrganizerId: ctx.session.user.eventOrganizerId }
+          data: { title, thumbnail, location, date, description, eventOrganizerId }
         })
       } catch (err) {
         console.error(err)
@@ -30,7 +31,7 @@ export const eventRouter = createTRPCRouter({
       title: z.string().min(3).max(25),
       thumbnail: z.string().url(),
       location: z.string().min(3).max(25),
-      date: z.string().datetime(),
+      date: z.date(),
       description: z.string().min(15).max(50)
     }))
     .mutation(async ({ ctx, input: { id, title, thumbnail, location, date, description } }) => {

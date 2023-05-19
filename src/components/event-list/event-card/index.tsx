@@ -37,22 +37,19 @@ export default function EventCard({ event }: EventCardProps) {
       </div>
       <article className="mt-4 xl:mt-0 xl:w-5/12">
         <div className="font-semibold">
-          <h3 className="text-xl text-slate-300 xl:text-2xl">
-            Konser Band Dewa 19
+          <h3 className="text-xl capitalize text-slate-300 xl:text-2xl">
+            {event.title}
           </h3>
-          <p className="mt-1 text-sm text-emerald-400">JakSel, Jakarta</p>
+          <p className="mt-1 text-sm capitalize text-emerald-400">
+            {event.location}
+          </p>
         </div>
-        <p className="mt-2 text-xs text-slate-400">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sequi
-          tenetur enim harum, distinctio nobis vero nulla. Laudantium, inventore
-          culpa. Accusamus quos iste explicabo. Dignissimos tenetur eum
-          recusandae quasi officiis tempora.
-        </p>
+        <p className="mt-2 text-xs text-slate-400">{event.description}</p>
       </article>
       <div className="mt-4 flex items-center justify-center space-x-6 xl:mt-0 xl:w-5/12 xl:justify-around xl:space-x-8 xl:px-16">
         <Price />
         <Ticket />
-        <Schedule />
+        <Schedule schedule={event.date} />
       </div>
     </section>
   );

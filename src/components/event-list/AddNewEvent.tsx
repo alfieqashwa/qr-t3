@@ -1,23 +1,36 @@
-import { FilePlus2, Loader2 } from "lucide-react";
+import { format } from "date-fns";
+import { Calendar as CalendarIcon, FilePlus2, Loader2 } from "lucide-react";
 import { useState } from "react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
+import { cn } from "~/src/utils";
+import { api } from "~/src/utils/api";
+import { wait } from "~/src/utils/wait";
+import { Button } from "../ui/button";
+import { Calendar } from "../ui/calendar";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { DialogFooter } from "../ui/dialog";
-import { Button } from "../ui/button";
-import { api } from "~/src/utils/api";
-import { toast } from "../ui/use-toast";
+import { Label } from "../ui/label";
+import { Textarea } from "../ui/text-area";
 import { ToastAction } from "../ui/toast";
+import { toast } from "../ui/use-toast";
+import { useSession } from "next-auth/react";
 
 export function AddNewEvent() {
+  const [date, setDate] = useState<Date>();
   const [open, setOpen] = useState(false);
+  const session = useSession();
 
   const utils = api.useContext();
   const { mutate, isLoading, error } = api.event.create.useMutation({
@@ -28,6 +41,7 @@ export function AddNewEvent() {
         description: "Your form has been created.",
       });
       await utils.event.getAll.invalidate();
+      await wait().then(() => setOpen(false));
     },
     onError() {
       toast({
@@ -41,19 +55,22 @@ export function AddNewEvent() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const formData = new FormData(e.currentTarget);
     const title = formData.get("title")?.toString().toLowerCase() as string;
     const location = formData
       .get("location")
       ?.toString()
       .toLowerCase() as string;
-    const date = formData.get("date") as string;
     const description = formData
       .get("description")
       ?.toString()
       .toLowerCase() as string;
     const thumbnail = formData.get("thumbnail") as string;
+
+    //validator
+    if (date == null) return;
+    if (session.status !== "authenticated") return null;
+    const eventOrganizerId = session.data.user.eventOrganizerId as string;
 
     mutate({
       title,
@@ -61,6 +78,7 @@ export function AddNewEvent() {
       date,
       description,
       thumbnail,
+      eventOrganizerId,
     });
   };
 
@@ -104,7 +122,7 @@ export function AddNewEvent() {
           {/* Date */}
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="date">Date</Label>
-            <Input id="date" name="date" />
+            <DatePicker date={date} setDate={setDate} />
             {error?.data?.zodError?.fieldErrors.date && (
               <span className="text-xs text-destructive">
                 {error?.data?.zodError?.fieldErrors.date}
@@ -114,7 +132,11 @@ export function AddNewEvent() {
           {/* Description */}
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="description">Description</Label>
-            <Input id="description" name="description" />
+            <Textarea
+              id="description"
+              name="description"
+              placeholder="Type your message here."
+            />
             {error?.data?.zodError?.fieldErrors.description && (
               <span className="text-xs text-destructive">
                 {error?.data?.zodError?.fieldErrors.description}
@@ -158,10 +180,34 @@ export function AddNewEvent() {
   );
 }
 
-/*
-title,
-thumbnail,
-location,
-date,
-description
-*/
+type DatePickerProps = {
+  date?: Date;
+  setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
+};
+
+function DatePicker({ date, setDate }: DatePickerProps) {
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant={"outline"}
+          className={cn(
+            "w-[280px] justify-start text-left font-normal",
+            !date && "text-muted-foreground"
+          )}
+        >
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          {date ? format(date, "PPP") : <span>Pick a date</span>}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0">
+        <Calendar
+          mode="single"
+          selected={date}
+          onSelect={setDate}
+          initialFocus
+        />
+      </PopoverContent>
+    </Popover>
+  );
+}

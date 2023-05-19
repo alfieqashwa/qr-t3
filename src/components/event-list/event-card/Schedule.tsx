@@ -1,6 +1,10 @@
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
 import { CalendarDays } from "lucide-react";
 
-export const Schedule = () => (
+type Props = { schedule: Date };
+
+export const Schedule = ({ schedule }: Props) => (
   <section className="flex flex-col items-center">
     <div className="relative h-12 w-12 rounded-full bg-emerald-900 lg:h-14 lg:w-14">
       <CalendarDays
@@ -9,7 +13,7 @@ export const Schedule = () => (
       />
     </div>
     <p className="mt-2 whitespace-nowrap text-xs font-semibold text-slate-300 lg:mt-4">
-      26 Juni 2023
+      {format(schedule, "PPP", { locale: id })}
     </p>
   </section>
 );
