@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Price } from "./Price";
 import { Schedule } from "./Schedule";
 import { Ticket } from "./Ticket";
+import type { RouterOutputs } from "~/src/utils/api";
 
 /**
 // ?WIP DATA:
@@ -17,16 +18,18 @@ import { Ticket } from "./Ticket";
  */
 
 type EventCardProps = {
-  imgUrl: string;
+  event: RouterOutputs["event"]["getAll"][0];
 };
 
-export default function EventCard({ imgUrl }: EventCardProps) {
+const DEFAULT_IMAGE = "/img/event-thumbnail.avif";
+
+export default function EventCard({ event }: EventCardProps) {
   return (
     <section className="flex w-full flex-col rounded-xl bg-zinc-900 p-3 shadow-lg xl:flex-row xl:space-x-6 xl:p-6">
       <div className="relative h-40 w-full xl:h-auto xl:w-60">
         <Image
           className="rounded-xl object-cover shadow-lg"
-          src={imgUrl}
+          src={event.thumbnail ?? DEFAULT_IMAGE}
           alt="thumbnail"
           fill
           priority
