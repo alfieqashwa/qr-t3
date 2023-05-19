@@ -1,5 +1,6 @@
 import { addressRouter } from "./routers/address"
 import { eoRouter } from "./routers/eo"
+import { eventRouter } from "./routers/event"
 import { userRouter } from "./routers/user"
 import { createTRPCRouter } from "./trpc"
 
@@ -11,7 +12,8 @@ import { createTRPCRouter } from "./trpc"
 export const appRouter = createTRPCRouter({
   user: userRouter,
   eo: eoRouter,
-  address: addressRouter
+  address: addressRouter,
+  event: eventRouter
 })
 
 // export type definition of API
