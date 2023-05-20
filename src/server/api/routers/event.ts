@@ -4,8 +4,7 @@ import { adminProcedure, createTRPCRouter, editorProcedure, protectedProcedure }
 export const eventRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.event.findMany({
-      include: { tickets: true },
-      orderBy: { date: "desc" }
+      orderBy: { date: "asc" }
     })
   }),
   create: adminProcedure
