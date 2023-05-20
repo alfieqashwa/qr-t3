@@ -1,8 +1,4 @@
-import React from "react";
 import Image from "next/image";
-import { Price } from "./Price";
-import { Schedule } from "./Schedule";
-import { Ticket } from "./Ticket";
 import type { RouterOutputs } from "~/src/utils/api";
 
 /**
@@ -11,7 +7,6 @@ import type { RouterOutputs } from "~/src/utils/api";
     Image URL
     Title
     Location
-    Description
     Price
     Sum of ticket left
     Event date
@@ -44,13 +39,8 @@ export default function EventCard({ event }: EventCardProps) {
             {event.location}
           </p>
         </div>
-        <p className="mt-2 text-xs text-slate-400">{event.description}</p>
       </article>
-      <div className="mt-4 flex items-center justify-center space-x-6 xl:mt-0 xl:w-5/12 xl:justify-around xl:space-x-8 xl:px-16">
-        <Price />
-        <Ticket />
-        <Schedule schedule={event.date} />
-      </div>
+      <div className="mt-4 flex items-center justify-center space-x-6 xl:mt-0 xl:w-5/12 xl:justify-around xl:space-x-8 xl:px-16"></div>
     </section>
   );
 }

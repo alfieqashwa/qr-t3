@@ -22,7 +22,6 @@ import {
 } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { Textarea } from "../ui/text-area";
 import { ToastAction } from "../ui/toast";
 import { toast } from "../ui/use-toast";
 import { useSession } from "next-auth/react";
@@ -31,7 +30,7 @@ import type { OurFileRouter } from "~/src/server/uploadthing/router";
 
 export function AddNewEvent() {
   const [date, setDate] = useState<Date>();
-  const [upload, setUpload] = useState<string>();
+  const [thumbnail, setThumbnail] = useState<string>();
   const [open, setOpen] = useState(false);
   const session = useSession();
 
@@ -64,11 +63,7 @@ export function AddNewEvent() {
       .get("location")
       ?.toString()
       .toLowerCase() as string;
-    const description = formData
-      .get("description")
-      ?.toString()
-      .toLowerCase() as string;
-    const thumbnail = upload as string;
+
     //validator
     if (session.status !== "authenticated") return null;
     const eventOrganizerId = session.data.user.eventOrganizerId as string;
@@ -77,8 +72,7 @@ export function AddNewEvent() {
       title,
       location,
       date: date as Date,
-      description,
-      thumbnail,
+      thumbnail: thumbnail as string,
       eventOrganizerId,
     });
   };
@@ -130,20 +124,6 @@ export function AddNewEvent() {
               </span>
             )}
           </div>
-          {/* Description */}
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="description">Description</Label>
-            <Textarea
-              id="description"
-              name="description"
-              placeholder="Type your description here."
-            />
-            {error?.data?.zodError?.fieldErrors.description && (
-              <span className="text-xs text-destructive">
-                {error?.data?.zodError?.fieldErrors.description}
-              </span>
-            )}
-          </div>
           {/* Thumbnail */}
           <div className="flex flex-col items-start space-y-1.5">
             <Label htmlFor="thumbnail">Thumbnail</Label>
@@ -152,7 +132,7 @@ export function AddNewEvent() {
                 endpoint="withMdwr"
                 onClientUploadComplete={(res) => {
                   // Do something with the response
-                  setUpload(res?.[0]?.fileUrl as string);
+                  setThumbnail(res?.[0]?.fileUrl as string);
                 }}
                 onUploadError={(error: Error) => {
                   console.error(`ERROR! ${error.message}`);

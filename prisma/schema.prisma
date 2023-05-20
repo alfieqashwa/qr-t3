@@ -90,7 +90,6 @@ model Event {
     thumbnail        String?
     date             DateTime
     location         String
-    description      String
     eventOrganizer   EventOrganizer? @relation(fields: [eventOrganizerId], references: [id], onDelete: Cascade)
     eventOrganizerId String?         @map("event_organizer_id")
     // Event many2one -> Visitor
