@@ -10,11 +10,11 @@ export const eventRouter = createTRPCRouter({
   }),
   create: adminProcedure
     .input(z.object({
-      title: z.string().min(3).max(25),
+      title: z.string().min(5).max(25),
       thumbnail: z.string().url(),
-      location: z.string().min(3).max(25),
+      location: z.string().min(5).max(25),
       date: z.date(),
-      description: z.string().min(15).max(50),
+      description: z.string().min(15).max(120),
       eventOrganizerId: z.string().cuid()
     }))
     .mutation(async ({ ctx, input: { title, thumbnail, location, date, description, eventOrganizerId } }) => {
@@ -29,11 +29,11 @@ export const eventRouter = createTRPCRouter({
   update: editorProcedure
     .input(z.object({
       id: z.string().cuid(),
-      title: z.string().min(3).max(25),
+      title: z.string().min(5).max(25),
       thumbnail: z.string().url(),
-      location: z.string().min(3).max(25),
+      location: z.string().min(5).max(25),
       date: z.date(),
-      description: z.string().min(15).max(50)
+      description: z.string().min(15).max(120)
     }))
     .mutation(async ({ ctx, input: { id, title, thumbnail, location, date, description } }) => {
       try {

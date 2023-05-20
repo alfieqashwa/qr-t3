@@ -24,8 +24,6 @@ type EventCardProps = {
 const DEFAULT_IMAGE = "/img/event-thumbnail.avif";
 
 export default function EventCard({ event }: EventCardProps) {
-  const ticketsQty = event.tickets.length;
-
   return (
     <section className="flex w-full flex-col rounded-xl bg-zinc-900 p-3 shadow-lg xl:flex-row xl:space-x-6 xl:p-6">
       <div className="relative h-40 w-full xl:h-auto xl:w-60">
@@ -50,7 +48,7 @@ export default function EventCard({ event }: EventCardProps) {
       </article>
       <div className="mt-4 flex items-center justify-center space-x-6 xl:mt-0 xl:w-5/12 xl:justify-around xl:space-x-8 xl:px-16">
         <Price />
-        <Ticket qty={ticketsQty} />
+        <Ticket />
         <Schedule schedule={event.date} />
       </div>
     </section>

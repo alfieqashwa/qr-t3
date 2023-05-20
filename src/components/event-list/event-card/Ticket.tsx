@@ -1,10 +1,5 @@
 import { Ticket as TicketIcon } from "lucide-react";
 
-type TicketProps = {
-  price: number;
-  qty: number;
-};
-
 export const Ticket = ({ qty }: { qty: number }) => (
   <section className="flex flex-col items-center">
     <div

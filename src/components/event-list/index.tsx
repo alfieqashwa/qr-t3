@@ -21,7 +21,6 @@ export function EventList(): JSX.Element {
           ))}
         </section>
       )}
-      <pre>{JSON.stringify(events, null, 2)}</pre>
     </div>
   );
 }

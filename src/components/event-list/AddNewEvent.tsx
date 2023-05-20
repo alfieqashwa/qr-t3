@@ -26,9 +26,12 @@ import { Textarea } from "../ui/text-area";
 import { ToastAction } from "../ui/toast";
 import { toast } from "../ui/use-toast";
 import { useSession } from "next-auth/react";
+import { UploadButton } from "@uploadthing/react";
+import type { OurFileRouter } from "~/src/server/uploadthing/router";
 
 export function AddNewEvent() {
   const [date, setDate] = useState<Date>();
+  const [upload, setUpload] = useState<string>();
   const [open, setOpen] = useState(false);
   const session = useSession();
 
@@ -65,17 +68,15 @@ export function AddNewEvent() {
       .get("description")
       ?.toString()
       .toLowerCase() as string;
-    const thumbnail = formData.get("thumbnail") as string;
-
+    const thumbnail = upload as string;
     //validator
-    if (date == null) return;
     if (session.status !== "authenticated") return null;
     const eventOrganizerId = session.data.user.eventOrganizerId as string;
 
     mutate({
       title,
       location,
-      date,
+      date: date as Date,
       description,
       thumbnail,
       eventOrganizerId,
@@ -98,11 +99,11 @@ export function AddNewEvent() {
             Create new event here. Click Add Event when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <form className="grid gap-4 py-4" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="grid gap-4 py-4">
           {/* Title */}
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="title">Title</Label>
-            <Input id="title" name="title" />
+            <Input id="title" name="title" className="capitalize" />
             {error?.data?.zodError?.fieldErrors.title && (
               <span className="text-xs text-destructive">
                 {error?.data?.zodError?.fieldErrors.title}
@@ -112,7 +113,7 @@ export function AddNewEvent() {
           {/* Location */}
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="location">Location</Label>
-            <Input id="location" name="location" />
+            <Input id="location" name="location" className="capitalize" />
             {error?.data?.zodError?.fieldErrors.location && (
               <span className="text-xs text-destructive">
                 {error?.data?.zodError?.fieldErrors.location}
@@ -122,7 +123,7 @@ export function AddNewEvent() {
           {/* Date */}
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="date">Date</Label>
-            <DatePicker date={date} setDate={setDate} />
+            <DatePicker date={date as Date} setDate={setDate} />
             {error?.data?.zodError?.fieldErrors.date && (
               <span className="text-xs text-destructive">
                 {error?.data?.zodError?.fieldErrors.date}
@@ -135,7 +136,7 @@ export function AddNewEvent() {
             <Textarea
               id="description"
               name="description"
-              placeholder="Type your message here."
+              placeholder="Type your description here."
             />
             {error?.data?.zodError?.fieldErrors.description && (
               <span className="text-xs text-destructive">
@@ -144,9 +145,20 @@ export function AddNewEvent() {
             )}
           </div>
           {/* Thumbnail */}
-          <div className="flex flex-col space-y-1.5">
+          <div className="flex flex-col items-start space-y-1.5">
             <Label htmlFor="thumbnail">Thumbnail</Label>
-            <Input id="thumbnail" name="thumbnail" />
+            <div className="whitespace-nowrap hover:cursor-pointer">
+              <UploadButton<OurFileRouter>
+                endpoint="withMdwr"
+                onClientUploadComplete={(res) => {
+                  // Do something with the response
+                  setUpload(res?.[0]?.fileUrl as string);
+                }}
+                onUploadError={(error: Error) => {
+                  console.error(`ERROR! ${error.message}`);
+                }}
+              />
+            </div>
             {error?.data?.zodError?.fieldErrors.thumbnail && (
               <span className="text-xs text-destructive">
                 {error?.data?.zodError?.fieldErrors.thumbnail}
