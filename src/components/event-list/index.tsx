@@ -3,8 +3,9 @@ import { AddNewEvent } from "./AddNewEvent";
 import { LoadingSpinner } from "../Loading";
 import { EventTable } from "./EventTable";
 
-export function EventList(): JSX.Element {
+export function EventList(): JSX.Element | null {
   const events = api.event.getAll.useQuery();
+  if (events.data == null) return null;
   return (
     <div>
       <header className="flex justify-end">
@@ -12,10 +13,9 @@ export function EventList(): JSX.Element {
       </header>
       <div className="mt-4 border-t-2 border-slate-800"></div>
       {events.isLoading && <LoadingSpinner />}
-      {events.data && events.data?.length < 1 && (
+      {events.data?.length < 1 ? (
         <EmptyData description="There's no event has been created." />
-      )}
-      {events.data && (
+      ) : (
         <section className="mt-2 py-4 px-4 lg:px-8 xl:px-12">
           <EventTable events={events.data} />
         </section>
