@@ -8,24 +8,20 @@ import { getServerSession } from "next-auth/next";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { authOptions } from "~/server/auth";
 import { EventList } from "~/src/components/event-list";
-import { api } from "~/src/utils/api";
-import { LoadingSpinner } from "~/src/components/Loading";
+import { TicketList } from "~/src/components/ticket-list";
 
 const title = "Events" as const;
 const EventPage: NextPage = (): JSX.Element => {
-  const { data: tickets, isLoading } = api.ticket.getAll.useQuery();
-
   return (
     <Layout title={title}>
       <HeaderTitle title={title} />
       <div className="mt-4 h-[calc(100vh_-_17vh)]">
-        {isLoading && <LoadingSpinner />}
-        <Tabs defaultValue="event-list">
+        <Tabs defaultValue="ticket-list">
           <TabsList className="mb-3">
             <TabsTrigger className="text-xs lg:text-sm" value="event-list">
               Event
             </TabsTrigger>
-            <TabsTrigger className="text-xs lg:text-sm" value="ticket">
+            <TabsTrigger className="text-xs lg:text-sm" value="ticket-list">
               Ticket
             </TabsTrigger>
             <TabsTrigger className="text-xs lg:text-sm" value="visitor">
@@ -35,11 +31,8 @@ const EventPage: NextPage = (): JSX.Element => {
           <TabsContent value="event-list">
             <EventList />
           </TabsContent>
-          <TabsContent value="ticket">
-            <div>
-              <h1>Ticket</h1>
-              <pre>{JSON.stringify(tickets, null, 2)}</pre>
-            </div>
+          <TabsContent value="ticket-list">
+            <TicketList />
           </TabsContent>
           <TabsContent value="visitor">
             <h1>VISITOR</h1>
