@@ -2,11 +2,16 @@ import { z } from "zod"
 import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
 
 export const ticketRouter = createTRPCRouter({
-  getAll: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.ticket.findMany({
-      orderBy: { event: { date: "asc" } },
-    })
-  }),
+  getAll: protectedProcedure
+    .query(async ({ ctx }) => {
+      return await ctx.prisma.ticket.findMany({
+        where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
+        include: {
+          event: true
+        },
+        orderBy: { event: { date: "asc" } },
+      })
+    }),
   generate: adminProcedure
     .input(z.object({
       qty: z.number({
@@ -18,7 +23,7 @@ export const ticketRouter = createTRPCRouter({
         required_error: "Price is required",
         invalid_type_error: "Price must be a number",
       }
-      ).int(),
+      ).int().gt(0),
       category: z.string({
         required_error: "Category is required",
         invalid_type_error: "Category must be a string",
@@ -30,18 +35,21 @@ export const ticketRouter = createTRPCRouter({
       }).cuid()
     }))
     .mutation(async ({ ctx, input: { qty, price, category, eventId } }) => {
-      const generatedTickets = function () {
-        return Array.from({ length: qty }, () => ({
-          price,
-          category,
-          eventId
-        }))
-      }()
-
-      console.log(generatedTickets)
-
-      return await ctx.prisma.ticket.createMany({
-        data: generatedTickets
-      })
+      try {
+        function generateTickets() {
+          return Array.from({ length: qty }, () => ({
+            price,
+            category,
+            eventId,
+            eventOrganizerId: ctx.session.user.eventOrganizerId as string,
+          }))
+        }
+        const generatedTickets = generateTickets()
+        return await ctx.prisma.ticket.createMany({
+          data: generatedTickets
+        })
+      } catch (err) {
+        console.error(err)
+      }
     })
 })

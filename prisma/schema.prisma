@@ -64,19 +64,20 @@ model VerificationToken {
 }
 
 model EventOrganizer {
-    id         String  @id @default(cuid())
-    name       String  @unique()
+    id         String   @id @default(cuid())
+    name       String   @unique()
     phone      String
     province   String
     regency    String
     district   String
     village    String
     street     String
-    postalCode String  @map("postal_code")
+    postalCode String   @map("postal_code")
     // EventOrg many2one -> User 
     users      User[]
     // EventOrg many2one -> Event 
     events     Event[]
+    tickets    Ticket[]
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
@@ -102,10 +103,15 @@ model Event {
 
 model Ticket {
     id       String @id @default(cuid())
-    category String @unique
+    category String
     price    Float
-    event    Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
-    eventId  String @map("event_id")
+    status   Status @default(AVAILABLE)
+
+    event   Event?  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+    eventId String? @map("event_id")
+
+    EventOrganizer   EventOrganizer? @relation(fields: [eventOrganizerId], references: [id])
+    eventOrganizerId String          @map("event_organizer_id")
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
@@ -152,4 +158,10 @@ enum Role {
     EDITOR // -> CRUD Only its Member/Members.
     OPERATOR // -> Read Only its Event/Events and Only get Access to Scanner Page.
     USER
+}
+
+enum Status {
+    AVAILABLE
+    SOLD
+    REFUND
 }

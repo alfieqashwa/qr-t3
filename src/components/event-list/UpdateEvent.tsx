@@ -1,4 +1,3 @@
-import { Role } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
@@ -15,6 +14,9 @@ import { Label } from "~/components/ui/label";
 import { ToastAction } from "~/components/ui/toast";
 import { useToast } from "~/components/ui/use-toast";
 import { api } from "~/src/utils/api";
+import { wait } from "~/src/utils/wait";
+import { Input } from "../ui/input";
+import { DatePicker } from "./DatePicker";
 
 type Props = {
   id: string;
@@ -153,36 +155,5 @@ export function UpdateEvent({ id, title, location, date }: Props) {
         </form>
       </DialogContent>
     </Dialog>
-  );
-}
-
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
-import { wait } from "~/src/utils/wait";
-import { Input } from "../ui/input";
-import { DatePicker } from "./DatePicker";
-import { useSession } from "next-auth/react";
-
-export function SelectRole({ role }: { role: Role }) {
-  return (
-    <Select name="role" defaultValue={role}>
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Select a role" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>Role</SelectLabel>
-          <SelectItem value={Role.EDITOR}>{Role.EDITOR}</SelectItem>
-          <SelectItem value={Role.OPERATOR}>{Role.OPERATOR}</SelectItem>
-        </SelectGroup>
-      </SelectContent>
-    </Select>
   );
 }

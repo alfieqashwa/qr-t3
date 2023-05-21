@@ -55,7 +55,7 @@ export function ProfileInfo() {
             </div>
             <div>
               <small className="text-sm font-medium lg:text-base lg:font-semibold">
-                Login as <span>{profile.email as string}</span>
+                Login as <span>{profile.email}</span>
               </small>
             </div>
           </article>

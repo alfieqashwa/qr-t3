@@ -1,8 +1,6 @@
-import { UploadButton } from "@uploadthing/react";
 import { FilePlus2, Loader2 } from "lucide-react";
-import { useSession } from "next-auth/react";
 import { useState } from "react";
-import type { OurFileRouter } from "~/src/server/uploadthing/router";
+import type { RouterOutputs } from "~/src/utils/api";
 import { api } from "~/src/utils/api";
 import { wait } from "~/src/utils/wait";
 import { Button } from "../ui/button";
@@ -19,22 +17,29 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { ToastAction } from "../ui/toast";
 import { toast } from "../ui/use-toast";
+import { SelectEvent } from "./SelectEvent";
+import { SelectCategory } from "./SelectCategory";
 
-export function AddNewTicket() {
-  const [date, setDate] = useState<Date>();
-  const [thumbnail, setThumbnail] = useState<string>();
+type Props = {
+  tickets: RouterOutputs["ticket"]["getAll"];
+};
+
+export function GenerateNewTicket({ tickets }: Props) {
   const [open, setOpen] = useState(false);
-  const session = useSession();
-
   const utils = api.useContext();
-  const { mutate, isLoading, error } = api.event.create.useMutation({
+
+  // const categories = tickets.map((ticket) => ticket.categories);
+
+  const { data: events } = api.event.getAll.useQuery();
+
+  const { mutate, isLoading, error } = api.ticket.generate.useMutation({
     async onSuccess() {
       toast({
         title: "Succeed!",
         variant: "default",
         description: "Your form has been created.",
       });
-      await utils.event.getAll.invalidate();
+      await utils.ticket.getAll.invalidate();
       await wait().then(() => setOpen(false));
     },
     onError() {
@@ -50,22 +55,19 @@ export function AddNewTicket() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const title = formData.get("title")?.toString().toLowerCase() as string;
-    const location = formData
-      .get("location")
+    const qty = formData.get("qty")?.toString().toLowerCase() as string;
+    const category = formData
+      .get("category")
       ?.toString()
       .toLowerCase() as string;
-
-    //validator
-    if (session.status !== "authenticated") return null;
-    const eventOrganizerId = session.data.user.eventOrganizerId as string;
+    const price = formData.get("price")?.toString().toLowerCase() as string;
+    const eventId = formData.get("eventId") as string;
 
     mutate({
-      title,
-      location,
-      date: date as Date,
-      thumbnail: thumbnail as string,
-      eventOrganizerId,
+      qty: +qty,
+      category,
+      price: +price,
+      eventId,
     });
   };
 
@@ -86,47 +88,50 @@ export function AddNewTicket() {
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="grid gap-4 py-4">
-          {/* Title */}
+          {/* Qty */}
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="title">Title</Label>
-            <Input id="title" name="title" className="capitalize" />
-            {error?.data?.zodError?.fieldErrors.title && (
+            <Label htmlFor="title">Qty</Label>
+            <Input id="qty" name="qty" type="number" className="capitalize" />
+            {error?.data?.zodError?.fieldErrors.qty && (
               <span className="text-xs text-destructive">
-                {error?.data?.zodError?.fieldErrors.title}
+                {error?.data?.zodError?.fieldErrors.qty}
               </span>
             )}
           </div>
-          {/* Location */}
+          {/* Category */}
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="location">Location</Label>
-            <Input id="location" name="location" className="capitalize" />
-            {error?.data?.zodError?.fieldErrors.location && (
+            {/* //! TODO: Select + input combination */}
+            <Label htmlFor="location">Category</Label>
+            <Input
+              id="category"
+              name="category"
+              placeholder="create new one..."
+              className="uppercase placeholder:lowercase"
+            />
+            {error?.data?.zodError?.fieldErrors.category && (
               <span className="text-xs text-destructive">
-                {error?.data?.zodError?.fieldErrors.location}
+                {error?.data?.zodError?.fieldErrors.category}
               </span>
             )}
-          </div>
-          {/* Thumbnail */}
-          <div className="flex flex-col items-start space-y-1.5">
-            <Label htmlFor="thumbnail">Thumbnail</Label>
-            <div className="whitespace-nowrap hover:cursor-pointer">
-              <UploadButton<OurFileRouter>
-                endpoint="withMdwr"
-                onClientUploadComplete={(res) => {
-                  // Do something with the response
-                  setThumbnail(res?.[0]?.fileUrl as string);
-                }}
-                onUploadError={(error: Error) => {
-                  console.error(`ERROR! ${error.message}`);
-                }}
+            <SelectCategory tickets={tickets} />
+            {/* Price */}
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="location">Price</Label>
+              <Input
+                id="price"
+                name="price"
+                type="number"
+                className="capitalize"
               />
+              {error?.data?.zodError?.fieldErrors.price && (
+                <span className="text-xs text-destructive">
+                  {error?.data?.zodError?.fieldErrors.price}
+                </span>
+              )}
             </div>
-            {error?.data?.zodError?.fieldErrors.thumbnail && (
-              <span className="text-xs text-destructive">
-                {error?.data?.zodError?.fieldErrors.thumbnail}
-              </span>
-            )}
           </div>
+          {/* Select */}
+          {!!events && <SelectEvent events={events} />}
           <DialogFooter>
             <Button
               className="flex flex-row items-center justify-end space-x-2"
