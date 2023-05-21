@@ -28,16 +28,14 @@ export const eventRouter = createTRPCRouter({
     .input(z.object({
       id: z.string().cuid(),
       title: z.string().min(5).max(25),
-      thumbnail: z.string().url(),
       location: z.string().min(5).max(25),
       date: z.date(),
-      description: z.string().min(15).max(120)
     }))
-    .mutation(async ({ ctx, input: { id, title, thumbnail, location, date } }) => {
+    .mutation(async ({ ctx, input: { id, title, location, date } }) => {
       try {
         return await ctx.prisma.event.update({
           where: { id },
-          data: { title, thumbnail, location, date }
+          data: { title, location, date }
         })
       } catch (err) {
         console.error(err)

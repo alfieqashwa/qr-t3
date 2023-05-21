@@ -1,16 +1,11 @@
-import { format } from "date-fns";
-import { Calendar as CalendarIcon, FilePlus2, Loader2 } from "lucide-react";
+import { UploadButton } from "@uploadthing/react";
+import { FilePlus2, Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover";
-import { cn } from "~/src/utils";
+import type { OurFileRouter } from "~/src/server/uploadthing/router";
 import { api } from "~/src/utils/api";
 import { wait } from "~/src/utils/wait";
 import { Button } from "../ui/button";
-import { Calendar } from "../ui/calendar";
 import {
   Dialog,
   DialogContent,
@@ -24,9 +19,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { ToastAction } from "../ui/toast";
 import { toast } from "../ui/use-toast";
-import { useSession } from "next-auth/react";
-import { UploadButton } from "@uploadthing/react";
-import type { OurFileRouter } from "~/src/server/uploadthing/router";
+import { DatePicker } from "./DatePicker";
 
 export function AddNewEvent() {
   const [date, setDate] = useState<Date>();
@@ -117,7 +110,7 @@ export function AddNewEvent() {
           {/* Date */}
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="date">Date</Label>
-            <DatePicker date={date as Date} setDate={setDate} />
+            <DatePicker date={date} setDate={setDate} />
             {error?.data?.zodError?.fieldErrors.date && (
               <span className="text-xs text-destructive">
                 {error?.data?.zodError?.fieldErrors.date}
@@ -169,37 +162,5 @@ export function AddNewEvent() {
         </form>
       </DialogContent>
     </Dialog>
-  );
-}
-
-type DatePickerProps = {
-  date?: Date;
-  setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
-};
-
-function DatePicker({ date, setDate }: DatePickerProps) {
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant={"outline"}
-          className={cn(
-            "w-[280px] justify-start text-left font-normal",
-            !date && "text-muted-foreground"
-          )}
-        >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={setDate}
-          initialFocus
-        />
-      </PopoverContent>
-    </Popover>
   );
 }

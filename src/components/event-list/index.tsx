@@ -1,6 +1,6 @@
 import { api } from "~/src/utils/api";
-import { AddNewEvent } from "./AddNewEvent";
 import { LoadingSpinner } from "../Loading";
+import { AddNewEvent } from "./AddNewEvent";
 import { EventTable } from "./EventTable";
 
 export function EventList(): JSX.Element | null {

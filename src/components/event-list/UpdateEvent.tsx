@@ -18,24 +18,26 @@ import { api } from "~/src/utils/api";
 
 type Props = {
   id: string;
-  currentRole: Role;
-  username: string | null;
+  title: string;
+  location: string;
+  date: Date;
 };
 
-export function UpdateTeamDialog({ id, currentRole, username }: Props) {
+export function UpdateEvent({ id, title, location, date }: Props) {
   const utils = api.useContext();
   const { toast } = useToast();
 
+  const [currentDate, setCurrentDate] = useState<Date | undefined>(date);
   const [open, setOpen] = useState(false);
 
-  const { mutate, isLoading, error } = api.user.updateTeam.useMutation({
+  const { mutate, isLoading, error } = api.event.update.useMutation({
     async onSuccess() {
       toast({
         title: "Succeed!",
         variant: "default",
-        description: "Your team has been updated.",
+        description: "Your new team has been updated.",
       });
-      await utils.user.getAllByEOId.invalidate();
+      await utils.event.getAll.invalidate();
       /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(false));
     },
@@ -53,11 +55,14 @@ export function UpdateTeamDialog({ id, currentRole, username }: Props) {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const role = formData.get("role") as Role;
+    const title = formData.get("title") as string;
+    const location = formData.get("location") as string;
 
     mutate({
       id,
-      role,
+      title,
+      location,
+      date: currentDate as Date,
     });
   };
 
@@ -76,19 +81,52 @@ export function UpdateTeamDialog({ id, currentRole, username }: Props) {
             <p>
               Edit
               <span className="px-1.5 font-medium uppercase text-amber-300">
-                {username}
+                {title}
               </span>
-              role of your team here. Click Update Team when you&apos;re done.
+              of your event here. Click Update when you&apos;re done.
             </p>
           </DialogDescription>
         </DialogHeader>
         <form className="grid gap-4 py-3" onSubmit={handleSubmit}>
+          {/* title */}
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">User Role</Label>
-            <SelectRole role={currentRole} />
-            {error?.data?.zodError?.fieldErrors.role && (
+            <Label htmlFor="name">Title</Label>
+            <Input
+              id="title"
+              name="title"
+              defaultValue={title}
+              className="capitalize"
+            />
+            {error?.data?.zodError?.fieldErrors.title && (
               <span className="text-xs text-destructive">
-                {error.data.zodError.fieldErrors.role}
+                {error.data.zodError.fieldErrors.title}
+              </span>
+            )}
+          </div>
+          {/* location */}
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="name">Location</Label>
+            <Input
+              id="location"
+              name="location"
+              defaultValue={location}
+              className="capitalize"
+            />
+            {error?.data?.zodError?.fieldErrors.location && (
+              <span className="text-xs text-destructive">
+                {error.data.zodError.fieldErrors.location}
+              </span>
+            )}
+          </div>
+          {/* Date */}
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="date">Date</Label>
+            {currentDate && (
+              <DatePicker date={currentDate} setDate={setCurrentDate} />
+            )}
+            {error?.data?.zodError?.fieldErrors.date && (
+              <span className="text-xs text-destructive">
+                {error?.data?.zodError?.fieldErrors.date}
               </span>
             )}
           </div>
@@ -128,6 +166,9 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { wait } from "~/src/utils/wait";
+import { Input } from "../ui/input";
+import { DatePicker } from "./DatePicker";
+import { useSession } from "next-auth/react";
 
 export function SelectRole({ role }: { role: Role }) {
   return (
