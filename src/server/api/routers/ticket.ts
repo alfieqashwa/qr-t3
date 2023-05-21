@@ -1,9 +1,47 @@
-import { createTRPCRouter, protectedProcedure } from "../trpc"
+import { z } from "zod"
+import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
 
 export const ticketRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.ticket.findMany({
       orderBy: { event: { date: "asc" } },
     })
-  })
+  }),
+  generate: adminProcedure
+    .input(z.object({
+      qty: z.number({
+        required_error: "Qty is required",
+        invalid_type_error: "Qty must be a number",
+      }
+      ).int().gte(10),
+      price: z.number({
+        required_error: "Price is required",
+        invalid_type_error: "Price must be a number",
+      }
+      ).int(),
+      category: z.string({
+        required_error: "Category is required",
+        invalid_type_error: "Category must be a string",
+      }).min(3).max(15),
+      eventId: z.string({
+        required_error: "EventId is required",
+        invalid_type_error: "EventId must be a string",
+
+      }).cuid()
+    }))
+    .mutation(async ({ ctx, input: { qty, price, category, eventId } }) => {
+      const generatedTickets = function () {
+        return Array.from({ length: qty }, () => ({
+          price,
+          category,
+          eventId
+        }))
+      }()
+
+      console.log(generatedTickets)
+
+      return await ctx.prisma.ticket.createMany({
+        data: generatedTickets
+      })
+    })
 })
