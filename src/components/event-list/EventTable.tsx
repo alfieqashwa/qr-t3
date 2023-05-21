@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import type { RouterOutputs } from "~/src/utils/api";
+import { DeleteEvent } from "./DeleteEvent";
 
 type Props = {
   events: RouterOutputs["event"]["getAll"];
@@ -23,8 +24,9 @@ export function EventTable({ events }: Props): JSX.Element {
           <TableHead className="w-[200px]">Date</TableHead>
           <TableHead>Title</TableHead>
           <TableHead>Location</TableHead>
-          <TableHead className="w-[100px] text-right">Update</TableHead>
-          <TableHead className="w-[100px] text-right">Delete</TableHead>
+          <TableHead>Ticket</TableHead>
+          <TableHead className="sr-only w-[100px] text-right">Update</TableHead>
+          <TableHead className="sr-only w-[100px] text-right">Delete</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -39,8 +41,13 @@ export function EventTable({ events }: Props): JSX.Element {
             <TableCell className="whitespace-nowrap capitalize">
               {event.location}
             </TableCell>
+            <TableCell className="whitespace-nowrap capitalize">
+              500 pcs
+            </TableCell>
             <TableCell className="text-right">Update</TableCell>
-            <TableCell className="text-right">Delete</TableCell>
+            <TableCell className="text-right">
+              <DeleteEvent id={event.id} title={event.title} />
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
