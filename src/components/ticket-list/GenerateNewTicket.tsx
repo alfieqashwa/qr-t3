@@ -1,5 +1,5 @@
 import { FilePlus2, Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { RouterOutputs } from "~/src/utils/api";
 import { api } from "~/src/utils/api";
 import { wait } from "~/src/utils/wait";
@@ -20,14 +20,18 @@ import { toast } from "../ui/use-toast";
 import { SelectCategory } from "./SelectCategory";
 import { SelectEvent } from "./SelectEvent";
 
-type Props = {
+type GenerateNewTicketProps = {
   tickets: RouterOutputs["ticket"]["getAll"];
 };
 
-export function GenerateNewTicket({ tickets }: Props) {
+export function GenerateNewTicket({ tickets }: GenerateNewTicketProps) {
   const [open, setOpen] = useState(false);
   const [categoryInput, setCategoryInput] = useState<string>("");
   const [disabled, setDisabled] = useState(false);
+
+  // remove duplicates array
+  const categories = [...new Set(tickets.map((ticket) => ticket.category))];
+  console.log({ categories });
 
   useEffect(() => {
     if (categoryInput.length > 0) {
@@ -39,8 +43,6 @@ export function GenerateNewTicket({ tickets }: Props) {
 
   const utils = api.useContext();
 
-  // const categories = tickets.map((ticket) => ticket.categories);
-
   const { data: events } = api.event.getAll.useQuery();
 
   const { mutate, isLoading, error } = api.ticket.generate.useMutation({
@@ -51,8 +53,10 @@ export function GenerateNewTicket({ tickets }: Props) {
         description: "Your form has been created.",
       });
       await utils.ticket.getAll.invalidate();
+      setCategoryInput("");
       await wait().then(() => setOpen(false));
     },
+
     onError() {
       toast({
         variant: "destructive",
@@ -73,6 +77,20 @@ export function GenerateNewTicket({ tickets }: Props) {
       .toLowerCase() as string;
     const price = formData.get("price")?.toString().toLowerCase() as string;
     const eventId = formData.get("eventId") as string;
+
+    // if user input the existed category, then show the error toast with clear messages.
+    const alreadyExists = categories?.includes(categoryInput);
+    if (alreadyExists) {
+      // and then set the input value back to default
+      setCategoryInput("");
+      return toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description:
+          "The category is already exists. Please use the select option instead.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
+    }
 
     let category;
     if (disabled) {
@@ -100,27 +118,19 @@ export function GenerateNewTicket({ tickets }: Props) {
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add New Event</DialogTitle>
+          <DialogTitle>Add New Ticket</DialogTitle>
           <DialogDescription>
-            Create new event here. Click Add Event when you&apos;re done.
+            Create new ticket here. Click Add Ticket when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="grid gap-4 py-4">
-          {/* Qty */}
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="title">Qty</Label>
-            <Input id="qty" name="qty" type="number" className="capitalize" />
-            {error?.data?.zodError?.fieldErrors.qty && (
-              <span className="text-xs text-destructive">
-                {error?.data?.zodError?.fieldErrors.qty}
-              </span>
-            )}
-          </div>
+          {/* Select Event ID */}
+          {!!events && <SelectEvent events={events} />}
           {/* Category */}
           <div className="flex flex-col space-y-1.5">
-            {/* //! TODO: Select + input combination */}
             <Label htmlFor="category-input">Category</Label>
             <Input
+              type="text"
               value={categoryInput}
               onChange={(e) => setCategoryInput(e.target.value)}
               placeholder="create new one..."
@@ -131,7 +141,7 @@ export function GenerateNewTicket({ tickets }: Props) {
                 {error?.data?.zodError?.fieldErrors.category}
               </span>
             )}
-            <SelectCategory tickets={tickets} disabled={disabled} />
+            <SelectCategory categories={categories} disabled={disabled} />
             {/* Price */}
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="location">Price</Label>
@@ -140,6 +150,7 @@ export function GenerateNewTicket({ tickets }: Props) {
                 name="price"
                 type="number"
                 className="capitalize"
+                placeholder="Sale price..."
               />
               {error?.data?.zodError?.fieldErrors.price && (
                 <span className="text-xs text-destructive">
@@ -147,9 +158,23 @@ export function GenerateNewTicket({ tickets }: Props) {
                 </span>
               )}
             </div>
+            {/* Qty */}
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="title">Qty</Label>
+              <Input
+                id="qty"
+                name="qty"
+                type="number"
+                className="capitalize placeholder:normal-case"
+                placeholder="How many ticket(s)..."
+              />
+              {error?.data?.zodError?.fieldErrors.qty && (
+                <span className="text-xs text-destructive">
+                  {error?.data?.zodError?.fieldErrors.qty}
+                </span>
+              )}
+            </div>
           </div>
-          {/* Select */}
-          {!!events && <SelectEvent events={events} />}
           <DialogFooter>
             <Button
               className="flex flex-row items-center justify-end space-x-2"
@@ -167,7 +192,7 @@ export function GenerateNewTicket({ tickets }: Props) {
               </Button>
             ) : (
               <Button type="submit" size="sm">
-                Add Event
+                Add Ticket
               </Button>
             )}
           </DialogFooter>
