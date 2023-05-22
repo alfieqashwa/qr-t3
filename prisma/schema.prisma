@@ -154,8 +154,8 @@ model Village {
 
 enum Role {
     DEWA // -> Full Access.
-    ADMIN // -> CRUD Only its Event/Events && Member/Members && Invite Editor.
-    EDITOR // -> CRUD Only its Member/Members.
+    ADMIN // -> CRUD Only its Event/Events && Invite Editor.
+    EDITOR // -> CRUD Only its Event/Events && Operator.
     OPERATOR // -> Read Only its Event/Events and Only get Access to Scanner Page.
     USER
 }

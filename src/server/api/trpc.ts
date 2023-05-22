@@ -123,7 +123,7 @@ const isAdmin = t.middleware(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" })
   }
-  if (ctx.session?.user.role === Role.USER || ctx.session?.user.role === Role.MEMBER || ctx.session?.user.role === Role.OPERATOR || ctx.session?.user.role === Role.EDITOR) {
+  if (ctx.session?.user.role === Role.USER || ctx.session?.user.role === Role.OPERATOR || ctx.session?.user.role === Role.EDITOR) {
     throw new TRPCError({ code: "UNAUTHORIZED", message: "Only Admin is allowed!" })
   }
   return next({
@@ -138,7 +138,7 @@ const isEditor = t.middleware(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" })
   }
-  if (ctx.session?.user.role === Role.USER || ctx.session?.user.role === Role.MEMBER || ctx.session?.user.role === Role.OPERATOR) {
+  if (ctx.session?.user.role === Role.USER || ctx.session?.user.role === Role.OPERATOR) {
     throw new TRPCError({ code: "UNAUTHORIZED", message: "Only Editor is allowed!" })
   }
   return next({
@@ -153,7 +153,7 @@ const isOperator = t.middleware(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" })
   }
-  if (ctx.session?.user.role === Role.USER || ctx.session?.user.role === Role.MEMBER) {
+  if (ctx.session?.user.role === Role.USER) {
     throw new TRPCError({ code: "UNAUTHORIZED", message: "Only Operator is allowed!" })
   }
   return next({
