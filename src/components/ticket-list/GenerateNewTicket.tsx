@@ -103,13 +103,13 @@ export function GenerateNewTicket({ tickets }: GenerateNewTicketProps) {
       category = categorySelected;
     }
 
-    const hasEqualPrice = tickets.some(
+    const hasNotEqualPrice = tickets.some(
       (t) =>
         t.eventId === eventId && t.category === category && t.price !== +price
     );
 
     // Validate an error whenever the same event and category has different price from the existing one.
-    if (hasEqualPrice) {
+    if (hasNotEqualPrice) {
       setCategoryInput("");
       //  show the error toast with clear message!
       return toast({
