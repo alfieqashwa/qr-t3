@@ -1,5 +1,5 @@
 import { FilePlus2, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { RouterOutputs } from "~/src/utils/api";
 import { api } from "~/src/utils/api";
 import { wait } from "~/src/utils/wait";
@@ -17,8 +17,8 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { ToastAction } from "../ui/toast";
 import { toast } from "../ui/use-toast";
-import { SelectEvent } from "./SelectEvent";
 import { SelectCategory } from "./SelectCategory";
+import { SelectEvent } from "./SelectEvent";
 
 type Props = {
   tickets: RouterOutputs["ticket"]["getAll"];
@@ -26,6 +26,17 @@ type Props = {
 
 export function GenerateNewTicket({ tickets }: Props) {
   const [open, setOpen] = useState(false);
+  const [categoryInput, setCategoryInput] = useState<string>("");
+  const [disabled, setDisabled] = useState(false);
+
+  useEffect(() => {
+    if (categoryInput.length > 0) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [categoryInput.length]);
+
   const utils = api.useContext();
 
   // const categories = tickets.map((ticket) => ticket.categories);
@@ -56,12 +67,19 @@ export function GenerateNewTicket({ tickets }: Props) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const qty = formData.get("qty")?.toString().toLowerCase() as string;
-    const category = formData
-      .get("category")
+    const categorySelected = formData
+      .get("category-selected")
       ?.toString()
       .toLowerCase() as string;
     const price = formData.get("price")?.toString().toLowerCase() as string;
     const eventId = formData.get("eventId") as string;
+
+    let category;
+    if (disabled) {
+      category = categoryInput;
+    } else {
+      category = categorySelected;
+    }
 
     mutate({
       qty: +qty,
@@ -101,10 +119,10 @@ export function GenerateNewTicket({ tickets }: Props) {
           {/* Category */}
           <div className="flex flex-col space-y-1.5">
             {/* //! TODO: Select + input combination */}
-            <Label htmlFor="location">Category</Label>
+            <Label htmlFor="category-input">Category</Label>
             <Input
-              id="category"
-              name="category"
+              value={categoryInput}
+              onChange={(e) => setCategoryInput(e.target.value)}
               placeholder="create new one..."
               className="uppercase placeholder:lowercase"
             />
@@ -113,7 +131,7 @@ export function GenerateNewTicket({ tickets }: Props) {
                 {error?.data?.zodError?.fieldErrors.category}
               </span>
             )}
-            <SelectCategory tickets={tickets} />
+            <SelectCategory tickets={tickets} disabled={disabled} />
             {/* Price */}
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="location">Price</Label>
