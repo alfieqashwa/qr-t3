@@ -1,5 +1,5 @@
 import { FilePlus2, Loader2 } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import type { RouterOutputs } from "~/src/utils/api";
 import { api } from "~/src/utils/api";
 import { wait } from "~/src/utils/wait";
@@ -31,15 +31,18 @@ export function GenerateNewTicket({ tickets }: GenerateNewTicketProps) {
 
   // remove duplicates array
   const categories = [...new Set(tickets.map((ticket) => ticket.category))];
-  console.log({ categories });
+  // console.log({ categories });
 
   useEffect(() => {
-    if (categoryInput.length > 0) {
+    if (
+      categoryInput.length > 0 || // whenever user has not input any
+      tickets.length === 0 // if there's no any tickets has been created yet
+    ) {
       setDisabled(true);
     } else {
       setDisabled(false);
     }
-  }, [categoryInput.length]);
+  }, [categoryInput.length, tickets.length]);
 
   const utils = api.useContext();
 
@@ -53,6 +56,7 @@ export function GenerateNewTicket({ tickets }: GenerateNewTicketProps) {
         description: "Your form has been created.",
       });
       await utils.ticket.getAll.invalidate();
+      await utils.ticket.count.invalidate();
       setCategoryInput("");
       await wait().then(() => setOpen(false));
     },
@@ -92,11 +96,28 @@ export function GenerateNewTicket({ tickets }: GenerateNewTicketProps) {
       });
     }
 
-    let category;
+    let category: string;
     if (disabled) {
       category = categoryInput;
     } else {
       category = categorySelected;
+    }
+
+    const hasEqualPrice = tickets.some(
+      (t) =>
+        t.eventId === eventId && t.category === category && t.price !== +price
+    );
+
+    // Validate an error whenever the same event and category has different price from the existing one.
+    if (hasEqualPrice) {
+      setCategoryInput("");
+      //  show the error toast with clear message!
+      return toast({
+        variant: "destructive",
+        title: "Your input price is the different from the exist price. ",
+        description: "Don't do that and keep sale your ticket consistently.",
+        action: <ToastAction altText="Try again">Change the Price</ToastAction>,
+      });
     }
 
     mutate({

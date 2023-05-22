@@ -2,12 +2,18 @@ import { z } from "zod"
 import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
 
 export const ticketRouter = createTRPCRouter({
+  count: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.ticket.count()
+  }),
+  deleteAll: adminProcedure.mutation(async ({ ctx }) => {
+    return await ctx.prisma.ticket.deleteMany()
+  }),
   getAll: protectedProcedure
     .query(async ({ ctx }) => {
       return await ctx.prisma.ticket.findMany({
         where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
         include: {
-          event: true
+          event: true,
         },
         orderBy: { event: { date: "asc" } },
       })
