@@ -1,8 +1,12 @@
 import { z } from "zod"
 import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
+import { TASKS } from "~/src/components/table-list/data/tasks"
 
 export const ticketRouter = createTRPCRouter({
   // Queries
+  tasks: protectedProcedure.query(() => {
+    return TASKS
+  }),
   count: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.ticket.count()
   }),
