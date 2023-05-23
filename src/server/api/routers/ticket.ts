@@ -2,11 +2,9 @@ import { z } from "zod"
 import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
 
 export const ticketRouter = createTRPCRouter({
+  // Queries
   count: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.ticket.count()
-  }),
-  deleteAll: adminProcedure.mutation(async ({ ctx }) => {
-    return await ctx.prisma.ticket.deleteMany()
   }),
   getAll: protectedProcedure
     .query(async ({ ctx }) => {
@@ -18,6 +16,8 @@ export const ticketRouter = createTRPCRouter({
         orderBy: { event: { date: "asc" } },
       })
     }),
+
+  // Mutations
   generate: adminProcedure
     .input(z.object({
       qty: z.number({
@@ -57,5 +57,8 @@ export const ticketRouter = createTRPCRouter({
       } catch (err) {
         console.error(err)
       }
-    })
+    }),
+  deleteAll: adminProcedure.mutation(async ({ ctx }) => {
+    return await ctx.prisma.ticket.deleteMany()
+  }),
 })
