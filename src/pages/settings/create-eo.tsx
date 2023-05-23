@@ -161,6 +161,7 @@ const CreateEO: NextPage = (): JSX.Element => {
                   type="text"
                   name="name"
                   placeholder="Name of your Event Organizer"
+                  className="capitalize"
                 />
                 {error?.data?.zodError?.fieldErrors.name && (
                   <span className="text-xs text-destructive">
@@ -189,6 +190,7 @@ const CreateEO: NextPage = (): JSX.Element => {
                   type="text"
                   name="street"
                   placeholder="Street"
+                  className="capitalize"
                 />
                 {error?.data?.zodError?.fieldErrors.street && (
                   <span className="text-xs text-destructive">

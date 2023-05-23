@@ -69,14 +69,14 @@
     --ring: 216 34% 17%;
 
     --radius: 0.5rem;
-    body {
+    /* body {
       @apply bg-background text-foreground;
       font-feature-settings: "rlig" 1, "calt" 1;
-    }
+    } */
   }
 }
 
-/* @layer base {
+@layer base {
   * {
     @apply border-border;
   }
@@ -84,7 +84,7 @@
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
-} */
+}
 
 @layer components {
   .thom {
@@ -92,5 +92,23 @@
   }
   .kurt {
     @apply z-50 outline outline-1 outline-sky-300;
+  }
+}
+
+@layer utilities {
+  .step {
+    counter-increment: step;
+  }
+
+  .step:before {
+    @apply absolute w-8 h-8 bg-muted rounded-full font-medium text-center text-base inline-flex items-center justify-center -indent-px;
+    @apply ml-[-41px];
+    content: counter(step);
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    @apply px-4;
   }
 }

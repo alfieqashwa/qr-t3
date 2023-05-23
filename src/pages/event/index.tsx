@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { authOptions } from "~/server/auth";
 import { EventList } from "~/src/components/event-list";
 import { TicketList } from "~/src/components/ticket-list";
+import { DataList } from "~/src/components/table-list";
 
 const title = "Events" as const;
 const EventPage: NextPage = (): JSX.Element => {
@@ -35,7 +36,7 @@ const EventPage: NextPage = (): JSX.Element => {
             <TicketList />
           </TabsContent>
           <TabsContent value="visitor">
-            <h1>VISITOR</h1>
+            <DataList />
           </TabsContent>
         </Tabs>
       </div>
