@@ -1,6 +1,5 @@
 import { z } from "zod"
-import { adminProcedure, createTRPCRouter, editorProcedure, protectedProcedure } from "../trpc"
-import { Status } from "@prisma/client"
+import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
 
 export const ticketRouter = createTRPCRouter({
   count: protectedProcedure.query(async ({ ctx }) => {
@@ -21,24 +20,27 @@ export const ticketRouter = createTRPCRouter({
     }),
   generate: adminProcedure
     .input(z.object({
-      eventId: z.string({
-        required_error: "Event is required",
-        invalid_type_error: "Event must be a string",
-      }).cuid(),
+      qty: z.number({
+        required_error: "Qty is required",
+        invalid_type_error: "Qty must be a number",
+      }
+      ).int().gte(10),
+      price: z.number({
+        required_error: "Price is required",
+        invalid_type_error: "Price must be a number",
+      }
+      ).int().gt(0),
       category: z.string({
         required_error: "Category is required",
         invalid_type_error: "Category must be a string",
       }).min(3).max(15),
-      price: z.number({
-        required_error: "Price is required",
-        invalid_type_error: "Price must be a number",
-      }).int().gt(0),
-      qty: z.number({
-        required_error: "Qty is required",
-        invalid_type_error: "Qty must be a number",
-      }).int().gte(10),
+      eventId: z.string({
+        required_error: "EventId is required",
+        invalid_type_error: "EventId must be a string",
+
+      }).cuid()
     }))
-    .mutation(async ({ ctx, input: { eventId, category, price, qty } }) => {
+    .mutation(async ({ ctx, input: { qty, price, category, eventId } }) => {
       try {
         function generateTickets() {
           return Array.from({ length: qty }, () => ({
@@ -55,38 +57,5 @@ export const ticketRouter = createTRPCRouter({
       } catch (err) {
         console.error(err)
       }
-    }),
-  update: editorProcedure
-    .input(z.object({
-      id: z.string({
-        required_error: "ID is required",
-        invalid_type_error: "ID must be a string",
-      }).cuid(),
-      category: z.string({
-        required_error: "Category is required",
-        invalid_type_error: "Category must be a string",
-      }),
-      price: z.number({
-        required_error: "Price is required",
-        invalid_type_error: "Price must be a number",
-      }).int().gte(10),
-    }))
-    .mutation(async ({ ctx, input: { id, category, price } }) => {
-      return await ctx.prisma.ticket.update({
-        where: { id },
-        data: {
-          category,
-          price,
-        },
-      })
-    }),
-  delete: adminProcedure.input(z.object({
-    id: z.string().cuid(),
-  })).mutation(async ({ ctx, input: { id } }) => {
-    try {
-      await ctx.prisma.ticket.delete({ where: { id } })
-    } catch (err) {
-      console.error(err)
-    }
-  })
+    })
 })
