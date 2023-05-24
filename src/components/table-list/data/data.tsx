@@ -1,3 +1,4 @@
+import { Status } from "@prisma/client";
 import {
   ArrowDownLeft,
   ArrowRight,
@@ -8,6 +9,37 @@ import {
   HelpCircle,
   XCircle,
 } from "lucide-react";
+
+// export const events = [
+//   {
+//     value: Event,
+//     label: "ColdPlay",
+//     icon: Circle,
+//   },
+//   {
+//     value: Status.SOLD,
+//     label: "Nirvana",
+//     icon: CheckCircle2,
+//   },
+// ];
+
+export const statuses = [
+  {
+    value: Status.AVAILABLE,
+    label: "Available",
+    icon: Circle,
+  },
+  {
+    value: Status.SOLD,
+    label: "Sold",
+    icon: CheckCircle2,
+  },
+  {
+    value: Status.REFUND,
+    label: "Refund",
+    icon: XCircle,
+  },
+];
 
 export const labels = [
   {
@@ -24,33 +56,21 @@ export const labels = [
   },
 ];
 
-export const statuses = [
-  {
-    value: "backlog",
-    label: "Backlog",
-    icon: HelpCircle,
-  },
-  {
-    value: "todo",
-    label: "Todo",
-    icon: Circle,
-  },
-  {
-    value: "in progress",
-    label: "In Progress",
-    icon: ArrowUpCircle,
-  },
-  {
-    value: "done",
-    label: "Done",
-    icon: CheckCircle2,
-  },
-  {
-    value: "canceled",
-    label: "Canceled",
-    icon: XCircle,
-  },
-];
+// {
+//   value: "in progress",
+//   label: "In Progress",
+//   icon: ArrowUpCircle,
+// },
+// {
+//   value: "done",
+//   label: "Done",
+//   icon: CheckCircle2,
+// },
+// {
+//   value: "canceled",
+//   label: "Canceled",
+//   icon: XCircle,
+// },
 
 export const priorities = [
   {

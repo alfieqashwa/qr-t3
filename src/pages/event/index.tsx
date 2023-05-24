@@ -8,8 +8,9 @@ import { getServerSession } from "next-auth/next";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { authOptions } from "~/server/auth";
 import { EventList } from "~/src/components/event-list";
-import { TicketList } from "~/src/components/ticket-list";
+// import { TicketList } from "~/src/components/ticket-list";
 import { DataList } from "~/src/components/table-list";
+import { DataListSample } from "~/src/components/table-list-sample";
 
 const title = "Events" as const;
 const EventPage: NextPage = (): JSX.Element => {
@@ -17,7 +18,7 @@ const EventPage: NextPage = (): JSX.Element => {
     <Layout title={title}>
       <HeaderTitle title={title} />
       <div className="mt-4 h-[calc(100vh_-_17vh)]">
-        <Tabs defaultValue="ticket-list">
+        <Tabs defaultValue="visitor">
           <TabsList className="mb-3">
             <TabsTrigger className="text-xs lg:text-sm" value="event-list">
               Event
@@ -33,10 +34,10 @@ const EventPage: NextPage = (): JSX.Element => {
             <EventList />
           </TabsContent>
           <TabsContent value="ticket-list">
-            <TicketList />
+            <DataList />
           </TabsContent>
           <TabsContent value="visitor">
-            <DataList />
+            <DataListSample />
           </TabsContent>
         </Tabs>
       </div>

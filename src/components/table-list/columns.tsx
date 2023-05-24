@@ -1,14 +1,22 @@
+import type { Status } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
-
-import { Badge } from "~/components/ui/badge";
 import { Checkbox } from "~/components/ui/checkbox";
-
-import { labels, priorities, statuses } from "./data/data";
-import type { Task } from "./data/schema";
+import type { RouterOutputs } from "~/src/utils/api";
+import { Badge } from "../ui/badge";
 import { DataTableColumnHeader } from "./data-table-column-header";
-import { DataTableRowActions } from "./data-table-row-actions";
+import { statuses } from "./data/data";
 
-export const columns: ColumnDef<Task>[] = [
+const eventList = [
+  {
+    value: "radiohead live",
+    label: "Radiohead Live",
+  },
+  {
+    value: "nirvana",
+    label: "Nirvana",
+  },
+];
+export const columns: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -33,29 +41,47 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: "id",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Task" />
+      <DataTableColumnHeader column={column} title="ID" />
     ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("id")}</div>,
-    enableSorting: false,
-    enableHiding: false,
   },
   {
-    accessorKey: "title",
+    accessorKey: "event",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Title" />
+      <DataTableColumnHeader column={column} title="Event" />
     ),
     cell: ({ row }) => {
-      const label = labels.find((label) => label.value === row.original.label);
-
+      const event = eventList.find(
+        (event) => event.value === (row.original.event?.title as string)
+      );
+      if (!event) {
+        return null;
+      }
       return (
         <div className="flex space-x-2">
-          {label && <Badge variant="outline">{label.label}</Badge>}
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("title")}
+          <span className="max-w-[500px] truncate font-medium capitalize">
+            {event.label}
           </span>
         </div>
       );
     },
+    filterFn: (row, _id, value: string) => {
+      return value.includes(row.original.event?.title as string);
+    },
+  },
+  {
+    accessorKey: "category",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Category" />
+    ),
+    cell: ({ row }) => (
+      <div className="flex space-x-2">
+        <Badge variant="secondary" className="bg-emerald-700">
+          <span className="max-w-[500px] truncate font-medium uppercase">
+            {row.getValue("category")}
+          </span>
+        </Badge>
+      </div>
+    ),
   },
   {
     accessorKey: "status",
@@ -76,43 +102,14 @@ export const columns: ColumnDef<Task>[] = [
           {status.icon && (
             <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
           )}
-          <span>{status.label}</span>
+          <span className="uppercase">{status.label}</span>
         </div>
       );
     },
-    filterFn: (row, id, value) => {
+    filterFn: (row, id, value: Status) => {
+      const res = row.getValue(id);
+      console.log(`STATUS::: `, res);
       return value.includes(row.getValue(id));
     },
-  },
-  {
-    accessorKey: "priority",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Priority" />
-    ),
-    cell: ({ row }) => {
-      const priority = priorities.find(
-        (priority) => priority.value === row.getValue("priority")
-      );
-
-      if (!priority) {
-        return null;
-      }
-
-      return (
-        <div className="flex items-center">
-          {priority.icon && (
-            <priority.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-          )}
-          <span>{priority.label}</span>
-        </div>
-      );
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];

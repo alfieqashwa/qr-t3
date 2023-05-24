@@ -4,7 +4,7 @@ import { LoadingSpinner } from "../Loading";
 import { columns } from "./columns";
 
 export function DataList() {
-  const { data: tasks, isLoading, status } = api.ticket.tasks.useQuery();
+  const { data: tickets, isLoading, status } = api.ticket.getAll.useQuery();
   return (
     <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
       <div className="flex items-center justify-between space-y-2">
@@ -16,7 +16,7 @@ export function DataList() {
         </div>
       </div>
       {isLoading && <LoadingSpinner />}
-      {status === "success" && <DataTable data={tasks} columns={columns} />}
+      {status === "success" && <DataTable data={tickets} columns={columns} />}
     </div>
   );
 }
