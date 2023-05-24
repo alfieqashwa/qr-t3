@@ -103,6 +103,7 @@ model Event {
 
 model Ticket {
     id       String @id @default(cuid())
+    sku      String @unique
     category String
     price    Float
     status   Status @default(AVAILABLE)
