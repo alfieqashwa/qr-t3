@@ -80,20 +80,35 @@ Add more libs.
   - [x] Visitor
   - [x] Settings
 - [x] Store Addresses [PROVINCES, REGENCIES, DISTRICTS, VILLAGES] into database using prisma db seed
-- [ ] Setup DB on Planet Scale
-- [ ] Deploy on Vercel
 
-## Upgrade Version
 - [ ] Setup Event Page
-  - [ ] Configure Event CRUD
-- [ ] Setup Visitor Page
-  - [ ] Configure Visitor CRUD
+  - [x] Configure Event CRUD
+    - [ ] Setup Table
+    - [ ] Setup Search
+    - [ ] Setup Filter
+    - [ ] Setup Pagination
+  - [ ] Configure Ticket CRUD
+    - [ ] Setup Table
+    - [ ] Setup Search
+    - [ ] Setup Filter
+    - [ ] Setup Pagination
+  - [ ] Setup Visitor Page
+    - [ ] Configure Visitor CRUD
+    - [ ] Setup Table
+    - [ ] Setup Search
+    - [ ] Setup Filter
+    - [ ] Setup Pagination
+
 - [ ] Setup Dashboard Page
   - [ ] Setup Charts
   - [ ] Setup Table
   - [ ] Setup Search
   - [ ] Setup Filter
   - [ ] Setup Pagination
+
+- [ ] Setup DB on Planet Scale
+- [ ] Deploy on Vercel
+
 ## Upgrade Version
 - [ ] Setup QR-Code
   - [ ] Create QR-Code Generator
