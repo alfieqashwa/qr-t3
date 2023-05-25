@@ -11,35 +11,48 @@ import { EventList } from "~/src/components/event-list";
 // import { TicketList } from "~/src/components/ticket-list";
 import { DataList } from "~/src/components/table-list";
 import { DataListSample } from "~/src/components/table-list-sample";
+import { api } from "~/src/utils/api";
+import { LoadingSpinner } from "~/src/components/Loading";
 
 const title = "Events" as const;
 const EventPage: NextPage = (): JSX.Element => {
+  const events = api.event.getAll.useQuery();
   return (
     <Layout title={title}>
       <HeaderTitle title={title} />
       <div className="mt-4 h-[calc(100vh_-_17vh)]">
-        <Tabs defaultValue="visitor">
-          <TabsList className="mb-3">
-            <TabsTrigger className="text-xs lg:text-sm" value="event-list">
-              Event
-            </TabsTrigger>
-            <TabsTrigger className="text-xs lg:text-sm" value="ticket-list">
-              Ticket
-            </TabsTrigger>
-            <TabsTrigger className="text-xs lg:text-sm" value="visitor">
-              Visitor
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="event-list">
-            <EventList />
-          </TabsContent>
-          <TabsContent value="ticket-list">
-            <DataList />
-          </TabsContent>
-          <TabsContent value="visitor">
-            <DataListSample />
-          </TabsContent>
-        </Tabs>
+        {events.status === "success" && (
+          <Tabs defaultValue="visitor">
+            <TabsList className="mb-3">
+              <TabsTrigger className="text-xs lg:text-sm" value="event-list">
+                Event
+              </TabsTrigger>
+              <TabsTrigger
+                disabled={events.data.length === 0}
+                className="text-xs lg:text-sm"
+                value="ticket-list"
+              >
+                Ticket
+              </TabsTrigger>
+              <TabsTrigger className="text-xs lg:text-sm" value="visitor">
+                Visitor
+              </TabsTrigger>
+            </TabsList>
+            {!!events.isLoading ? (
+              <LoadingSpinner />
+            ) : (
+              <TabsContent value="event-list">
+                <EventList events={events.data} />
+              </TabsContent>
+            )}
+            <TabsContent value="ticket-list">
+              <DataList />
+            </TabsContent>
+            <TabsContent value="visitor">
+              <DataListSample />
+            </TabsContent>
+          </Tabs>
+        )}
       </div>
     </Layout>
   );
