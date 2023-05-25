@@ -1,6 +1,7 @@
 import { z } from "zod"
 import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
 import { TASKS } from "~/src/components/table-list/data/tasks"
+import { customAlphabet } from "nanoid/async"
 
 export const ticketRouter = createTRPCRouter({
   // Queries
@@ -60,16 +61,21 @@ export const ticketRouter = createTRPCRouter({
         }
         const _sku = abbreviationWords(event?.title as string) as string
         const _eoName = abbreviationWords(eventOrganizer?.name as string) as string
+
+        const randomTitle = event?.title && event.title.replace(/\s+/g, '') //remove all whitespaces
+        const nanoid = customAlphabet(randomTitle as string, 4) // generate 4 characters based on its event's title
+        const randomTicketSubtitle = await nanoid()
+
         if (typeof _sku !== "string" && typeof _eoName !== "string") {
           throw new Error()
         }
         function generateTickets() {
-          return Array.from({ length: qty }, (_v, i) => ({
+          return Array.from({ length: qty }, () => ({
             price,
             category,
             eventId,
             eventOrganizerId,
-            sku: `${_eoName}-${_sku}-0-${i + 1}`
+            sku: `${_eoName}-${_sku}-${randomTicketSubtitle}`
           }))
         }
         const generatedTickets = generateTickets()
