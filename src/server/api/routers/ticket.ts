@@ -1,7 +1,6 @@
 import { z } from "zod"
 import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
 import { TASKS } from "~/src/components/table-list/data/tasks"
-import { customAlphabet } from "nanoid/async"
 
 export const ticketRouter = createTRPCRouter({
   // Queries
@@ -44,38 +43,34 @@ export const ticketRouter = createTRPCRouter({
     }))
     .mutation(async ({ ctx, input: { qty, price, category, eventId } }) => {
       try {
-        const event = await ctx.prisma.event.findUnique({
-          where: { id: eventId },
-          select: { title: true },
-        })
         const eventOrganizerId = ctx.session.user.eventOrganizerId as string
         const eventOrganizer = await ctx.prisma.eventOrganizer.findUnique({
           where: { id: eventOrganizerId },
           select: { name: true }
         })
+        const event = await ctx.prisma.event.findUnique({
+          where: { id: eventId },
+          select: { title: true },
+        })
+        const currentTicketLen = await ctx.prisma.ticket.count()
 
         // radiohead kid a became rka
-        function abbreviationWords(words: string): string | undefined {
-          if (words == null || typeof words !== "string") return
+        function abbreviationWords(words: string): string {
           return words.split(" ").map((word) => word.charAt(0)).join("")
         }
-        const _sku = abbreviationWords(event?.title as string) as string
-        const _eoName = abbreviationWords(eventOrganizer?.name as string) as string
+        const _eoName = eventOrganizer?.name as string
+        const eoName = abbreviationWords(_eoName)
 
-        const randomTitle = event?.title && event.title.replace(/\s+/g, '') //remove all whitespaces
-        const nanoid = customAlphabet(randomTitle as string, 4) // generate 4 characters based on its event's title
-        const randomTicketSubtitle = await nanoid()
+        const _eventName = event?.title as string
+        const eventName = abbreviationWords(_eventName)
 
-        if (typeof _sku !== "string" && typeof _eoName !== "string") {
-          throw new Error()
-        }
         function generateTickets() {
-          return Array.from({ length: qty }, () => ({
+          return Array.from({ length: qty }, (_, i) => ({
             price,
             category,
             eventId,
             eventOrganizerId,
-            sku: `${_eoName}-${_sku}-${randomTicketSubtitle}`
+            sku: `${eoName}-${eventName}-${i + currentTicketLen + 1}`
           }))
         }
         const generatedTickets = generateTickets()
