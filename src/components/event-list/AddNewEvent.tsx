@@ -52,10 +52,7 @@ export function AddNewEvent() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const title = formData.get("title")?.toString().toLowerCase() as string;
-    const location = formData
-      .get("location")
-      ?.toString()
-      .toLowerCase() as string;
+    const venue = formData.get("venue")?.toString().toLowerCase() as string;
 
     //validator
     if (session.status !== "authenticated") return null;
@@ -63,7 +60,7 @@ export function AddNewEvent() {
 
     mutate({
       title,
-      location,
+      venue,
       date: date as Date,
       thumbnail: thumbnail as string,
       eventOrganizerId,
@@ -97,13 +94,13 @@ export function AddNewEvent() {
               </span>
             )}
           </div>
-          {/* Location */}
+          {/* Venue */}
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="location">Location</Label>
-            <Input id="location" name="location" className="capitalize" />
-            {error?.data?.zodError?.fieldErrors.location && (
+            <Label htmlFor="venue">Venue</Label>
+            <Input id="venue" name="venue" className="capitalize" />
+            {error?.data?.zodError?.fieldErrors.venue && (
               <span className="text-xs text-destructive">
-                {error?.data?.zodError?.fieldErrors.location}
+                {error?.data?.zodError?.fieldErrors.venue}
               </span>
             )}
           </div>

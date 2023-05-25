@@ -24,7 +24,7 @@ export function EventTable({ events }: Props): JSX.Element {
         <TableRow>
           <TableHead className="w-[200px]">Date</TableHead>
           <TableHead>Title</TableHead>
-          <TableHead>Location</TableHead>
+          <TableHead>Venue</TableHead>
           <TableHead>Ticket</TableHead>
           <TableHead className="sr-only w-[100px] text-right">Update</TableHead>
           <TableHead className="sr-only w-[100px] text-right">Delete</TableHead>
@@ -40,7 +40,7 @@ export function EventTable({ events }: Props): JSX.Element {
               {event.title}
             </TableCell>
             <TableCell className="whitespace-nowrap capitalize">
-              {event.location}
+              {event.venue}
             </TableCell>
             <TableCell className="whitespace-nowrap capitalize">
               500 pcs
@@ -49,7 +49,7 @@ export function EventTable({ events }: Props): JSX.Element {
               <UpdateEvent
                 id={event.id}
                 title={event.title}
-                location={event.location}
+                venue={event.venue}
                 date={event.date}
               />
             </TableCell>

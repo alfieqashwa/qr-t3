@@ -21,11 +21,11 @@ import { DatePicker } from "./DatePicker";
 type Props = {
   id: string;
   title: string;
-  location: string;
+  venue: string;
   date: Date;
 };
 
-export function UpdateEvent({ id, title, location, date }: Props) {
+export function UpdateEvent({ id, title, venue, date }: Props) {
   const utils = api.useContext();
   const { toast } = useToast();
 
@@ -58,12 +58,12 @@ export function UpdateEvent({ id, title, location, date }: Props) {
 
     const formData = new FormData(e.currentTarget);
     const title = formData.get("title") as string;
-    const location = formData.get("location") as string;
+    const venue = formData.get("venue") as string;
 
     mutate({
       id,
       title,
-      location,
+      venue,
       date: currentDate as Date,
     });
   };
@@ -105,18 +105,18 @@ export function UpdateEvent({ id, title, location, date }: Props) {
               </span>
             )}
           </div>
-          {/* location */}
+          {/* venue*/}
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">Location</Label>
+            <Label htmlFor="name">Venue</Label>
             <Input
-              id="location"
-              name="location"
-              defaultValue={location}
+              id="venue"
+              name="venue"
+              defaultValue={venue}
               className="capitalize"
             />
-            {error?.data?.zodError?.fieldErrors.location && (
+            {error?.data?.zodError?.fieldErrors.venue && (
               <span className="text-xs text-destructive">
-                {error.data.zodError.fieldErrors.location}
+                {error.data.zodError.fieldErrors.venue}
               </span>
             )}
           </div>

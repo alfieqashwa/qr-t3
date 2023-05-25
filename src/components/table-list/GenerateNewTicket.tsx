@@ -165,7 +165,7 @@ export function GenerateNewTicket({ tickets }: GenerateNewTicketProps) {
             <SelectCategory categories={categories} disabled={disabled} />
             {/* Price */}
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="location">Price</Label>
+              <Label htmlFor="price">Price</Label>
               <Input
                 id="price"
                 name="price"
