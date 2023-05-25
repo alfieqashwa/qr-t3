@@ -22,7 +22,7 @@ const EventPage: NextPage = (): JSX.Element => {
       <HeaderTitle title={title} />
       <div className="mt-4 h-[calc(100vh_-_17vh)]">
         {events.status === "success" && (
-          <Tabs defaultValue="visitor">
+          <Tabs defaultValue="event-list">
             <TabsList className="mb-3">
               <TabsTrigger className="text-xs lg:text-sm" value="event-list">
                 Event

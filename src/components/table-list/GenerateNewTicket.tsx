@@ -53,7 +53,7 @@ export function GenerateNewTicket({ tickets }: GenerateNewTicketProps) {
       toast({
         title: "Succeed!",
         variant: "default",
-        description: "Your form has been created.",
+        description: "Your ticket(s) has been created.",
       });
       await utils.ticket.getAll.invalidate();
       await utils.ticket.count.invalidate();
@@ -91,7 +91,7 @@ export function GenerateNewTicket({ tickets }: GenerateNewTicketProps) {
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
         description:
-          "The category is already exists. Please use the select option instead.",
+          "The category is already exists. Please use the select input instead.",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
       });
     }
@@ -114,9 +114,12 @@ export function GenerateNewTicket({ tickets }: GenerateNewTicketProps) {
       //  show the error toast with clear message!
       return toast({
         variant: "destructive",
-        title: "Your input price is the different from the exist price. ",
-        description: "Don't do that and keep sale your ticket consistently.",
-        action: <ToastAction altText="Try again">Change the Price</ToastAction>,
+        title: "Your input different price with the existing price.",
+        description:
+          "Your input different price with the existing price. Don't do that! Please set the price consistently.",
+        action: (
+          <ToastAction altText="Try again">Change the Price!</ToastAction>
+        ),
       });
     }
 
@@ -139,9 +142,10 @@ export function GenerateNewTicket({ tickets }: GenerateNewTicketProps) {
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add New Ticket</DialogTitle>
+          <DialogTitle>Generate New Ticket</DialogTitle>
           <DialogDescription>
-            Create new ticket here. Click Add Ticket when you&apos;re done.
+            Create new ticket(s) here. Click Generate Ticket when you&apos;re
+            done.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="grid gap-4 py-4">
@@ -213,7 +217,7 @@ export function GenerateNewTicket({ tickets }: GenerateNewTicketProps) {
               </Button>
             ) : (
               <Button type="submit" size="sm">
-                Add Ticket
+                Generate Ticket
               </Button>
             )}
           </DialogFooter>
