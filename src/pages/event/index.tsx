@@ -17,20 +17,23 @@ import { LoadingSpinner } from "~/src/components/Loading";
 const title = "Events" as const;
 const EventPage: NextPage = (): JSX.Element => {
   const events = api.event.getAll.useQuery();
+  const tickets = api.ticket.getAll.useQuery();
+
+  if (events.isLoading || tickets.isLoading) return <LoadingSpinner />;
   return (
     <Layout title={title}>
       <HeaderTitle title={title} />
       <div className="mt-4 h-[calc(100vh_-_17vh)]">
-        {events.status === "success" && (
+        {events.status === "success" && tickets.status === "success" && (
           <Tabs defaultValue="event-list">
             <TabsList className="mb-3">
               <TabsTrigger className="text-xs lg:text-sm" value="event-list">
                 Event
               </TabsTrigger>
               <TabsTrigger
-                disabled={events.data.length === 0}
                 className="text-xs lg:text-sm"
                 value="ticket-list"
+                disabled={events.data.length === 0}
               >
                 Ticket
               </TabsTrigger>
@@ -38,15 +41,11 @@ const EventPage: NextPage = (): JSX.Element => {
                 Visitor
               </TabsTrigger>
             </TabsList>
-            {!!events.isLoading ? (
-              <LoadingSpinner />
-            ) : (
-              <TabsContent value="event-list">
-                <EventList events={events.data} />
-              </TabsContent>
-            )}
+            <TabsContent value="event-list">
+              <EventList events={events.data} />
+            </TabsContent>
             <TabsContent value="ticket-list">
-              <DataList />
+              <DataList tickets={tickets.data} />
             </TabsContent>
             <TabsContent value="visitor">
               <DataListSample />

@@ -1,28 +1,23 @@
-import { api } from "~/src/utils/api";
-import { DataTable } from "./data-table";
-import { LoadingSpinner } from "../Loading";
-import { columns } from "./columns";
+import type { RouterOutputs } from "~/src/utils/api";
 import { GenerateNewTicket } from "./GenerateNewTicket";
+import { columns } from "./columns";
+import { DataTable } from "./data-table";
 
-export function DataList() {
-  const { data: tickets, isLoading, status } = api.ticket.getAll.useQuery();
+type Props = {
+  tickets: RouterOutputs["ticket"]["getAll"];
+};
+
+export const DataList = ({ tickets }: Props) => {
   return (
-    <>
-      {isLoading && <LoadingSpinner />}
-      <header className="flex justify-end">
-        {status === "success" && <GenerateNewTicket tickets={tickets} />}
-      </header>
-      <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
-        <div className="flex items-center justify-between space-y-2">
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight">Welcome back!</h2>
-            <p className="text-muted-foreground">
-              Here&apos;s a list of your tasks for this month!
-            </p>
-          </div>
-        </div>
-        {status === "success" && <DataTable data={tickets} columns={columns} />}
+    <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
+      <div className="flex items-center justify-between space-y-2">
+        <h2 className="text-2xl font-bold tracking-tight">Welcome back!</h2>
+        <p className="text-muted-foreground">
+          Here&apos;s a list of your tasks for this month!
+        </p>
+        <GenerateNewTicket tickets={tickets} />
       </div>
-    </>
+      <DataTable data={tickets} columns={columns} />
+    </div>
   );
-}
+};

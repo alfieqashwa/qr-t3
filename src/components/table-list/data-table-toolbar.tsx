@@ -22,13 +22,12 @@ export function DataTableToolbar<TData>({
     table.getPreFilteredRowModel().rows.length >
     table.getFilteredRowModel().rows.length;
 
-  const _priorities = api.event.getAll.useQuery();
-  const _eventTitle = _priorities.data?.map((prior) => ({
-    value: prior.title,
-    label: prior.title,
-  }));
-  const eventTitle = [...new Set(_eventTitle)];
-  // console.log(`EVENT_TITLE::: `, JSON.stringify(eventTitle, null, 2));
+  const { data, status } = api.event.eventData.useQuery();
+  const titles = data?.map((d) => ({
+    value: d.title,
+    label: d.title,
+  })) as [];
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
@@ -47,11 +46,11 @@ export function DataTableToolbar<TData>({
             options={statuses}
           />
         )}
-        {table.getColumn("event") && (
+        {status === "success" && table.getColumn("event") && (
           <DataTableFacetedFilter
             column={table.getColumn("event")}
             title="Event"
-            options={eventTitle}
+            options={titles}
           />
         )}
         {isFiltered && (

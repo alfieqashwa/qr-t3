@@ -6,19 +6,9 @@ import { Badge } from "../ui/badge";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { statuses } from "./data/data";
 
-const eventList = [
-  {
-    value: "radiohead live",
-    label: "Radiohead Live",
-  },
-  {
-    value: "nirvana",
-    label: "Nirvana",
-  },
-];
 export const columns: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
   {
-    id: "select",
+    id: "id",
     header: ({ table }) => (
       <Checkbox
         checked={table.getIsAllPageRowsSelected()}
@@ -39,9 +29,9 @@ export const columns: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "id",
+    accessorKey: "sku",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="ID" />
+      <DataTableColumnHeader column={column} title="SKU" />
     ),
   },
   {
@@ -50,16 +40,14 @@ export const columns: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
       <DataTableColumnHeader column={column} title="Event" />
     ),
     cell: ({ row }) => {
-      const event = eventList.find(
-        (event) => event.value === (row.original.event?.title as string)
-      );
+      const event = row.original.event;
       if (!event) {
         return null;
       }
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium capitalize">
-            {event.label}
+            {event.title}
           </span>
         </div>
       );

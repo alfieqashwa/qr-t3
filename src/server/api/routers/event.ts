@@ -2,6 +2,7 @@ import { z } from "zod"
 import { adminProcedure, createTRPCRouter, editorProcedure, protectedProcedure } from "../trpc"
 
 export const eventRouter = createTRPCRouter({
+  // Queries
   getAll: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.event.findMany({
       where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
@@ -10,6 +11,14 @@ export const eventRouter = createTRPCRouter({
 
     })
   }),
+  eventData: protectedProcedure
+    .query(async ({ ctx }) => {
+      return await ctx.prisma.event.findMany({
+        where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
+        select: { title: true }
+      })
+    }),
+  // Mutations
   create: adminProcedure
     .input(z.object({
       title: z.string().min(5).max(25),
