@@ -5,10 +5,11 @@ import type { RouterOutputs } from "~/src/utils/api";
 import { Badge } from "../ui/badge";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { statuses } from "./data/data";
+import { DataTableRowActions } from "../table-list-sample/data-table-row-actions";
 
 export const columns: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
   {
-    id: "id",
+    id: "select",
     header: ({ table }) => (
       <Checkbox
         checked={table.getIsAllPageRowsSelected()}
@@ -29,10 +30,18 @@ export const columns: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: "id",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="ID" />
+    ),
+    cell: ({ row }) => <div className="w-[80px]">{row.getValue("id")}</div>,
+  },
+  {
     accessorKey: "sku",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="SKU" />
     ),
+    cell: ({ row }) => <div className="w-[80px]">{row.getValue("sku")}</div>,
   },
   {
     accessorKey: "event",
@@ -95,9 +104,8 @@ export const columns: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
       );
     },
     filterFn: (row, id, value: Status) => {
-      const res = row.getValue(id);
-      console.log(`STATUS::: `, res);
       return value.includes(row.getValue(id));
     },
   },
+  // { id: "actions", cell: ({ row }) => <DataTableRowActions row={row} /> },
 ];
