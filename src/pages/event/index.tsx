@@ -49,7 +49,6 @@ const EventPage: NextPage = (): JSX.Element => {
             </TabsContent>
             <TabsContent value="visitor">
               <DataListSample />
-              {/* <TicketList /> */}
             </TabsContent>
           </Tabs>
         )}
