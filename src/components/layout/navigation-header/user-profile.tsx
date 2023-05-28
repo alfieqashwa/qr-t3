@@ -10,7 +10,7 @@ import {
   MenubarShortcut,
   MenubarTrigger,
 } from "~/components/ui/menubar";
-import { MENU_LINKS } from "../MenuList";
+import { MENU_LINKS } from "../menu-list";
 import { Home, LogOut } from "lucide-react";
 import { useRouter } from "next/router";
 

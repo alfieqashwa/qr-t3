@@ -5,8 +5,8 @@ import { getServerSession } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { CommandCombobox } from "~/src/components/Combobox";
-import { Button } from "~/src/components/ui/button";
+import { CommandCombobox } from "~/components/combobox";
+import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,

@@ -1,7 +1,7 @@
 import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 
-import { HeaderTitle } from "~/src/components/HeaderTitle";
+import { HeaderTitle } from "~/src/components/header-title";
 import { Layout } from "~/src/components/layout";
 
 import { getServerSession } from "next-auth/next";
@@ -12,7 +12,7 @@ import { EventList } from "~/src/components/event-list";
 import { DataList } from "~/src/components/table-list";
 import { DataListSample } from "~/src/components/table-list-sample";
 import { api } from "~/src/utils/api";
-import { LoadingSpinner } from "~/src/components/Loading";
+import { LoadingSpinner } from "~/src/components/loading";
 
 const title = "Events" as const;
 const EventPage: NextPage = (): JSX.Element => {

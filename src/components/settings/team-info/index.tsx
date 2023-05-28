@@ -1,11 +1,11 @@
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { LoadingSpinner } from "~/components/Loading";
+import { LoadingSpinner } from "~/components/loading";
 import { api } from "~/src/utils/api";
-import { HeaderSettings } from "../HeaderSettings";
-import { CreateNewTeamDialog } from "./CreateNewTeamDialog";
-import { TableTeam } from "./TeamTable";
+import { HeaderSettings } from "../header-settings";
+import { CreateNewTeamDialog } from "./create-new-team-dialog";
+import { TableTeam } from "./team-table";
 
 dayjs.extend(relativeTime);
 

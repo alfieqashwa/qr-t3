@@ -1,8 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { Drawer } from "./Drawer";
-import { Header } from "./Header";
+import { Drawer } from "./drawer";
+import { Header } from "./header";
 import { NavigationHeader } from "./navigation-header";
 import useToggleStore from "~/store/useToggle";
 import { cn } from "~/src/utils";

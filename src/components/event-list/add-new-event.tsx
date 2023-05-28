@@ -19,7 +19,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { ToastAction } from "../ui/toast";
 import { toast } from "../ui/use-toast";
-import { DatePicker } from "./DatePicker";
+import { DatePicker } from "./date-picker";
 
 export function AddNewEvent() {
   const [date, setDate] = useState<Date>();

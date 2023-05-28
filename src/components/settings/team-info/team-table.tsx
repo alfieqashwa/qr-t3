@@ -1,7 +1,7 @@
 import { AdminOnly } from "~/src/components/authed";
 import type { RouterOutputs } from "~/src/utils/api";
-import { DeleteTeamDialog } from "./DeleteTeamDialog";
-import { UpdateTeamDialog } from "./UpdateTeamDialog";
+import { DeleteTeamDialog } from "./delete-team-dialog";
+import { UpdateTeamDialog } from "./update-team-dialog";
 
 type TableTeamProps = {
   teams: RouterOutputs["user"]["getAllByEOId"];

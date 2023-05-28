@@ -1,6 +1,6 @@
 import type { RouterOutputs } from "~/src/utils/api";
-import { AddNewEvent } from "./AddNewEvent";
-import { EventTable } from "./EventTable";
+import { AddNewEvent } from "./add-new-event";
+import { EventTable } from "./event-table";
 
 type Props = {
   events: RouterOutputs["event"]["getAll"];

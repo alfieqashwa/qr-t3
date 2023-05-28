@@ -1,5 +1,5 @@
 import type { RouterOutputs } from "~/src/utils/api";
-import { GenerateNewTicket } from "./GenerateNewTicket";
+import { GenerateNewTicket } from "./generate-new-ticket";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
 

@@ -17,8 +17,8 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { ToastAction } from "../ui/toast";
 import { toast } from "../ui/use-toast";
-import { SelectCategory } from "./SelectCategory";
-import { SelectEvent } from "./SelectEvent";
+import { SelectCategory } from "./select-category";
+import { SelectEvent } from "./select-event";
 
 type GenerateNewTicketProps = {
   tickets: RouterOutputs["ticket"]["getAll"];

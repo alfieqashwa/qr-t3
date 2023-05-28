@@ -2,12 +2,12 @@ import dayjs from "dayjs";
 import "dayjs/locale/id";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { AdminOnly } from "~/src/components/authed";
-import { LoadingSpinner } from "~/components/Loading";
-import { HeaderSettings } from "~/components/settings/HeaderSettings";
+import { LoadingSpinner } from "~/components/loading";
+import { HeaderSettings } from "~/components/settings/header-settings";
 import { api } from "~/src/utils/api";
-import { DeleteEventOrganizerDialog } from "./DeleteEventOrganizerDialog";
-import { Field } from "./Field";
-import { UpdateEventOrganizerDialog } from "./UpdateEventOrganizerDialog";
+import { DeleteEventOrganizerDialog } from "./delete-event-organizer-dialog";
+import { Field } from "./field";
+import { UpdateEventOrganizerDialog } from "./update-event-organizer-dialog";
 
 dayjs.extend(relativeTime);
 

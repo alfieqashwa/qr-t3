@@ -1,6 +1,6 @@
 import { Edit, Loader2 } from "lucide-react";
 import { useState } from "react";
-import { CommandCombobox } from "~/components/Combobox";
+import { CommandCombobox } from "~/components/combobox";
 import { Button } from "~/components/ui/button";
 import { CardDescription } from "~/components/ui/card";
 import {

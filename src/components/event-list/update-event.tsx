@@ -16,7 +16,7 @@ import { useToast } from "~/components/ui/use-toast";
 import { api } from "~/src/utils/api";
 import { wait } from "~/src/utils/wait";
 import { Input } from "../ui/input";
-import { DatePicker } from "./DatePicker";
+import { DatePicker } from "./date-picker";
 
 type Props = {
   id: string;

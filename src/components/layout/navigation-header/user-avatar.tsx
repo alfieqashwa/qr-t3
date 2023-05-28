@@ -1,5 +1,5 @@
 import { Loader2, User } from "lucide-react";
-import { UserProfile } from "./UserProfile";
+import { UserProfile } from "./user-profile";
 
 type UserAvatarProps = {
   isLoading: boolean;

@@ -9,8 +9,8 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import type { RouterOutputs } from "~/src/utils/api";
-import { DeleteEvent } from "./DeleteEvent";
-import { UpdateEvent } from "./UpdateEvent";
+import { DeleteEvent } from "./delete-event";
+import { UpdateEvent } from "./update-event";
 
 type Props = {
   events: RouterOutputs["event"]["getAll"];

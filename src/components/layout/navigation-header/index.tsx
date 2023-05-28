@@ -1,7 +1,7 @@
 import { Bell, Codesandbox, SidebarClose, SidebarOpen } from "lucide-react";
 import { api } from "~/src/utils/api";
 import useToggleStore from "~/store/useToggle";
-import { UserAvatar } from "./UserAvatar";
+import { UserAvatar } from "./user-avatar";
 
 export const NavigationHeader = () => {
   const { toggle, handleToggle } = useToggleStore();

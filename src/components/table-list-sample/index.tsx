@@ -1,6 +1,6 @@
 import { api } from "~/src/utils/api";
 import { DataTable } from "./data-table";
-import { LoadingSpinner } from "../Loading";
+import { LoadingSpinner } from "../loading";
 import { columns } from "./columns";
 
 export function DataListSample() {

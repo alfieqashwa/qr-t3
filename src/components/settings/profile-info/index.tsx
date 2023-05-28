@@ -1,11 +1,11 @@
 import { UploadDropzone } from "@uploadthing/react";
-import { LoadingSpinner } from "~/components/Loading";
+import { LoadingSpinner } from "~/components/loading";
 import { ToastAction } from "~/components/ui/toast";
 import { toast } from "~/components/ui/use-toast";
 import type { OurFileRouter } from "~/src/server/uploadthing/router";
 import { api } from "~/src/utils/api";
-import { HeaderSettings } from "../HeaderSettings";
-import { ProfileImage } from "./ProfileImage";
+import { HeaderSettings } from "../header-settings";
+import { ProfileImage } from "./profile-image";
 
 export function ProfileInfo() {
   const { data: profile, isLoading } = api.user.me.useQuery();

@@ -1,5 +1,5 @@
 import { api } from "~/src/utils/api";
-import { LoadingSpinner } from "../Loading";
+import { LoadingSpinner } from "../loading";
 import { GenerateNewTicket } from "./GenerateNewTicket";
 import { TicketTable } from "./TicketTable";
 
