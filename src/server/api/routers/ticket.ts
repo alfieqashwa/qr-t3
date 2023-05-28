@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
+import { createTRPCRouter, protectedProcedure, editorProcedure } from "../trpc"
 import { TASKS } from "~/src/components/ticket-list/data/tasks"
 
 export const ticketRouter = createTRPCRouter({
@@ -22,7 +22,7 @@ export const ticketRouter = createTRPCRouter({
     }),
 
   // Mutations
-  generate: adminProcedure
+  generate: editorProcedure
     .input(z.object({
       eventId: z.string({
         required_error: "EventId is required",
@@ -81,12 +81,12 @@ export const ticketRouter = createTRPCRouter({
         console.error(err)
       }
     }),
-  delete: adminProcedure
+  delete: editorProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
       return await ctx.prisma.ticket.delete({ where: { id } })
     }),
-  deleteAll: adminProcedure.mutation(async ({ ctx }) => {
+  deleteAll: editorProcedure.mutation(async ({ ctx }) => {
     return await ctx.prisma.ticket.deleteMany()
   }),
 })
