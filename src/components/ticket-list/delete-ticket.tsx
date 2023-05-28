@@ -1,3 +1,4 @@
+import type { Status } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
@@ -18,9 +19,10 @@ import { wait } from "~/src/utils/wait";
 type Props = {
   id: string;
   sku: string;
+  status: Status;
 };
 
-export function DeleteTicket({ id, sku }: Props) {
+export function DeleteTicket({ id, sku, status }: Props) {
   const utils = api.useContext();
   const { toast } = useToast();
 
@@ -50,10 +52,18 @@ export function DeleteTicket({ id, sku }: Props) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    mutate({
-      id,
-    });
+    if (status !== "AVAILABLE") {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Status ticket issue.",
+        description: "Can only delete a ticket with available status.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
+    } else {
+      mutate({
+        id,
+      });
+    }
   };
 
   return (
