@@ -124,9 +124,11 @@ export const columns: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const id = row.original.id;
-      const sku = row.original.sku;
-      return <DeleteTicket id={id} sku={sku} />;
+      const {
+        original: { id, sku, status },
+      } = row;
+
+      return <DeleteTicket id={id} sku={sku} status={status} />;
     },
   },
   // { id: "actions", cell: ({ row }) => <DataTableRowActions row={row} /> },
