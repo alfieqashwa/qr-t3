@@ -3,7 +3,7 @@ import { LoadingSpinner } from "../loading";
 import { GenerateNewTicket } from "./GenerateNewTicket";
 import { TicketTable } from "./TicketTable";
 
-export function TicketList(): JSX.Element | null {
+export function TicketListSample(): JSX.Element | null {
   const count = api.ticket.count.useQuery();
   const deleteAll = api.ticket.deleteAll.useMutation();
   const { data: tickets, isLoading } = api.ticket.getAll.useQuery();

@@ -1,6 +1,6 @@
 import { z } from "zod"
 import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
-import { TASKS } from "~/src/components/table-list/data/tasks"
+import { TASKS } from "~/src/components/ticket-list/data/tasks"
 
 export const ticketRouter = createTRPCRouter({
   // Queries

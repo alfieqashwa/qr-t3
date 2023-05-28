@@ -2,10 +2,10 @@ import type { Status } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "~/components/ui/checkbox";
 import type { RouterOutputs } from "~/src/utils/api";
+import { DataTableRowActions } from "../table-list-sample/data-table-row-actions";
 import { Badge } from "../ui/badge";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { statuses } from "./data/data";
-import { DataTableRowActions } from "../table-list-sample/data-table-row-actions";
 
 export const columns: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
   {
@@ -44,6 +44,35 @@ export const columns: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
     cell: ({ row }) => <div className="w-[80px]">{row.getValue("sku")}</div>,
   },
   {
+    accessorKey: "category",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Category" />
+    ),
+    cell: ({ row }) => (
+      <div className="flex space-x-2">
+        <Badge variant="secondary" className="bg-emerald-700">
+          <span className="max-w-[500px] truncate font-medium uppercase">
+            {row.getValue("category")}
+          </span>
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "price",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="price" />
+    ),
+    cell: ({ row }) => {
+      const price = row.getValue("price");
+      const formatPrice = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+      }).format(Number(price));
+      return <div className="w-[80px">{formatPrice}</div>;
+    },
+  },
+  {
     accessorKey: "event",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Event" />
@@ -64,21 +93,6 @@ export const columns: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
     filterFn: (row, _id, value: string) => {
       return value.includes(row.original.event?.title as string);
     },
-  },
-  {
-    accessorKey: "category",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Category" />
-    ),
-    cell: ({ row }) => (
-      <div className="flex space-x-2">
-        <Badge variant="secondary" className="bg-emerald-700">
-          <span className="max-w-[500px] truncate font-medium uppercase">
-            {row.getValue("category")}
-          </span>
-        </Badge>
-      </div>
-    ),
   },
   {
     accessorKey: "status",
@@ -107,5 +121,5 @@ export const columns: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
       return value.includes(row.getValue(id));
     },
   },
-  // { id: "actions", cell: ({ row }) => <DataTableRowActions row={row} /> },
+  { id: "actions", cell: ({ row }) => <DataTableRowActions row={row} /> },
 ];

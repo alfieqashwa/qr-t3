@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { authOptions } from "~/server/auth";
 import { EventList } from "~/src/components/event-list";
 // import { TicketList } from "~/src/components/ticket-list";
-import { DataList } from "~/src/components/table-list";
+import { TicketList } from "~/src/components/ticket-list";
 import { DataListSample } from "~/src/components/table-list-sample";
 import { api } from "~/src/utils/api";
 import { LoadingSpinner } from "~/src/components/loading";
@@ -45,10 +45,11 @@ const EventPage: NextPage = (): JSX.Element => {
               <EventList events={events.data} />
             </TabsContent>
             <TabsContent value="ticket-list">
-              <DataList tickets={tickets.data} />
+              <TicketList tickets={tickets.data} />
             </TabsContent>
             <TabsContent value="visitor">
               <DataListSample />
+              {/* <TicketList /> */}
             </TabsContent>
           </Tabs>
         )}
