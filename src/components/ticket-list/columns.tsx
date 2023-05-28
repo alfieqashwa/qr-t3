@@ -2,10 +2,10 @@ import type { Status } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "~/components/ui/checkbox";
 import type { RouterOutputs } from "~/src/utils/api";
-import { DataTableRowActions } from "../table-list-sample/data-table-row-actions";
 import { Badge } from "../ui/badge";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { statuses } from "./data/data";
+import { DeleteTicket } from "./delete-ticket";
 
 export const columns: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
   {
@@ -34,7 +34,7 @@ export const columns: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="ID" />
     ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("id")}</div>,
+    cell: ({ row }) => <div className="w-auto">{row.getValue("id")}</div>,
   },
   {
     accessorKey: "sku",
@@ -69,7 +69,7 @@ export const columns: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
         style: "currency",
         currency: "IDR",
       }).format(Number(price));
-      return <div className="w-[80px">{formatPrice}</div>;
+      return <div className="w-[80px]">{formatPrice}</div>;
     },
   },
   {
@@ -121,5 +121,13 @@ export const columns: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
       return value.includes(row.getValue(id));
     },
   },
-  { id: "actions", cell: ({ row }) => <DataTableRowActions row={row} /> },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const id = row.original.id;
+      const sku = row.original.sku;
+      return <DeleteTicket id={id} sku={sku} />;
+    },
+  },
+  // { id: "actions", cell: ({ row }) => <DataTableRowActions row={row} /> },
 ];

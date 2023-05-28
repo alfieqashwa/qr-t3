@@ -81,6 +81,11 @@ export const ticketRouter = createTRPCRouter({
         console.error(err)
       }
     }),
+  delete: adminProcedure
+    .input(z.object({ id: z.string().cuid() }))
+    .mutation(async ({ ctx, input: { id } }) => {
+      return await ctx.prisma.ticket.delete({ where: { id } })
+    }),
   deleteAll: adminProcedure.mutation(async ({ ctx }) => {
     return await ctx.prisma.ticket.deleteMany()
   }),
