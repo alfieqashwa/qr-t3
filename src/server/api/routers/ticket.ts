@@ -1,6 +1,7 @@
 import { z } from "zod"
 import { createTRPCRouter, protectedProcedure, editorProcedure } from "../trpc"
 import { TASKS } from "~/src/components/ticket-list/data/tasks"
+import { Status } from "@prisma/client"
 
 export const ticketRouter = createTRPCRouter({
   // Queries
@@ -81,10 +82,44 @@ export const ticketRouter = createTRPCRouter({
         console.error(err)
       }
     }),
+  // Automatic change status to SOLD whenever the ticket get purchased by customer(s)
+  sold: editorProcedure
+    .input(z.object({ id: z.string().cuid() }))
+    .mutation(async ({ ctx, input: { id } }) => {
+      try {
+        return await ctx.prisma.ticket.update({
+          where: { id },
+          data: {
+            status: Status.SOLD
+          }
+        })
+      } catch (err) {
+        console.error(err)
+      }
+    }),
+  // Automatic change status to REFUND whenever the ticket get refund by customer(s)
+  refund: editorProcedure
+    .input(z.object({ id: z.string().cuid() }))
+    .mutation(async ({ ctx, input: { id } }) => {
+      try {
+        return await ctx.prisma.ticket.update({
+          where: { id },
+          data: {
+            status: Status.REFUND
+          }
+        })
+      } catch (err) {
+        console.error(err)
+      }
+    }),
   delete: editorProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
-      return await ctx.prisma.ticket.delete({ where: { id } })
+      try {
+        return await ctx.prisma.ticket.delete({ where: { id } })
+      } catch (err) {
+        console.error(err)
+      }
     }),
   deleteAll: editorProcedure.mutation(async ({ ctx }) => {
     return await ctx.prisma.ticket.deleteMany()
