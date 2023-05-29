@@ -52,24 +52,19 @@ export function DeleteTicket({ id, sku, status }: Props) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (status !== "AVAILABLE") {
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Status ticket issue.",
-        description: "Can only delete a ticket with available status.",
-        action: <ToastAction altText="Try again">Try again</ToastAction>,
-      });
-    } else {
-      mutate({
-        id,
-      });
-    }
+    mutate({
+      id,
+    });
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="destructive" size="sm">
+        <Button
+          disabled={status !== "AVAILABLE"}
+          variant="destructive"
+          size="sm"
+        >
           Delete
         </Button>
       </DialogTrigger>
