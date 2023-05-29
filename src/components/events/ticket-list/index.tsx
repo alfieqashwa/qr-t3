@@ -1,6 +1,6 @@
 import type { RouterOutputs } from "~/utils/api";
 import { GenerateNewTicket } from "./generate-new-ticket";
-import { columns } from "./columns";
+import { columnsTicket } from "./columns";
 import { TicketTable } from "./ticket-table";
 
 type Props = {
@@ -17,7 +17,7 @@ export const TicketList = ({ tickets }: Props) => {
         </p>
         <GenerateNewTicket tickets={tickets} />
       </div>
-      <TicketTable data={tickets} columns={columns} />
+      <TicketTable data={tickets} columns={columnsTicket} />
     </div>
   );
 };

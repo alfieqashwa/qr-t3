@@ -1,13 +1,11 @@
-"use client";
-
 import type { Table } from "@tanstack/react-table";
-import { X } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { MapPin, X } from "lucide-react";
+import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-filter";
+import { DataTableViewOptions } from "~/components/table/data-table-view-options";
 import { Button } from "~/ui/button";
 import { Input } from "~/ui/input";
 import { api } from "~/utils/api";
-import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-filter";
-import { DataTableViewOptions } from "~/components/table/data-table-view-options";
-import { statuses } from "../ticket-list/data";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -20,35 +18,35 @@ export function EventTableToolbar<TData>({
     table.getPreFilteredRowModel().rows.length >
     table.getFilteredRowModel().rows.length;
 
+  type Option = {
+    label: string;
+    value: string;
+    icon?: LucideIcon;
+  };
+
   const { data, status } = api.event.eventData.useQuery();
-  const eventTitles = data?.map((d) => ({
-    value: d.title,
-    label: d.title,
-  })) as [];
+  const venues = data?.map((d) => ({
+    value: d.venue,
+    label: d.venue,
+    icon: MapPin,
+  })) as Option[];
 
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Filter tickets..."
-          value={(table.getColumn("id")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter events..."
+          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("id")?.setFilterValue(event.target.value)
+            table.getColumn("title")?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {status === "success" && table.getColumn("event") && (
+        {status === "success" && table.getColumn("venue") && (
           <DataTableFacetedFilter
-            column={table.getColumn("event")}
-            title="Event"
-            options={eventTitles}
-          />
-        )}
-        {table.getColumn("status") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("status")}
-            title="Status"
-            options={statuses}
+            column={table.getColumn("venue")}
+            title="Venue"
+            options={venues}
           />
         )}
         {isFiltered && (

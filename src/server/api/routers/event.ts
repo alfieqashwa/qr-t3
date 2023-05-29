@@ -13,7 +13,7 @@ export const eventRouter = createTRPCRouter({
     .query(async ({ ctx }) => {
       return await ctx.prisma.event.findMany({
         where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
-        select: { title: true }
+        select: { title: true, venue: true }
       })
     }),
   // Mutations

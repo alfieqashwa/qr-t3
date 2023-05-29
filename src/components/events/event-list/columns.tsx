@@ -1,12 +1,13 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { format, formatDistance, subDays } from "date-fns";
 import { id } from "date-fns/locale";
+import { MapPin, Star } from "lucide-react";
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header";
 import { Badge } from "~/ui/badge";
 import { Checkbox } from "~/ui/checkbox";
 import type { RouterOutputs } from "~/utils/api";
 
-export const columns: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
+export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -29,20 +30,35 @@ export const columns: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "id",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="ID" />
-    ),
-    cell: ({ row }) => <div className="w-auto">{row.getValue("id")}</div>,
-  },
-  {
     accessorKey: "title",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Title" />
     ),
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("title")}</div>
+      <div className="flex items-center">
+        <Star className="mr-2 h-4 w-4 text-muted-foreground" />
+        <span className="uppercase">{row.getValue("title")}</span>
+      </div>
     ),
+  },
+  {
+    accessorKey: "venue",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Venue" />
+    ),
+    cell: ({ row }) => {
+      const venue = row.original.venue;
+      if (!venue) return null;
+      return (
+        <div className="flex items-center">
+          <MapPin className="mr-2 h-4 w-4 text-muted-foreground" />
+          <span className="uppercase">{venue}</span>
+        </div>
+      );
+    },
+    filterFn: (row, id, value: string) => {
+      return value.includes(row.getValue(id));
+    },
   },
   {
     accessorKey: "date",
@@ -57,24 +73,6 @@ export const columns: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
         >
           <span className="max-w-[500px] truncate font-medium capitalize">
             {format(row.getValue("date"), "PPPP", { locale: id })}
-          </span>
-        </Badge>
-      </div>
-    ),
-  },
-  {
-    accessorKey: "venue",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Venue" />
-    ),
-    cell: ({ row }) => (
-      <div className="flex space-x-2">
-        <Badge
-          variant="secondary"
-          className="bg-emerald-700 py-1.5 px-3 hover:bg-emerald-700/50"
-        >
-          <span className="max-w-[500px] truncate font-medium capitalize">
-            {row.getValue("venue")}
           </span>
         </Badge>
       </div>

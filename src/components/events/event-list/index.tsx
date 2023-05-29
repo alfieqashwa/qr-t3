@@ -1,7 +1,7 @@
 import type { RouterOutputs } from "~/utils/api";
 import { AddNewEvent } from "./add-new-event";
 import { EventTable } from "./event-table";
-import { columns } from "./columns";
+import { columnsEvent } from "./columns";
 
 type Props = {
   events: RouterOutputs["event"]["getAll"];
@@ -17,7 +17,7 @@ export function EventList({ events }: Props): JSX.Element {
         </p>
         <AddNewEvent />
       </div>
-      <EventTable data={events} columns={columns} />
+      <EventTable data={events} columns={columnsEvent} />
     </div>
   );
 }
