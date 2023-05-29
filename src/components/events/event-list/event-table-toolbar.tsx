@@ -6,6 +6,7 @@ import { DataTableViewOptions } from "~/components/table/data-table-view-options
 import { Button } from "~/ui/button";
 import { Input } from "~/ui/input";
 import { api } from "~/utils/api";
+import { AddNewEvent } from "./add-new-event";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -60,7 +61,10 @@ export function EventTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <DataTableViewOptions table={table} />
+      <span className="flex items-center space-x-4">
+        <AddNewEvent />
+        <DataTableViewOptions table={table} />
+      </span>
     </div>
   );
 }

@@ -70,10 +70,14 @@ export function AddNewEvent() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <FilePlus2
-          size={26}
-          className="text-amber-200 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:text-amber-300"
-        />
+        <Button
+          variant="outline"
+          size="sm"
+          className="ml-auto hidden h-8 lg:flex"
+        >
+          <FilePlus2 size={26} className="mr-2 h-4 w-4" />
+          Add Event
+        </Button>
       </DialogTrigger>
 
       <DialogContent>
