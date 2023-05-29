@@ -88,7 +88,7 @@ Add more libs.
     - [x] Setup Filter
     - [x] Setup Pagination
     - [x] Automatic Update Status (Sale Config)
-  - [ ] Configure Event CRUD // TODO
+  - [x] Configure Event CRUD
     - [x] Setup Table
     - [x] Setup Search
     - [x] Setup Filter
