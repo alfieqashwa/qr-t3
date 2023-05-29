@@ -7,7 +7,7 @@ import { api } from "~/src/utils/api";
 import { HeaderSettings } from "../header-settings";
 import { ProfileImage } from "./profile-image";
 
-export function ProfileInfo() {
+export function ProfileInfo(): JSX.Element {
   const { data: profile, isLoading } = api.user.me.useQuery();
   const utils = api.useContext();
   const { mutate, error } = api.user.updateImageProfile.useMutation({
@@ -33,7 +33,7 @@ export function ProfileInfo() {
     },
   });
 
-  if (!!isLoading) return <LoadingSpinner />;
+  if (isLoading) return <LoadingSpinner />;
   return (
     <div className="mx-auto w-full">
       <HeaderSettings
@@ -42,7 +42,7 @@ export function ProfileInfo() {
       />
       <div className="mt-4 border-t-2 border-slate-800"></div>
       <section className="mt-4 rounded-md border-4 border-slate-800 p-8">
-        {!!profile ? (
+        {!!profile && (
           <article className="flex flex-col items-center space-y-6">
             <ProfileImage profile={profile} />
             <div className="space-x-2 text-center">
@@ -59,7 +59,7 @@ export function ProfileInfo() {
               </small>
             </div>
           </article>
-        ) : null}
+        )}
         <div className="mx-auto w-1/2 whitespace-nowrap hover:cursor-pointer">
           <UploadDropzone<OurFileRouter>
             endpoint="withMdwr"
