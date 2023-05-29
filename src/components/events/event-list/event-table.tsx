@@ -7,8 +7,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "~/components/ui/table";
-import type { RouterOutputs } from "~/src/utils/api";
+} from "~/ui/table";
+import type { RouterOutputs } from "~/utils/api";
 import { DeleteEvent } from "./delete-event";
 import { UpdateEvent } from "./update-event";
 

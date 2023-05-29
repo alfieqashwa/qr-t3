@@ -2,20 +2,18 @@
 
 import type { Table } from "@tanstack/react-table";
 import { X } from "lucide-react";
-
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { DataTableViewOptions } from "./data-table-view-options";
-
-import { statuses } from "./data/data";
-import { DataTableFacetedFilter } from "./data-table-faceted-filter";
-import { api } from "~/src/utils/api";
+import { Button } from "~/ui/button";
+import { Input } from "~/ui/input";
+import { api } from "~/utils/api";
+import { statuses } from "./data";
+import { DataTableFacetedFilter } from "~/src/components/table/data-table-faceted-filter";
+import { DataTableViewOptions } from "~/src/components/table/data-table-view-options";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
 }
 
-export function DataTableToolbar<TData>({
+export function TicketTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
   const isFiltered =
@@ -23,7 +21,7 @@ export function DataTableToolbar<TData>({
     table.getFilteredRowModel().rows.length;
 
   const { data, status } = api.event.eventData.useQuery();
-  const titles = data?.map((d) => ({
+  const eventTitles = data?.map((d) => ({
     value: d.title,
     label: d.title,
   })) as [];
@@ -43,7 +41,7 @@ export function DataTableToolbar<TData>({
           <DataTableFacetedFilter
             column={table.getColumn("event")}
             title="Event"
-            options={titles}
+            options={eventTitles}
           />
         )}
         {table.getColumn("status") && (

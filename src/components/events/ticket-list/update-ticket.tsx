@@ -1,6 +1,6 @@
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
-import { Button } from "~/components/ui/button";
+import { Button } from "~/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,14 +9,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/ui/dialog";
-import { Label } from "~/components/ui/label";
-import { ToastAction } from "~/components/ui/toast";
-import { useToast } from "~/components/ui/use-toast";
-import { api } from "~/src/utils/api";
-import { wait } from "~/src/utils/wait";
-import { Input } from "../ui/input";
-import { DatePicker } from "./date-picker";
+} from "~/ui/dialog";
+import { Input } from "~/ui/input";
+import { Label } from "~/ui/label";
+import { ToastAction } from "~/ui/toast";
+import { useToast } from "~/ui/use-toast";
+import { api } from "~/utils/api";
+import { wait } from "~/utils/wait";
 
 type Props = {
   id: string;
@@ -25,11 +24,10 @@ type Props = {
   date: Date;
 };
 
-export function UpdateEvent({ id, title, venue, date }: Props) {
+export function UpdateTicket({ id, title, venue, date }: Props) {
   const utils = api.useContext();
   const { toast } = useToast();
 
-  const [currentDate, setCurrentDate] = useState<Date | undefined>(date);
   const [open, setOpen] = useState(false);
 
   const { mutate, isLoading, error } = api.event.update.useMutation({
@@ -64,7 +62,7 @@ export function UpdateEvent({ id, title, venue, date }: Props) {
       id,
       title,
       venue,
-      date: currentDate as Date,
+      date: date,
     });
   };
 
@@ -117,18 +115,6 @@ export function UpdateEvent({ id, title, venue, date }: Props) {
             {error?.data?.zodError?.fieldErrors.venue && (
               <span className="text-xs text-destructive">
                 {error.data.zodError.fieldErrors.venue}
-              </span>
-            )}
-          </div>
-          {/* Date */}
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="date">Date</Label>
-            {currentDate && (
-              <DatePicker date={currentDate} setDate={setCurrentDate} />
-            )}
-            {error?.data?.zodError?.fieldErrors.date && (
-              <span className="text-xs text-destructive">
-                {error?.data?.zodError?.fieldErrors.date}
               </span>
             )}
           </div>

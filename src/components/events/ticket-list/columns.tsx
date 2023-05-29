@@ -1,10 +1,10 @@
 import type { Status } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Checkbox } from "~/components/ui/checkbox";
-import type { RouterOutputs } from "~/src/utils/api";
-import { Badge } from "../ui/badge";
-import { DataTableColumnHeader } from "./data-table-column-header";
-import { statuses } from "./data/data";
+import { DataTableColumnHeader } from "~/components/table/data-table-column-header";
+import { Badge } from "~/ui/badge";
+import { Checkbox } from "~/ui/checkbox";
+import type { RouterOutputs } from "~/utils/api";
+import { statuses } from "./data";
 import { DeleteTicket } from "./delete-ticket";
 
 export const columns: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [

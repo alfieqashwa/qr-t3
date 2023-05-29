@@ -1,18 +1,14 @@
 import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
-
-import { HeaderTitle } from "~/src/components/header-title";
-import { Layout } from "~/src/components/layout";
-
 import { getServerSession } from "next-auth/next";
+import { EventList, TicketList } from "~/components/events";
+import { HeaderTitle } from "~/components/header-title";
+import { Layout } from "~/components/layout";
+import { LoadingSpinner } from "~/components/loading";
+import { DataListSample } from "~/components/table-list-sample";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { authOptions } from "~/server/auth";
-import { EventList } from "~/src/components/event-list";
-// import { TicketList } from "~/src/components/ticket-list";
-import { TicketList } from "~/src/components/ticket-list";
-import { DataListSample } from "~/src/components/table-list-sample";
-import { api } from "~/src/utils/api";
-import { LoadingSpinner } from "~/src/components/loading";
+import { api } from "~/utils/api";
 
 const title = "Events" as const;
 const EventPage: NextPage = (): JSX.Element => {

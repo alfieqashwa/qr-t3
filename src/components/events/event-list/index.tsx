@@ -1,4 +1,4 @@
-import type { RouterOutputs } from "~/src/utils/api";
+import type { RouterOutputs } from "~/utils/api";
 import { AddNewEvent } from "./add-new-event";
 import { EventTable } from "./event-table";
 

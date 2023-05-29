@@ -2,10 +2,8 @@ import { UploadButton } from "@uploadthing/react";
 import { FilePlus2, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import type { OurFileRouter } from "~/src/server/uploadthing/router";
-import { api } from "~/src/utils/api";
-import { wait } from "~/src/utils/wait";
-import { Button } from "../ui/button";
+import type { OurFileRouter } from "~/server/uploadthing/router";
+import { Button } from "~/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -14,11 +12,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { ToastAction } from "../ui/toast";
-import { toast } from "../ui/use-toast";
+} from "~/ui/dialog";
+import { Input } from "~/ui/input";
+import { Label } from "~/ui/label";
+import { ToastAction } from "~/ui/toast";
+import { toast } from "~/ui/use-toast";
+import { api } from "~/utils/api";
+import { wait } from "~/utils/wait";
 import { DatePicker } from "./date-picker";
 
 export function AddNewEvent() {

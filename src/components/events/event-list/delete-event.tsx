@@ -1,7 +1,6 @@
-import type { Status } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
-import { Button } from "~/components/ui/button";
+import { Button } from "~/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,33 +9,32 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/ui/dialog";
-import { ToastAction } from "~/components/ui/toast";
-import { useToast } from "~/components/ui/use-toast";
-import { api } from "~/src/utils/api";
-import { wait } from "~/src/utils/wait";
+} from "~/ui/dialog";
+import { ToastAction } from "~/ui/toast";
+import { useToast } from "~/ui/use-toast";
+import { api } from "~/utils/api";
+import { wait } from "~/utils/wait";
 
 type Props = {
   id: string;
-  sku: string;
-  status: Status;
+  title: string;
 };
 
-export function DeleteTicket({ id, sku, status }: Props) {
+export function DeleteEvent({ id, title }: Props) {
   const utils = api.useContext();
   const { toast } = useToast();
 
   const [open, setOpen] = useState(false);
 
-  const { mutate, isLoading } = api.ticket.delete.useMutation({
+  const { mutate, isLoading } = api.event.delete.useMutation({
     async onSuccess() {
       // delete user from team
       toast({
         title: "Succeed!",
         variant: "default",
-        description: "Your ticket has been deleted.",
+        description: "Your Team has been deleted.",
       });
-      await utils.ticket.getAll.invalidate();
+      await utils.event.getAll.invalidate();
       /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(false));
     },
@@ -52,6 +50,7 @@ export function DeleteTicket({ id, sku, status }: Props) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     mutate({
       id,
     });
@@ -60,11 +59,7 @@ export function DeleteTicket({ id, sku, status }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          disabled={status !== "AVAILABLE"}
-          variant="destructive"
-          size="sm"
-        >
+        <Button variant="destructive" size="sm">
           Delete
         </Button>
       </DialogTrigger>
@@ -74,15 +69,11 @@ export function DeleteTicket({ id, sku, status }: Props) {
           <DialogHeader>
             <DialogTitle>Are You Sure?</DialogTitle>
             <DialogDescription asChild>
-              <p className="">
+              <p>
                 You can&apos;t undo this changes. Click delete when you&apos;re
-                sure to delete ticket
+                sure to delete event
                 <span className="px-1.5 font-medium uppercase text-amber-300">
-                  {id}
-                </span>
-                -
-                <span className="px-1.5 font-medium uppercase text-amber-300">
-                  {sku}
+                  {title}.
                 </span>
               </p>
             </DialogDescription>

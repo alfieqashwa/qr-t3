@@ -1,7 +1,7 @@
 import { z } from "zod"
 import { createTRPCRouter, protectedProcedure, editorProcedure } from "../trpc"
-import { TASKS } from "~/src/components/ticket-list/data/tasks"
 import { Status } from "@prisma/client"
+import { TASKS } from "~/src/components/table-list-sample/data/tasks"
 
 export const ticketRouter = createTRPCRouter({
   // Queries
