@@ -1,6 +1,7 @@
 import type { RouterOutputs } from "~/utils/api";
 import { AddNewEvent } from "./add-new-event";
 import { EventTable } from "./event-table";
+import { columns } from "./columns";
 
 type Props = {
   events: RouterOutputs["event"]["getAll"];
@@ -8,24 +9,16 @@ type Props = {
 
 export function EventList({ events }: Props): JSX.Element {
   return (
-    <div>
-      <header className="flex justify-end">
+    <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
+      <div className="flex items-center justify-between space-y-2">
+        <h2 className="text-2xl font-bold tracking-tight">Welcome back!</h2>
+        <p className="text-muted-foreground">
+          Here&apos;s a list of your events!
+        </p>
         <AddNewEvent />
-      </header>
-      <div className="mt-4 border-t-2 border-slate-800"></div>
-      {events.length < 1 ? (
-        <EmptyData description="There's no event has been created." />
-      ) : (
-        <section className="mt-2 py-4 px-4 lg:px-8 xl:px-12">
-          <EventTable events={events} />
-        </section>
-      )}
+      </div>
+      <EventTable data={events} columns={columns} />
+      <pre>{JSON.stringify(events, null, 2)}</pre>
     </div>
   );
 }
-
-const EmptyData = ({ description }: { description: string }): JSX.Element => (
-  <section className="mt-2 grid h-72 place-items-center">
-    <h1 className="text-semibold text-amber-300 lg:text-xl">{description}</h1>
-  </section>
-);

@@ -50,7 +50,10 @@ export const columns: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
     ),
     cell: ({ row }) => (
       <div className="flex space-x-2">
-        <Badge variant="secondary" className="bg-emerald-700">
+        <Badge
+          variant="secondary"
+          className="bg-emerald-700 hover:bg-emerald-700/50"
+        >
           <span className="max-w-[500px] truncate font-medium uppercase">
             {row.getValue("category")}
           </span>

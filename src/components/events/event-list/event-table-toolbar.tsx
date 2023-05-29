@@ -5,15 +5,15 @@ import { X } from "lucide-react";
 import { Button } from "~/ui/button";
 import { Input } from "~/ui/input";
 import { api } from "~/utils/api";
-import { statuses } from "./data";
 import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-filter";
 import { DataTableViewOptions } from "~/components/table/data-table-view-options";
+import { statuses } from "../ticket-list/data";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
 }
 
-export function TicketTableToolbar<TData>({
+export function EventTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
   const isFiltered =
