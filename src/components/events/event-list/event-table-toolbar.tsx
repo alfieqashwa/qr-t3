@@ -18,7 +18,7 @@ export function EventTableToolbar<TData>({
     table.getPreFilteredRowModel().rows.length >
     table.getFilteredRowModel().rows.length;
 
-  type Option = {
+  type Options = {
     label: string;
     value: string;
     icon?: LucideIcon;
@@ -29,7 +29,7 @@ export function EventTableToolbar<TData>({
     value: d.venue,
     label: d.venue,
     icon: MapPin,
-  })) as Option[];
+  })) as Options[];
 
   return (
     <div className="flex items-center justify-between">
