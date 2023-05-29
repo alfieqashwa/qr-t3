@@ -1,6 +1,5 @@
 import { FilePlus2, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import type { RouterOutputs } from "~/src/utils/api";
 import { Button } from "~/ui/button";
 import {
   Dialog,
@@ -20,29 +19,29 @@ import { wait } from "~/utils/wait";
 import { SelectCategory } from "./select-category";
 import { SelectEvent } from "./select-event";
 
-type GenerateNewTicketProps = {
-  tickets: RouterOutputs["ticket"]["getAll"];
-};
+export function GenerateNewTicket(): JSX.Element {
+  const tickets = api.ticket.getAll.useQuery();
 
-export function GenerateNewTicket({ tickets }: GenerateNewTicketProps) {
   const [open, setOpen] = useState(false);
   const [categoryInput, setCategoryInput] = useState<string>("");
   const [disabled, setDisabled] = useState(false);
 
   // remove duplicates array
-  const categories = [...new Set(tickets.map((ticket) => ticket.category))];
+  const _categories = tickets.data?.map((t) => t.category);
+  const categories = [...new Set(_categories)];
   // console.log({ categories });
 
   useEffect(() => {
+    if (tickets.status !== "success") return;
     if (
       categoryInput.length > 0 || // whenever user has not input any
-      tickets.length === 0 // if there's no any tickets has been created yet
+      tickets.data.length === 0 // if there's no any tickets has been created yet
     ) {
       setDisabled(true);
     } else {
       setDisabled(false);
     }
-  }, [categoryInput.length, tickets.length]);
+  }, [categoryInput.length, tickets.data?.length, tickets.status]);
 
   const utils = api.useContext();
 
@@ -103,7 +102,7 @@ export function GenerateNewTicket({ tickets }: GenerateNewTicketProps) {
       category = categorySelected;
     }
 
-    const hasNotEqualPrice = tickets.some(
+    const hasNotEqualPrice = tickets.data?.some(
       (t) =>
         t.eventId === eventId && t.category === category && t.price !== +price
     );
@@ -134,10 +133,14 @@ export function GenerateNewTicket({ tickets }: GenerateNewTicketProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <FilePlus2
-          size={26}
-          className="text-amber-200 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:text-amber-300"
-        />
+        <Button
+          variant="outline"
+          size="sm"
+          className="ml-auto hidden h-8 lg:flex"
+        >
+          <FilePlus2 size={26} className="mr-2 h-4 w-4" />
+          Add Ticket
+        </Button>
       </DialogTrigger>
 
       <DialogContent>
