@@ -1,13 +1,10 @@
-import type { Status } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
+import { format, formatDistance, subDays } from "date-fns";
 import { id } from "date-fns/locale";
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header";
 import { Badge } from "~/ui/badge";
 import { Checkbox } from "~/ui/checkbox";
 import type { RouterOutputs } from "~/utils/api";
-// import { statuses } from "./data";
-// import { DeleteTicket } from "./delete-ticket";
 
 export const columns: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
   {
@@ -90,7 +87,7 @@ export const columns: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
     ),
     cell: ({ row }) => (
       <div className="capitalize">
-        {format(row.getValue("createdAt"), "PPPpp", { locale: id })}
+        {format(row.getValue("createdAt"), "PPPpp" /*{ locale: id }*/)}
       </div>
     ),
   },
@@ -99,48 +96,16 @@ export const columns: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="UpdatedAt" />
     ),
-    cell: ({ row }) => (
-      <div className="capitalize">
-        {format(row.getValue("updatedAt"), "PPPpp", { locale: id })}
-      </div>
-    ),
+    cell: ({ row }) => {
+      const date = formatDistance(
+        subDays(row.getValue("updatedAt"), 0),
+        new Date(),
+        {
+          addSuffix: true,
+          // locale: id,
+        }
+      );
+      return <div className="capitalize">{date}</div>;
+    },
   },
-  // {
-  //   accessorKey: "status",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Status" />
-  //   ),
-  //   cell: ({ row }) => {
-  //     const status = statuses.find(
-  //       (status) => status.value === row.getValue("status")
-  //     );
-
-  //     if (!status) {
-  //       return null;
-  //     }
-
-  //     return (
-  //       <div className="flex w-[100px] items-center">
-  //         {status.icon && (
-  //           <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-  //         )}
-  //         <span className="uppercase">{status.label}</span>
-  //       </div>
-  //     );
-  //   },
-  //   filterFn: (row, id, value: Status) => {
-  //     return value.includes(row.getValue(id));
-  //   },
-  // },
-  // {
-  //   id: "actions",
-  //   cell: ({ row }) => {
-  //     const {
-  //       original: { id, sku, status },
-  //     } = row;
-
-  //     return <DeleteTicket id={id} sku={sku} status={status} />;
-  //   },
-  // },
-  // { id: "actions", cell: ({ row }) => <DataTableRowActions row={row} /> },
 ];

@@ -18,7 +18,6 @@ export function EventList({ events }: Props): JSX.Element {
         <AddNewEvent />
       </div>
       <EventTable data={events} columns={columns} />
-      <pre>{JSON.stringify(events, null, 2)}</pre>
     </div>
   );
 }
