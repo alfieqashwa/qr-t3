@@ -72,13 +72,13 @@ export function UpdateEvent({ id, title, venue, date }: Props) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="whitespace-nowrap">
-          Edit Role
+          Edit
         </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-1/2">
         <DialogHeader>
-          <DialogTitle>Update Team</DialogTitle>
+          <DialogTitle>Update Event</DialogTitle>
           <DialogDescription asChild>
             <p>
               Edit

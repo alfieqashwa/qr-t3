@@ -1,13 +1,13 @@
 import type { RouterOutputs } from "~/utils/api";
 import { AddNewEvent } from "./add-new-event";
+import { columnsEvent } from "./columnsEvent";
 import { EventTable } from "./event-table";
-import { columnsEvent } from "./columns";
 
-type Props = {
+type EventListProps = {
   events: RouterOutputs["event"]["getAll"];
 };
 
-export function EventList({ events }: Props): JSX.Element {
+export function EventList({ events }: EventListProps): JSX.Element {
   return (
     <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
       <div className="flex items-center justify-between space-y-2">

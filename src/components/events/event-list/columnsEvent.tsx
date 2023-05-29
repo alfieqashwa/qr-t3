@@ -6,6 +6,8 @@ import { DataTableColumnHeader } from "~/components/table/data-table-column-head
 import { Badge } from "~/ui/badge";
 import { Checkbox } from "~/ui/checkbox";
 import type { RouterOutputs } from "~/utils/api";
+import { DeleteEvent } from "./delete-event";
+import { UpdateEvent } from "./update-event";
 
 export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
   {
@@ -104,6 +106,25 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
         }
       );
       return <div className="capitalize">{date}</div>;
+    },
+  },
+  {
+    id: "updateEvent",
+    cell: ({ row }) => {
+      const {
+        original: { id, title, venue, date },
+      } = row;
+
+      return <UpdateEvent id={id} title={title} venue={venue} date={date} />;
+    },
+  },
+  {
+    id: "deleteEvent",
+    cell: ({ row }) => {
+      const {
+        original: { id, title },
+      } = row;
+      return <DeleteEvent id={id} title={title} />;
     },
   },
 ];

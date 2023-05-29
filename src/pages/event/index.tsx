@@ -15,11 +15,11 @@ const EventPage: NextPage = (): JSX.Element => {
   const events = api.event.getAll.useQuery();
   const tickets = api.ticket.getAll.useQuery();
 
-  if (events.isLoading || tickets.isLoading) return <LoadingSpinner />;
   return (
     <Layout title={title}>
       <HeaderTitle title={title} />
       <div className="mt-4 h-[calc(100vh_-_17vh)]">
+        {events.isLoading || (tickets.isLoading && <LoadingSpinner />)}
         {events.status === "success" && tickets.status === "success" && (
           <Tabs defaultValue="event-list">
             <TabsList className="mb-3">

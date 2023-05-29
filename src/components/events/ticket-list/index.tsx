@@ -1,13 +1,13 @@
 import type { RouterOutputs } from "~/utils/api";
 import { GenerateNewTicket } from "./generate-new-ticket";
-import { columnsTicket } from "./columns";
+import { columnsTicket } from "./columnsTicket";
 import { TicketTable } from "./ticket-table";
 
-type Props = {
+type TicketListProps = {
   tickets: RouterOutputs["ticket"]["getAll"];
 };
 
-export const TicketList = ({ tickets }: Props) => {
+export const TicketList = ({ tickets }: TicketListProps) => {
   return (
     <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
       <div className="flex items-center justify-between space-y-2">
