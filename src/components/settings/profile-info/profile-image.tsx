@@ -24,7 +24,7 @@ export const ProfileImage = ({ profile }: ProfileImageProps): JSX.Element => {
           src={imageUpdate ?? image}
           alt={name}
           fill
-          className="rounded-full ring-4 ring-amber-300 ring-offset-2 ring-offset-slate-600"
+          className="rounded-full ring-4 ring-amber-300 ring-offset-2 ring-offset-slate-100"
         />
       </div>
     </div>

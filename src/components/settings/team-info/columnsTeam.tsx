@@ -1,10 +1,11 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { Building2, Key, Star } from "lucide-react";
+import { Building2, Key, Mail, User } from "lucide-react";
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header";
 import { Checkbox } from "~/ui/checkbox";
 import type { RouterOutputs } from "~/utils/api";
 import { DeleteTeam } from "./delete-team";
 import { UpdateTeam } from "./update-team";
+import Image from "next/image";
 
 export const columnsTeam: ColumnDef<
   RouterOutputs["user"]["getAllByEOId"][0]
@@ -31,28 +32,53 @@ export const columnsTeam: ColumnDef<
     enableHiding: false,
   },
   {
-    accessorKey: "image",
+    accessorKey: "avatar",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Image" />
+      <DataTableColumnHeader column={column} title="Avatar" />
     ),
-    cell: ({ row }) => (
-      <div className="flex items-center">
-        <Star className="mr-2 h-4 w-4 text-muted-foreground" />
-        <span className="uppercase">{row.getValue("image")}</span>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const userAvatar = row.original.imageUpdate || row.original.image;
+      if (userAvatar) {
+        return (
+          <div className="flex items-center">
+            <span className="relative h-12 w-12">
+              <Image
+                src={userAvatar}
+                alt="username"
+                fill
+                className="rounded-full object-cover ring-2 ring-amber-300 ring-offset-2 ring-offset-slate-100"
+              />
+            </span>
+          </div>
+        );
+      }
+      return (
+        <div className="flex items-center">
+          <span className="relative">
+            <User
+              size={48}
+              className="rounded-full bg-slate-500 object-cover p-1 text-white ring-2 ring-amber-300 ring-offset-2 ring-offset-slate-100"
+            />
+          </span>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "name",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Name" />
     ),
-    cell: ({ row }) => (
-      <div className="flex items-center">
-        <Star className="mr-2 h-4 w-4 text-muted-foreground" />
-        <span className="uppercase">{row.getValue("name")}</span>
-      </div>
-    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center">
+          <User className="mr-2 h-4 w-4 text-muted-foreground" />
+          <span className="whitespace-nowrap capitalize">
+            {row.getValue("name") ?? "pending"}
+          </span>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "email",
@@ -61,8 +87,8 @@ export const columnsTeam: ColumnDef<
     ),
     cell: ({ row }) => (
       <div className="flex items-center">
-        <Star className="mr-2 h-4 w-4 text-muted-foreground" />
-        <span className="uppercase">{row.getValue("email")}</span>
+        <Mail className="mr-2 h-4 w-4 text-muted-foreground" />
+        <span>{row.getValue("email")}</span>
       </div>
     ),
   },
@@ -96,7 +122,7 @@ export const columnsTeam: ColumnDef<
       return (
         <div className="flex items-center">
           <Building2 className="mr-2 h-4 w-4 text-muted-foreground" />
-          <span className="capitalize">{eventOrganizer}</span>
+          <span className="whitespace-nowrap capitalize">{eventOrganizer}</span>
         </div>
       );
     },
