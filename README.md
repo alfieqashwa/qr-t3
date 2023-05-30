@@ -70,9 +70,6 @@ Add more libs.
   - [x] API Update-Team & Update Dialog Form
   - [x] Delete-Team API & Delete Dialog Form
 - [x] Loading Configuration (UI)
-- [x] Image Uploader
-  - [ ] How to set upload button on top of the user avatar itself
-  - [ ] Add tooltip whenever user hovering the user avatar
 - [x] Breakpoint Layout (Mobile - Tablet - Desktop) (UI)
   - [x] Home
   - [x] Dashboard
@@ -80,6 +77,9 @@ Add more libs.
   - [x] Visitor
   - [x] Settings
 - [x] Store Addresses [PROVINCES, REGENCIES, DISTRICTS, VILLAGES] into database using prisma db seed
+- [x] Image Uploader
+  - [x] Upload and remove user avatar
+  - [ ] Add tooltip whenever user hovering the user avatar
 
 - [ ] Setup Event Page
   - [x] Configure Ticket CRUD
@@ -93,6 +93,8 @@ Add more libs.
     - [x] Setup Search
     - [x] Setup Filter
     - [x] Setup Pagination
+  - [x] Image Uploader
+    - [ ] Upload and remove event thumbnail
   - [ ] Setup Visitor Page
     - [ ] Configure Visitor CRUD
     - [ ] Setup Table
