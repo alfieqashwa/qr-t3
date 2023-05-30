@@ -102,6 +102,10 @@ Add more libs.
     - [ ] Setup Filter
     - [ ] Setup Pagination
 
+- [x] Dark / Light mode
+    - [ ] Create toggle dark mode
+    - [ ] Configure colors
+
 - [ ] Setup Dashboard Page
   - [ ] Setup Charts
   - [ ] Setup Table
