@@ -1,4 +1,3 @@
-import { Role } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
@@ -11,29 +10,25 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
+import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { ToastAction } from "~/components/ui/toast";
 import { useToast } from "~/components/ui/use-toast";
 import { api } from "~/src/utils/api";
+import { wait } from "~/src/utils/wait";
 
-type Props = {
-  id: string;
-  currentRole: Role;
-  username: string | null;
-};
-
-export function UpdateTeamDialog({ id, currentRole, username }: Props) {
+export function CreateTeam() {
   const utils = api.useContext();
   const { toast } = useToast();
 
   const [open, setOpen] = useState(false);
 
-  const { mutate, isLoading, error } = api.user.updateTeam.useMutation({
+  const { mutate, isLoading, error } = api.user.create.useMutation({
     async onSuccess() {
       toast({
         title: "Succeed!",
         variant: "default",
-        description: "Your team has been updated.",
+        description: "Your new team has been created.",
       });
       await utils.user.getAllByEOId.invalidate();
       /* auto-closed after succeed submit the dialog form */
@@ -53,10 +48,11 @@ export function UpdateTeamDialog({ id, currentRole, username }: Props) {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
+    const email = formData.get("email")?.toString().toLowerCase() as string;
     const role = formData.get("role") as Role;
 
     mutate({
-      id,
+      email,
       role,
     });
   };
@@ -64,43 +60,40 @@ export function UpdateTeamDialog({ id, currentRole, username }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="whitespace-nowrap">
-          Edit Role
+        <Button variant="default" size="sm">
+          Create New Team
         </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-1/2">
         <DialogHeader>
-          <DialogTitle>Update Team</DialogTitle>
-          <DialogDescription asChild>
-            <p>
-              Edit
-              <span className="px-1.5 font-medium uppercase text-amber-300">
-                {username}
-              </span>
-              role of your team here. Click Update Team when you&apos;re done.
-            </p>
+          <DialogTitle>Create New Team</DialogTitle>
+          <DialogDescription>
+            Create new team for your organization here. Click Create Team when
+            you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         <form className="grid gap-4 py-3" onSubmit={handleSubmit}>
+          {/* Email */}
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="email">Email</Label>
+            <Input id="email" name="email" />
+            {error?.data?.zodError?.fieldErrors.email && (
+              <span className="text-xs text-destructive">
+                {error?.data?.zodError?.fieldErrors.email}
+              </span>
+            )}
+          </div>
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="name">User Role</Label>
-            <SelectRole role={currentRole} />
+            <SelectRole />
             {error?.data?.zodError?.fieldErrors.role && (
               <span className="text-xs text-destructive">
                 {error.data.zodError.fieldErrors.role}
               </span>
             )}
           </div>
-          <DialogFooter className="mt-4 flex flex-row items-center justify-end space-x-2">
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => setOpen(false)}
-            >
-              Cancel
-            </Button>
+          <DialogFooter>
             {isLoading ? (
               <Button disabled size="sm">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -108,7 +101,7 @@ export function UpdateTeamDialog({ id, currentRole, username }: Props) {
               </Button>
             ) : (
               <Button type="submit" size="sm">
-                Update
+                Create Team
               </Button>
             )}
           </DialogFooter>
@@ -118,6 +111,7 @@ export function UpdateTeamDialog({ id, currentRole, username }: Props) {
   );
 }
 
+import { Role } from "@prisma/client";
 import {
   Select,
   SelectContent,
@@ -127,11 +121,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { wait } from "~/src/utils/wait";
 
-export function SelectRole({ role }: { role: Role }) {
+export function SelectRole() {
   return (
-    <Select name="role" defaultValue={role}>
+    <Select name="role">
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Select a role" />
       </SelectTrigger>

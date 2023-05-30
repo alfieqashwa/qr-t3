@@ -7,7 +7,7 @@ import { Layout } from "~/src/components/layout";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "~/server/auth";
 import { AdminOnly } from "~/src/components/authed";
-import { EOInfo, ProfileInfo, TeamInfo } from "~/src/components/settings";
+import { EOInfo, ProfileInfo, TeamList } from "~/src/components/settings";
 import {
   Tabs,
   TabsContent,
@@ -43,7 +43,7 @@ const SettingsPage: NextPage = () => {
             <ProfileInfo />
           </TabsContent>
           <TabsContent value="team-info">
-            <TeamInfo />
+            <TeamList />
           </TabsContent>
         </Tabs>
       </div>

@@ -18,10 +18,10 @@ import { wait } from "~/src/utils/wait";
 
 type Props = {
   id: string;
-  username: string | null;
+  email: string;
 };
 
-export function DeleteTeamDialog({ id, username }: Props) {
+export function DeleteTeam({ id, email }: Props) {
   const router = useRouter();
   const utils = api.useContext();
   const { toast } = useToast();
@@ -75,8 +75,8 @@ export function DeleteTeamDialog({ id, username }: Props) {
               <p>
                 You can&apos;t undo this changes. Click delete when you&apos;re
                 sure to delete
-                <span className="px-1.5 font-medium uppercase text-amber-300">
-                  {username}
+                <span className="px-1.5 font-medium text-amber-300">
+                  {email}
                 </span>
                 from your Team.
               </p>

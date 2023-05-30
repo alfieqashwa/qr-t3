@@ -3,12 +3,35 @@ import { z } from "zod"
 import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
 
 export const userRouter = createTRPCRouter({
+  // Queries
   me: protectedProcedure
     .query(async ({ ctx }) => {
       return await ctx.prisma.user.findUnique({
         where: { id: ctx.session.user.id },
       })
     }),
+  getAllByEOId: adminProcedure
+    .query(async ({ ctx }) => {
+      return ctx.prisma.user.findMany({
+        where: {
+          eventOrganizerId: ctx.session.user.eventOrganizerId,
+          OR: [
+            { role: { equals: Role.EDITOR } },
+            { role: { equals: Role.OPERATOR } },
+          ]
+        },
+        orderBy: { name: "asc" }, // A -> Z
+        include: { eventOrganizer: { select: { name: true } } } // include EO but only select the name of EO
+      })
+    }),
+  getRole: adminProcedure.
+    query(async ({ ctx }) => {
+      return await ctx.prisma.user.findMany({
+        select: { role: true }
+      })
+    }),
+
+  // Mutations
   updateRole: protectedProcedure
     .input(z.object({ role: z.nativeEnum(Role) }))
     .mutation(async ({ ctx, input: { role } }) => {
@@ -38,20 +61,6 @@ export const userRouter = createTRPCRouter({
       } catch (err) {
         console.error(err)
       }
-    }),
-  getAllByEOId: adminProcedure
-    .query(({ ctx }) => {
-      return ctx.prisma.user.findMany({
-        where: {
-          eventOrganizerId: ctx.session.user.eventOrganizerId,
-          OR: [
-            { role: { equals: Role.EDITOR } },
-            { role: { equals: Role.OPERATOR } },
-          ]
-        },
-        orderBy: { name: "asc" }, // A -> Z
-        include: { eventOrganizer: { select: { name: true } } } // include EO but only select the name of EO
-      })
     }),
   updateTeam: adminProcedure
     .input(z.object({

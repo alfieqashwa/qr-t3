@@ -109,7 +109,7 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
     },
   },
   {
-    id: "updateEvent",
+    id: "update",
     cell: ({ row }) => {
       const {
         original: { id, title, venue, date },
@@ -119,7 +119,7 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
     },
   },
   {
-    id: "deleteEvent",
+    id: "delete",
     cell: ({ row }) => {
       const {
         original: { id, title },
