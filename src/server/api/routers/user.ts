@@ -32,6 +32,13 @@ export const userRouter = createTRPCRouter({
     }),
 
   // Mutations
+  removeImageUpdate: protectedProcedure
+    .mutation(async ({ ctx }) => {
+      return await ctx.prisma.user.update({
+        where: { id: ctx.session.user.id },
+        data: { imageUpdate: null }
+      })
+    }),
   updateRole: protectedProcedure
     .input(z.object({ role: z.nativeEnum(Role) }))
     .mutation(async ({ ctx, input: { role } }) => {
