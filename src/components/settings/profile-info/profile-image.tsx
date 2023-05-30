@@ -1,7 +1,8 @@
 import type { User } from "@prisma/client";
 import { Loader2, User as UserIcon } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Button } from "~/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,11 +11,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/ui/dialog";
-import { ToastAction } from "~/components/ui/toast";
-import { useToast } from "~/components/ui/use-toast";
-import type { RouterOutputs } from "~/src/utils/api";
-import { Button } from "~/ui/button";
+} from "~/ui/dialog";
+import { ToastAction } from "~/ui/toast";
+import { useToast } from "~/ui/use-toast";
+import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
 import { wait } from "~/utils/wait";
 
@@ -22,7 +22,7 @@ type ProfileImageProps = {
   profile: RouterOutputs["user"]["me"];
 };
 
-export function ProfileImage({ profile }: ProfileImageProps) {
+export function ProfileImage({ profile }: ProfileImageProps): JSX.Element {
   const { image, name, imageUpdate } = profile as User;
   const [open, setOpen] = useState(false);
 
@@ -56,7 +56,11 @@ export function ProfileImage({ profile }: ProfileImageProps) {
     mutate();
   };
 
-  if (typeof image !== "string" || typeof name !== "string")
+  if (
+    typeof imageUpdate !== "string" ||
+    typeof image !== "string" ||
+    typeof name !== "string"
+  )
     return (
       <div className="rounded-full p-4 ring-4 ring-amber-300 ring-offset-2 ring-offset-slate-600">
         <UserIcon size={128} />
@@ -71,7 +75,7 @@ export function ProfileImage({ profile }: ProfileImageProps) {
           className="relative h-28 w-28 focus:outline-none disabled:cursor-not-allowed lg:h-36 lg:w-36"
         >
           <Image
-            src={(imageUpdate as string) || image}
+            src={imageUpdate || image}
             alt={name}
             fill
             className="rounded-full ring-4 ring-amber-300 ring-offset-2 ring-offset-slate-100"

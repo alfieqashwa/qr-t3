@@ -1,13 +1,17 @@
 import { UploadDropzone } from "@uploadthing/react";
+import { useRouter } from "next/router";
 import { LoadingSpinner } from "~/components/loading";
-import { ToastAction } from "~/components/ui/toast";
-import { toast } from "~/components/ui/use-toast";
-import type { OurFileRouter } from "~/src/server/uploadthing/router";
-import { api } from "~/src/utils/api";
+import type { OurFileRouter } from "~/server/uploadthing/router";
+import { ToastAction } from "~/ui/toast";
+import { toast } from "~/ui/use-toast";
+import { api } from "~/utils/api";
+import { wait } from "~/utils/wait";
 import { HeaderSettings } from "../header-settings";
 import { ProfileImage } from "./profile-image";
 
 export function ProfileInfo(): JSX.Element {
+  const router = useRouter();
+
   const { data: profile, isLoading } = api.user.me.useQuery();
   const utils = api.useContext();
   const { mutate, error } = api.user.updateImageProfile.useMutation({
@@ -18,6 +22,7 @@ export function ProfileInfo(): JSX.Element {
         description: "Upload Completed",
       });
       await utils.user.me.invalidate();
+      await wait().then(() => router.reload());
     },
     onError() {
       console.error(
@@ -65,7 +70,7 @@ export function ProfileInfo(): JSX.Element {
             endpoint="withMdwr"
             onClientUploadComplete={(res) => {
               // Do something with the response
-              console.log("Files: ", res);
+              // console.log("Files: ", res);
               const imageUpdate = res?.[0]?.fileUrl as string;
               mutate({
                 imageUpdate,

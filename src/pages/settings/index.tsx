@@ -22,13 +22,13 @@ const SettingsPage: NextPage = () => {
     <Layout title={title}>
       <HeaderTitle title={title} />
       <div className="h-[calc(100vh_-_17vh)]">
-        <Tabs defaultValue="event-organizer">
+        <Tabs defaultValue="profile">
           <TabsList className="mb-3">
-            <TabsTrigger className="text-xs lg:text-sm" value="event-organizer">
-              Event Organizer
-            </TabsTrigger>
             <TabsTrigger className="text-xs lg:text-sm" value="profile">
               Profile
+            </TabsTrigger>
+            <TabsTrigger className="text-xs lg:text-sm" value="event-organizer">
+              Event Organizer
             </TabsTrigger>
             <AdminOnly>
               <TabsTrigger className="text-xs lg:text-sm" value="team-info">
@@ -36,11 +36,11 @@ const SettingsPage: NextPage = () => {
               </TabsTrigger>
             </AdminOnly>
           </TabsList>
-          <TabsContent value="event-organizer">
-            <EOInfo />
-          </TabsContent>
           <TabsContent value="profile">
             <ProfileInfo />
+          </TabsContent>
+          <TabsContent value="event-organizer">
+            <EOInfo />
           </TabsContent>
           <TabsContent value="team-info">
             <TeamList />
