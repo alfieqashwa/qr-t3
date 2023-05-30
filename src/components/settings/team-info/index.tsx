@@ -1,7 +1,7 @@
-import { api } from "~/src/utils/api";
+import { LoadingSpinner } from "~/components/loading";
+import { api } from "~/utils/api";
 import { columnsTeam } from "./columnsTeam";
 import { TeamTable } from "./team-table";
-import { LoadingSpinner } from "~/components/loading";
 
 export function TeamList(): JSX.Element {
   const teams = api.user.getAllByEOId.useQuery();

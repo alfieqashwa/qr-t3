@@ -1,7 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { format, formatDistance, subDays } from "date-fns";
-import { id } from "date-fns/locale";
-import { Key, MapPin, Star } from "lucide-react";
+import { Key, Star } from "lucide-react";
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header";
 import { Badge } from "~/ui/badge";
 import { Checkbox } from "~/ui/checkbox";

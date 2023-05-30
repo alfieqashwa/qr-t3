@@ -1,3 +1,4 @@
+import type { Role } from "@prisma/client";
 import type { Table } from "@tanstack/react-table";
 import type { LucideIcon } from "lucide-react";
 import { Key, X } from "lucide-react";
@@ -7,7 +8,6 @@ import { Button } from "~/ui/button";
 import { Input } from "~/ui/input";
 import { api } from "~/utils/api";
 import { CreateTeam } from "./create-team";
-import type { Role } from "@prisma/client";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -27,7 +27,7 @@ export function TeamTableToolbar<TData>({
   };
 
   const { data, status } = api.user.getRole.useQuery();
-  if (status !== "success") return;
+  if (status !== "success") return null;
   const roles: Options[] = data
     .filter((f) => f.role === "EDITOR" || f.role === "OPERATOR")
     .map((d) => ({
