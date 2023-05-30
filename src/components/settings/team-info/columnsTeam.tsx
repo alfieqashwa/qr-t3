@@ -1,7 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { Key, Star } from "lucide-react";
+import { Building2, Key, Star } from "lucide-react";
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header";
-import { Badge } from "~/ui/badge";
 import { Checkbox } from "~/ui/checkbox";
 import type { RouterOutputs } from "~/utils/api";
 import { DeleteTeam } from "./delete-team";
@@ -78,7 +77,7 @@ export const columnsTeam: ColumnDef<
       return (
         <div className="flex items-center">
           <Key className="mr-2 h-4 w-4 text-muted-foreground" />
-          <span className="uppercase">{row.getValue("role")}</span>
+          <span>{row.getValue("role")}</span>
         </div>
       );
     },
@@ -89,21 +88,15 @@ export const columnsTeam: ColumnDef<
   {
     accessorKey: "event",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Event" />
+      <DataTableColumnHeader column={column} title="Event Organizer" />
     ),
     cell: ({ row }) => {
-      const event = row.original.eventOrganizer?.name;
-      if (!event) return null;
+      const eventOrganizer = row.original.eventOrganizer?.name;
+      if (!eventOrganizer) return null;
       return (
-        <div className="flex space-x-2">
-          <Badge
-            variant="secondary"
-            className="bg-amber-700 py-1.5 px-3 hover:bg-amber-700/50"
-          >
-            <span className="max-w-[500px] truncate font-medium capitalize">
-              {event}
-            </span>
-          </Badge>
+        <div className="flex items-center">
+          <Building2 className="mr-2 h-4 w-4 text-muted-foreground" />
+          <span className="capitalize">{eventOrganizer}</span>
         </div>
       );
     },
