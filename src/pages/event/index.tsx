@@ -4,7 +4,6 @@ import { getServerSession } from "next-auth/next";
 import { EventList, TicketList } from "~/components/events";
 import { HeaderTitle } from "~/components/header-title";
 import { Layout } from "~/components/layout";
-import { LoadingSpinner } from "~/components/loading";
 import { DataListSample } from "~/components/table-list-sample";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { authOptions } from "~/server/auth";
@@ -12,42 +11,38 @@ import { api } from "~/utils/api";
 
 const title = "Events" as const;
 const EventPage: NextPage = (): JSX.Element => {
-  const events = api.event.getAll.useQuery();
-  const tickets = api.ticket.getAll.useQuery();
+  const count = api.event.count.useQuery();
 
   return (
     <Layout title={title}>
       <HeaderTitle title={title} />
       <div className="mt-4 h-[calc(100vh_-_17vh)]">
-        {events.isLoading || (tickets.isLoading && <LoadingSpinner />)}
-        {events.status === "success" && tickets.status === "success" && (
-          <Tabs defaultValue="event-list">
-            <TabsList className="mb-3">
-              <TabsTrigger className="text-xs lg:text-sm" value="event-list">
-                Event
-              </TabsTrigger>
-              <TabsTrigger
-                className="text-xs lg:text-sm"
-                value="ticket-list"
-                disabled={events.data.length === 0}
-              >
-                Ticket
-              </TabsTrigger>
-              <TabsTrigger className="text-xs lg:text-sm" value="visitor">
-                Visitor
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="event-list">
-              <EventList events={events.data} />
-            </TabsContent>
-            <TabsContent value="ticket-list">
-              <TicketList tickets={tickets.data} />
-            </TabsContent>
-            <TabsContent value="visitor">
-              <DataListSample />
-            </TabsContent>
-          </Tabs>
-        )}
+        <Tabs defaultValue="event-list">
+          <TabsList className="mb-3">
+            <TabsTrigger className="text-xs lg:text-sm" value="event-list">
+              Event
+            </TabsTrigger>
+            <TabsTrigger
+              className="text-xs lg:text-sm"
+              value="ticket-list"
+              disabled={count.data === 0}
+            >
+              Ticket
+            </TabsTrigger>
+            <TabsTrigger className="text-xs lg:text-sm" value="visitor">
+              Visitor
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="event-list">
+            <EventList />
+          </TabsContent>
+          <TabsContent value="ticket-list">
+            <TicketList />
+          </TabsContent>
+          <TabsContent value="visitor">
+            <DataListSample />
+          </TabsContent>
+        </Tabs>
       </div>
     </Layout>
   );
