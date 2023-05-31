@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { createEventSchema } from "~/types/schema"
 import { adminProcedure, createTRPCRouter, editorProcedure, protectedProcedure } from "../trpc"
 
 export const eventRouter = createTRPCRouter({
@@ -19,17 +20,11 @@ export const eventRouter = createTRPCRouter({
     }),
   // Mutations
   create: adminProcedure
-    .input(z.object({
-      title: z.string().min(5).max(25),
-      thumbnail: z.string().url().nullable(),
-      venue: z.string().min(5).max(25),
-      date: z.date(),
-      eventOrganizerId: z.string().cuid()
-    }))
-    .mutation(async ({ ctx, input: { title, thumbnail, venue, date, eventOrganizerId } }) => {
+    .input(createEventSchema)
+    .mutation(async ({ ctx, input: { title, thumbnail, venue, date } }) => {
       try {
         return await ctx.prisma.event.create({
-          data: { title, thumbnail, venue, date, eventOrganizerId }
+          data: { title, thumbnail, venue, date, eventOrganizerId: ctx.session.user.eventOrganizerId as string }
         })
       } catch (err) {
         console.error(err)

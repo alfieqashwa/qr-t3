@@ -25,6 +25,7 @@
       "~/utils/*": ["src/utils/*"],
       "~/store/*": ["src/store/*"],
       "~/styles/*": ["src/styles/*"],
+      "~/constants/*": ["src/constants/*"],
       "~/types/*": ["src/types/*"]
     }
   },

@@ -6,7 +6,7 @@ import { DataTableViewOptions } from "~/components/table/data-table-view-options
 import { Button } from "~/ui/button";
 import { Input } from "~/ui/input";
 import { api } from "~/utils/api";
-import { AddNewEvent } from "./add-new-event";
+import { AddNewEvent } from "./create-new-event";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
