@@ -1,6 +1,7 @@
 import { Role } from "@prisma/client"
 import { z } from "zod"
 import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
+import { createTeamSchema } from "~/src/types/schema"
 
 export const userRouter = createTRPCRouter({
   // Queries
@@ -50,17 +51,12 @@ export const userRouter = createTRPCRouter({
       })
     }),
   create: adminProcedure
-    .input(z.object({
-      email: z.string().email(),
-      image: z.string().url().optional(),
-      role: z.nativeEnum(Role),
-    }))
-    .mutation(async ({ ctx, input: { email, image, role } }) => {
+    .input(createTeamSchema)
+    .mutation(async ({ ctx, input: { email, role } }) => {
       try {
         return await ctx.prisma.user.create({
           data: {
             email,
-            image,
             role,
             eventOrganizerId: ctx.session.user.eventOrganizerId,
           }
