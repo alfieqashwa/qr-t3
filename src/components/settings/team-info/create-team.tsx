@@ -8,6 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/ui/dialog";
+import { UserForm } from "./user-form";
 
 export function CreateTeam() {
   const [open, setOpen] = useState(false);
@@ -31,34 +32,5 @@ export function CreateTeam() {
         <UserForm setOpen={setOpen} />
       </DialogContent>
     </Dialog>
-  );
-}
-
-import { Role } from "@prisma/client";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
-import { UserForm } from "./user-form";
-
-export function SelectRole() {
-  return (
-    <Select name="role">
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Select a role" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>Role</SelectLabel>
-          <SelectItem value={Role.EDITOR}>{Role.EDITOR}</SelectItem>
-          <SelectItem value={Role.OPERATOR}>{Role.OPERATOR}</SelectItem>
-        </SelectGroup>
-      </SelectContent>
-    </Select>
   );
 }
