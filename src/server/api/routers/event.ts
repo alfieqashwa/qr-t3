@@ -21,7 +21,7 @@ export const eventRouter = createTRPCRouter({
   create: adminProcedure
     .input(z.object({
       title: z.string().min(5).max(25),
-      thumbnail: z.string().url(),
+      thumbnail: z.string().url().nullable(),
       venue: z.string().min(5).max(25),
       date: z.date(),
       eventOrganizerId: z.string().cuid()

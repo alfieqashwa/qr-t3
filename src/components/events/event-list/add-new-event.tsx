@@ -20,10 +20,11 @@ import { toast } from "~/ui/use-toast";
 import { api } from "~/utils/api";
 import { wait } from "~/utils/wait";
 import { DatePicker } from "./date-picker";
+import { DEFAULT_THUMBNAIL } from "~/src/constants/thumbnail";
 
 export function AddNewEvent() {
   const [date, setDate] = useState<Date>();
-  const [thumbnail, setThumbnail] = useState<string>();
+  const [thumbnail, setThumbnail] = useState<string | null>();
   const [open, setOpen] = useState(false);
   const session = useSession();
 
@@ -62,7 +63,7 @@ export function AddNewEvent() {
       title,
       venue,
       date: date as Date,
-      thumbnail: thumbnail as string,
+      thumbnail: thumbnail ?? DEFAULT_THUMBNAIL,
       eventOrganizerId,
     });
   };
