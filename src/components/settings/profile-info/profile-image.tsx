@@ -78,6 +78,7 @@ export function ProfileImage({ profile }: ProfileImageProps): JSX.Element {
             src={imageUpdate || image}
             alt={name}
             fill
+            priority
             className="rounded-full ring-4 ring-amber-300 ring-offset-2 ring-offset-slate-100"
           />
         </button>
