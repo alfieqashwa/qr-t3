@@ -6,6 +6,7 @@ import { Checkbox } from "~/ui/checkbox";
 import type { RouterOutputs } from "~/utils/api";
 import { statuses } from "./data";
 import { DeleteTicket } from "./delete-ticket";
+import { Calendar } from "lucide-react";
 
 export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
   [
@@ -86,8 +87,9 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
           return null;
         }
         return (
-          <div className="flex space-x-2">
-            <span className="max-w-[500px] truncate font-medium capitalize">
+          <div className="flex items-center">
+            <Calendar className="mr-2 h-4 w-4 text-muted-foreground" />
+            <span className="whitespace-nowrap font-medium capitalize">
               {title}
             </span>
           </div>

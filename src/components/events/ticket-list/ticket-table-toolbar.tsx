@@ -2,6 +2,7 @@
 
 import type { Table } from "@tanstack/react-table";
 import type { LucideIcon } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { X } from "lucide-react";
 import { Button } from "~/ui/button";
 import { Input } from "~/ui/input";
@@ -32,6 +33,7 @@ export function TicketTableToolbar<TData>({
   const eventTitles = data?.map((d) => ({
     value: d.title,
     label: d.title,
+    icon: Calendar,
   })) as Options[];
 
   return (
