@@ -9,9 +9,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/ui/dialog";
-import { EventForm } from "./event-form";
+import { CreateEventForm } from "./create-event-form";
 
-export function AddNewEvent() {
+export function CreateNewEvent() {
   const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -22,7 +22,7 @@ export function AddNewEvent() {
           className="ml-auto hidden h-8 lg:flex"
         >
           <FilePlus2 size={26} className="mr-2 h-4 w-4" />
-          Add Event
+          Create Event
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -32,7 +32,7 @@ export function AddNewEvent() {
             Create new event here. Click Add Event when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <EventForm setOpen={setOpen} />
+        <CreateEventForm setOpen={setOpen} />
       </DialogContent>
     </Dialog>
   );

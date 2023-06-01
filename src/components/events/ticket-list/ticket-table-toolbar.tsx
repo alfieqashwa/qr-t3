@@ -8,7 +8,7 @@ import { api } from "~/utils/api";
 import { statuses } from "./data";
 import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-filter";
 import { DataTableViewOptions } from "~/components/table/data-table-view-options";
-import { GenerateNewTicket } from "./generate-new-ticket";
+import { GenerateTicket } from "./generate-ticket";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -64,7 +64,7 @@ export function TicketTableToolbar<TData>({
         )}
       </div>
       <span className="flex items-center space-x-4">
-        <GenerateNewTicket />
+        <GenerateTicket />
         <DataTableViewOptions table={table} />
       </span>
     </div>

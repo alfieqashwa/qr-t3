@@ -19,7 +19,7 @@ import { wait } from "~/utils/wait";
 import { SelectCategory } from "./select-category";
 import { SelectEvent } from "./select-event";
 
-export function GenerateNewTicket(): JSX.Element {
+export function GenerateTicket(): JSX.Element {
   const tickets = api.ticket.getAll.useQuery();
 
   const [open, setOpen] = useState(false);
@@ -139,7 +139,7 @@ export function GenerateNewTicket(): JSX.Element {
           className="ml-auto hidden h-8 lg:flex"
         >
           <FilePlus2 size={26} className="mr-2 h-4 w-4" />
-          Add Ticket
+          Generate Ticket
         </Button>
       </DialogTrigger>
 

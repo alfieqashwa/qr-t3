@@ -33,7 +33,7 @@ type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export function UserForm(props: Props) {
+export function CreateTeamForm(props: Props) {
   const utils = api.useContext();
   const { toast } = useToast();
 

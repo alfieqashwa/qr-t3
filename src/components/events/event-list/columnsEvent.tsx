@@ -69,10 +69,7 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
     ),
     cell: ({ row }) => (
       <div className="flex space-x-2">
-        <Badge
-          variant="secondary"
-          className="bg-amber-700 py-1.5 px-3 hover:bg-amber-700/50"
-        >
+        <Badge variant="secondary" className="py-1.5 px-3">
           <span className="max-w-[500px] truncate font-medium capitalize">
             {format(row.getValue("date"), "PPPP", { locale: id })}
           </span>
@@ -86,8 +83,8 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
       <DataTableColumnHeader column={column} title="CreatedAt" />
     ),
     cell: ({ row }) => (
-      <div className="capitalize">
-        {format(row.getValue("createdAt"), "PPPpp" /*{ locale: id }*/)}
+      <div className="whitespace-nowrap">
+        {format(row.getValue("createdAt"), "PPPpp", { locale: id })}
       </div>
     ),
   },
@@ -102,10 +99,10 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
         new Date(),
         {
           addSuffix: true,
-          // locale: id,
+          locale: id,
         }
       );
-      return <div className="capitalize">{date}</div>;
+      return <div className="whitespace-nowrap">{date}</div>;
     },
   },
   {

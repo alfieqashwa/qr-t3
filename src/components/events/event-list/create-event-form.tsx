@@ -34,7 +34,7 @@ type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export function EventForm(props: Props) {
+export function CreateEventForm(props: Props) {
   const [thumbnail, setThumbnail] = useState<string | null>();
   const utils = api.useContext();
   const { toast } = useToast();

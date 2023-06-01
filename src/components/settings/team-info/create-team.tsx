@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/ui/dialog";
-import { UserForm } from "./user-form";
+import { CreateTeamForm } from "./create-team-form";
 
 export function CreateTeam() {
   const [open, setOpen] = useState(false);
@@ -16,8 +16,8 @@ export function CreateTeam() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="default" size="sm">
-          Create New Team
+        <Button variant="outline" size="sm">
+          Create Team
         </Button>
       </DialogTrigger>
 
@@ -29,7 +29,7 @@ export function CreateTeam() {
             you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <UserForm setOpen={setOpen} />
+        <CreateTeamForm setOpen={setOpen} />
       </DialogContent>
     </Dialog>
   );
