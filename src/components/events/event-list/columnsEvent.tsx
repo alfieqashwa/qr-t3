@@ -51,12 +51,10 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
       <DataTableColumnHeader column={column} title="Venue" />
     ),
     cell: ({ row }) => {
-      const venue = row.original.venue;
-      if (!venue) return null;
       return (
         <div className="flex items-center">
           <MapPin className="mr-2 h-4 w-4 text-muted-foreground" />
-          <span className="uppercase">{venue}</span>
+          <span className="uppercase">{row.getValue("venue")}</span>
         </div>
       );
     },
