@@ -78,19 +78,16 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
     },
     {
       accessorKey: "event",
+      accessorFn: (row) => row.event?.title,
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Event" />
       ),
       cell: ({ row }) => {
-        const title = row.original.event?.title;
-        if (!title) {
-          return null;
-        }
         return (
           <div className="flex items-center">
             <Calendar className="mr-2 h-4 w-4 text-muted-foreground" />
             <span className="whitespace-nowrap font-medium capitalize">
-              {title}
+              {row.getValue("title")}
             </span>
           </div>
         );

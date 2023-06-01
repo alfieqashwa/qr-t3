@@ -16,7 +16,7 @@ export const ticketRouter = createTRPCRouter({
       return await ctx.prisma.ticket.findMany({
         where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
         include: {
-          event: true,
+          event: { select: { title: true } },
         },
         orderBy: { event: { date: "asc" } },
       })
