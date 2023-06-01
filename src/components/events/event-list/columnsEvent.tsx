@@ -39,7 +39,9 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
     cell: ({ row }) => (
       <div className="flex items-center">
         <Star className="mr-2 h-4 w-4 text-muted-foreground" />
-        <span className="uppercase">{row.getValue("title")}</span>
+        <span className="whitespace-nowrap capitalize">
+          {row.getValue("title")}
+        </span>
       </div>
     ),
   },

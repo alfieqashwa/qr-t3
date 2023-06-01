@@ -42,7 +42,9 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="SKU" />
       ),
-      cell: ({ row }) => <div className="w-[80px]">{row.getValue("sku")}</div>,
+      cell: ({ row }) => (
+        <div className="w-[80px] uppercase">{row.getValue("sku")}</div>
+      ),
     },
     {
       accessorKey: "category",
@@ -51,10 +53,7 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
       ),
       cell: ({ row }) => (
         <div className="flex space-x-2">
-          <Badge
-            variant="secondary"
-            className="bg-emerald-700 hover:bg-emerald-700/50"
-          >
+          <Badge variant="secondary">
             <span className="max-w-[500px] truncate font-medium uppercase">
               {row.getValue("category")}
             </span>
@@ -82,20 +81,20 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
         <DataTableColumnHeader column={column} title="Event" />
       ),
       cell: ({ row }) => {
-        const event = row.original.event;
-        if (!event) {
+        const title = row.original.event?.title;
+        if (!title) {
           return null;
         }
         return (
           <div className="flex space-x-2">
             <span className="max-w-[500px] truncate font-medium capitalize">
-              {event.title}
+              {title}
             </span>
           </div>
         );
       },
-      filterFn: (row, _id, value: string) => {
-        return value.includes(row.original.event?.title as string);
+      filterFn: (row, id, value: string) => {
+        return value.includes(row.getValue(id));
       },
     },
     {

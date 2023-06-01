@@ -1,6 +1,7 @@
 "use client";
 
 import type { Table } from "@tanstack/react-table";
+import type { LucideIcon } from "lucide-react";
 import { X } from "lucide-react";
 import { Button } from "~/ui/button";
 import { Input } from "~/ui/input";
@@ -21,11 +22,17 @@ export function TicketTableToolbar<TData>({
     table.getPreFilteredRowModel().rows.length >
     table.getFilteredRowModel().rows.length;
 
+  type Options = {
+    label: string;
+    value: string;
+    icon?: LucideIcon;
+  };
+
   const { data, status } = api.event.eventData.useQuery();
   const eventTitles = data?.map((d) => ({
     value: d.title,
     label: d.title,
-  })) as [];
+  })) as Options[];
 
   return (
     <div className="flex items-center justify-between">
