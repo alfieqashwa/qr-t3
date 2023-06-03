@@ -1,5 +1,4 @@
 import type { Table } from "@tanstack/react-table";
-import { table } from "console";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "~/ui/button";
@@ -37,6 +36,7 @@ export function DeleteEventList<TData>({
         variant: "default",
         description: "Your Team has been deleted.",
       });
+      await utils.event.count.invalidate();
       await utils.event.getAll.invalidate();
       table.resetRowSelection(); // reset row selection after succeed
       /* auto-closed after succeed submit the dialog form */

@@ -46,6 +46,7 @@ export function CreateEventForm(props: Props) {
         variant: "default",
         description: "Your form has been created.",
       });
+      await utils.event.count.invalidate();
       await utils.event.getAll.invalidate();
       await wait().then(() => props.setOpen(false));
     },

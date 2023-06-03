@@ -34,6 +34,7 @@ export function DeleteEvent({ id, title }: Props) {
         variant: "default",
         description: "Your Team has been deleted.",
       });
+      await utils.event.count.invalidate();
       await utils.event.getAll.invalidate();
       /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(false));

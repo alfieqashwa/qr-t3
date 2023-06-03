@@ -7,12 +7,14 @@ import { Layout } from "~/components/layout";
 import { DataListSample } from "~/components/table-list-sample";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { authOptions } from "~/server/auth";
+import { LoadingSpinner } from "~/src/components/loading";
 import { api } from "~/utils/api";
 
 const title = "Events" as const;
 const EventPage: NextPage = (): JSX.Element => {
-  const count = api.event.count.useQuery();
+  const { data: count, isLoading, isFetching } = api.event.count.useQuery();
 
+  if (isLoading || isFetching) return <LoadingSpinner />;
   return (
     <Layout title={title}>
       <HeaderTitle title={title} />
@@ -25,7 +27,7 @@ const EventPage: NextPage = (): JSX.Element => {
             <TabsTrigger
               className="text-xs lg:text-sm"
               value="ticket-list"
-              disabled={count.data === 0}
+              disabled={count === 0}
             >
               Ticket
             </TabsTrigger>
