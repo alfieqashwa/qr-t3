@@ -5,8 +5,10 @@ import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-fi
 import { DataTableViewOptions } from "~/components/table/data-table-view-options";
 import { Button } from "~/ui/button";
 import { Input } from "~/ui/input";
+import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
 import { CreateNewEvent } from "./create-new-event";
+import { DeleteEventList } from "./delete-event-list";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -31,6 +33,18 @@ export function EventTableToolbar<TData>({
     label: d.venue,
     icon: MapPin,
   })) as Options[];
+
+  const selectedRows = table
+    .getFilteredSelectedRowModel()
+    .rows.map(
+      (row) => row.original
+    ) as unknown as RouterOutputs["event"]["getAll"]; // convert types to unknown first before change to another types
+
+  const ids = selectedRows?.map((row: { id: string }) => {
+    return {
+      id: row.id,
+    };
+  });
 
   return (
     <div className="flex items-center justify-between">
@@ -62,7 +76,11 @@ export function EventTableToolbar<TData>({
         )}
       </div>
       <span className="flex items-center space-x-4">
-        <CreateNewEvent />
+        {table.getFilteredSelectedRowModel().rows.length > 0 ? (
+          <DeleteEventList table={table} ids={ids} />
+        ) : (
+          <CreateNewEvent />
+        )}
         <DataTableViewOptions table={table} />
       </span>
     </div>

@@ -55,5 +55,15 @@ export const eventRouter = createTRPCRouter({
       } catch (err) {
         console.error(err)
       }
+    }),
+  deleteMany: adminProcedure
+    .input(z.array(z.object({ id: z.string().cuid() })))
+    .mutation(async ({ ctx, input }) => {
+      const ids = input
+      return await ctx.prisma.event.deleteMany({
+        where: {
+          OR: ids
+        }
+      })
     })
 })
