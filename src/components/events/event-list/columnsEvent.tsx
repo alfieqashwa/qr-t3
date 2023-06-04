@@ -6,7 +6,7 @@ import { DataTableColumnHeader } from "~/components/table/data-table-column-head
 import { Badge } from "~/ui/badge";
 import { Checkbox } from "~/ui/checkbox";
 import type { RouterOutputs } from "~/utils/api";
-import { RowEventActions } from "./ow-event-actions";
+import { RowEventActions } from "./row-event-actions";
 
 export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
   {

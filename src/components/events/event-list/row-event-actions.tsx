@@ -33,7 +33,10 @@ export function RowEventActions(props: DataTableRowActionsProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(id)}>
+        <DropdownMenuItem
+          onClick={() => navigator.clipboard.writeText(id)}
+          className="hover:cursor-pointer"
+        >
           <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
           Copy ID
         </DropdownMenuItem>

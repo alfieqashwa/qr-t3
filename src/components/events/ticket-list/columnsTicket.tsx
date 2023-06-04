@@ -6,7 +6,7 @@ import { Badge } from "~/ui/badge";
 import { Checkbox } from "~/ui/checkbox";
 import type { RouterOutputs } from "~/utils/api";
 import { statuses } from "./data";
-import { DeleteTicket } from "./delete-ticket";
+import { RowTicketActions } from "./row-ticket-actions";
 
 export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
   [
@@ -129,9 +129,7 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
         const {
           original: { id, sku, status },
         } = row;
-
-        return <DeleteTicket id={id} sku={sku} status={status} />;
+        return <RowTicketActions id={id} sku={sku} status={status} />;
       },
     },
-    // { id: "actions", cell: ({ row }) => <DataTableRowActions row={row} /> },
   ];
