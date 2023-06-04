@@ -36,6 +36,11 @@ export function DeleteTicketList<TData>({
     id: row.id,
   }));
 
+  // avoid to delete SOLD or REFUND ticket(s)
+  const hasSomeSoldTicket = selectedRows.some(
+    (row) => row.status !== "AVAILABLE"
+  );
+
   const { mutate, isLoading } = api.ticket.deleteSelected.useMutation({
     async onSuccess() {
       // delete user from team
@@ -62,6 +67,17 @@ export function DeleteTicketList<TData>({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (hasSomeSoldTicket) {
+      // and then set the input value back to default
+      return toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description:
+          "There's at least one SOLD's ticket. Please unselect the SOLD ticket.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
+    }
+
     mutate(ids);
   };
 
