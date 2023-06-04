@@ -87,7 +87,7 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
           <div className="flex items-center">
             <Calendar className="mr-2 h-4 w-4 text-muted-foreground" />
             <span className="whitespace-nowrap font-medium capitalize">
-              {row.getValue("title")}
+              {row.getValue("event")}
             </span>
           </div>
         );
