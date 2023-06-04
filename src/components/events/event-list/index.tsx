@@ -16,7 +16,6 @@ export function EventList(): JSX.Element {
       {status === "success" && (
         <EventTable data={events} columns={columnsEvent} />
       )}
-      <pre>{JSON.stringify(events, null, 2)}</pre>
     </div>
   );
 }

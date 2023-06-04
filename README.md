@@ -93,8 +93,6 @@ Add more libs.
     - [x] Setup Search
     - [x] Setup Filter
     - [x] Setup Pagination
-  - [x] Image Uploader
-    - [ ] Upload and remove event thumbnail
   - [ ] Setup Visitor Page
     - [ ] Configure Visitor CRUD
     - [ ] Setup Table

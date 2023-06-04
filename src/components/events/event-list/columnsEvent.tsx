@@ -2,7 +2,6 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { format, formatDistance, subDays } from "date-fns";
 import { id } from "date-fns/locale";
 import { MapPin, Star } from "lucide-react";
-import Image from "next/image";
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header";
 import { Badge } from "~/ui/badge";
 import { Checkbox } from "~/ui/checkbox";
@@ -30,23 +29,6 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
     ),
     enableSorting: false,
     enableHiding: false,
-  },
-  {
-    accessorKey: "thumbnail",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Thumbnail" />
-    ),
-    cell: ({ row }) => (
-      <div className="relative h-12 w-20">
-        <Image
-          src={row.getValue("thumbnail")}
-          alt="Event Thumbnail"
-          fill
-          priority
-          className="shrink-0 rounded-md object-cover"
-        />
-      </div>
-    ),
   },
   {
     accessorKey: "title",

@@ -2,13 +2,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type * as z from "zod";
 
-import { UploadButton } from "@uploadthing/react";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { CalendarIcon, Loader2 } from "lucide-react";
-import { useState } from "react";
-import { DEFAULT_THUMBNAIL } from "~/constants/thumbnail";
-import type { OurFileRouter } from "~/server/uploadthing/router";
 import { cn } from "~/src/utils";
 import { createEventSchema } from "~/types/schema";
 import { Button } from "~/ui/button";
@@ -23,7 +19,6 @@ import {
   FormMessage,
 } from "~/ui/form";
 import { Input } from "~/ui/input";
-import { Label } from "~/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "~/ui/popover";
 import { ToastAction } from "~/ui/toast";
 import { useToast } from "~/ui/use-toast";
@@ -35,7 +30,6 @@ type Props = {
 };
 
 export function CreateEventForm(props: Props) {
-  const [thumbnail, setThumbnail] = useState<string | null>();
   const utils = api.useContext();
   const { toast } = useToast();
 
@@ -65,7 +59,6 @@ export function CreateEventForm(props: Props) {
     defaultValues: {
       title: "",
       venue: "",
-      thumbnail: DEFAULT_THUMBNAIL,
       date: new Date(),
     },
   });
@@ -76,7 +69,6 @@ export function CreateEventForm(props: Props) {
       title,
       venue,
       date,
-      thumbnail: thumbnail ?? DEFAULT_THUMBNAIL,
     });
   }
 
@@ -153,26 +145,6 @@ export function CreateEventForm(props: Props) {
             </FormItem>
           )}
         />
-        <div className="flex flex-col items-start space-y-1.5">
-          <Label htmlFor="thumbnail">Thumbnail</Label>
-          <div className="whitespace-nowrap hover:cursor-pointer">
-            <UploadButton<OurFileRouter>
-              endpoint="withMdwr"
-              onClientUploadComplete={(res) => {
-                // Do something with the response
-                setThumbnail(res?.[0]?.fileUrl as string);
-              }}
-              onUploadError={(error: Error) => {
-                console.error(`ERROR! ${error.message}`);
-              }}
-            />
-          </div>
-          {createEvent.error?.data?.zodError?.fieldErrors.thumbnail && (
-            <span className="text-xs text-destructive">
-              {createEvent.error?.data?.zodError?.fieldErrors.thumbnail}
-            </span>
-          )}
-        </div>
         {createEvent.isLoading ? (
           <Button disabled size="sm">
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
