@@ -34,18 +34,6 @@ export function EventTableToolbar<TData>({
     icon: MapPin,
   })) as Options[];
 
-  const selectedRows = table
-    .getFilteredSelectedRowModel()
-    .rows.map(
-      (row) => row.original
-    ) as unknown as RouterOutputs["event"]["getAll"]; // convert types to unknown first before change to another types
-
-  const ids = selectedRows?.map((row: { id: string }) => {
-    return {
-      id: row.id,
-    };
-  });
-
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
@@ -77,7 +65,7 @@ export function EventTableToolbar<TData>({
       </div>
       <span className="flex items-center space-x-4">
         {table.getFilteredSelectedRowModel().rows.length > 0 ? (
-          <DeleteEventList table={table} ids={ids} />
+          <DeleteEventList table={table} />
         ) : (
           <CreateNewEvent />
         )}

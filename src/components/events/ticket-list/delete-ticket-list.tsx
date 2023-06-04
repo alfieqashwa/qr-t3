@@ -20,7 +20,9 @@ import { wait } from "~/utils/wait";
 interface DeleteEventListProps<TData> {
   table: Table<TData>;
 }
-export function DeleteEventList<TData>({ table }: DeleteEventListProps<TData>) {
+export function DeleteTicketList<TData>({
+  table,
+}: DeleteEventListProps<TData>) {
   const utils = api.useContext();
   const { toast } = useToast();
 
@@ -28,22 +30,22 @@ export function DeleteEventList<TData>({ table }: DeleteEventListProps<TData>) {
 
   const selectedRows = table
     .getFilteredSelectedRowModel()
-    .rows.map((row) => row.original) as RouterOutputs["event"]["getAll"];
+    .rows.map((row) => row.original) as RouterOutputs["ticket"]["getAll"];
 
   const ids = selectedRows.map((row) => ({
     id: row.id,
   }));
 
-  const { mutate, isLoading } = api.event.deleteSelected.useMutation({
+  const { mutate, isLoading } = api.ticket.deleteSelected.useMutation({
     async onSuccess() {
       // delete user from team
       toast({
         title: "Succeed!",
         variant: "default",
-        description: "All selected events have been deleted.",
+        description: "All selected tickets have been deleted.",
       });
-      await utils.event.count.invalidate();
-      await utils.event.getAll.invalidate();
+      await utils.ticket.count.invalidate();
+      await utils.ticket.getAll.invalidate();
       table.resetRowSelection(); // reset row selection after succeed
       /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(false));
@@ -78,7 +80,7 @@ export function DeleteEventList<TData>({ table }: DeleteEventListProps<TData>) {
             <DialogDescription asChild>
               <p>
                 You can&apos;t undo this changes. Click delete when you&apos;re
-                sure to delete the selected event(s).
+                sure to delete the selected ticket(s).
               </p>
             </DialogDescription>
           </DialogHeader>

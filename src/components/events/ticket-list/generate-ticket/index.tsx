@@ -139,7 +139,7 @@ export function GenerateTicket(): JSX.Element {
           className="ml-auto hidden h-8 lg:flex"
         >
           <FilePlus2 size={26} className="mr-2 h-4 w-4" />
-          Generate Ticket
+          <span className="whitespace-nowrap">Generate Ticket</span>
         </Button>
       </DialogTrigger>
 

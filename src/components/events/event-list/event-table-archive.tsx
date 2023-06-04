@@ -9,8 +9,6 @@ import {
   TableRow,
 } from "~/ui/table";
 import type { RouterOutputs } from "~/utils/api";
-import { DeleteEvent } from "./delete-event";
-import { UpdateEvent } from "./update-event";
 
 type Props = {
   events: RouterOutputs["event"]["getAll"];
@@ -44,17 +42,6 @@ export function EventTableArchive({ events }: Props): JSX.Element {
             </TableCell>
             <TableCell className="whitespace-nowrap capitalize">
               500 pcs
-            </TableCell>
-            <TableCell className="text-right">
-              <UpdateEvent
-                id={event.id}
-                title={event.title}
-                venue={event.venue}
-                date={event.date}
-              />
-            </TableCell>
-            <TableCell className="text-right">
-              <DeleteEvent id={event.id} title={event.title} />
             </TableCell>
           </TableRow>
         ))}

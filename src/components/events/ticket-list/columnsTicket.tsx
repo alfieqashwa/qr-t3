@@ -1,12 +1,12 @@
 import type { Status } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
+import { Calendar } from "lucide-react";
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header";
 import { Badge } from "~/ui/badge";
 import { Checkbox } from "~/ui/checkbox";
 import type { RouterOutputs } from "~/utils/api";
 import { statuses } from "./data";
 import { DeleteTicket } from "./delete-ticket";
-import { Calendar } from "lucide-react";
 
 export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
   [

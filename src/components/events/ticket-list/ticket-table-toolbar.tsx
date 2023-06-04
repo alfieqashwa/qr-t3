@@ -2,14 +2,14 @@
 
 import type { Table } from "@tanstack/react-table";
 import type { LucideIcon } from "lucide-react";
-import { Calendar } from "lucide-react";
-import { X } from "lucide-react";
+import { Calendar, X } from "lucide-react";
+import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-filter";
+import { DataTableViewOptions } from "~/components/table/data-table-view-options";
 import { Button } from "~/ui/button";
 import { Input } from "~/ui/input";
 import { api } from "~/utils/api";
 import { statuses } from "./data";
-import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-filter";
-import { DataTableViewOptions } from "~/components/table/data-table-view-options";
+import { DeleteTicketList } from "./delete-ticket-list";
 import { GenerateTicket } from "./generate-ticket";
 
 interface DataTableToolbarProps<TData> {
@@ -73,7 +73,11 @@ export function TicketTableToolbar<TData>({
         )}
       </div>
       <span className="flex items-center space-x-4">
-        <GenerateTicket />
+        {table.getFilteredSelectedRowModel().rows.length > 0 ? (
+          <DeleteTicketList table={table} />
+        ) : (
+          <GenerateTicket />
+        )}
         <DataTableViewOptions table={table} />
       </span>
     </div>

@@ -56,7 +56,7 @@ export const eventRouter = createTRPCRouter({
         console.error(err)
       }
     }),
-  deleteMany: adminProcedure
+  deleteSelected: adminProcedure
     .input(z.array(z.object({ id: z.string().cuid() })))
     .mutation(async ({ ctx, input }) => {
       const ids = input
