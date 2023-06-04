@@ -6,8 +6,7 @@ import { DataTableColumnHeader } from "~/components/table/data-table-column-head
 import { Badge } from "~/ui/badge";
 import { Checkbox } from "~/ui/checkbox";
 import type { RouterOutputs } from "~/utils/api";
-import { DeleteEvent } from "./delete-event";
-import { UpdateEvent } from "./update-event";
+import { DataTableRowEventActions } from "./data-table-row-event-actions";
 
 export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
   {
@@ -106,22 +105,19 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
     },
   },
   {
-    id: "update",
+    id: "actions",
     cell: ({ row }) => {
       const {
         original: { id, title, venue, date },
       } = row;
-
-      return <UpdateEvent id={id} title={title} venue={venue} date={date} />;
-    },
-  },
-  {
-    id: "delete",
-    cell: ({ row }) => {
-      const {
-        original: { id, title },
-      } = row;
-      return <DeleteEvent id={id} title={title} />;
+      return (
+        <DataTableRowEventActions
+          id={id}
+          title={title}
+          venue={venue}
+          date={date}
+        />
+      );
     },
   },
 ];

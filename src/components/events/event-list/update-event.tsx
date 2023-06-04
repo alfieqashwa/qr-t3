@@ -1,4 +1,4 @@
-import { Loader2 } from "lucide-react";
+import { Loader2, Pen } from "lucide-react";
 import { useState } from "react";
 import { Button } from "~/ui/button";
 import {
@@ -23,14 +23,15 @@ type Props = {
   title: string;
   venue: string;
   date: Date;
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export function UpdateEvent({ id, title, venue, date }: Props) {
+export function UpdateEvent({ id, title, venue, date, open, setOpen }: Props) {
   const utils = api.useContext();
   const { toast } = useToast();
 
   const [currentDate, setCurrentDate] = useState<Date | undefined>(date);
-  const [open, setOpen] = useState(false);
 
   const { mutate, isLoading, error } = api.event.update.useMutation({
     async onSuccess() {
@@ -41,7 +42,7 @@ export function UpdateEvent({ id, title, venue, date }: Props) {
       });
       await utils.event.getAll.invalidate();
       /* auto-closed after succeed submit the dialog form */
-      await wait().then(() => setOpen(false));
+      await wait().then(() => setOpen(!open));
     },
     onError() {
       toast({
@@ -69,11 +70,10 @@ export function UpdateEvent({ id, title, venue, date }: Props) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="whitespace-nowrap">
-          Edit
-        </Button>
+    <Dialog>
+      <DialogTrigger className="relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:cursor-pointer hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+        <Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+        Edit
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-1/2">
@@ -137,7 +137,7 @@ export function UpdateEvent({ id, title, venue, date }: Props) {
               type="button"
               variant="ghost"
               size="sm"
-              onClick={() => setOpen(false)}
+              onClick={() => setOpen(!open)}
             >
               Cancel
             </Button>

@@ -1,5 +1,4 @@
-import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { Loader2, Trash } from "lucide-react";
 import { Button } from "~/ui/button";
 import {
   Dialog,
@@ -18,13 +17,13 @@ import { wait } from "~/utils/wait";
 type Props = {
   id: string;
   title: string;
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export function DeleteEvent({ id, title }: Props) {
+export function DeleteEvent({ id, title, open, setOpen }: Props) {
   const utils = api.useContext();
   const { toast } = useToast();
-
-  const [open, setOpen] = useState(false);
 
   const { mutate, isLoading } = api.event.delete.useMutation({
     async onSuccess() {
@@ -37,7 +36,7 @@ export function DeleteEvent({ id, title }: Props) {
       await utils.event.count.invalidate();
       await utils.event.getAll.invalidate();
       /* auto-closed after succeed submit the dialog form */
-      await wait().then(() => setOpen(false));
+      await wait().then(() => setOpen(!open));
     },
     onError() {
       toast({
@@ -58,11 +57,10 @@ export function DeleteEvent({ id, title }: Props) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="destructive" size="sm">
-          Delete
-        </Button>
+    <Dialog>
+      <DialogTrigger className="flex w-full items-center">
+        <Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+        Delete
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-1/2">
@@ -84,7 +82,7 @@ export function DeleteEvent({ id, title }: Props) {
               type="button"
               variant="ghost"
               size="sm"
-              onClick={() => setOpen(false)}
+              onClick={() => setOpen(!open)}
             >
               Cancel
             </Button>

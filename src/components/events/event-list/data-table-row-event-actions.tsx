@@ -1,0 +1,51 @@
+import { MoreHorizontal } from "lucide-react";
+import { useState } from "react";
+import { Button } from "~/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "~/ui/dropdown-menu";
+import { DeleteEvent } from "./delete-event";
+import { UpdateEvent } from "./update-event";
+
+interface DataTableRowActionsProps {
+  id: string;
+  title: string;
+  venue: string;
+  date: Date;
+}
+
+export function DataTableRowEventActions(props: DataTableRowActionsProps) {
+  const { id, title, venue, date } = props;
+  const [open, setOpen] = useState(false);
+  return (
+    <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
+        >
+          <MoreHorizontal className="h-4 w-4" />
+          <span className="sr-only">Open menu</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-[160px]">
+        <UpdateEvent
+          id={id}
+          title={title}
+          venue={venue}
+          date={date}
+          open={open}
+          setOpen={setOpen}
+        />
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+          <DeleteEvent id={id} title={title} open={open} setOpen={setOpen} />
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
