@@ -1,7 +1,7 @@
-import { z } from "zod"
-import { createTRPCRouter, protectedProcedure, editorProcedure, adminProcedure } from "../trpc"
 import { Status } from "@prisma/client"
-import { TASKS } from "~/src/components/table-list-sample/data/tasks"
+import { z } from "zod"
+import { TASKS } from "~/components/table-list-sample/data/tasks"
+import { createTRPCRouter, editorProcedure, protectedProcedure } from "../trpc"
 
 export const ticketRouter = createTRPCRouter({
   // Queries
@@ -121,14 +121,17 @@ export const ticketRouter = createTRPCRouter({
         console.error(err)
       }
     }),
-  deleteSelected: adminProcedure
+  deleteSelected: editorProcedure
     .input(z.array(z.object({ id: z.string().cuid() })))
     .mutation(async ({ ctx, input }) => {
-      const ids = input
-      return await ctx.prisma.ticket.deleteMany({
-        where: {
-          OR: ids
-        }
-      })
+      try {
+        return await ctx.prisma.ticket.deleteMany({
+          where: {
+            OR: input
+          }
+        })
+      } catch (err) {
+        console.error(err)
+      }
     }),
 })
