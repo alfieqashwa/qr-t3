@@ -1,6 +1,6 @@
 import { z } from "zod"
 import { createEventSchema } from "~/types/schema"
-import { adminProcedure, createTRPCRouter, editorProcedure, protectedProcedure } from "../trpc"
+import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
 
 export const eventRouter = createTRPCRouter({
   // Queries
@@ -30,7 +30,7 @@ export const eventRouter = createTRPCRouter({
         console.error(err)
       }
     }),
-  update: editorProcedure
+  update: adminProcedure
     .input(z.object({
       id: z.string().cuid(),
       title: z.string().min(5).max(25),
