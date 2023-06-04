@@ -82,28 +82,30 @@ Add more libs.
   - [ ] Add tooltip whenever user hovering the user avatar
 
 - [ ] Setup Event Page
+  - [x] Configure Event CRUD
+    - [x] Setup Table
+    - [x] Setup Search
+    - [x] Setup Filter
+    - [x] Setup Pagination
+    - [x] Delete Selected // All
   - [x] Configure Ticket CRUD
     - [x] Setup Table
     - [x] Setup Search
     - [x] Setup Filter
     - [x] Setup Pagination
     - [x] Automatic Update Status (Sale Config)
-  - [x] Configure Event CRUD
-    - [x] Setup Table
-    - [x] Setup Search
-    - [x] Setup Filter
-    - [x] Setup Pagination
+    - [x] Delete Selected // All
+    - [ ] Filter based on Category // TODOS!!
+  - [x] Dark / Light mode
+    - [ ] Setup toggle dark mode
+    - [ ] Setup colors (light && dark)
+
   - [ ] Setup Visitor Page
     - [ ] Configure Visitor CRUD
     - [ ] Setup Table
     - [ ] Setup Search
     - [ ] Setup Filter
     - [ ] Setup Pagination
-
-- [x] Dark / Light mode
-    - [ ] Create toggle dark mode
-    - [ ] Configure colors
-
 - [ ] Setup Dashboard Page
   - [ ] Setup Charts
   - [ ] Setup Table
