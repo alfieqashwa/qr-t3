@@ -1,5 +1,6 @@
 import { Copy, MoreHorizontal } from "lucide-react";
 import { useState } from "react";
+import { AdminOnly } from "~/components/authed";
 import { Button } from "~/ui/button";
 import {
   DropdownMenu,
@@ -40,19 +41,21 @@ export function RowEventActions(props: DataTableRowActionsProps) {
           <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
           Copy ID
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <UpdateEvent
-          id={id}
-          title={title}
-          venue={venue}
-          date={date}
-          open={open}
-          setOpen={setOpen}
-        />
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-          <DeleteEvent id={id} title={title} open={open} setOpen={setOpen} />
-        </DropdownMenuItem>
+        <AdminOnly>
+          <DropdownMenuSeparator />
+          <UpdateEvent
+            id={id}
+            title={title}
+            venue={venue}
+            date={date}
+            open={open}
+            setOpen={setOpen}
+          />
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+            <DeleteEvent id={id} title={title} open={open} setOpen={setOpen} />
+          </DropdownMenuItem>
+        </AdminOnly>
       </DropdownMenuContent>
     </DropdownMenu>
   );

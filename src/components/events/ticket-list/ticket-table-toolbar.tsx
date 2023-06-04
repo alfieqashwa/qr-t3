@@ -11,6 +11,7 @@ import { api } from "~/utils/api";
 import { statuses } from "./data";
 import { DeleteTicketList } from "./delete-ticket-list";
 import { GenerateTicket } from "./generate-ticket";
+import { EditorOnly } from "../../authed";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -73,11 +74,13 @@ export function TicketTableToolbar<TData>({
         )}
       </div>
       <span className="flex items-center space-x-4">
-        {table.getFilteredSelectedRowModel().rows.length > 0 ? (
-          <DeleteTicketList table={table} />
-        ) : (
-          <GenerateTicket />
-        )}
+        <EditorOnly>
+          {table.getFilteredSelectedRowModel().rows.length > 0 ? (
+            <DeleteTicketList table={table} />
+          ) : (
+            <GenerateTicket />
+          )}
+        </EditorOnly>
         <DataTableViewOptions table={table} />
       </span>
     </div>

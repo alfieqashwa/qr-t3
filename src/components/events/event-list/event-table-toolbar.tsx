@@ -5,10 +5,10 @@ import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-fi
 import { DataTableViewOptions } from "~/components/table/data-table-view-options";
 import { Button } from "~/ui/button";
 import { Input } from "~/ui/input";
-import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
 import { CreateNewEvent } from "./create-new-event";
 import { DeleteEventList } from "./delete-event-list";
+import { AdminOnly } from "../../authed";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -64,11 +64,13 @@ export function EventTableToolbar<TData>({
         )}
       </div>
       <span className="flex items-center space-x-4">
-        {table.getFilteredSelectedRowModel().rows.length > 0 ? (
-          <DeleteEventList table={table} />
-        ) : (
-          <CreateNewEvent />
-        )}
+        <AdminOnly>
+          {table.getFilteredSelectedRowModel().rows.length > 0 ? (
+            <DeleteEventList table={table} />
+          ) : (
+            <CreateNewEvent />
+          )}
+        </AdminOnly>
         <DataTableViewOptions table={table} />
       </span>
     </div>

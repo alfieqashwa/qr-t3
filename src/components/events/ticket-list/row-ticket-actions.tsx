@@ -1,6 +1,7 @@
 import type { Status } from "@prisma/client";
 import { Copy, MoreHorizontal } from "lucide-react";
 import { useState } from "react";
+import { EditorOnly } from "~/components/authed";
 import { Button } from "~/ui/button";
 import {
   DropdownMenu,
@@ -42,14 +43,16 @@ export function RowTicketActions({
           <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
           Copy ID
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DeleteTicket
-          id={id}
-          sku={sku}
-          status={status}
-          open={open}
-          setOpen={setOpen}
-        />
+        <EditorOnly>
+          <DropdownMenuSeparator />
+          <DeleteTicket
+            id={id}
+            sku={sku}
+            status={status}
+            open={open}
+            setOpen={setOpen}
+          />
+        </EditorOnly>
       </DropdownMenuContent>
     </DropdownMenu>
   );
