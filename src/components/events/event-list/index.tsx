@@ -4,11 +4,19 @@ import { EventTable } from "./event-table";
 import { LoadingSpinner } from "../../loading";
 
 export function EventList(): JSX.Element {
-  const events = api.event.getAll.useQuery();
-  if (events.status !== "success") return <LoadingSpinner />;
+  const {
+    data: events,
+    status,
+    isLoading,
+    isFetching,
+  } = api.event.getAll.useQuery();
   return (
     <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
-      <EventTable data={events.data} columns={columnsEvent} />
+      {(isLoading || isFetching) && <LoadingSpinner />}
+      {status === "success" && (
+        <EventTable data={events} columns={columnsEvent} />
+      )}
+      <pre>{JSON.stringify(events, null, 2)}</pre>
     </div>
   );
 }
