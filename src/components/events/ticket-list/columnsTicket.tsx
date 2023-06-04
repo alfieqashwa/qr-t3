@@ -23,7 +23,9 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
       cell: ({ row }) => (
         <Checkbox
           checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          onCheckedChange={(value) =>
+            row.toggleSelected(!!value && row.original.status === "AVAILABLE")
+          }
           aria-label="Select row"
           className="translate-y-[2px]"
         />
