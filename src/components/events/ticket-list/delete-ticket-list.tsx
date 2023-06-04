@@ -85,7 +85,9 @@ export function DeleteTicketList<TData>({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="destructive" size="sm">
-          <span className="whitespace-nowrap">Delete Selected</span>
+          <span className="whitespace-nowrap">
+            Delete Selected ({table.getFilteredSelectedRowModel().rows.length})
+          </span>
         </Button>
       </DialogTrigger>
 
