@@ -1,4 +1,4 @@
-import { MoreHorizontal } from "lucide-react";
+import { Copy, MoreHorizontal } from "lucide-react";
 import { useState } from "react";
 import { Button } from "~/ui/button";
 import {
@@ -18,7 +18,7 @@ interface DataTableRowActionsProps {
   date: Date;
 }
 
-export function DataTableRowEventActions(props: DataTableRowActionsProps) {
+export function RowEventActions(props: DataTableRowActionsProps) {
   const { id, title, venue, date } = props;
   const [open, setOpen] = useState(false);
   return (
@@ -33,6 +33,11 @@ export function DataTableRowEventActions(props: DataTableRowActionsProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
+        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(id)}>
+          <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+          Copy ID
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
         <UpdateEvent
           id={id}
           title={title}

@@ -6,7 +6,7 @@ import { DataTableColumnHeader } from "~/components/table/data-table-column-head
 import { Badge } from "~/ui/badge";
 import { Checkbox } from "~/ui/checkbox";
 import type { RouterOutputs } from "~/utils/api";
-import { DataTableRowEventActions } from "./data-table-row-event-actions";
+import { RowEventActions } from "./ow-event-actions";
 
 export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
   {
@@ -111,12 +111,7 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
         original: { id, title, venue, date },
       } = row;
       return (
-        <DataTableRowEventActions
-          id={id}
-          title={title}
-          venue={venue}
-          date={date}
-        />
+        <RowEventActions id={id} title={title} venue={venue} date={date} />
       );
     },
   },
