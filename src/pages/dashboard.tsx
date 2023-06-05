@@ -11,27 +11,27 @@ const DashboardPage: NextPage = () => {
     <Layout title={title}>
       <div className="my-4 grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
         <section className="col-span-1 grid grid-cols-2 gap-4 lg:gap-8 ">
-          <div className="col-span-2 h-80 rounded-xl bg-slate-800 p-4 shadow-lg lg:p-6">
+          <div className="col-span-2 h-80 rounded-xl p-4 shadow-lg lg:p-6">
             <h2>The Best Selling</h2>
           </div>
-          <div className="col-span-1 h-32 rounded-xl bg-slate-800 p-4 shadow-lg lg:p-6">
+          <div className="col-span-1 h-32 rounded-xl p-4 shadow-lg lg:p-6">
             <h2>The Best Selling</h2>
           </div>
-          <div className="col-span-1 h-32 rounded-xl bg-slate-800 p-4 shadow-lg lg:p-6">
+          <div className="col-span-1 h-32 rounded-xl p-4 shadow-lg lg:p-6">
             <h2>Lorem ipsum dolor</h2>
           </div>
-          <div className="col-span-1 h-32 rounded-xl bg-slate-800 p-4 shadow-lg lg:p-6">
+          <div className="col-span-1 h-32 rounded-xl p-4 shadow-lg lg:p-6">
             <h2>Lorem ipsum dolor</h2>
           </div>
-          <div className="col-span-1 h-32 rounded-xl bg-slate-800 p-4 shadow-lg lg:p-6">
+          <div className="col-span-1 h-32 rounded-xl p-4 shadow-lg lg:p-6">
             <h2>Lorem ipsum dolor</h2>
           </div>
         </section>
         <section className="col-span-1 grid grid-cols-2 gap-4 lg:gap-8">
-          <div className="col-span-2 h-80 rounded-xl bg-slate-800 p-4 shadow-lg lg:p-6">
+          <div className="col-span-2 h-80 rounded-xl p-4 shadow-lg lg:p-6">
             <h2>Lorem ipsum dolor</h2>
           </div>
-          <div className="col-span-2 h-60 rounded-xl bg-slate-800 p-4 shadow-lg lg:p-6">
+          <div className="col-span-2 h-60 rounded-xl p-4 shadow-lg lg:p-6">
             <h2>Lorem ipsum dolor</h2>
           </div>
         </section>

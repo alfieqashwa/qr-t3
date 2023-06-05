@@ -2,6 +2,7 @@ import { Bell, Codesandbox, SidebarClose, SidebarOpen } from "lucide-react";
 import { api } from "~/src/utils/api";
 import useToggleStore from "~/store/useToggle";
 import { UserAvatar } from "./user-avatar";
+import { ThemeToggle } from "./theme-toggle";
 
 export const NavigationHeader = () => {
   const { toggle, handleToggle } = useToggleStore();
@@ -11,24 +12,25 @@ export const NavigationHeader = () => {
   const userImageUpdate = me?.imageUpdate;
 
   return (
-    <nav className="fixed z-50 flex h-20 w-full justify-between border-b-2 border-slate-700 bg-gradient-to-br from-slate-800 via-black to-slate-800">
+    <nav className="fixed z-50 flex h-20 w-full justify-between border-b-2">
       <section className="flex h-16 items-center justify-end space-x-8 pl-6">
         <div className="flex w-full items-center justify-around">
           <Codesandbox size={36} className="animate-spin" />
         </div>
         <button
-          className="hidden rounded-full bg-zinc-900 p-2.5 transition duration-300 ease-in-out hover:bg-zinc-800 lg:block"
+          className="hidden rounded-full p-2.5 transition duration-300 ease-in-out lg:block"
           onClick={handleToggle}
         >
           {toggle ? (
-            <SidebarClose className="text-amber-200" />
+            <SidebarClose className="" />
           ) : (
-            <SidebarOpen className="text-amber-200" />
+            <SidebarOpen className="" />
           )}
         </button>
       </section>
-      <section className="flex w-full items-center justify-end space-x-4 px-4 lg:space-x-8 lg:px-8">
+      <section className="flex w-full items-center justify-end space-x-4 px-4 lg:px-8">
         <Bell />
+        <ThemeToggle />
         <UserAvatar
           isLoading={isLoading}
           userImage={userImage}
