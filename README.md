@@ -97,7 +97,7 @@ Add more libs.
     - [x] Delete Selected // All
     - [ ] Filter based on Category // TODOS!!
   - [x] Dark / Light mode
-    - [ ] Setup toggle dark mode
+    - [x] Setup toggle dark mode
     - [ ] Setup colors (light && dark)
 
   - [ ] Setup Visitor Page
