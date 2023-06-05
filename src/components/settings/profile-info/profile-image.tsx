@@ -56,16 +56,14 @@ export function ProfileImage({ profile }: ProfileImageProps): JSX.Element {
     mutate();
   };
 
-  if (
-    typeof imageUpdate !== "string" ||
-    typeof image !== "string" ||
-    typeof name !== "string"
-  )
+  const profileImage = imageUpdate ?? image;
+  if (!profileImage) {
     return (
       <div className="rounded-full p-4 ring-4 ring-amber-300 ring-offset-2 ring-offset-slate-600">
         <UserIcon size={128} />
       </div>
     );
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -75,8 +73,8 @@ export function ProfileImage({ profile }: ProfileImageProps): JSX.Element {
           className="relative h-28 w-28 focus:outline-none disabled:cursor-not-allowed lg:h-36 lg:w-36"
         >
           <Image
-            src={imageUpdate || image}
-            alt={name}
+            src={profileImage}
+            alt={name as string}
             fill
             priority
             className="rounded-full ring-4 ring-amber-300 ring-offset-2 ring-offset-slate-100"
