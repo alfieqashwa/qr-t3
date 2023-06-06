@@ -6,6 +6,7 @@ import type { RouterOutputs } from "~/utils/api";
 import { DeleteTeam } from "./delete-team";
 import { UpdateTeam } from "./update-team";
 import Image from "next/image";
+import { Badge } from "../../ui/badge";
 
 export const columnsTeam: ColumnDef<
   RouterOutputs["user"]["getAllByEOId"][0]
@@ -46,7 +47,7 @@ export const columnsTeam: ColumnDef<
                 src={userAvatar}
                 alt="username"
                 fill
-                className="rounded-full object-cover ring-2 ring-amber-300 ring-offset-2 ring-offset-slate-100"
+                className="rounded-full bg-background object-cover p-1 text-muted-foreground ring-2 ring-ring ring-offset-2 ring-offset-background"
               />
             </span>
           </div>
@@ -57,7 +58,7 @@ export const columnsTeam: ColumnDef<
           <span className="relative">
             <User
               size={48}
-              className="rounded-full bg-slate-500 object-cover p-1 text-white ring-2 ring-amber-300 ring-offset-2 ring-offset-slate-100"
+              className="rounded-full bg-background object-cover p-1 text-muted-foreground ring-2 ring-ring ring-offset-2 ring-offset-background"
             />
           </span>
         </div>
@@ -71,12 +72,12 @@ export const columnsTeam: ColumnDef<
     ),
     cell: ({ row }) => {
       return (
-        <div className="flex items-center">
+        <Badge variant="secondary" className="px-3 py-1.5">
           <User className="mr-2 h-4 w-4 text-muted-foreground" />
           <span className="whitespace-nowrap capitalize">
             {row.getValue("name") ?? "pending"}
           </span>
-        </div>
+        </Badge>
       );
     },
   },

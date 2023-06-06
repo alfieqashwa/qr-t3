@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 export const UserProfile = ({ image }: { image: string }) => {
   const { pathname } = useRouter();
   return (
-    <Menubar className="h-12 w-12 items-center justify-center rounded-full border-2 border-amber-300 p-0 transition duration-300 ease-in-out hover:border-amber-300">
+    <Menubar className="h-12 w-12 items-center justify-center rounded-full border-2 border-foreground/50 p-0 transition-colors duration-300 ease-in-out hover:border-foreground/75">
       <MenubarMenu>
         <MenubarTrigger className="relative h-10 w-10 rounded-full px-0 py-0 hover:cursor-pointer">
           <Image src={image} alt="User Avatar" fill className="rounded-full" />
@@ -37,7 +37,7 @@ export const UserProfile = ({ image }: { image: string }) => {
                     }`}
                 >
                   {path}
-                  <MenubarShortcut className="text-amber-200 transition duration-300 ease-in-out group-hover:text-amber-300">
+                  <MenubarShortcut className="text-foreground transition duration-300 ease-in-out group-hover:text-foreground">
                     {Icon}
                   </MenubarShortcut>
                 </MenubarItem>
@@ -50,7 +50,7 @@ export const UserProfile = ({ image }: { image: string }) => {
             className="hover:cursor-pointer"
           >
             Sign Out
-            <MenubarShortcut className="text-amber-200 transition duration-300 ease-in-out group-hover:text-amber-300">
+            <MenubarShortcut className="text-foreground transition duration-300 ease-in-out group-hover:text-foreground">
               <LogOut size={18} className="shrink-0" />
             </MenubarShortcut>
           </MenubarItem>
@@ -65,7 +65,7 @@ const HomeMenu = (): JSX.Element => (
   <Link href="/">
     <MenubarItem className="group capitalize hover:cursor-pointer">
       home
-      <MenubarShortcut className="text-amber-200 transition duration-300 ease-in-out group-hover:text-amber-300">
+      <MenubarShortcut className="text-foreground transition duration-300 ease-in-out group-hover:text-foreground">
         <Home size={18} />
       </MenubarShortcut>
     </MenubarItem>
