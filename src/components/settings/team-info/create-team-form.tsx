@@ -4,6 +4,7 @@ import type * as z from "zod";
 
 import { Role } from "@prisma/client";
 import { Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { createTeamSchema } from "~/types/schema";
 import { Button } from "~/ui/button";
 import {
@@ -34,6 +35,7 @@ type Props = {
 };
 
 export function CreateTeamForm(props: Props) {
+  const session = useSession();
   const utils = api.useContext();
   const { toast } = useToast();
 
@@ -73,6 +75,17 @@ export function CreateTeamForm(props: Props) {
 
     // console.log(values);
     const { email, role } = values;
+
+    if (session.status !== "authenticated") return;
+    if (session.data.user.email === email) {
+      return toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "Please DO NOT input your own email, Dude!",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
+    }
+
     createTeam.mutate({
       email,
       role,
