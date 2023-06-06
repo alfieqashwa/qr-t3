@@ -43,10 +43,10 @@ export function ProfileInfo(): JSX.Element {
     <div className="mx-auto w-full">
       <HeaderSettings
         title={profile?.name as string}
-        subTitle="Information of user profile"
+        subTitle="Information of User Profile"
       />
-      <div className="mt-4 border-t-2 border-slate-800"></div>
-      <section className="mt-4 rounded-md border-4 border-slate-800 p-8">
+      <div className="mt-4 border-t-2"></div>
+      <section className="mt-4 rounded-md border-2 p-8">
         {!!profile && (
           <article className="flex flex-col items-center space-y-6">
             <ProfileImage profile={profile} />

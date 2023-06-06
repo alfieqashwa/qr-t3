@@ -42,7 +42,7 @@ export const columnsTeam: ColumnDef<
       if (userAvatar) {
         return (
           <div className="flex items-center">
-            <span className="relative h-12 w-12">
+            <span className="relative h-10 w-10">
               <Image
                 src={userAvatar}
                 alt="username"
@@ -57,7 +57,7 @@ export const columnsTeam: ColumnDef<
         <div className="flex items-center">
           <span className="relative">
             <User
-              size={48}
+              size={40}
               className="rounded-full bg-background object-cover p-1 text-muted-foreground ring-2 ring-ring ring-offset-2 ring-offset-background"
             />
           </span>

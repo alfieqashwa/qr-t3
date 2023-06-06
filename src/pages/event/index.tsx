@@ -18,34 +18,32 @@ const EventPage: NextPage = (): JSX.Element => {
   return (
     <Layout title={title}>
       <HeaderTitle title={title} />
-      <div className="mt-4 h-[calc(100vh_-_17vh)]">
-        <Tabs defaultValue="event-list">
-          <TabsList className="mb-3">
-            <TabsTrigger className="text-xs lg:text-sm" value="event-list">
-              Event
-            </TabsTrigger>
-            <TabsTrigger
-              className="text-xs lg:text-sm"
-              value="ticket-list"
-              disabled={count === 0}
-            >
-              Ticket
-            </TabsTrigger>
-            <TabsTrigger className="text-xs lg:text-sm" value="visitor">
-              Visitor
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="event-list">
-            <EventList />
-          </TabsContent>
-          <TabsContent value="ticket-list">
-            <TicketList />
-          </TabsContent>
-          <TabsContent value="visitor">
-            <DataListSample />
-          </TabsContent>
-        </Tabs>
-      </div>
+      <Tabs defaultValue="event-list" className="mt-4">
+        <TabsList className="mb-3">
+          <TabsTrigger className="text-xs lg:text-sm" value="event-list">
+            Event
+          </TabsTrigger>
+          <TabsTrigger
+            className="text-xs lg:text-sm"
+            value="ticket-list"
+            disabled={count === 0}
+          >
+            Ticket
+          </TabsTrigger>
+          <TabsTrigger className="text-xs lg:text-sm" value="visitor">
+            Visitor
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="event-list">
+          <EventList />
+        </TabsContent>
+        <TabsContent value="ticket-list">
+          <TicketList />
+        </TabsContent>
+        <TabsContent value="visitor">
+          <DataListSample />
+        </TabsContent>
+      </Tabs>
     </Layout>
   );
 };

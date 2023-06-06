@@ -21,32 +21,30 @@ const SettingsPage: NextPage = () => {
   return (
     <Layout title={title}>
       <HeaderTitle title={title} />
-      <div className="h-[calc(100vh_-_17vh)]">
-        <Tabs defaultValue="profile">
-          <TabsList className="mb-3">
-            <TabsTrigger className="text-xs lg:text-sm" value="profile">
-              Profile
+      <Tabs defaultValue="profile" className="mt-4">
+        <TabsList className="mb-3">
+          <TabsTrigger className="text-xs lg:text-sm" value="profile">
+            Profile
+          </TabsTrigger>
+          <TabsTrigger className="text-xs lg:text-sm" value="event-organizer">
+            Event Organizer
+          </TabsTrigger>
+          <AdminOnly>
+            <TabsTrigger className="text-xs lg:text-sm" value="team-info">
+              Team Info
             </TabsTrigger>
-            <TabsTrigger className="text-xs lg:text-sm" value="event-organizer">
-              Event Organizer
-            </TabsTrigger>
-            <AdminOnly>
-              <TabsTrigger className="text-xs lg:text-sm" value="team-info">
-                Team Info
-              </TabsTrigger>
-            </AdminOnly>
-          </TabsList>
-          <TabsContent value="profile">
-            <ProfileInfo />
-          </TabsContent>
-          <TabsContent value="event-organizer">
-            <EOInfo />
-          </TabsContent>
-          <TabsContent value="team-info">
-            <TeamList />
-          </TabsContent>
-        </Tabs>
-      </div>
+          </AdminOnly>
+        </TabsList>
+        <TabsContent value="profile">
+          <ProfileInfo />
+        </TabsContent>
+        <TabsContent value="event-organizer">
+          <EOInfo />
+        </TabsContent>
+        <TabsContent value="team-info">
+          <TeamList />
+        </TabsContent>
+      </Tabs>
     </Layout>
   );
 };
