@@ -11,6 +11,12 @@ export const ticketRouter = createTRPCRouter({
   count: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.ticket.count()
   }),
+  categories: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.ticket.findMany({
+      where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
+      select: { category: true }
+    })
+  }),
   getAll: protectedProcedure
     .query(async ({ ctx }) => {
       return await ctx.prisma.ticket.findMany({

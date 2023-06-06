@@ -1,6 +1,6 @@
 import type { Status } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Calendar } from "lucide-react";
+import { Calendar, Tags } from "lucide-react";
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header";
 import { Badge } from "~/ui/badge";
 import { Checkbox } from "~/ui/checkbox";
@@ -50,21 +50,6 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
       ),
     },
     {
-      accessorKey: "category",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Category" />
-      ),
-      cell: ({ row }) => (
-        <div className="flex space-x-2">
-          <Badge variant="secondary">
-            <span className="max-w-[500px] truncate font-medium uppercase">
-              {row.getValue("category")}
-            </span>
-          </Badge>
-        </div>
-      ),
-    },
-    {
       accessorKey: "price",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="price" />
@@ -76,6 +61,23 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
           currency: "IDR",
         }).format(Number(price));
         return <div className="w-[80px]">{formatPrice}</div>;
+      },
+    },
+    {
+      accessorKey: "category",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Category" />
+      ),
+      cell: ({ row }) => (
+        <Badge variant="secondary" className="whitespace-nowrap px-3 py-1.5">
+          <Tags className="mr-2 h-4 w-4 text-muted-foreground" />
+          <span className="max-w-[500px] truncate font-medium uppercase">
+            {row.getValue("category")}
+          </span>
+        </Badge>
+      ),
+      filterFn: (row, id, value: Status) => {
+        return value.includes(row.getValue(id));
       },
     },
     {

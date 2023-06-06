@@ -2,7 +2,8 @@
 
 import type { Table } from "@tanstack/react-table";
 import type { LucideIcon } from "lucide-react";
-import { Calendar, X } from "lucide-react";
+import { Calendar, Tags, X } from "lucide-react";
+import { EditorOnly } from "~/components/authed";
 import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-filter";
 import { DataTableViewOptions } from "~/components/table/data-table-view-options";
 import { Button } from "~/ui/button";
@@ -11,7 +12,6 @@ import { api } from "~/utils/api";
 import { statuses } from "./data";
 import { DeleteTicketList } from "./delete-ticket-list";
 import { GenerateTicket } from "./generate-ticket";
-import { EditorOnly } from "../../authed";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -30,8 +30,20 @@ export function TicketTableToolbar<TData>({
     icon?: LucideIcon;
   };
 
-  const { data, status } = api.event.eventData.useQuery();
-  const eventTitles = data?.map((d) => ({
+  const categoryQuery = api.ticket.categories.useQuery(undefined, {
+    select: (data) => {
+      const categories = data.map((d) => d.category);
+      return [...new Set(categories)];
+    },
+  });
+  const categories = categoryQuery.data?.map((cat) => ({
+    value: cat,
+    label: cat,
+    icon: Tags,
+  })) as Options[];
+
+  const eventQuery = api.event.eventData.useQuery();
+  const eventTitles = eventQuery.data?.map((d) => ({
     value: d.title,
     label: d.title,
     icon: Calendar,
@@ -48,7 +60,7 @@ export function TicketTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {status === "success" && table.getColumn("event") && (
+        {table.getColumn("event") && (
           <DataTableFacetedFilter
             column={table.getColumn("event")}
             title="Event"
@@ -60,6 +72,13 @@ export function TicketTableToolbar<TData>({
             column={table.getColumn("status")}
             title="Status"
             options={statuses}
+          />
+        )}
+        {table.getColumn("category") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("category")}
+            title="Category"
+            options={categories}
           />
         )}
         {isFiltered && (
