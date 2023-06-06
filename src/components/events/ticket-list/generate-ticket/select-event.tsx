@@ -1,10 +1,9 @@
-import type { RouterOutputs } from "~/src/utils/api";
+import type { RouterOutputs } from "~/utils/api";
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "~/ui/select";
@@ -25,7 +24,6 @@ export function SelectEvent({ events }: Props): JSX.Element {
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Event</SelectLabel>
           {events.map((event) => (
             <SelectItem value={event.id} className="capitalize" key={event.id}>
               {event.title}

@@ -1,36 +1,36 @@
 import { useState } from "react";
 import { Button } from "~/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "~/ui/dialog";
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "~/ui/sheet";
 import { CreateTeamForm } from "./create-team-form";
 
 export function CreateTeam() {
   const [open, setOpen] = useState(false);
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>
         <Button variant="outline" size="sm">
           Create Team
         </Button>
-      </DialogTrigger>
+      </SheetTrigger>
 
-      <DialogContent className="sm:max-w-1/2">
-        <DialogHeader>
-          <DialogTitle>Create New Team</DialogTitle>
-          <DialogDescription>
+      <SheetContent className="sm:max-w-1/2">
+        <SheetHeader>
+          <SheetTitle>Create New Team</SheetTitle>
+          <SheetDescription>
             Create new team for your organization here. Click Create Team when
             you&apos;re done.
-          </DialogDescription>
-        </DialogHeader>
+          </SheetDescription>
+        </SheetHeader>
         <CreateTeamForm setOpen={setOpen} />
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }

@@ -1,17 +1,17 @@
 import { FilePlus2, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "~/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "~/ui/dialog";
 import { Input } from "~/ui/input";
 import { Label } from "~/ui/label";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "~/ui/sheet";
 import { ToastAction } from "~/ui/toast";
 import { toast } from "~/ui/use-toast";
 import { api } from "~/utils/api";
@@ -131,8 +131,8 @@ export function GenerateTicket(): JSX.Element {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>
         <Button
           variant="outline"
           size="sm"
@@ -141,21 +141,24 @@ export function GenerateTicket(): JSX.Element {
           <FilePlus2 size={26} className="mr-2 h-4 w-4" />
           <span className="whitespace-nowrap">Generate Ticket</span>
         </Button>
-      </DialogTrigger>
+      </SheetTrigger>
 
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Generate New Ticket</DialogTitle>
-          <DialogDescription>
+      <SheetContent position="right" size="sm">
+        <SheetHeader>
+          <SheetTitle>Generate New Ticket</SheetTitle>
+          <SheetDescription>
             Create new ticket(s) here. Click Generate Ticket when you&apos;re
             done.
-          </DialogDescription>
-        </DialogHeader>
+          </SheetDescription>
+        </SheetHeader>
         <form onSubmit={handleSubmit} className="grid gap-4 py-4">
           {/* Select Event ID */}
-          {!!events && <SelectEvent events={events} />}
+          <div className="flex flex-col space-y-2 pt-4">
+            <Label htmlFor="category-input">Event</Label>
+            {!!events && <SelectEvent events={events} />}
+          </div>
           {/* Category */}
-          <div className="flex flex-col space-y-1.5">
+          <div className="flex flex-col space-y-1.5 pt-4">
             <Label htmlFor="category-input">Category</Label>
             <Input
               type="text"
@@ -171,7 +174,7 @@ export function GenerateTicket(): JSX.Element {
             )}
             <SelectCategory categories={categories} disabled={disabled} />
             {/* Price */}
-            <div className="flex flex-col space-y-1.5">
+            <div className="flex flex-col space-y-1.5 pt-4">
               <Label htmlFor="price">Price</Label>
               <Input
                 id="price"
@@ -187,7 +190,7 @@ export function GenerateTicket(): JSX.Element {
               )}
             </div>
             {/* Qty */}
-            <div className="flex flex-col space-y-1.5">
+            <div className="flex flex-col space-y-1.5 pt-4">
               <Label htmlFor="title">Qty</Label>
               <Input
                 id="qty"
@@ -203,7 +206,7 @@ export function GenerateTicket(): JSX.Element {
               )}
             </div>
           </div>
-          <DialogFooter>
+          <SheetFooter>
             <Button
               className="flex flex-row items-center justify-end space-x-2"
               type="button"
@@ -223,9 +226,9 @@ export function GenerateTicket(): JSX.Element {
                 Generate Ticket
               </Button>
             )}
-          </DialogFooter>
+          </SheetFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }

@@ -81,12 +81,12 @@ export function CreateTeamForm(props: Props) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="pt-4">
               <FormLabel>User Email</FormLabel>
               <FormControl>
                 <Input placeholder="email" {...field} />
@@ -99,7 +99,7 @@ export function CreateTeamForm(props: Props) {
           control={form.control}
           name="role"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="pt-4">
               <Select
                 onValueChange={field.onChange}
                 defaultValue={field.value as Role}
@@ -119,7 +119,7 @@ export function CreateTeamForm(props: Props) {
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              <FormDescription>
+              <FormDescription className="pt-2">
                 Select your team&apos;s access level.
               </FormDescription>
               <FormMessage />

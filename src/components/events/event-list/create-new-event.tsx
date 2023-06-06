@@ -2,20 +2,20 @@ import { FilePlus2 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "~/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "~/ui/dialog";
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "~/ui/sheet";
 import { CreateEventForm } from "./create-event-form";
 
 export function CreateNewEvent() {
   const [open, setOpen] = useState(false);
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>
         <Button
           variant="outline"
           size="sm"
@@ -24,16 +24,16 @@ export function CreateNewEvent() {
           <FilePlus2 size={26} className="mr-2 h-4 w-4" />
           Create Event
         </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Add New Event</DialogTitle>
-          <DialogDescription>
+      </SheetTrigger>
+      <SheetContent position="right" size="sm">
+        <SheetHeader>
+          <SheetTitle>Add New Event</SheetTitle>
+          <SheetDescription>
             Create new event here. Click Add Event when you&apos;re done.
-          </DialogDescription>
-        </DialogHeader>
+          </SheetDescription>
+        </SheetHeader>
         <CreateEventForm setOpen={setOpen} />
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }
