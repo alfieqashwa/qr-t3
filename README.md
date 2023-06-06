@@ -95,17 +95,17 @@ Add more libs.
     - [x] Setup Pagination
     - [x] Automatic Update Status (Sale Config)
     - [x] Delete Selected // All
-    - [ ] Filter based on Category // TODOS!!
+    - [x] Filter based on Category
   - [x] Dark / Light mode
     - [x] Setup toggle dark mode
-    - [ ] Setup colors (light && dark)
+    - [x] Setup colors (light && dark)
 
-  - [ ] Setup Visitor Page
-    - [ ] Configure Visitor CRUD
-    - [ ] Setup Table
-    - [ ] Setup Search
-    - [ ] Setup Filter
-    - [ ] Setup Pagination
+- [ ] Setup Visitor Page
+  - [ ] Configure Visitor CRUD
+  - [ ] Setup Table
+  - [ ] Setup Search
+  - [ ] Setup Filter
+  - [ ] Setup Pagination
 - [ ] Setup Dashboard Page
   - [ ] Setup Charts
   - [ ] Setup Table
