@@ -37,7 +37,7 @@ export const MenuList = (): JSX.Element => {
       {MENU_LINKS?.map((link) => (
         <li
           className={`rounded-xl border-b-2 border-r-2 ${
-            pathname === `/${link.path}` ? "bg-background" : "bg-muted"
+            pathname === `/${link.path}` ? "bg-muted" : "bg-background"
           }`}
           key={link.path}
         >
