@@ -20,7 +20,7 @@ interface DataTableRowActionsProps {
 }
 
 export function RowEventActions(props: DataTableRowActionsProps) {
-  const { id, title, venue, date } = props;
+  const { id, title } = props;
   const [open, setOpen] = useState(false);
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -43,14 +43,7 @@ export function RowEventActions(props: DataTableRowActionsProps) {
         </DropdownMenuItem>
         <AdminOnly>
           <DropdownMenuSeparator />
-          <UpdateEvent
-            id={id}
-            title={title}
-            venue={venue}
-            date={date}
-            open={open}
-            setOpen={setOpen}
-          />
+          <UpdateEvent id={id} title={title} open={open} setOpen={setOpen} />
           <DropdownMenuSeparator />
           <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
             <DeleteEvent id={id} title={title} open={open} setOpen={setOpen} />

@@ -21,17 +21,16 @@ import { DatePicker } from "./date-picker";
 type Props = {
   id: string;
   title: string;
-  venue: string;
-  date: Date;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export function UpdateEvent({ id, title, venue, date, open, setOpen }: Props) {
+export function UpdateEvent({ id, title, open, setOpen }: Props) {
   const utils = api.useContext();
   const { toast } = useToast();
 
-  const [currentDate, setCurrentDate] = useState<Date | undefined>(date);
+  const { data: event } = api.event.getById.useQuery({ id }, { enabled: !!id });
+  const [currentDate, setCurrentDate] = useState<Date | undefined>(event?.date);
 
   const { mutate, isLoading, error } = api.event.update.useMutation({
     async onSuccess() {
@@ -111,7 +110,7 @@ export function UpdateEvent({ id, title, venue, date, open, setOpen }: Props) {
             <Input
               id="venue"
               name="venue"
-              defaultValue={venue}
+              defaultValue={event?.venue}
               className="capitalize"
             />
             {error?.data?.zodError?.fieldErrors.venue && (
