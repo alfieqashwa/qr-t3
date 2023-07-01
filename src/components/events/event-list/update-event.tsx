@@ -1,22 +1,14 @@
-import { Loader2, Pen } from "lucide-react";
-import { useState } from "react";
-import { Button } from "~/ui/button";
+import { Pen } from "lucide-react";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "~/ui/dialog";
-import { Input } from "~/ui/input";
-import { Label } from "~/ui/label";
-import { ToastAction } from "~/ui/toast";
-import { useToast } from "~/ui/use-toast";
 import { api } from "~/utils/api";
-import { wait } from "~/utils/wait";
-import { DatePicker } from "./date-picker";
+import { UpdateEventForm } from "./update-event-form";
 
 type Props = {
   id: string;
@@ -26,47 +18,10 @@ type Props = {
 };
 
 export function UpdateEvent({ id, title, open, setOpen }: Props) {
-  const utils = api.useContext();
-  const { toast } = useToast();
-
-  const { data: event } = api.event.getById.useQuery({ id }, { enabled: !!id });
-  const [currentDate, setCurrentDate] = useState<Date | undefined>(event?.date);
-
-  const { mutate, isLoading, error } = api.event.update.useMutation({
-    async onSuccess() {
-      toast({
-        title: "Succeed!",
-        variant: "default",
-        description: "Your new team has been updated.",
-      });
-      await utils.event.getAll.invalidate();
-      /* auto-closed after succeed submit the dialog form */
-      await wait().then(() => setOpen(!open));
-    },
-    onError() {
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your request.",
-        action: <ToastAction altText="Try again">Try again</ToastAction>,
-      });
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
-    const title = formData.get("title") as string;
-    const venue = formData.get("venue") as string;
-
-    mutate({
-      id,
-      title,
-      venue,
-      date: currentDate as Date,
-    });
-  };
+  const { data: event, status: eventStatus } = api.event.getById.useQuery(
+    { id },
+    { enabled: !!id }
+  );
 
   return (
     <Dialog>
@@ -88,70 +43,9 @@ export function UpdateEvent({ id, title, open, setOpen }: Props) {
             </p>
           </DialogDescription>
         </DialogHeader>
-        <form className="grid gap-4 py-3" onSubmit={handleSubmit}>
-          {/* title */}
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">Title</Label>
-            <Input
-              id="title"
-              name="title"
-              defaultValue={title}
-              className="capitalize"
-            />
-            {error?.data?.zodError?.fieldErrors.title && (
-              <span className="text-xs text-destructive">
-                {error.data.zodError.fieldErrors.title}
-              </span>
-            )}
-          </div>
-          {/* venue*/}
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">Venue</Label>
-            <Input
-              id="venue"
-              name="venue"
-              defaultValue={event?.venue}
-              className="capitalize"
-            />
-            {error?.data?.zodError?.fieldErrors.venue && (
-              <span className="text-xs text-destructive">
-                {error.data.zodError.fieldErrors.venue}
-              </span>
-            )}
-          </div>
-          {/* Date */}
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="date">Date</Label>
-            {currentDate && (
-              <DatePicker date={currentDate} setDate={setCurrentDate} />
-            )}
-            {error?.data?.zodError?.fieldErrors.date && (
-              <span className="text-xs text-destructive">
-                {error?.data?.zodError?.fieldErrors.date}
-              </span>
-            )}
-          </div>
-          <DialogFooter className="mt-4 flex flex-row items-center justify-end space-x-2">
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => setOpen(!open)}
-            >
-              Cancel
-            </Button>
-            {isLoading ? (
-              <Button disabled size="sm">
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Please wait
-              </Button>
-            ) : (
-              <Button type="submit" size="sm">
-                Update
-              </Button>
-            )}
-          </DialogFooter>
-        </form>
+        {eventStatus === "success" && !!event && (
+          <UpdateEventForm event={event} open={open} setOpen={setOpen} />
+        )}
       </DialogContent>
     </Dialog>
   );

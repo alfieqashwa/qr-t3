@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createEventSchema } from "~/types/schema";
+import { createEventSchema, updateEventSchema } from "~/types/schema";
 import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const eventRouter = createTRPCRouter({
@@ -18,7 +18,6 @@ export const eventRouter = createTRPCRouter({
     .query(async ({ ctx, input: { id } }) => {
       return await ctx.prisma.event.findUnique({
         where: { id },
-        select: { date: true, venue: true },
       });
     }),
   eventData: protectedProcedure.query(async ({ ctx }) => {
@@ -45,14 +44,7 @@ export const eventRouter = createTRPCRouter({
       }
     }),
   update: adminProcedure
-    .input(
-      z.object({
-        id: z.string().cuid(),
-        title: z.string().min(5).max(25),
-        venue: z.string().min(5).max(25),
-        date: z.date(),
-      })
-    )
+    .input(updateEventSchema)
     .mutation(async ({ ctx, input: { id, title, venue, date } }) => {
       try {
         return await ctx.prisma.event.update({

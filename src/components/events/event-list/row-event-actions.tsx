@@ -15,8 +15,6 @@ import { UpdateEvent } from "./update-event";
 interface DataTableRowActionsProps {
   id: string;
   title: string;
-  venue: string;
-  date: Date;
 }
 
 export function RowEventActions(props: DataTableRowActionsProps) {
