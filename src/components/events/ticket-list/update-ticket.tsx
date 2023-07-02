@@ -1,6 +1,6 @@
-import { Loader2 } from "lucide-react";
-import { useState } from "react";
-import { Button } from "~/ui/button";
+import { Loader2 } from "lucide-react"
+import { useState } from "react"
+import { Button } from "~/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -9,26 +9,26 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/ui/dialog";
-import { Input } from "~/ui/input";
-import { Label } from "~/ui/label";
-import { ToastAction } from "~/ui/toast";
-import { useToast } from "~/ui/use-toast";
-import { api } from "~/utils/api";
-import { wait } from "~/utils/wait";
+} from "~/ui/dialog"
+import { Input } from "~/ui/input"
+import { Label } from "~/ui/label"
+import { ToastAction } from "~/ui/toast"
+import { useToast } from "~/ui/use-toast"
+import { api } from "~/utils/api"
+import { wait } from "~/utils/wait"
 
 type Props = {
-  id: string;
-  title: string;
-  venue: string;
-  date: Date;
-};
+  id: string
+  title: string
+  venue: string
+  date: Date
+}
 
 export function UpdateTicket({ id, title, venue, date }: Props) {
-  const utils = api.useContext();
-  const { toast } = useToast();
+  const utils = api.useContext()
+  const { toast } = useToast()
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   const { mutate, isLoading, error } = api.event.update.useMutation({
     async onSuccess() {
@@ -36,10 +36,10 @@ export function UpdateTicket({ id, title, venue, date }: Props) {
         title: "Succeed!",
         variant: "default",
         description: "Your new team has been updated.",
-      });
-      await utils.event.getAll.invalidate();
+      })
+      await utils.event.getAll.invalidate()
       /* auto-closed after succeed submit the dialog form */
-      await wait().then(() => setOpen(false));
+      await wait().then(() => setOpen(false))
     },
     onError() {
       toast({
@@ -47,24 +47,24 @@ export function UpdateTicket({ id, title, venue, date }: Props) {
         title: "Uh oh! Something went wrong.",
         description: "There was a problem with your request.",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
-      });
+      })
     },
-  });
+  })
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const formData = new FormData(e.currentTarget);
-    const title = formData.get("title") as string;
-    const venue = formData.get("venue") as string;
+    const formData = new FormData(e.currentTarget)
+    const title = formData.get("title") as string
+    const venue = formData.get("venue") as string
 
     mutate({
       id,
       title,
       venue,
       date: date,
-    });
-  };
+    })
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -141,5 +141,5 @@ export function UpdateTicket({ id, title, venue, date }: Props) {
         </form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

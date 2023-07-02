@@ -1,20 +1,20 @@
-"use client";
+"use client"
 
-import type { Table } from "@tanstack/react-table";
-import type { LucideIcon } from "lucide-react";
-import { Calendar, Tags, X } from "lucide-react";
-import { EditorOnly } from "~/components/authed";
-import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-filter";
-import { DataTableViewOptions } from "~/components/table/data-table-view-options";
-import { Button } from "~/ui/button";
-import { Input } from "~/ui/input";
-import { api } from "~/utils/api";
-import { statuses } from "./data";
-import { DeleteTicketList } from "./delete-ticket-list";
-import { GenerateTicket } from "./generate-ticket";
+import type { Table } from "@tanstack/react-table"
+import type { LucideIcon } from "lucide-react"
+import { Calendar, Tags, X } from "lucide-react"
+import { EditorOnly } from "~/components/authed"
+import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-filter"
+import { DataTableViewOptions } from "~/components/table/data-table-view-options"
+import { Button } from "~/ui/button"
+import { Input } from "~/ui/input"
+import { api } from "~/utils/api"
+import { statuses } from "./data"
+import { DeleteTicketList } from "./delete-ticket-list"
+import { GenerateTicket } from "./generate-ticket"
 
 interface DataTableToolbarProps<TData> {
-  table: Table<TData>;
+  table: Table<TData>
 }
 
 export function TicketTableToolbar<TData>({
@@ -22,32 +22,32 @@ export function TicketTableToolbar<TData>({
 }: DataTableToolbarProps<TData>) {
   const isFiltered =
     table.getPreFilteredRowModel().rows.length >
-    table.getFilteredRowModel().rows.length;
+    table.getFilteredRowModel().rows.length
 
   type Options = {
-    label: string;
-    value: string;
-    icon?: LucideIcon;
-  };
+    label: string
+    value: string
+    icon?: LucideIcon
+  }
 
   const categoryQuery = api.ticket.categories.useQuery(undefined, {
     select: (data) => {
-      const categories = data.map((d) => d.category);
-      return [...new Set(categories)];
+      const categories = data.map((d) => d.category)
+      return [...new Set(categories)]
     },
-  });
+  })
   const categories = categoryQuery.data?.map((cat) => ({
     value: cat,
     label: cat,
     icon: Tags,
-  })) as Options[];
+  })) as Options[]
 
-  const eventQuery = api.event.eventData.useQuery();
+  const eventQuery = api.event.eventData.useQuery()
   const eventTitles = eventQuery.data?.map((d) => ({
     value: d.title,
     label: d.title,
     icon: Calendar,
-  })) as Options[];
+  })) as Options[]
 
   return (
     <div className="flex items-center justify-between">
@@ -103,5 +103,5 @@ export function TicketTableToolbar<TData>({
         <DataTableViewOptions table={table} />
       </span>
     </div>
-  );
+  )
 }

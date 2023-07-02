@@ -1,18 +1,18 @@
-"use client";
+"use client"
 
-import type { ReactNode } from "react";
-import { Drawer } from "./drawer";
-import { Header } from "./header";
-import { NavigationHeader } from "./navigation-header";
-import useToggleStore from "~/store/useToggle";
-import { cn } from "~/src/utils";
+import type { ReactNode } from "react"
+import { Drawer } from "./drawer"
+import { Header } from "./header"
+import { NavigationHeader } from "./navigation-header"
+import useToggleStore from "~/store/useToggle"
+import { cn } from "~/src/utils"
 
-type LayoutProps = { title: string; children: ReactNode };
+type LayoutProps = { title: string; children: ReactNode }
 
 export const Layout = ({ title, children }: LayoutProps) => {
-  const { toggle } = useToggleStore();
+  const { toggle } = useToggleStore()
 
-  const titleHeader = `${title} | QR Ticket Concert`;
+  const titleHeader = `${title} | QR Ticket Concert`
 
   return (
     <>
@@ -32,5 +32,5 @@ export const Layout = ({ title, children }: LayoutProps) => {
         {/* ENDS MAIN */}
       </div>
     </>
-  );
-};
+  )
+}

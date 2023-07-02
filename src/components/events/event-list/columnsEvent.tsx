@@ -1,12 +1,12 @@
-import type { ColumnDef } from "@tanstack/react-table";
-import { format, formatDistance, subDays } from "date-fns";
-import { id } from "date-fns/locale";
-import { MapPin, Star } from "lucide-react";
-import { DataTableColumnHeader } from "~/components/table/data-table-column-header";
-import { Badge } from "~/ui/badge";
-import { Checkbox } from "~/ui/checkbox";
-import type { RouterOutputs } from "~/utils/api";
-import { RowEventActions } from "./row-event-actions";
+import type { ColumnDef } from "@tanstack/react-table"
+import { format, formatDistance, subDays } from "date-fns"
+import { id } from "date-fns/locale"
+import { MapPin, Star } from "lucide-react"
+import { DataTableColumnHeader } from "~/components/table/data-table-column-header"
+import { Badge } from "~/ui/badge"
+import { Checkbox } from "~/ui/checkbox"
+import type { RouterOutputs } from "~/utils/api"
+import { RowEventActions } from "./row-event-actions"
 
 export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
   {
@@ -55,10 +55,10 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
           <MapPin className="mr-2 h-4 w-4 text-muted-foreground" />
           <span className="uppercase">{row.getValue("venue")}</span>
         </div>
-      );
+      )
     },
     filterFn: (row, id, value: string) => {
-      return value.includes(row.getValue(id));
+      return value.includes(row.getValue(id))
     },
   },
   {
@@ -100,8 +100,8 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
           addSuffix: true,
           locale: id,
         }
-      );
-      return <div className="whitespace-nowrap">{date}</div>;
+      )
+      return <div className="whitespace-nowrap">{date}</div>
     },
   },
   {
@@ -109,8 +109,8 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
     cell: ({ row }) => {
       const {
         original: { id, title },
-      } = row;
-      return <RowEventActions id={id} title={title} />;
+      } = row
+      return <RowEventActions id={id} title={title} />
     },
   },
-];
+]

@@ -1,11 +1,11 @@
-import { Loader2, User } from "lucide-react";
-import { UserProfile } from "./user-profile";
+import { Loader2, User } from "lucide-react"
+import { UserProfile } from "./user-profile"
 
 type UserAvatarProps = {
-  isLoading: boolean;
-  userImageUpdate?: string | null;
-  userImage?: string | null;
-};
+  isLoading: boolean
+  userImageUpdate?: string | null
+  userImage?: string | null
+}
 export const UserAvatar = ({
   isLoading,
   userImage,
@@ -22,4 +22,4 @@ export const UserAvatar = ({
       <User />
     )}
   </>
-);
+)

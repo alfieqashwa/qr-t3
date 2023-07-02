@@ -1,5 +1,5 @@
-import { Loader2, Trash } from "lucide-react";
-import { Button } from "~/ui/button";
+import { Loader2, Trash } from "lucide-react"
+import { Button } from "~/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -8,22 +8,22 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/ui/dialog";
-import { ToastAction } from "~/ui/toast";
-import { useToast } from "~/ui/use-toast";
-import { api } from "~/utils/api";
-import { wait } from "~/utils/wait";
+} from "~/ui/dialog"
+import { ToastAction } from "~/ui/toast"
+import { useToast } from "~/ui/use-toast"
+import { api } from "~/utils/api"
+import { wait } from "~/utils/wait"
 
 type Props = {
-  id: string;
-  title: string;
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
+  id: string
+  title: string
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
 
 export function DeleteEvent({ id, title, open, setOpen }: Props) {
-  const utils = api.useContext();
-  const { toast } = useToast();
+  const utils = api.useContext()
+  const { toast } = useToast()
 
   const { mutate, isLoading } = api.event.delete.useMutation({
     async onSuccess() {
@@ -32,11 +32,11 @@ export function DeleteEvent({ id, title, open, setOpen }: Props) {
         title: "Succeed!",
         variant: "default",
         description: "Your Team has been deleted.",
-      });
-      await utils.event.count.invalidate();
-      await utils.event.getAll.invalidate();
+      })
+      await utils.event.count.invalidate()
+      await utils.event.getAll.invalidate()
       /* auto-closed after succeed submit the dialog form */
-      await wait().then(() => setOpen(!open));
+      await wait().then(() => setOpen(!open))
     },
     onError() {
       toast({
@@ -44,17 +44,17 @@ export function DeleteEvent({ id, title, open, setOpen }: Props) {
         title: "Uh oh! Something went wrong.",
         description: "There was a problem with your request.",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
-      });
+      })
     },
-  });
+  })
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
     mutate({
       id,
-    });
-  };
+    })
+  }
 
   return (
     <Dialog>
@@ -100,5 +100,5 @@ export function DeleteEvent({ id, title, open, setOpen }: Props) {
         </form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

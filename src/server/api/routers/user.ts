@@ -5,49 +5,45 @@ import { createTeamSchema } from "~/src/types/schema"
 
 export const userRouter = createTRPCRouter({
   // Queries
-  me: protectedProcedure
-    .query(async ({ ctx }) => {
-      return await ctx.prisma.user.findUnique({
-        where: { id: ctx.session.user.id },
-      })
-    }),
-  getAllByEOId: adminProcedure
-    .query(async ({ ctx }) => {
-      return ctx.prisma.user.findMany({
-        where: {
-          eventOrganizerId: ctx.session.user.eventOrganizerId,
-          OR: [
-            { role: { equals: Role.EDITOR } },
-            { role: { equals: Role.OPERATOR } },
-          ]
-        },
-        orderBy: { name: "asc" }, // A -> Z
-        include: { eventOrganizer: { select: { name: true } } } // include EO but only select the name of EO
-      })
-    }),
-  getRole: adminProcedure.
-    query(async ({ ctx }) => {
-      return await ctx.prisma.user.findMany({
-        select: { role: true }
-      })
-    }),
+  me: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.user.findUnique({
+      where: { id: ctx.session.user.id },
+    })
+  }),
+  getAllByEOId: adminProcedure.query(async ({ ctx }) => {
+    return ctx.prisma.user.findMany({
+      where: {
+        eventOrganizerId: ctx.session.user.eventOrganizerId,
+        OR: [
+          { role: { equals: Role.EDITOR } },
+          { role: { equals: Role.OPERATOR } },
+        ],
+      },
+      orderBy: { name: "asc" }, // A -> Z
+      include: { eventOrganizer: { select: { name: true } } }, // include EO but only select the name of EO
+    })
+  }),
+  getRole: adminProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.user.findMany({
+      select: { role: true },
+    })
+  }),
 
   // Mutations
-  removeImageUpdate: protectedProcedure
-    .mutation(async ({ ctx }) => {
-      return await ctx.prisma.user.update({
-        where: { id: ctx.session.user.id },
-        data: { imageUpdate: null }
-      })
-    }),
+  removeImageUpdate: protectedProcedure.mutation(async ({ ctx }) => {
+    return await ctx.prisma.user.update({
+      where: { id: ctx.session.user.id },
+      data: { imageUpdate: null },
+    })
+  }),
   updateRole: protectedProcedure
     .input(z.object({ role: z.nativeEnum(Role) }))
     .mutation(async ({ ctx, input: { role } }) => {
       return await ctx.prisma.user.update({
         where: { id: ctx.session.user.id },
         data: {
-          role
-        }
+          role,
+        },
       })
     }),
   create: adminProcedure
@@ -59,22 +55,24 @@ export const userRouter = createTRPCRouter({
             email,
             role,
             eventOrganizerId: ctx.session.user.eventOrganizerId,
-          }
+          },
         })
       } catch (err) {
         console.error(err)
       }
     }),
   updateTeam: adminProcedure
-    .input(z.object({
-      id: z.string().cuid(),
-      role: z.nativeEnum(Role),
-    }))
+    .input(
+      z.object({
+        id: z.string().cuid(),
+        role: z.nativeEnum(Role),
+      })
+    )
     .mutation(async ({ ctx, input: { id, role } }) => {
       try {
         return await ctx.prisma.user.update({
           where: { id },
-          data: { role, eventOrganizerId: ctx.session.user.eventOrganizerId }
+          data: { role, eventOrganizerId: ctx.session.user.eventOrganizerId },
         })
       } catch (err) {
         console.error(err)
@@ -85,7 +83,7 @@ export const userRouter = createTRPCRouter({
     .mutation(async ({ ctx, input: { id } }) => {
       try {
         return await ctx.prisma.user.delete({
-          where: { id }
+          where: { id },
         })
       } catch (err) {
         console.error(err)
@@ -98,8 +96,8 @@ export const userRouter = createTRPCRouter({
         return await ctx.prisma.user.update({
           where: { id: ctx.session.user.id },
           data: {
-            imageUpdate
-          }
+            imageUpdate,
+          },
         })
       } catch (err) {
         console.error(err)
@@ -115,5 +113,5 @@ export const userRouter = createTRPCRouter({
       } catch (err) {
         console.error(err)
       }
-    })
+    }),
 })

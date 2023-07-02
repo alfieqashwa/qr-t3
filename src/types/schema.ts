@@ -1,10 +1,10 @@
-import { Role } from "@prisma/client";
-import { z } from "zod";
+import { Role } from "@prisma/client"
+import { z } from "zod"
 
 export const createTeamSchema = z.object({
   email: z.string().email(),
   role: z.nativeEnum(Role),
-});
+})
 
 export const createEventSchema = z.object({
   title: z
@@ -22,11 +22,11 @@ export const createEventSchema = z.object({
   date: z.date({
     required_error: "A date of event is required.",
   }),
-});
+})
 
 export const updateEventSchema = z.object({
   id: z.string().cuid(),
   title: z.string().min(5).max(25),
   venue: z.string().min(5).max(25),
   date: z.date(),
-});
+})

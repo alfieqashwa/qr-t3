@@ -1,42 +1,42 @@
-import { Role } from "@prisma/client";
-import { Loader2 } from "lucide-react";
-import type { GetServerSideProps, NextPage } from "next";
-import { getServerSession } from "next-auth";
-import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { CommandCombobox } from "~/components/combobox";
-import { Button } from "~/components/ui/button";
+import { Role } from "@prisma/client"
+import { Loader2 } from "lucide-react"
+import type { GetServerSideProps, NextPage } from "next"
+import { getServerSession } from "next-auth"
+import { signOut, useSession } from "next-auth/react"
+import { useRouter } from "next/router"
+import { useState } from "react"
+import { CommandCombobox } from "~/components/combobox"
+import { Button } from "~/components/ui/button"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "~/src/components/ui/card";
-import { DialogFooter } from "~/src/components/ui/dialog";
-import { Input } from "~/src/components/ui/input";
-import { Label } from "~/src/components/ui/label";
-import { ToastAction } from "~/src/components/ui/toast";
-import { useToast } from "~/src/components/ui/use-toast";
-import { authOptions } from "~/src/server/auth";
-import { api } from "~/src/utils/api";
+} from "~/src/components/ui/card"
+import { DialogFooter } from "~/src/components/ui/dialog"
+import { Input } from "~/src/components/ui/input"
+import { Label } from "~/src/components/ui/label"
+import { ToastAction } from "~/src/components/ui/toast"
+import { useToast } from "~/src/components/ui/use-toast"
+import { authOptions } from "~/src/server/auth"
+import { api } from "~/src/utils/api"
 
 const CreateEO: NextPage = (): JSX.Element => {
-  const [session, router] = [useSession(), useRouter()];
-  const { toast } = useToast();
+  const [session, router] = [useSession(), useRouter()]
+  const { toast } = useToast()
 
-  const updateUserRoleAsAdmin = api.user.updateRole.useMutation();
+  const updateUserRoleAsAdmin = api.user.updateRole.useMutation()
   const { mutate, isLoading, error } = api.eo.create.useMutation({
     async onSuccess() {
       // update user role as ADMIN
-      await updateUserRoleAsAdmin.mutateAsync({ role: Role.ADMIN });
+      await updateUserRoleAsAdmin.mutateAsync({ role: Role.ADMIN })
       toast({
         title: "Succeed!",
         variant: "default",
         description: "Your form has been created.",
-      });
-      await router.push("/dashboard");
+      })
+      await router.push("/dashboard")
     },
     onError() {
       toast({
@@ -44,57 +44,57 @@ const CreateEO: NextPage = (): JSX.Element => {
         title: "Uh oh! Something went wrong.",
         description: "There was a problem with your request.",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
-      });
+      })
     },
-  });
+  })
 
-  const [provinceValue, setProvinceValue] = useState<string>("");
-  const [regencyValue, setRegencyValue] = useState<string>("");
-  const [districtValue, setDistrictValue] = useState<string>("");
-  const [villageValue, setVillageValue] = useState<string>("");
+  const [provinceValue, setProvinceValue] = useState<string>("")
+  const [regencyValue, setRegencyValue] = useState<string>("")
+  const [districtValue, setDistrictValue] = useState<string>("")
+  const [villageValue, setVillageValue] = useState<string>("")
 
-  const provincesQuery = api.address.provinces.useQuery();
+  const provincesQuery = api.address.provinces.useQuery()
 
   // find selected province.id
   const provinceId = provincesQuery?.data?.find(
     (province) => province.name.toLowerCase() === provinceValue
-  )?.id;
+  )?.id
 
   const regenciesQuery = api.address.regencies.useQuery(undefined, {
     enabled: provinceValue !== "" && provinceValue !== undefined,
     select: (data) =>
       data.filter((district) => district.provinceId === provinceId),
-  });
+  })
 
   const regencyId = regenciesQuery?.data?.find(
     (r) => r.name.toLowerCase() === regencyValue
-  )?.id;
+  )?.id
 
   const districtsQuery = api.address.districts.useQuery(undefined, {
     enabled: regencyValue !== "" && regencyValue !== undefined,
     select: (data) => data.filter((d) => d.regencyId === regencyId),
-  });
+  })
 
   const districtId = districtsQuery?.data?.find(
     (district) => district.name.toLowerCase() === districtValue
-  )?.id;
+  )?.id
 
   const villagesQuery = api.address.villages.useQuery(undefined, {
     enabled: districtValue !== "" && districtValue !== undefined,
     select: (data) => data.filter((d) => d.districtId === districtId),
-  });
+  })
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const name = formData.get("name")?.toString().toLowerCase() as string;
-    const phone = formData.get("phone") as string;
-    const province = provinceValue;
-    const regency = regencyValue;
-    const district = districtValue;
-    const village = villageValue;
-    const street = formData.get("street")?.toString()?.toLowerCase() as string;
-    const postalCode = formData.get("postalCode") as string;
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const name = formData.get("name")?.toString().toLowerCase() as string
+    const phone = formData.get("phone") as string
+    const province = provinceValue
+    const regency = regencyValue
+    const district = districtValue
+    const village = villageValue
+    const street = formData.get("street")?.toString()?.toLowerCase() as string
+    const postalCode = formData.get("postalCode") as string
 
     // call the mutate function with the form data
     mutate({
@@ -106,8 +106,8 @@ const CreateEO: NextPage = (): JSX.Element => {
       village,
       street,
       postalCode,
-    });
-  };
+    })
+  }
 
   const deleteMeIfISignedOut = api.user.deleteMe.useMutation({
     onSuccess() {
@@ -115,7 +115,7 @@ const CreateEO: NextPage = (): JSX.Element => {
         title: "Succeed!",
         variant: "default",
         description: "See you later.",
-      });
+      })
     },
     onError() {
       toast({
@@ -123,26 +123,26 @@ const CreateEO: NextPage = (): JSX.Element => {
         title: "Uh oh! Something went wrong.",
         description: "There was a problem with your request.",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
-      });
+      })
     },
-  });
+  })
 
   const deleteUser = () => {
-    if (session.status !== "authenticated") return;
-    const id = session.data.user.id;
+    if (session.status !== "authenticated") return
+    const id = session.data.user.id
 
     // delete user from db & signed-out if not fill the form and submit
     deleteMeIfISignedOut.mutate({
       id,
-    });
-    void signOut();
-  };
+    })
+    void signOut()
+  }
 
   const disabled =
     provinceValue === "" ||
     regencyValue === "" ||
     districtValue === "" ||
-    villageValue === "";
+    villageValue === ""
 
   return (
     <div className="grid min-h-screen place-items-center">
@@ -278,14 +278,14 @@ const CreateEO: NextPage = (): JSX.Element => {
         </CardContent>
       </Card>
     </div>
-  );
-};
+  )
+}
 
-export default CreateEO;
+export default CreateEO
 
 // If No Authenticated, then redirect to Home Page. Else, enter this page.
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await getServerSession(ctx.req, ctx.res, authOptions);
+  const session = await getServerSession(ctx.req, ctx.res, authOptions)
 
   if (!session) {
     return {
@@ -293,7 +293,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         destination: "/",
         permanent: false,
       },
-    };
+    }
   }
 
   // If user has EventOrganizerId, then cannot enter this page "/settings/create-eo"
@@ -303,14 +303,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         destination: "/dashboard",
         permanent: false,
       },
-    };
+    }
   }
   return {
     props: {
       session,
     },
-  };
-};
+  }
+}
 
 /**
  * FROM T3 DOCS

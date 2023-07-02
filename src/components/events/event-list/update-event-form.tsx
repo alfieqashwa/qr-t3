@@ -1,34 +1,34 @@
-import { format } from "date-fns";
-import { cn } from "~/utils/index";
-import type { z } from "zod";
-import { Loader2, Calendar as CalendarIcon } from "lucide-react";
-import { updateEventSchema } from "~/src/types/schema";
-import { Button } from "~/ui/button";
-import { Input } from "~/ui/input";
-import { ToastAction } from "~/ui/toast";
-import { toast } from "~/ui/use-toast";
-import type { RouterOutputs } from "~/utils/api";
-import { api } from "~/utils/api";
-import { wait } from "~/utils/wait";
-import { useForm } from "react-hook-form";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "~/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
-import { Calendar } from "../../ui/calendar";
-import type { SelectSingleEventHandler } from "react-day-picker";
+import { format } from "date-fns"
+import { cn } from "~/utils/index"
+import type { z } from "zod"
+import { Loader2, Calendar as CalendarIcon } from "lucide-react"
+import { updateEventSchema } from "~/src/types/schema"
+import { Button } from "~/ui/button"
+import { Input } from "~/ui/input"
+import { ToastAction } from "~/ui/toast"
+import { toast } from "~/ui/use-toast"
+import type { RouterOutputs } from "~/utils/api"
+import { api } from "~/utils/api"
+import { wait } from "~/utils/wait"
+import { useForm } from "react-hook-form"
+import { Form, FormControl, FormField, FormItem, FormLabel } from "~/ui/form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover"
+import { Calendar } from "../../ui/calendar"
+import type { SelectSingleEventHandler } from "react-day-picker"
 
 type Props = {
-  event: RouterOutputs["event"]["getById"];
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
+  event: RouterOutputs["event"]["getById"]
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
 
 export const UpdateEventForm = ({
   event,
   open,
   setOpen,
 }: Props): JSX.Element => {
-  const utils = api.useContext();
+  const utils = api.useContext()
 
   const { mutate, isLoading } = api.event.update.useMutation({
     async onSuccess() {
@@ -36,10 +36,10 @@ export const UpdateEventForm = ({
         title: "Succeed!",
         variant: "default",
         description: "Your new team has been updated.",
-      });
-      await utils.event.getAll.invalidate();
+      })
+      await utils.event.getAll.invalidate()
       /* auto-closed after succeed submit the dialog form */
-      await wait().then(() => setOpen(!open));
+      await wait().then(() => setOpen(!open))
     },
     onError() {
       toast({
@@ -47,34 +47,34 @@ export const UpdateEventForm = ({
         title: "Uh oh! Something went wrong.",
         description: "There was a problem with your request.",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
-      });
+      })
     },
-  });
+  })
 
-  type UpdateEventSchema = z.infer<typeof updateEventSchema>;
+  type UpdateEventSchema = z.infer<typeof updateEventSchema>
 
   const defaultValues: UpdateEventSchema = {
     id: event?.id as string,
     title: event?.title as string,
     date: event?.date as Date,
     venue: event?.venue as string,
-  };
+  }
 
   const form = useForm<UpdateEventSchema>({
     resolver: zodResolver(updateEventSchema),
     defaultValues,
     mode: "onChange",
-  });
+  })
 
   function onSubmit(values: UpdateEventSchema) {
-    const { id, title, date, venue } = values;
+    const { id, title, date, venue } = values
 
     mutate({
       id,
       title,
       venue,
       date,
-    });
+    })
   }
 
   return (
@@ -172,5 +172,5 @@ export const UpdateEventForm = ({
         </div>
       </form>
     </Form>
-  );
-};
+  )
+}

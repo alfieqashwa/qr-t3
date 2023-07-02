@@ -1,6 +1,6 @@
-import { FilePlus2 } from "lucide-react";
-import { useState } from "react";
-import { Button } from "~/ui/button";
+import { FilePlus2 } from "lucide-react"
+import { useState } from "react"
+import { Button } from "~/ui/button"
 import {
   Sheet,
   SheetContent,
@@ -8,11 +8,11 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "~/ui/sheet";
-import { CreateEventForm } from "./create-event-form";
+} from "~/ui/sheet"
+import { CreateEventForm } from "./create-event-form"
 
 export function CreateNewEvent() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
@@ -35,5 +35,5 @@ export function CreateNewEvent() {
         <CreateEventForm setOpen={setOpen} />
       </SheetContent>
     </Sheet>
-  );
+  )
 }

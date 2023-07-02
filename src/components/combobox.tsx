@@ -1,33 +1,33 @@
-import { Check, ChevronsUpDown } from "lucide-react";
-import * as React from "react";
+import { Check, ChevronsUpDown } from "lucide-react"
+import * as React from "react"
 
-import { Button } from "~/components/ui/button";
+import { Button } from "~/components/ui/button"
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "~/components/ui/command";
+} from "~/components/ui/command"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "~/components/ui/popover";
-import { cn } from "~/src/utils";
-import type { RouterOutputs } from "~/utils/api";
+} from "~/components/ui/popover"
+import { cn } from "~/src/utils"
+import type { RouterOutputs } from "~/utils/api"
 
 type CommandComboboxProps = {
   datas?:
     | RouterOutputs["address"]["provinces"]
     | RouterOutputs["address"]["regencies"]
     | RouterOutputs["address"]["districts"]
-    | RouterOutputs["address"]["villages"];
-  isLoading: boolean;
-  value: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
-  placeholder: string;
-};
+    | RouterOutputs["address"]["villages"]
+  isLoading: boolean
+  value: string
+  setValue: React.Dispatch<React.SetStateAction<string>>
+  placeholder: string
+}
 
 export function CommandCombobox({
   datas,
@@ -36,9 +36,9 @@ export function CommandCombobox({
   setValue,
   placeholder,
 }: CommandComboboxProps) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
 
-  isLoading && <p>Loading...</p>;
+  isLoading && <p>Loading...</p>
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -63,8 +63,8 @@ export function CommandCombobox({
               <CommandItem
                 key={data.id}
                 onSelect={(currentValue) => {
-                  setValue(currentValue === value ? "" : currentValue);
-                  setOpen(false);
+                  setValue(currentValue === value ? "" : currentValue)
+                  setOpen(false)
                 }}
               >
                 <Check
@@ -82,5 +82,5 @@ export function CommandCombobox({
         </Command>
       </PopoverContent>
     </Popover>
-  );
+  )
 }

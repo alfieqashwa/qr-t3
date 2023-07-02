@@ -1,6 +1,6 @@
-import { type NextPage } from "next";
-import Head from "next/head";
-import { AuthShowcase } from "~/src/components/authed";
+import { type NextPage } from "next"
+import Head from "next/head"
+import { AuthShowcase } from "~/src/components/authed"
 
 const Home: NextPage = () => {
   return (
@@ -19,7 +19,7 @@ const Home: NextPage = () => {
         </div>
       </main>
     </>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

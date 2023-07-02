@@ -1,6 +1,6 @@
-import { signOut } from "next-auth/react";
-import Image from "next/image";
-import Link from "next/link";
+import { signOut } from "next-auth/react"
+import Image from "next/image"
+import Link from "next/link"
 import {
   Menubar,
   MenubarContent,
@@ -9,13 +9,13 @@ import {
   MenubarSeparator,
   MenubarShortcut,
   MenubarTrigger,
-} from "~/components/ui/menubar";
-import { MENU_LINKS } from "../menu-list";
-import { Home, LogOut } from "lucide-react";
-import { useRouter } from "next/router";
+} from "~/components/ui/menubar"
+import { MENU_LINKS } from "../menu-list"
+import { Home, LogOut } from "lucide-react"
+import { useRouter } from "next/router"
 
 export const UserProfile = ({ image }: { image: string }) => {
-  const { pathname } = useRouter();
+  const { pathname } = useRouter()
   return (
     <Menubar className="h-12 w-12 items-center justify-center rounded-full border-2 border-foreground/50 p-0 transition-colors duration-300 ease-in-out hover:border-foreground/75">
       <MenubarMenu>
@@ -25,7 +25,7 @@ export const UserProfile = ({ image }: { image: string }) => {
         <MenubarContent className="w-52">
           <HomeMenu />
           {MENU_LINKS?.map((link) => {
-            const { path, iconSmall: Icon } = link;
+            const { path, iconSmall: Icon } = link
             return (
               <Link href={`/${path}`} key={path}>
                 <MenubarItem
@@ -43,7 +43,7 @@ export const UserProfile = ({ image }: { image: string }) => {
                 </MenubarItem>
                 <MenubarSeparator />
               </Link>
-            );
+            )
           })}
           <MenubarItem
             onClick={() => signOut()}
@@ -57,8 +57,8 @@ export const UserProfile = ({ image }: { image: string }) => {
         </MenubarContent>
       </MenubarMenu>
     </Menubar>
-  );
-};
+  )
+}
 
 // Add Home Menu
 const HomeMenu = (): JSX.Element => (
@@ -71,4 +71,4 @@ const HomeMenu = (): JSX.Element => (
     </MenubarItem>
     <MenubarSeparator />
   </Link>
-);
+)

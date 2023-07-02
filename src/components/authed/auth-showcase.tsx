@@ -1,8 +1,8 @@
-import { signIn, signOut, useSession } from "next-auth/react";
-import Link from "next/link";
+import { signIn, signOut, useSession } from "next-auth/react"
+import Link from "next/link"
 
 export const AuthShowcase = (): JSX.Element => {
-  const session = useSession();
+  const session = useSession()
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
@@ -37,5 +37,5 @@ export const AuthShowcase = (): JSX.Element => {
         )}
       </section>
     </div>
-  );
-};
+  )
+}

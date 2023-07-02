@@ -7,7 +7,7 @@ export const ticketSchema = z.object({
   id: z.string(),
   sku: z.string(),
   event: z.object({
-    title: z.string()
+    title: z.string(),
   }),
   category: z.string(),
   status: z.string(),

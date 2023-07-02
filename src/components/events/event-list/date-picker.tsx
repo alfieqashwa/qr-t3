@@ -1,14 +1,14 @@
-import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
-import { cn } from "~/src/utils";
-import { Button } from "~/ui/button";
-import { Calendar } from "~/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "~/ui/popover";
+import { format } from "date-fns"
+import { Calendar as CalendarIcon } from "lucide-react"
+import { cn } from "~/src/utils"
+import { Button } from "~/ui/button"
+import { Calendar } from "~/ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "~/ui/popover"
 
 type DatePickerProps = {
-  date?: Date;
-  setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
-};
+  date?: Date
+  setDate: React.Dispatch<React.SetStateAction<Date | undefined>>
+}
 
 export function DatePicker({ date, setDate }: DatePickerProps) {
   return (
@@ -34,5 +34,5 @@ export function DatePicker({ date, setDate }: DatePickerProps) {
         />
       </PopoverContent>
     </Popover>
-  );
+  )
 }

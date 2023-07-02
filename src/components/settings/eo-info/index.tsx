@@ -1,23 +1,23 @@
-import dayjs from "dayjs";
-import "dayjs/locale/id";
-import relativeTime from "dayjs/plugin/relativeTime";
-import { AdminOnly } from "~/src/components/authed";
-import { LoadingSpinner } from "~/components/loading";
-import { HeaderSettings } from "~/components/settings/header-settings";
-import { api } from "~/src/utils/api";
-import { DeleteEventOrganizerDialog } from "./delete-event-organizer-dialog";
-import { Field } from "./field";
-import { UpdateEventOrganizerDialog } from "./update-event-organizer-dialog";
+import dayjs from "dayjs"
+import "dayjs/locale/id"
+import relativeTime from "dayjs/plugin/relativeTime"
+import { AdminOnly } from "~/src/components/authed"
+import { LoadingSpinner } from "~/components/loading"
+import { HeaderSettings } from "~/components/settings/header-settings"
+import { api } from "~/src/utils/api"
+import { DeleteEventOrganizerDialog } from "./delete-event-organizer-dialog"
+import { Field } from "./field"
+import { UpdateEventOrganizerDialog } from "./update-event-organizer-dialog"
 
-dayjs.extend(relativeTime);
+dayjs.extend(relativeTime)
 
 export function EOInfo() {
-  const { data: eo, isLoading } = api.eo.read.useQuery();
-  const createdAt = dayjs(eo?.createdAt).format("dddd, DD MMMM YYYY, HH:mm");
-  const updateAt = dayjs().to(dayjs(eo?.updatedAt));
+  const { data: eo, isLoading } = api.eo.read.useQuery()
+  const createdAt = dayjs(eo?.createdAt).format("dddd, DD MMMM YYYY, HH:mm")
+  const updateAt = dayjs().to(dayjs(eo?.updatedAt))
 
-  if (eo == null) return null;
-  if (isLoading) return <LoadingSpinner />;
+  if (eo == null) return null
+  if (isLoading) return <LoadingSpinner />
   return (
     <div>
       <HeaderSettings
@@ -54,5 +54,5 @@ export function EOInfo() {
         </article>
       </section>
     </div>
-  );
+  )
 }

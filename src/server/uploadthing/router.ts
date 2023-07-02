@@ -21,7 +21,10 @@ export const uploadRouter = {
     .onUploadComplete(({ metadata, file }) => {
       console.log("uploaded with the following metadata:", metadata)
 
-      console.log(`${metadata?.userEmail as string}  successfully uploaded file:`, file)
+      console.log(
+        `${metadata?.userEmail as string}  successfully uploaded file:`,
+        file
+      )
       file
       // ^?
     }),

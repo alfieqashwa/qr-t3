@@ -1,15 +1,15 @@
-import { Bell, Codesandbox, SidebarClose, SidebarOpen } from "lucide-react";
-import { api } from "~/src/utils/api";
-import useToggleStore from "~/store/useToggle";
-import { UserAvatar } from "./user-avatar";
-import { ThemeToggle } from "./theme-toggle";
+import { Bell, Codesandbox, SidebarClose, SidebarOpen } from "lucide-react"
+import { api } from "~/src/utils/api"
+import useToggleStore from "~/store/useToggle"
+import { UserAvatar } from "./user-avatar"
+import { ThemeToggle } from "./theme-toggle"
 
 export const NavigationHeader = () => {
-  const { toggle, handleToggle } = useToggleStore();
+  const { toggle, handleToggle } = useToggleStore()
 
-  const { data: me, isLoading } = api.user.me.useQuery(undefined, {});
-  const userImage = me?.image;
-  const userImageUpdate = me?.imageUpdate;
+  const { data: me, isLoading } = api.user.me.useQuery(undefined, {})
+  const userImage = me?.image
+  const userImageUpdate = me?.imageUpdate
 
   return (
     <nav className="fixed z-50 flex h-20 w-full justify-between border-b-2 bg-background">
@@ -38,5 +38,5 @@ export const NavigationHeader = () => {
         />
       </section>
     </nav>
-  );
-};
+  )
+}

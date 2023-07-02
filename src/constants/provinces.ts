@@ -1,138 +1,138 @@
 export const PROVINCES = [
   {
     id: "11",
-    name: "ACEH"
+    name: "ACEH",
   },
   {
     id: "12",
-    name: "SUMATERA UTARA"
+    name: "SUMATERA UTARA",
   },
   {
     id: "13",
-    name: "SUMATERA BARAT"
+    name: "SUMATERA BARAT",
   },
   {
     id: "14",
-    name: "RIAU"
+    name: "RIAU",
   },
   {
     id: "15",
-    name: "JAMBI"
+    name: "JAMBI",
   },
   {
     id: "16",
-    name: "SUMATERA SELATAN"
+    name: "SUMATERA SELATAN",
   },
   {
     id: "17",
-    name: "BENGKULU"
+    name: "BENGKULU",
   },
   {
     id: "18",
-    name: "LAMPUNG"
+    name: "LAMPUNG",
   },
   {
     id: "19",
-    name: "KEPULAUAN BANGKA BELITUNG"
+    name: "KEPULAUAN BANGKA BELITUNG",
   },
   {
     id: "21",
-    name: "KEPULAUAN RIAU"
+    name: "KEPULAUAN RIAU",
   },
   {
     id: "31",
-    name: "DKI JAKARTA"
+    name: "DKI JAKARTA",
   },
   {
     id: "32",
-    name: "JAWA BARAT"
+    name: "JAWA BARAT",
   },
   {
     id: "33",
-    name: "JAWA TENGAH"
+    name: "JAWA TENGAH",
   },
   {
     id: "34",
-    name: "DI YOGYAKARTA"
+    name: "DI YOGYAKARTA",
   },
   {
     id: "35",
-    name: "JAWA TIMUR"
+    name: "JAWA TIMUR",
   },
   {
     id: "36",
-    name: "BANTEN"
+    name: "BANTEN",
   },
   {
     id: "51",
-    name: "BALI"
+    name: "BALI",
   },
   {
     id: "52",
-    name: "NUSA TENGGARA BARAT"
+    name: "NUSA TENGGARA BARAT",
   },
   {
     id: "53",
-    name: "NUSA TENGGARA TIMUR"
+    name: "NUSA TENGGARA TIMUR",
   },
   {
     id: "61",
-    name: "KALIMANTAN BARAT"
+    name: "KALIMANTAN BARAT",
   },
   {
     id: "62",
-    name: "KALIMANTAN TENGAH"
+    name: "KALIMANTAN TENGAH",
   },
   {
     id: "63",
-    name: "KALIMANTAN SELATAN"
+    name: "KALIMANTAN SELATAN",
   },
   {
     id: "64",
-    name: "KALIMANTAN TIMUR"
+    name: "KALIMANTAN TIMUR",
   },
   {
     id: "65",
-    name: "KALIMANTAN UTARA"
+    name: "KALIMANTAN UTARA",
   },
   {
     id: "71",
-    name: "SULAWESI UTARA"
+    name: "SULAWESI UTARA",
   },
   {
     id: "72",
-    name: "SULAWESI TENGAH"
+    name: "SULAWESI TENGAH",
   },
   {
     id: "73",
-    name: "SULAWESI SELATAN"
+    name: "SULAWESI SELATAN",
   },
   {
     id: "74",
-    name: "SULAWESI TENGGARA"
+    name: "SULAWESI TENGGARA",
   },
   {
     id: "75",
-    name: "GORONTALO"
+    name: "GORONTALO",
   },
   {
     id: "76",
-    name: "SULAWESI BARAT"
+    name: "SULAWESI BARAT",
   },
   {
     id: "81",
-    name: "MALUKU"
+    name: "MALUKU",
   },
   {
     id: "82",
-    name: "MALUKU UTARA"
+    name: "MALUKU UTARA",
   },
   {
     id: "91",
-    name: "PAPUA BARAT"
+    name: "PAPUA BARAT",
   },
   {
     id: "94",
-    name: "PAPUA"
-  }
+    name: "PAPUA",
+  },
 ]

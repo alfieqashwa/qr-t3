@@ -1,6 +1,6 @@
-import { z } from "zod";
-import { createEventSchema, updateEventSchema } from "~/types/schema";
-import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc";
+import { z } from "zod"
+import { createEventSchema, updateEventSchema } from "~/types/schema"
+import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
 
 export const eventRouter = createTRPCRouter({
   // Queries
@@ -11,20 +11,20 @@ export const eventRouter = createTRPCRouter({
     return await ctx.prisma.event.findMany({
       where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
       orderBy: { date: "asc" },
-    });
+    })
   }),
   getById: adminProcedure
     .input(z.object({ id: z.string().cuid() }))
     .query(async ({ ctx, input: { id } }) => {
       return await ctx.prisma.event.findUnique({
         where: { id },
-      });
+      })
     }),
   eventData: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.event.findMany({
       where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
       select: { title: true, venue: true },
-    });
+    })
   }),
   // Mutations
   create: adminProcedure
@@ -38,9 +38,9 @@ export const eventRouter = createTRPCRouter({
             date,
             eventOrganizerId: ctx.session.user.eventOrganizerId as string,
           },
-        });
+        })
       } catch (err) {
-        console.error(err);
+        console.error(err)
       }
     }),
   update: adminProcedure
@@ -50,18 +50,18 @@ export const eventRouter = createTRPCRouter({
         return await ctx.prisma.event.update({
           where: { id },
           data: { title, venue, date },
-        });
+        })
       } catch (err) {
-        console.error(err);
+        console.error(err)
       }
     }),
   delete: adminProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
       try {
-        return await ctx.prisma.event.delete({ where: { id } });
+        return await ctx.prisma.event.delete({ where: { id } })
       } catch (err) {
-        console.error(err);
+        console.error(err)
       }
     }),
   deleteSelected: adminProcedure
@@ -71,6 +71,6 @@ export const eventRouter = createTRPCRouter({
         where: {
           OR: input,
         },
-      });
+      })
     }),
-});
+})

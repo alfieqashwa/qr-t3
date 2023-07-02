@@ -1,7 +1,7 @@
 type HeaderSettingsProps = {
-  title: string;
-  subTitle: string;
-};
+  title: string
+  subTitle: string
+}
 
 export function HeaderSettings({ title, subTitle }: HeaderSettingsProps) {
   return (
@@ -11,5 +11,5 @@ export function HeaderSettings({ title, subTitle }: HeaderSettingsProps) {
       </h1>
       <h4 className="mt-2 text-xs font-semibold text-slate-400">{subTitle}</h4>
     </header>
-  );
+  )
 }

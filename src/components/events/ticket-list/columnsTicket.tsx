@@ -1,12 +1,12 @@
-import type { Status } from "@prisma/client";
-import type { ColumnDef } from "@tanstack/react-table";
-import { Calendar, Tags } from "lucide-react";
-import { DataTableColumnHeader } from "~/components/table/data-table-column-header";
-import { Badge } from "~/ui/badge";
-import { Checkbox } from "~/ui/checkbox";
-import type { RouterOutputs } from "~/utils/api";
-import { statuses } from "./data";
-import { RowTicketActions } from "./row-ticket-actions";
+import type { Status } from "@prisma/client"
+import type { ColumnDef } from "@tanstack/react-table"
+import { Calendar, Tags } from "lucide-react"
+import { DataTableColumnHeader } from "~/components/table/data-table-column-header"
+import { Badge } from "~/ui/badge"
+import { Checkbox } from "~/ui/checkbox"
+import type { RouterOutputs } from "~/utils/api"
+import { statuses } from "./data"
+import { RowTicketActions } from "./row-ticket-actions"
 
 export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
   [
@@ -55,12 +55,12 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
         <DataTableColumnHeader column={column} title="price" />
       ),
       cell: ({ row }) => {
-        const price = row.getValue("price");
+        const price = row.getValue("price")
         const formatPrice = new Intl.NumberFormat("id-ID", {
           style: "currency",
           currency: "IDR",
-        }).format(Number(price));
-        return <div className="w-[80px]">{formatPrice}</div>;
+        }).format(Number(price))
+        return <div className="w-[80px]">{formatPrice}</div>
       },
     },
     {
@@ -77,7 +77,7 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
         </Badge>
       ),
       filterFn: (row, id, value: Status) => {
-        return value.includes(row.getValue(id));
+        return value.includes(row.getValue(id))
       },
     },
     {
@@ -94,10 +94,10 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
               {row.getValue("event")}
             </span>
           </div>
-        );
+        )
       },
       filterFn: (row, id, value: string) => {
-        return value.includes(row.getValue(id));
+        return value.includes(row.getValue(id))
       },
     },
     {
@@ -108,10 +108,10 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
       cell: ({ row }) => {
         const status = statuses.find(
           (status) => status.value === row.getValue("status")
-        );
+        )
 
         if (!status) {
-          return null;
+          return null
         }
 
         return (
@@ -121,10 +121,10 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
             )}
             <span className="uppercase">{status.label}</span>
           </div>
-        );
+        )
       },
       filterFn: (row, id, value: Status) => {
-        return value.includes(row.getValue(id));
+        return value.includes(row.getValue(id))
       },
     },
     {
@@ -132,8 +132,8 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
       cell: ({ row }) => {
         const {
           original: { id, sku, status },
-        } = row;
-        return <RowTicketActions id={id} sku={sku} status={status} />;
+        } = row
+        return <RowTicketActions id={id} sku={sku} status={status} />
       },
     },
-  ];
+  ]

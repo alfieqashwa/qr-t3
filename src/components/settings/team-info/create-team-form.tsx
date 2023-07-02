@@ -1,12 +1,12 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import type * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import type * as z from "zod"
 
-import { Role } from "@prisma/client";
-import { Loader2 } from "lucide-react";
-import { useSession } from "next-auth/react";
-import { createTeamSchema } from "~/types/schema";
-import { Button } from "~/ui/button";
+import { Role } from "@prisma/client"
+import { Loader2 } from "lucide-react"
+import { useSession } from "next-auth/react"
+import { createTeamSchema } from "~/types/schema"
+import { Button } from "~/ui/button"
 import {
   Form,
   FormControl,
@@ -15,8 +15,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/ui/form";
-import { Input } from "~/ui/input";
+} from "~/ui/form"
+import { Input } from "~/ui/input"
 import {
   Select,
   SelectContent,
@@ -24,20 +24,20 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "~/ui/select";
-import { ToastAction } from "~/ui/toast";
-import { useToast } from "~/ui/use-toast";
-import { api } from "~/utils/api";
-import { wait } from "~/utils/wait";
+} from "~/ui/select"
+import { ToastAction } from "~/ui/toast"
+import { useToast } from "~/ui/use-toast"
+import { api } from "~/utils/api"
+import { wait } from "~/utils/wait"
 
 type Props = {
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
 
 export function CreateTeamForm(props: Props) {
-  const session = useSession();
-  const utils = api.useContext();
-  const { toast } = useToast();
+  const session = useSession()
+  const utils = api.useContext()
+  const { toast } = useToast()
 
   const createTeam = api.user.create.useMutation({
     async onSuccess() {
@@ -45,9 +45,9 @@ export function CreateTeamForm(props: Props) {
         title: "Succeed!",
         variant: "default",
         description: "Your new team has been created.",
-      });
-      await utils.user.getAllByEOId.invalidate();
-      await wait().then(() => props.setOpen(false));
+      })
+      await utils.user.getAllByEOId.invalidate()
+      await wait().then(() => props.setOpen(false))
     },
     onError() {
       toast({
@@ -55,9 +55,9 @@ export function CreateTeamForm(props: Props) {
         title: "Uh oh! Something went wrong.",
         description: "There was a problem with your request.",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
-      });
+      })
     },
-  });
+  })
 
   // 1. Define form.
   const form = useForm<z.infer<typeof createTeamSchema>>({
@@ -66,7 +66,7 @@ export function CreateTeamForm(props: Props) {
       email: "",
       role: Role.OPERATOR,
     },
-  });
+  })
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof createTeamSchema>) {
@@ -74,22 +74,22 @@ export function CreateTeamForm(props: Props) {
     // This will be type-safe and validated.
 
     // console.log(values);
-    const { email, role } = values;
+    const { email, role } = values
 
-    if (session.status !== "authenticated") return;
+    if (session.status !== "authenticated") return
     if (session.data.user.email === email) {
       return toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
         description: "Please DO NOT input your own email, Dude!",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
-      });
+      })
     }
 
     createTeam.mutate({
       email,
       role,
-    });
+    })
   }
 
   return (
@@ -151,5 +151,5 @@ export function CreateTeamForm(props: Props) {
         )}
       </form>
     </Form>
-  );
+  )
 }

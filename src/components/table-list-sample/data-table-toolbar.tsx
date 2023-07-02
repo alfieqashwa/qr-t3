@@ -1,17 +1,17 @@
-"use client";
+"use client"
 
-import type { Table } from "@tanstack/react-table";
-import { X } from "lucide-react";
+import type { Table } from "@tanstack/react-table"
+import { X } from "lucide-react"
 
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { DataTableViewOptions } from "./data-table-view-options";
+import { Button } from "~/components/ui/button"
+import { Input } from "~/components/ui/input"
+import { DataTableViewOptions } from "./data-table-view-options"
 
-import { priorities, statuses } from "./data/data";
-import { DataTableFacetedFilter } from "./data-table-faceted-filter";
+import { priorities, statuses } from "./data/data"
+import { DataTableFacetedFilter } from "./data-table-faceted-filter"
 
 interface DataTableToolbarProps<TData> {
-  table: Table<TData>;
+  table: Table<TData>
 }
 
 export function DataTableToolbar<TData>({
@@ -19,7 +19,7 @@ export function DataTableToolbar<TData>({
 }: DataTableToolbarProps<TData>) {
   const isFiltered =
     table.getPreFilteredRowModel().rows.length >
-    table.getFilteredRowModel().rows.length;
+    table.getFilteredRowModel().rows.length
 
   return (
     <div className="flex items-center justify-between">
@@ -59,5 +59,5 @@ export function DataTableToolbar<TData>({
       </div>
       <DataTableViewOptions table={table} />
     </div>
-  );
+  )
 }

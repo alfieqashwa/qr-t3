@@ -1,8 +1,8 @@
-import { Edit, Loader2 } from "lucide-react";
-import { useState } from "react";
-import { CommandCombobox } from "~/components/combobox";
-import { Button } from "~/components/ui/button";
-import { CardDescription } from "~/components/ui/card";
+import { Edit, Loader2 } from "lucide-react"
+import { useState } from "react"
+import { CommandCombobox } from "~/components/combobox"
+import { Button } from "~/components/ui/button"
+import { CardDescription } from "~/components/ui/card"
 import {
   Dialog,
   DialogContent,
@@ -11,23 +11,23 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/ui/dialog";
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
-import { ToastAction } from "~/components/ui/toast";
-import { useToast } from "~/components/ui/use-toast";
-import type { RouterOutputs } from "~/src/utils/api";
-import { api } from "~/src/utils/api";
-import { wait } from "~/src/utils/wait";
+} from "~/components/ui/dialog"
+import { Input } from "~/components/ui/input"
+import { Label } from "~/components/ui/label"
+import { ToastAction } from "~/components/ui/toast"
+import { useToast } from "~/components/ui/use-toast"
+import type { RouterOutputs } from "~/src/utils/api"
+import { api } from "~/src/utils/api"
+import { wait } from "~/src/utils/wait"
 
 type Props = {
-  currentEO: RouterOutputs["eo"]["read"];
-};
+  currentEO: RouterOutputs["eo"]["read"]
+}
 export function UpdateEventOrganizerDialog({ currentEO }: Props) {
-  const utils = api.useContext();
-  const { toast } = useToast();
+  const utils = api.useContext()
+  const { toast } = useToast()
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   const { mutate, isLoading, error } = api.eo.update.useMutation({
     async onSuccess() {
@@ -35,10 +35,10 @@ export function UpdateEventOrganizerDialog({ currentEO }: Props) {
         title: "Succeed!",
         variant: "default",
         description: "Your EO has been updated.",
-      });
-      await utils.eo.read.invalidate();
+      })
+      await utils.eo.read.invalidate()
       /* auto-closed after succeed submit the dialog form */
-      await wait().then(() => setOpen(false));
+      await wait().then(() => setOpen(false))
     },
     onError() {
       toast({
@@ -46,53 +46,53 @@ export function UpdateEventOrganizerDialog({ currentEO }: Props) {
         title: "Uh oh! Something went wrong.",
         description: "There was a problem with your request.",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
-      });
+      })
     },
-  });
+  })
 
   const [provinceValue, setProvinceValue] = useState<string>(
     currentEO?.province as string
-  );
+  )
   const [regencyValue, setRegencyValue] = useState<string>(
     currentEO?.regency as string
-  );
+  )
   const [districtValue, setDistrictValue] = useState<string>(
     currentEO?.district as string
-  );
+  )
   const [villageValue, setVillageValue] = useState<string>(
     currentEO?.village as string
-  );
+  )
 
-  const provincesQuery = api.address.provinces.useQuery();
+  const provincesQuery = api.address.provinces.useQuery()
 
   // find selected province.id
   const provinceId = provincesQuery?.data?.find(
     (province) => province.name.toLowerCase() === provinceValue
-  )?.id;
+  )?.id
 
   const regenciesQuery = api.address.regencies.useQuery(undefined, {
     enabled: provinceValue !== "" && provinceValue !== undefined,
     select: (data) =>
       data.filter((district) => district.provinceId === provinceId),
-  });
+  })
 
   const regencyId = regenciesQuery?.data?.find(
     (r) => r.name.toLowerCase() === regencyValue
-  )?.id;
+  )?.id
 
   const districtsQuery = api.address.districts.useQuery(undefined, {
     enabled: regencyValue !== "" && regencyValue !== undefined,
     select: (data) => data.filter((d) => d.regencyId === regencyId),
-  });
+  })
 
   const districtId = districtsQuery?.data?.find(
     (district) => district.name.toLowerCase() === districtValue
-  )?.id;
+  )?.id
 
   const villagesQuery = api.address.villages.useQuery(undefined, {
     enabled: districtValue !== "" && districtValue !== undefined,
     select: (data) => data.filter((d) => d.districtId === districtId),
-  });
+  })
 
   /*
     disabled-button validation!
@@ -100,23 +100,23 @@ export function UpdateEventOrganizerDialog({ currentEO }: Props) {
   */
   const villageId = villagesQuery?.data?.find(
     (village) => village.name.toLowerCase() === villageValue
-  )?.id;
+  )?.id
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const id = currentEO?.id as string;
-    const formData = new FormData(e.currentTarget);
-    const name = formData.get("name")?.toString().toLowerCase() as string;
-    const phone = formData.get("phone") as string;
-    const street = formData.get("street")?.toString().toLowerCase() as string;
-    const province = provinceValue;
-    const regency = regencyValue;
-    const district = districtValue;
-    const village = villageValue;
+    e.preventDefault()
+    const id = currentEO?.id as string
+    const formData = new FormData(e.currentTarget)
+    const name = formData.get("name")?.toString().toLowerCase() as string
+    const phone = formData.get("phone") as string
+    const street = formData.get("street")?.toString().toLowerCase() as string
+    const province = provinceValue
+    const regency = regencyValue
+    const district = districtValue
+    const village = villageValue
     const postalCode = formData
       .get("postalCode")
       ?.toString()
-      .toLowerCase() as string;
+      .toLowerCase() as string
 
     mutate({
       id,
@@ -128,10 +128,10 @@ export function UpdateEventOrganizerDialog({ currentEO }: Props) {
       district,
       village,
       postalCode,
-    });
-  };
+    })
+  }
 
-  const disabled = regencyId == null || districtId == null || villageId == null;
+  const disabled = regencyId == null || districtId == null || villageId == null
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -277,5 +277,5 @@ export function UpdateEventOrganizerDialog({ currentEO }: Props) {
         </form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

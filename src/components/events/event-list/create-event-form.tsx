@@ -1,14 +1,14 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import type * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import type * as z from "zod"
 
-import { format } from "date-fns";
-import { id } from "date-fns/locale";
-import { CalendarIcon, Loader2 } from "lucide-react";
-import { cn } from "~/src/utils";
-import { createEventSchema } from "~/types/schema";
-import { Button } from "~/ui/button";
-import { Calendar } from "~/ui/calendar";
+import { format } from "date-fns"
+import { id } from "date-fns/locale"
+import { CalendarIcon, Loader2 } from "lucide-react"
+import { cn } from "~/src/utils"
+import { createEventSchema } from "~/types/schema"
+import { Button } from "~/ui/button"
+import { Calendar } from "~/ui/calendar"
 import {
   Form,
   FormControl,
@@ -17,21 +17,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/ui/form";
-import { Input } from "~/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "~/ui/popover";
-import { ToastAction } from "~/ui/toast";
-import { useToast } from "~/ui/use-toast";
-import { api } from "~/utils/api";
-import { wait } from "~/utils/wait";
+} from "~/ui/form"
+import { Input } from "~/ui/input"
+import { Popover, PopoverContent, PopoverTrigger } from "~/ui/popover"
+import { ToastAction } from "~/ui/toast"
+import { useToast } from "~/ui/use-toast"
+import { api } from "~/utils/api"
+import { wait } from "~/utils/wait"
 
 type Props = {
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
 
 export function CreateEventForm(props: Props) {
-  const utils = api.useContext();
-  const { toast } = useToast();
+  const utils = api.useContext()
+  const { toast } = useToast()
 
   const createEvent = api.event.create.useMutation({
     async onSuccess() {
@@ -39,10 +39,10 @@ export function CreateEventForm(props: Props) {
         title: "Succeed!",
         variant: "default",
         description: "Your form has been created.",
-      });
-      await utils.event.count.invalidate();
-      await utils.event.getAll.invalidate();
-      await wait().then(() => props.setOpen(false));
+      })
+      await utils.event.count.invalidate()
+      await utils.event.getAll.invalidate()
+      await wait().then(() => props.setOpen(false))
     },
     onError() {
       toast({
@@ -50,9 +50,9 @@ export function CreateEventForm(props: Props) {
         title: "Uh oh! Something went wrong.",
         description: "There was a problem with your request.",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
-      });
+      })
     },
-  });
+  })
 
   const form = useForm<z.infer<typeof createEventSchema>>({
     resolver: zodResolver(createEventSchema),
@@ -61,15 +61,15 @@ export function CreateEventForm(props: Props) {
       venue: "",
       date: new Date(),
     },
-  });
+  })
 
   function onSubmit(values: z.infer<typeof createEventSchema>) {
-    const { title, venue, date } = values;
+    const { title, venue, date } = values
     createEvent.mutate({
       title,
       venue,
       date,
-    });
+    })
   }
 
   return (
@@ -157,5 +157,5 @@ export function CreateEventForm(props: Props) {
         )}
       </form>
     </Form>
-  );
+  )
 }

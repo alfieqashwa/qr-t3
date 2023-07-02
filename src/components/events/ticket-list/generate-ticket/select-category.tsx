@@ -5,12 +5,12 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "~/ui/select";
+} from "~/ui/select"
 
 type Props = {
-  categories: string[];
-  disabled: boolean;
-};
+  categories: string[]
+  disabled: boolean
+}
 
 export function SelectCategory({ categories, disabled }: Props): JSX.Element {
   return (
@@ -28,5 +28,5 @@ export function SelectCategory({ categories, disabled }: Props): JSX.Element {
         </SelectGroup>
       </SelectContent>
     </Select>
-  );
+  )
 }

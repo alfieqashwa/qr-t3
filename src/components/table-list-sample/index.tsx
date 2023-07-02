@@ -1,10 +1,10 @@
-import { api } from "~/src/utils/api";
-import { DataTable } from "./data-table";
-import { LoadingSpinner } from "../loading";
-import { columns } from "./columns";
+import { api } from "~/src/utils/api"
+import { DataTable } from "./data-table"
+import { LoadingSpinner } from "../loading"
+import { columns } from "./columns"
 
 export function DataListSample() {
-  const { data: tasks, isLoading, status } = api.ticket.tasks.useQuery();
+  const { data: tasks, isLoading, status } = api.ticket.tasks.useQuery()
   return (
     <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
       <div className="flex items-center justify-between space-y-2">
@@ -18,5 +18,5 @@ export function DataListSample() {
       {isLoading && <LoadingSpinner />}
       {status === "success" && <DataTable data={tasks} columns={columns} />}
     </div>
-  );
+  )
 }

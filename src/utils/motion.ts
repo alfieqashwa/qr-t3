@@ -27,14 +27,14 @@ export const titleVariant = {
   open: {
     fontSize: ".875rem",
     transition: {
-      duration: .75,
+      duration: 0.75,
       type: "spring",
     },
   },
   close: {
     fontSize: ".625rem",
     transition: {
-      duration: .75,
+      duration: 0.75,
       type: "spring",
     },
   },

@@ -1,21 +1,21 @@
-import type { Status } from "@prisma/client";
-import { Copy, MoreHorizontal } from "lucide-react";
-import { useState } from "react";
-import { EditorOnly } from "~/components/authed";
-import { Button } from "~/ui/button";
+import type { Status } from "@prisma/client"
+import { Copy, MoreHorizontal } from "lucide-react"
+import { useState } from "react"
+import { EditorOnly } from "~/components/authed"
+import { Button } from "~/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "~/ui/dropdown-menu";
-import { DeleteTicket } from "./delete-ticket";
+} from "~/ui/dropdown-menu"
+import { DeleteTicket } from "./delete-ticket"
 
 interface DataTableRowActionsProps {
-  id: string;
-  sku: string;
-  status: Status;
+  id: string
+  sku: string
+  status: Status
 }
 
 export function RowTicketActions({
@@ -23,7 +23,7 @@ export function RowTicketActions({
   sku,
   status,
 }: DataTableRowActionsProps) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
@@ -55,5 +55,5 @@ export function RowTicketActions({
         </EditorOnly>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }

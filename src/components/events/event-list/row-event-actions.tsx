@@ -1,27 +1,27 @@
-import { Copy, MoreHorizontal } from "lucide-react";
-import { useState } from "react";
-import { AdminOnly } from "~/components/authed";
-import { Button } from "~/ui/button";
+import { Copy, MoreHorizontal } from "lucide-react"
+import { useState } from "react"
+import { AdminOnly } from "~/components/authed"
+import { Button } from "~/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "~/ui/dropdown-menu";
-import { DeleteEvent } from "./delete-event";
-import { UpdateEvent } from "./update-event";
+} from "~/ui/dropdown-menu"
+import { DeleteEvent } from "./delete-event"
+import { UpdateEvent } from "./update-event"
 
 interface DataTableRowActionsProps {
-  id: string;
-  title: string;
+  id: string
+  title: string
 }
 
 export function RowEventActions(props: DataTableRowActionsProps) {
-  const { id, title } = props;
-  const [open, setOpen] = useState(false);
+  const { id, title } = props
+  const [open, setOpen] = useState(false)
   return (
-    <DropdownMenu open={open} onOpenChange={setOpen}>
+    <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
@@ -49,5 +49,5 @@ export function RowEventActions(props: DataTableRowActionsProps) {
         </AdminOnly>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }

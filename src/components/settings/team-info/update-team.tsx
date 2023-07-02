@@ -1,7 +1,7 @@
-import { Role } from "@prisma/client";
-import { Loader2 } from "lucide-react";
-import { useState } from "react";
-import { Button } from "~/ui/button";
+import { Role } from "@prisma/client"
+import { Loader2 } from "lucide-react"
+import { useState } from "react"
+import { Button } from "~/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -10,23 +10,23 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/ui/dialog";
-import { Label } from "~/ui/label";
-import { ToastAction } from "~/ui/toast";
-import { useToast } from "~/ui/use-toast";
-import { api } from "~/utils/api";
+} from "~/ui/dialog"
+import { Label } from "~/ui/label"
+import { ToastAction } from "~/ui/toast"
+import { useToast } from "~/ui/use-toast"
+import { api } from "~/utils/api"
 
 type Props = {
-  id: string;
-  currentRole: Role;
-  username: string | null;
-};
+  id: string
+  currentRole: Role
+  username: string | null
+}
 
 export function UpdateTeam({ id, currentRole, username }: Props) {
-  const utils = api.useContext();
-  const { toast } = useToast();
+  const utils = api.useContext()
+  const { toast } = useToast()
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   const { mutate, isLoading, error } = api.user.updateTeam.useMutation({
     async onSuccess() {
@@ -34,11 +34,11 @@ export function UpdateTeam({ id, currentRole, username }: Props) {
         title: "Succeed!",
         variant: "default",
         description: "Your team has been updated.",
-      });
-      await utils.user.getAllByEOId.invalidate();
-      await utils.user.getRole.invalidate();
+      })
+      await utils.user.getAllByEOId.invalidate()
+      await utils.user.getRole.invalidate()
       /* auto-closed after succeed submit the dialog form */
-      await wait().then(() => setOpen(false));
+      await wait().then(() => setOpen(false))
     },
     onError() {
       toast({
@@ -46,21 +46,21 @@ export function UpdateTeam({ id, currentRole, username }: Props) {
         title: "Uh oh! Something went wrong.",
         description: "There was a problem with your request.",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
-      });
+      })
     },
-  });
+  })
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const formData = new FormData(e.currentTarget);
-    const role = formData.get("role") as Role;
+    const formData = new FormData(e.currentTarget)
+    const role = formData.get("role") as Role
 
     mutate({
       id,
       role,
-    });
-  };
+    })
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -116,7 +116,7 @@ export function UpdateTeam({ id, currentRole, username }: Props) {
         </form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }
 
 import {
@@ -127,8 +127,8 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "~/components/ui/select";
-import { wait } from "~/src/utils/wait";
+} from "~/components/ui/select"
+import { wait } from "~/src/utils/wait"
 
 export function SelectRole({ role }: { role: Role }) {
   return (
@@ -144,5 +144,5 @@ export function SelectRole({ role }: { role: Role }) {
         </SelectGroup>
       </SelectContent>
     </Select>
-  );
+  )
 }

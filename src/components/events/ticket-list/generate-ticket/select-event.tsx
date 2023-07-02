@@ -1,4 +1,4 @@
-import type { RouterOutputs } from "~/utils/api";
+import type { RouterOutputs } from "~/utils/api"
 import {
   Select,
   SelectContent,
@@ -6,16 +6,16 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "~/ui/select";
+} from "~/ui/select"
 
 type Props = {
-  events: RouterOutputs["event"]["getAll"];
-};
+  events: RouterOutputs["event"]["getAll"]
+}
 
 export function SelectEvent({ events }: Props): JSX.Element {
   const initialEvent = events.sort((a, b) =>
     a.title.localeCompare(b.title, undefined, { numeric: true })
-  )?.[0]?.id;
+  )?.[0]?.id
 
   return (
     <Select name="eventId" defaultValue={initialEvent}>
@@ -32,5 +32,5 @@ export function SelectEvent({ events }: Props): JSX.Element {
         </SelectGroup>
       </SelectContent>
     </Select>
-  );
+  )
 }

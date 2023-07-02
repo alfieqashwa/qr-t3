@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Button } from "~/ui/button";
+import { useState } from "react"
+import { Button } from "~/ui/button"
 import {
   Sheet,
   SheetContent,
@@ -7,11 +7,11 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "~/ui/sheet";
-import { CreateTeamForm } from "./create-team-form";
+} from "~/ui/sheet"
+import { CreateTeamForm } from "./create-team-form"
 
 export function CreateTeam() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -32,5 +32,5 @@ export function CreateTeam() {
         <CreateTeamForm setOpen={setOpen} />
       </SheetContent>
     </Sheet>
-  );
+  )
 }

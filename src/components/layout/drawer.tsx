@@ -1,11 +1,11 @@
-import { motion } from "framer-motion";
-import { cn } from "~/src/utils";
-import { asideVariant } from "~/src/utils/motion";
-import useToggleStore from "~/store/useToggle";
-import { MenuList } from "./menu-list";
+import { motion } from "framer-motion"
+import { cn } from "~/src/utils"
+import { asideVariant } from "~/src/utils/motion"
+import useToggleStore from "~/store/useToggle"
+import { MenuList } from "./menu-list"
 
 export const Drawer = (): JSX.Element => {
-  const { toggle } = useToggleStore();
+  const { toggle } = useToggleStore()
 
   return (
     <motion.aside
@@ -22,5 +22,5 @@ export const Drawer = (): JSX.Element => {
       </div>
       <MenuList />
     </motion.aside>
-  );
-};
+  )
+}

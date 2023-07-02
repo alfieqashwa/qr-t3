@@ -44,7 +44,7 @@ export const authOptions: NextAuthOptions = {
     async signIn({ account, user }) {
       const email = user?.email as string
       const registeredUser = await prisma.user.findUnique({
-        where: { email }
+        where: { email },
       })
 
       if (!user.eventOrganizerId && !!registeredUser) {
@@ -65,9 +65,9 @@ export const authOptions: NextAuthOptions = {
                 scope: account?.scope,
                 token_type: account?.token_type,
                 id_token: account?.id_token,
-              }
-            }
-          }
+              },
+            },
+          },
         })
       }
       return true

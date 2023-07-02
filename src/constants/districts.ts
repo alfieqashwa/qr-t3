@@ -1350,7 +1350,11 @@ export const DISTRICTS = [
   { id: "1608010", regency_id: "1608", name: "MEKAKAU ILIR" },
   { id: "1608020", regency_id: "1608", name: "BANDING AGUNG" },
   { id: "1608021", regency_id: "1608", name: "WARKUK RANAU SELATAN" },
-  { id: "1608022", regency_id: "1608", name: "BUAY PEMATANG RIBU RANAU TENGAH" },
+  {
+    id: "1608022",
+    regency_id: "1608",
+    name: "BUAY PEMATANG RIBU RANAU TENGAH",
+  },
   { id: "1608030", regency_id: "1608", name: "BUAY PEMACA" },
   { id: "1608040", regency_id: "1608", name: "SIMPANG" },
   { id: "1608041", regency_id: "1608", name: "BUANA PEMACA" },

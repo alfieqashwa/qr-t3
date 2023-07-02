@@ -1,8 +1,8 @@
-import type { User } from "@prisma/client";
-import { Loader2, User as UserIcon } from "lucide-react";
-import Image from "next/image";
-import { useState } from "react";
-import { Button } from "~/ui/button";
+import type { User } from "@prisma/client"
+import { Loader2, User as UserIcon } from "lucide-react"
+import Image from "next/image"
+import { useState } from "react"
+import { Button } from "~/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -11,23 +11,23 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/ui/dialog";
-import { ToastAction } from "~/ui/toast";
-import { useToast } from "~/ui/use-toast";
-import type { RouterOutputs } from "~/utils/api";
-import { api } from "~/utils/api";
-import { wait } from "~/utils/wait";
+} from "~/ui/dialog"
+import { ToastAction } from "~/ui/toast"
+import { useToast } from "~/ui/use-toast"
+import type { RouterOutputs } from "~/utils/api"
+import { api } from "~/utils/api"
+import { wait } from "~/utils/wait"
 
 type ProfileImageProps = {
-  profile: RouterOutputs["user"]["me"];
-};
+  profile: RouterOutputs["user"]["me"]
+}
 
 export function ProfileImage({ profile }: ProfileImageProps): JSX.Element {
-  const { image, name, imageUpdate } = profile as User;
-  const [open, setOpen] = useState(false);
+  const { image, name, imageUpdate } = profile as User
+  const [open, setOpen] = useState(false)
 
-  const utils = api.useContext();
-  const { toast } = useToast();
+  const utils = api.useContext()
+  const { toast } = useToast()
 
   const { mutate, isLoading } = api.user.removeImageUpdate.useMutation({
     async onSuccess() {
@@ -36,10 +36,10 @@ export function ProfileImage({ profile }: ProfileImageProps): JSX.Element {
         title: "Succeed!",
         variant: "default",
         description: "Success removed your updated image.",
-      });
-      await utils.user.me.invalidate();
+      })
+      await utils.user.me.invalidate()
       /* auto-closed after succeed submit the dialog form */
-      await wait().then(() => setOpen(false));
+      await wait().then(() => setOpen(false))
     },
     onError() {
       toast({
@@ -47,22 +47,22 @@ export function ProfileImage({ profile }: ProfileImageProps): JSX.Element {
         title: "Uh oh! Something went wrong.",
         description: "There was a problem with your request.",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
-      });
+      })
     },
-  });
+  })
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    mutate();
-  };
+    e.preventDefault()
+    mutate()
+  }
 
-  const profileImage = imageUpdate ?? image;
+  const profileImage = imageUpdate ?? image
   if (!profileImage) {
     return (
       <div className="rounded-full p-4 ring-4 ring-amber-300 ring-offset-2 ring-offset-slate-600">
         <UserIcon size={128} />
       </div>
-    );
+    )
   }
 
   return (
@@ -116,5 +116,5 @@ export function ProfileImage({ profile }: ProfileImageProps): JSX.Element {
         </form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

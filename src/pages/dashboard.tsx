@@ -1,12 +1,12 @@
-import type { GetServerSideProps } from "next";
-import { type NextPage } from "next";
+import type { GetServerSideProps } from "next"
+import { type NextPage } from "next"
 
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "~/server/auth";
-import { Layout } from "~/src/components/layout";
-import { Card, CardTitle } from "../components/ui/card";
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "~/server/auth"
+import { Layout } from "~/src/components/layout"
+import { Card, CardTitle } from "../components/ui/card"
 
-const title = "Dashboard" as const;
+const title = "Dashboard" as const
 const DashboardPage: NextPage = () => {
   return (
     <Layout title={title}>
@@ -41,14 +41,14 @@ const DashboardPage: NextPage = () => {
         </section>
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default DashboardPage;
+export default DashboardPage
 
 // If No Authenticated, then redirect to Home Page. Else, enter this page.
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await getServerSession(ctx.req, ctx.res, authOptions);
+  const session = await getServerSession(ctx.req, ctx.res, authOptions)
 
   if (!session) {
     return {
@@ -56,7 +56,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         destination: "/",
         permanent: false,
       },
-    };
+    }
   }
 
   // If user has not have EventOrganizerId, then redirect to page "/settings/create-eo"
@@ -66,12 +66,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         destination: "/settings/create-eo",
         permanent: false,
       },
-    };
+    }
   }
 
   return {
     props: {
       session,
     },
-  };
-};
+  }
+}

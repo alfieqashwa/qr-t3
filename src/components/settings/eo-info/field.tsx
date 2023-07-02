@@ -1,10 +1,10 @@
 type FieldProps = {
-  label: string;
-  value: string | null;
-};
+  label: string
+  value: string | null
+}
 
 export function Field(props: FieldProps) {
-  const value = props.value ? props.value : "";
+  const value = props.value ? props.value : ""
 
   return (
     <div className="space-x-2">
@@ -15,5 +15,5 @@ export function Field(props: FieldProps) {
         {value}
       </small>
     </div>
-  );
+  )
 }

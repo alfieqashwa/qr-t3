@@ -1,7 +1,7 @@
-import { Loader2 } from "lucide-react";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { Button } from "~/components/ui/button";
+import { Loader2 } from "lucide-react"
+import { useRouter } from "next/router"
+import { useState } from "react"
+import { Button } from "~/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -10,23 +10,23 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/ui/dialog";
-import { ToastAction } from "~/components/ui/toast";
-import { useToast } from "~/components/ui/use-toast";
-import { api } from "~/utils/api";
-import { wait } from "~/utils/wait";
+} from "~/components/ui/dialog"
+import { ToastAction } from "~/components/ui/toast"
+import { useToast } from "~/components/ui/use-toast"
+import { api } from "~/utils/api"
+import { wait } from "~/utils/wait"
 
 type Props = {
-  id: string;
-  email: string;
-};
+  id: string
+  email: string
+}
 
 export function DeleteTeam({ id, email }: Props) {
-  const router = useRouter();
-  const utils = api.useContext();
-  const { toast } = useToast();
+  const router = useRouter()
+  const utils = api.useContext()
+  const { toast } = useToast()
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   const { mutate, isLoading } = api.user.delete.useMutation({
     async onSuccess() {
@@ -35,11 +35,11 @@ export function DeleteTeam({ id, email }: Props) {
         title: "Succeed!",
         variant: "default",
         description: "Your Team has been deleted.",
-      });
-      await utils.user.getAllByEOId.invalidate();
+      })
+      await utils.user.getAllByEOId.invalidate()
       /* auto-closed after succeed submit the dialog form */
-      await wait().then(() => setOpen(false));
-      await router.replace("/settings");
+      await wait().then(() => setOpen(false))
+      await router.replace("/settings")
     },
     onError() {
       toast({
@@ -47,17 +47,17 @@ export function DeleteTeam({ id, email }: Props) {
         title: "Uh oh! Something went wrong.",
         description: "There was a problem with your request.",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
-      });
+      })
     },
-  });
+  })
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
     mutate({
       id,
-    });
-  };
+    })
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -105,5 +105,5 @@ export function DeleteTeam({ id, email }: Props) {
         </form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

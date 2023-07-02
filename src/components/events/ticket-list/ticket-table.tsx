@@ -3,7 +3,7 @@ import type {
   ColumnFiltersState,
   SortingState,
   VisibilityState,
-} from "@tanstack/react-table";
+} from "@tanstack/react-table"
 import {
   flexRender,
   getCoreRowModel,
@@ -13,8 +13,8 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table";
-import * as React from "react";
+} from "@tanstack/react-table"
+import * as React from "react"
 
 import {
   Table,
@@ -23,27 +23,27 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "~/ui/table";
+} from "~/ui/table"
 
-import { DataTablePagination } from "~/components/table/data-table-pagination";
-import { TicketTableToolbar } from "./ticket-table-toolbar";
+import { DataTablePagination } from "~/components/table/data-table-pagination"
+import { TicketTableToolbar } from "./ticket-table-toolbar"
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  columns: ColumnDef<TData, TValue>[]
+  data: TData[]
 }
 
 export function TicketTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [rowSelection, setRowSelection] = React.useState({});
+  const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+    React.useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
-  );
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  )
+  const [sorting, setSorting] = React.useState<SortingState>([])
 
   const table = useReactTable({
     data,
@@ -65,7 +65,7 @@ export function TicketTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
-  });
+  })
 
   return (
     <div className="space-y-4">
@@ -85,7 +85,7 @@ export function TicketTable<TData, TValue>({
                             header.getContext()
                           )}
                     </TableHead>
-                  );
+                  )
                 })}
               </TableRow>
             ))}
@@ -122,5 +122,5 @@ export function TicketTable<TData, TValue>({
       </div>
       <DataTablePagination table={table} />
     </div>
-  );
+  )
 }

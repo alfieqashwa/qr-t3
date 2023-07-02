@@ -1,18 +1,18 @@
-import type { GetServerSideProps } from "next";
-import { type NextPage } from "next";
-import { getServerSession } from "next-auth/next";
-import { EventList, TicketList } from "~/components/events";
-import { HeaderTitle } from "~/components/header-title";
-import { Layout } from "~/components/layout";
-import { DataListSample } from "~/components/table-list-sample";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { authOptions } from "~/server/auth";
-import { LoadingSpinner } from "~/src/components/loading";
-import { api } from "~/utils/api";
+import type { GetServerSideProps } from "next"
+import { type NextPage } from "next"
+import { getServerSession } from "next-auth/next"
+import { EventList, TicketList } from "~/components/events"
+import { HeaderTitle } from "~/components/header-title"
+import { Layout } from "~/components/layout"
+import { DataListSample } from "~/components/table-list-sample"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
+import { authOptions } from "~/server/auth"
+import { LoadingSpinner } from "~/src/components/loading"
+import { api } from "~/utils/api"
 
-const title = "Events" as const;
+const title = "Events" as const
 const EventPage: NextPage = (): JSX.Element => {
-  const { data: count, isLoading } = api.event.count.useQuery();
+  const { data: count, isLoading } = api.event.count.useQuery()
 
   return (
     <Layout title={title}>
@@ -45,12 +45,12 @@ const EventPage: NextPage = (): JSX.Element => {
         </TabsContent>
       </Tabs>
     </Layout>
-  );
-};
+  )
+}
 
 // If No Authenticated, then redirect to Home Page. Else, enter this page.
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await getServerSession(ctx.req, ctx.res, authOptions);
+  const session = await getServerSession(ctx.req, ctx.res, authOptions)
 
   if (!session) {
     return {
@@ -58,7 +58,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         destination: "/",
         permanent: false,
       },
-    };
+    }
   }
 
   // If user has not have EventOrganizerId, then redirect to page "/settings/create-eo"
@@ -68,14 +68,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         destination: "/settings/create-eo",
         permanent: false,
       },
-    };
+    }
   }
 
   return {
     props: {
       session,
     },
-  };
-};
+  }
+}
 
-export default EventPage;
+export default EventPage

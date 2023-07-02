@@ -1,4 +1,4 @@
-import { Pen } from "lucide-react";
+import { Pen } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -6,22 +6,22 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/ui/dialog";
-import { api } from "~/utils/api";
-import { UpdateEventForm } from "./update-event-form";
+} from "~/ui/dialog"
+import { api } from "~/utils/api"
+import { UpdateEventForm } from "./update-event-form"
 
 type Props = {
-  id: string;
-  title: string;
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
+  id: string
+  title: string
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
 
 export function UpdateEvent({ id, title, open, setOpen }: Props) {
   const { data: event, status: eventStatus } = api.event.getById.useQuery(
     { id },
     { enabled: !!id }
-  );
+  )
 
   return (
     <Dialog>
@@ -48,5 +48,5 @@ export function UpdateEvent({ id, title, open, setOpen }: Props) {
         )}
       </DialogContent>
     </Dialog>
-  );
+  )
 }

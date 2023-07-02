@@ -1,7 +1,7 @@
-import type { Table } from "@tanstack/react-table";
-import { Loader2 } from "lucide-react";
-import { useState } from "react";
-import { Button } from "~/ui/button";
+import type { Table } from "@tanstack/react-table"
+import { Loader2 } from "lucide-react"
+import { useState } from "react"
+import { Button } from "~/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -10,29 +10,29 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/ui/dialog";
-import { ToastAction } from "~/ui/toast";
-import { useToast } from "~/ui/use-toast";
-import type { RouterOutputs } from "~/utils/api";
-import { api } from "~/utils/api";
-import { wait } from "~/utils/wait";
+} from "~/ui/dialog"
+import { ToastAction } from "~/ui/toast"
+import { useToast } from "~/ui/use-toast"
+import type { RouterOutputs } from "~/utils/api"
+import { api } from "~/utils/api"
+import { wait } from "~/utils/wait"
 
 interface DeleteEventListProps<TData> {
-  table: Table<TData>;
+  table: Table<TData>
 }
 export function DeleteEventList<TData>({ table }: DeleteEventListProps<TData>) {
-  const utils = api.useContext();
-  const { toast } = useToast();
+  const utils = api.useContext()
+  const { toast } = useToast()
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   const selectedRows = table
     .getFilteredSelectedRowModel()
-    .rows.map((row) => row.original) as RouterOutputs["event"]["getAll"];
+    .rows.map((row) => row.original) as RouterOutputs["event"]["getAll"]
 
   const ids = selectedRows.map((row) => ({
     id: row.id,
-  }));
+  }))
 
   const { mutate, isLoading } = api.event.deleteSelected.useMutation({
     async onSuccess() {
@@ -41,12 +41,12 @@ export function DeleteEventList<TData>({ table }: DeleteEventListProps<TData>) {
         title: "Succeed!",
         variant: "default",
         description: "All selected events have been deleted.",
-      });
-      await utils.event.count.invalidate();
-      await utils.event.getAll.invalidate();
-      table.resetRowSelection(); // reset row selection after succeed
+      })
+      await utils.event.count.invalidate()
+      await utils.event.getAll.invalidate()
+      table.resetRowSelection() // reset row selection after succeed
       /* auto-closed after succeed submit the dialog form */
-      await wait().then(() => setOpen(false));
+      await wait().then(() => setOpen(false))
     },
     onError() {
       toast({
@@ -54,14 +54,14 @@ export function DeleteEventList<TData>({ table }: DeleteEventListProps<TData>) {
         title: "Uh oh! Something went wrong.",
         description: "There was a problem with your request.",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
-      });
+      })
     },
-  });
+  })
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    mutate(ids);
-  };
+    e.preventDefault()
+    mutate(ids)
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -107,5 +107,5 @@ export function DeleteEventList<TData>({ table }: DeleteEventListProps<TData>) {
         </form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

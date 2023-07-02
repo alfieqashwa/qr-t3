@@ -14,40 +14,52 @@ export const ticketRouter = createTRPCRouter({
   categories: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.ticket.findMany({
       where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
-      select: { category: true }
+      select: { category: true },
     })
   }),
-  getAll: protectedProcedure
-    .query(async ({ ctx }) => {
-      return await ctx.prisma.ticket.findMany({
-        where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
-        include: {
-          event: { select: { title: true } },
-        },
-        orderBy: { event: { date: "asc" } },
-      })
-    }),
+  getAll: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.ticket.findMany({
+      where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
+      include: {
+        event: { select: { title: true } },
+      },
+      orderBy: { event: { date: "asc" } },
+    })
+  }),
 
   // Mutations
   generate: editorProcedure
-    .input(z.object({
-      eventId: z.string({
-        required_error: "EventId is required",
-        invalid_type_error: "EventId must be a string",
-      }).cuid(),
-      category: z.string({
-        required_error: "Category is required",
-        invalid_type_error: "Category must be a string",
-      }).min(3).max(15),
-      price: z.number({
-        required_error: "Price is required",
-        invalid_type_error: "Price must be a number",
-      }).int().gt(0),
-      qty: z.number({
-        required_error: "Qty is required",
-        invalid_type_error: "Qty must be a number",
-      }).int().gte(10),
-    }))
+    .input(
+      z.object({
+        eventId: z
+          .string({
+            required_error: "EventId is required",
+            invalid_type_error: "EventId must be a string",
+          })
+          .cuid(),
+        category: z
+          .string({
+            required_error: "Category is required",
+            invalid_type_error: "Category must be a string",
+          })
+          .min(3)
+          .max(15),
+        price: z
+          .number({
+            required_error: "Price is required",
+            invalid_type_error: "Price must be a number",
+          })
+          .int()
+          .gt(0),
+        qty: z
+          .number({
+            required_error: "Qty is required",
+            invalid_type_error: "Qty must be a number",
+          })
+          .int()
+          .gte(10),
+      })
+    )
     .mutation(async ({ ctx, input: { qty, price, category, eventId } }) => {
       try {
         const eventOrganizerId = ctx.session.user.eventOrganizerId as string
@@ -57,14 +69,17 @@ export const ticketRouter = createTRPCRouter({
             title: true,
             venue: true,
             eventOrganizer: {
-              select: { name: true }
-            }
+              select: { name: true },
+            },
           },
         })
 
         // radiohead kid a -> rka
         function abbreviationWords(words: string): string {
-          return words.split(" ").map((word) => word.charAt(0)).join("")
+          return words
+            .split(" ")
+            .map((word) => word.charAt(0))
+            .join("")
         }
         const eoName = abbreviationWords(event?.eventOrganizer.name as string)
         const eventName = abbreviationWords(event?.title as string)
@@ -77,12 +92,12 @@ export const ticketRouter = createTRPCRouter({
             category,
             eventId,
             eventOrganizerId,
-            sku: `${eoName}-${eventName}-${venue}`
+            sku: `${eoName}-${eventName}-${venue}`,
           }))
         }
         const generatedTickets = generateTickets()
         return await ctx.prisma.ticket.createMany({
-          data: generatedTickets
+          data: generatedTickets,
         })
       } catch (err) {
         console.error(err)
@@ -96,8 +111,8 @@ export const ticketRouter = createTRPCRouter({
         return await ctx.prisma.ticket.update({
           where: { id },
           data: {
-            status: Status.SOLD
-          }
+            status: Status.SOLD,
+          },
         })
       } catch (err) {
         console.error(err)
@@ -111,8 +126,8 @@ export const ticketRouter = createTRPCRouter({
         return await ctx.prisma.ticket.update({
           where: { id },
           data: {
-            status: Status.REFUND
-          }
+            status: Status.REFUND,
+          },
         })
       } catch (err) {
         console.error(err)
@@ -133,8 +148,8 @@ export const ticketRouter = createTRPCRouter({
       try {
         return await ctx.prisma.ticket.deleteMany({
           where: {
-            OR: input
-          }
+            OR: input,
+          },
         })
       } catch (err) {
         console.error(err)

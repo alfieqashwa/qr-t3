@@ -1,10 +1,10 @@
-import useToggleStore from "~/src/store/useToggle";
-import { cn } from "~/src/utils";
-import { titleVariant } from "~/src/utils/motion";
-import { motion } from "framer-motion";
-import { Calendar, LayoutDashboard, Settings, Users } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import useToggleStore from "~/src/store/useToggle"
+import { cn } from "~/src/utils"
+import { titleVariant } from "~/src/utils/motion"
+import { motion } from "framer-motion"
+import { Calendar, LayoutDashboard, Settings, Users } from "lucide-react"
+import Link from "next/link"
+import { useRouter } from "next/router"
 
 export const MENU_LINKS = [
   {
@@ -27,11 +27,11 @@ export const MENU_LINKS = [
     iconDefault: <Settings className="shrink-0" />,
     iconSmall: <Settings size={18} className="shrink-0" />,
   },
-] as const;
+] as const
 
 export const MenuList = (): JSX.Element => {
-  const { toggle } = useToggleStore();
-  const { pathname } = useRouter();
+  const { toggle } = useToggleStore()
+  const { pathname } = useRouter()
   return (
     <ul className="mt-8 space-y-2 px-1.5">
       {MENU_LINKS?.map((link) => (
@@ -64,5 +64,5 @@ export const MenuList = (): JSX.Element => {
         </li>
       ))}
     </ul>
-  );
-};
+  )
+}

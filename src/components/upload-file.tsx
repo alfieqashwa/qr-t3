@@ -1,6 +1,6 @@
-import { UploadButton, UploadDropzone } from "@uploadthing/react";
+import { UploadButton, UploadDropzone } from "@uploadthing/react"
 
-import type { OurFileRouter } from "~/server/uploadthing/router";
+import type { OurFileRouter } from "~/server/uploadthing/router"
 
 export const UploadFile = () => (
   <>
@@ -13,11 +13,11 @@ export const UploadFile = () => (
         endpoint="withoutMdwr"
         onClientUploadComplete={(res) => {
           // Do something with the response
-          console.log("Files: ", res);
-          alert("Upload Completed");
+          console.log("Files: ", res)
+          alert("Upload Completed")
         }}
         onUploadError={(error: Error) => {
-          alert(`ERROR! ${error.message}`);
+          alert(`ERROR! ${error.message}`)
         }}
       />
     </div>
@@ -27,13 +27,13 @@ export const UploadFile = () => (
         endpoint="withMdwr"
         onClientUploadComplete={(res) => {
           // Do something with the response
-          console.log("Files: ", res);
-          alert("Upload Completed");
+          console.log("Files: ", res)
+          alert("Upload Completed")
         }}
         onUploadError={(error: Error) => {
-          alert(`ERROR! ${error.message}`);
+          alert(`ERROR! ${error.message}`)
         }}
       />
     </div>
   </>
-);
+)

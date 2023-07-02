@@ -1,4 +1,4 @@
-import { Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react"
 
 export const LoadingSpinner = () => (
   <div className="grid h-[calc(100vh_-_30vh)] w-full place-items-center">
@@ -8,4 +8,4 @@ export const LoadingSpinner = () => (
       className="animate-spin text-slate-800"
     />
   </div>
-);
+)

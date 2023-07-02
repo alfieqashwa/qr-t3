@@ -12,39 +12,30 @@ async function main() {
   * Comment-out to store address when setup or do migration into new database
   * `pnpm dlx prisma db seed` OR `pnpm db:seed`
 */
-
   /* //!================== PROVINCES ====================== */
   // const provinces = await prisma.province.createMany({ data: PROVINCES })
   // console.log({ provinces })
-
   /* //!================== REGENCIES ====================== */
   // const getRegencies = REGENCIES.map((r) => ({ id: r.id, provinceId: r.province_id, name: r.name }))
   // const regencies = await prisma.regency.createMany({ data: getRegencies })
   // console.log({ regencies })
-
   /* //!================== DISTRICTS ====================== */
   // const getDistricts = DISTRICTS.map((d) => ({ id: d.id, regencyId: d.regency_id, name: d.name }))
   // const districts = await prisma.district.createMany({ data: getDistricts })
   // console.log({ districts })
-
   /* //!================== VILLAGES ====================== */
   // const getVillages = VILLAGES.map((v) => ({ id: v.id, districtId: v.district_id, name: v.name }))
   // const villages = await prisma.village.createMany({ data: getVillages })
   // console.log({ villages })
-
-
   /* //!=============  FIND & CAPTURE IF THERE'RE ANY DUPLICATED ID ======================= */
-
   // interface Village {
   //   id: string
   //   district_id: string
   //   name: string
   // }
-
   // function hasDuplicateIds(array: Village[]): string[] {
   //   const ids: Set<string> = new Set()
   //   const duplicateIds: string[] = []
-
   //   for (const obj of array) {
   //     if (ids.has(obj.id)) {
   //       duplicateIds.push(obj.id)
@@ -55,7 +46,6 @@ async function main() {
   //   return duplicateIds
   // }
   // console.log(hasDuplicateIds(VILLAGES)) // Output: false
-
 }
 
 main()

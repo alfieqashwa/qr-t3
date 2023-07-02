@@ -76,8 +76,9 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
       ...shape,
       data: {
         ...shape.data,
-        zodError: error.cause instanceof ZodError ? error.cause.flatten() : null,
-      }
+        zodError:
+          error.cause instanceof ZodError ? error.cause.flatten() : null,
+      },
     }
   },
 })
@@ -123,8 +124,15 @@ const isAdmin = t.middleware(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" })
   }
-  if (ctx.session?.user.role === Role.USER || ctx.session?.user.role === Role.OPERATOR || ctx.session?.user.role === Role.EDITOR) {
-    throw new TRPCError({ code: "UNAUTHORIZED", message: "Only Admin is allowed!" })
+  if (
+    ctx.session?.user.role === Role.USER ||
+    ctx.session?.user.role === Role.OPERATOR ||
+    ctx.session?.user.role === Role.EDITOR
+  ) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "Only Admin is allowed!",
+    })
   }
   return next({
     ctx: {
@@ -138,8 +146,14 @@ const isEditor = t.middleware(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" })
   }
-  if (ctx.session?.user.role === Role.USER || ctx.session?.user.role === Role.OPERATOR) {
-    throw new TRPCError({ code: "UNAUTHORIZED", message: "Only Editor is allowed!" })
+  if (
+    ctx.session?.user.role === Role.USER ||
+    ctx.session?.user.role === Role.OPERATOR
+  ) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "Only Editor is allowed!",
+    })
   }
   return next({
     ctx: {
@@ -154,7 +168,10 @@ const isOperator = t.middleware(({ ctx, next }) => {
     throw new TRPCError({ code: "UNAUTHORIZED" })
   }
   if (ctx.session?.user.role === Role.USER) {
-    throw new TRPCError({ code: "UNAUTHORIZED", message: "Only Operator is allowed!" })
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "Only Operator is allowed!",
+    })
   }
   return next({
     ctx: {

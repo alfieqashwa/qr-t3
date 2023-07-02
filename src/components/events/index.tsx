@@ -1,4 +1,4 @@
-import { EventList } from "./event-list";
-import { TicketList } from "./ticket-list";
+import { EventList } from "./event-list"
+import { TicketList } from "./ticket-list"
 
-export { EventList, TicketList };
+export { EventList, TicketList }

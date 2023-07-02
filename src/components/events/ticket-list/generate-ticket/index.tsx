@@ -1,8 +1,8 @@
-import { FilePlus2, Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Button } from "~/ui/button";
-import { Input } from "~/ui/input";
-import { Label } from "~/ui/label";
+import { FilePlus2, Loader2 } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Button } from "~/ui/button"
+import { Input } from "~/ui/input"
+import { Label } from "~/ui/label"
 import {
   Sheet,
   SheetContent,
@@ -11,41 +11,41 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "~/ui/sheet";
-import { ToastAction } from "~/ui/toast";
-import { toast } from "~/ui/use-toast";
-import { api } from "~/utils/api";
-import { wait } from "~/utils/wait";
-import { SelectCategory } from "./select-category";
-import { SelectEvent } from "./select-event";
+} from "~/ui/sheet"
+import { ToastAction } from "~/ui/toast"
+import { toast } from "~/ui/use-toast"
+import { api } from "~/utils/api"
+import { wait } from "~/utils/wait"
+import { SelectCategory } from "./select-category"
+import { SelectEvent } from "./select-event"
 
 export function GenerateTicket(): JSX.Element {
-  const tickets = api.ticket.getAll.useQuery();
+  const tickets = api.ticket.getAll.useQuery()
 
-  const [open, setOpen] = useState(false);
-  const [categoryInput, setCategoryInput] = useState<string>("");
-  const [disabled, setDisabled] = useState(false);
+  const [open, setOpen] = useState(false)
+  const [categoryInput, setCategoryInput] = useState<string>("")
+  const [disabled, setDisabled] = useState(false)
 
   // remove duplicates array
-  const _categories = tickets.data?.map((t) => t.category);
-  const categories = [...new Set(_categories)];
+  const _categories = tickets.data?.map((t) => t.category)
+  const categories = [...new Set(_categories)]
   // console.log({ categories });
 
   useEffect(() => {
-    if (tickets.status !== "success") return;
+    if (tickets.status !== "success") return
     if (
       categoryInput.length > 0 || // whenever user has not input any
       tickets.data.length === 0 // if there's no any tickets has been created yet
     ) {
-      setDisabled(true);
+      setDisabled(true)
     } else {
-      setDisabled(false);
+      setDisabled(false)
     }
-  }, [categoryInput.length, tickets.data?.length, tickets.status]);
+  }, [categoryInput.length, tickets.data?.length, tickets.status])
 
-  const utils = api.useContext();
+  const utils = api.useContext()
 
-  const { data: events } = api.event.getAll.useQuery();
+  const { data: events } = api.event.getAll.useQuery()
 
   const { mutate, isLoading, error } = api.ticket.generate.useMutation({
     async onSuccess() {
@@ -53,11 +53,11 @@ export function GenerateTicket(): JSX.Element {
         title: "Succeed!",
         variant: "default",
         description: "Your ticket(s) has been created.",
-      });
-      await utils.ticket.getAll.invalidate();
-      await utils.ticket.count.invalidate();
-      setCategoryInput("");
-      await wait().then(() => setOpen(false));
+      })
+      await utils.ticket.getAll.invalidate()
+      await utils.ticket.count.invalidate()
+      setCategoryInput("")
+      await wait().then(() => setOpen(false))
     },
 
     onError() {
@@ -66,50 +66,50 @@ export function GenerateTicket(): JSX.Element {
         title: "Uh oh! Something went wrong.",
         description: "There was a problem with your request.",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
-      });
+      })
     },
-  });
+  })
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const qty = formData.get("qty")?.toString()?.toLowerCase() as string;
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const qty = formData.get("qty")?.toString()?.toLowerCase() as string
     const categorySelected = formData
       .get("category-selected")
       ?.toString()
-      ?.toLowerCase() as string;
-    const price = formData.get("price")?.toString()?.toLowerCase() as string;
-    const eventId = formData.get("eventId") as string;
+      ?.toLowerCase() as string
+    const price = formData.get("price")?.toString()?.toLowerCase() as string
+    const eventId = formData.get("eventId") as string
 
     // if user input the existed category, then show the error toast with clear messages.
-    const alreadyExists = categories?.includes(categoryInput);
+    const alreadyExists = categories?.includes(categoryInput)
     if (alreadyExists) {
       // and then set the input value back to default
-      setCategoryInput("");
+      setCategoryInput("")
       return toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
         description:
           "The category is already exists. Please use the select input instead.",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
-      });
+      })
     }
 
-    let category: string;
+    let category: string
     if (disabled) {
-      category = categoryInput;
+      category = categoryInput
     } else {
-      category = categorySelected;
+      category = categorySelected
     }
 
     const hasNotEqualPrice = tickets.data?.some(
       (t) =>
         t.eventId === eventId && t.category === category && t.price !== +price
-    );
+    )
 
     // Validate an error whenever the same event and category has different price from the existing one.
     if (hasNotEqualPrice) {
-      setCategoryInput("");
+      setCategoryInput("")
       //  show the error toast with clear message!
       return toast({
         variant: "destructive",
@@ -119,7 +119,7 @@ export function GenerateTicket(): JSX.Element {
         action: (
           <ToastAction altText="Try again">Change the Price!</ToastAction>
         ),
-      });
+      })
     }
 
     mutate({
@@ -127,8 +127,8 @@ export function GenerateTicket(): JSX.Element {
       category,
       price: +price,
       eventId,
-    });
-  };
+    })
+  }
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -230,5 +230,5 @@ export function GenerateTicket(): JSX.Element {
         </form>
       </SheetContent>
     </Sheet>
-  );
+  )
 }

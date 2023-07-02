@@ -1,6 +1,6 @@
-import type { Row } from "@tanstack/react-table";
-import { MoreHorizontal, Pen, Star, Trash } from "lucide-react";
-import { Button } from "~/components/ui/button";
+import type { Row } from "@tanstack/react-table"
+import { MoreHorizontal, Pen, Star, Trash } from "lucide-react"
+import { Button } from "~/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,12 +8,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
+} from "~/components/ui/dropdown-menu"
 
 // import { ticketSchema } from "./data/schema";
 
 interface DataTableRowActionsProps<TData> {
-  row: Row<TData>;
+  row: Row<TData>
 }
 
 export function DataTableRowActions<TData>({
@@ -47,5 +47,5 @@ export function DataTableRowActions<TData>({
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }
