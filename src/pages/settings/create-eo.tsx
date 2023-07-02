@@ -1,6 +1,7 @@
 import { Role } from "@prisma/client"
 import { Loader2 } from "lucide-react"
 import type { GetServerSideProps, NextPage } from "next"
+import type { Province, Regency, District, Village } from "~/types/address"
 import { getServerSession } from "next-auth"
 import { signOut, useSession } from "next-auth/react"
 import { useRouter } from "next/router"
@@ -53,36 +54,58 @@ const CreateEO: NextPage = (): JSX.Element => {
   const [districtValue, setDistrictValue] = useState<string>("")
   const [villageValue, setVillageValue] = useState<string>("")
 
-  const provincesQuery = api.address.provinces.useQuery()
+  const provincesQuery = api.address.provinces.useQuery(undefined, {
+    select: (provinces: Province[]) =>
+      provinces.sort((a, b) => a.name.localeCompare(b.name)),
+  })
 
   // find selected province.id
   const provinceId = provincesQuery?.data?.find(
-    (province) => province.name.toLowerCase() === provinceValue
-  )?.id
+    (p) => p.name.toLowerCase() === provinceValue
+  )?.id as string
 
-  const regenciesQuery = api.address.regencies.useQuery(undefined, {
-    enabled: provinceValue !== "" && provinceValue !== undefined,
-    select: (data) =>
-      data.filter((district) => district.provinceId === provinceId),
-  })
+  const regenciesQuery = api.address.regencies.useQuery(
+    { provinceId },
+    {
+      enabled: !!provinceId && provinceValue !== "",
+      select: (regencies: Regency[]) =>
+        regencies
+          .filter((regency) => regency.province_id === provinceId)
+          .sort((a, b) => a.name.localeCompare(b.name)),
+    }
+  )
 
   const regencyId = regenciesQuery?.data?.find(
     (r) => r.name.toLowerCase() === regencyValue
-  )?.id
+  )?.id as string
 
-  const districtsQuery = api.address.districts.useQuery(undefined, {
-    enabled: regencyValue !== "" && regencyValue !== undefined,
-    select: (data) => data.filter((d) => d.regencyId === regencyId),
-  })
+  const districtsQuery = api.address.districts.useQuery(
+    { regencyId },
+    {
+      enabled: !!regencyId && regencyValue !== "",
+      select: (districts: District[]) =>
+        districts
+          .filter((district) => district.regency_id === regencyId)
+          .sort((a, b) => a.name.localeCompare(b.name)),
+    }
+  )
 
   const districtId = districtsQuery?.data?.find(
-    (district) => district.name.toLowerCase() === districtValue
-  )?.id
+    (d) => d.name.toLowerCase() === districtValue
+  )?.id as string
 
-  const villagesQuery = api.address.villages.useQuery(undefined, {
-    enabled: districtValue !== "" && districtValue !== undefined,
-    select: (data) => data.filter((d) => d.districtId === districtId),
-  })
+  const villagesQuery = api.address.villages.useQuery(
+    { districtId },
+    {
+      enabled: !!districtId && districtValue !== "",
+      select: (villages: Village[]) =>
+        villages.filter((village) => village.district_id === districtId),
+    }
+  )
+
+  const villageId = villagesQuery?.data?.find(
+    (v) => v.name.toLowerCase() === villageValue
+  )?.id
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -142,7 +165,8 @@ const CreateEO: NextPage = (): JSX.Element => {
     provinceValue === "" ||
     regencyValue === "" ||
     districtValue === "" ||
-    villageValue === ""
+    villageValue === "" ||
+    villageId === null
 
   return (
     <div className="grid min-h-screen place-items-center">

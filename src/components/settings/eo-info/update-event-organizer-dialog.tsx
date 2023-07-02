@@ -17,6 +17,7 @@ import { Label } from "~/components/ui/label"
 import { ToastAction } from "~/components/ui/toast"
 import { useToast } from "~/components/ui/use-toast"
 import type { RouterOutputs } from "~/src/utils/api"
+import type { Province, Regency, District, Village } from "~/types/address"
 import { api } from "~/src/utils/api"
 import { wait } from "~/src/utils/wait"
 
@@ -63,43 +64,57 @@ export function UpdateEventOrganizerDialog({ currentEO }: Props) {
     currentEO?.village as string
   )
 
-  const provincesQuery = api.address.provinces.useQuery()
+  const provincesQuery = api.address.provinces.useQuery(undefined, {
+    select: (provinces: Province[]) =>
+      provinces.sort((a, b) => a.name.localeCompare(b.name)),
+  })
 
   // find selected province.id
   const provinceId = provincesQuery?.data?.find(
-    (province) => province.name.toLowerCase() === provinceValue
-  )?.id
+    (p) => p.name.toLowerCase() === provinceValue
+  )?.id as string
 
-  const regenciesQuery = api.address.regencies.useQuery(undefined, {
-    enabled: provinceValue !== "" && provinceValue !== undefined,
-    select: (data) =>
-      data.filter((district) => district.provinceId === provinceId),
-  })
+  const regenciesQuery = api.address.regencies.useQuery(
+    { provinceId },
+    {
+      enabled: !!provinceId && provinceValue !== "",
+      select: (regencies: Regency[]) =>
+        regencies.filter((regency) => regency.province_id === provinceId),
+    }
+  )
 
   const regencyId = regenciesQuery?.data?.find(
     (r) => r.name.toLowerCase() === regencyValue
-  )?.id
+  )?.id as string
 
-  const districtsQuery = api.address.districts.useQuery(undefined, {
-    enabled: regencyValue !== "" && regencyValue !== undefined,
-    select: (data) => data.filter((d) => d.regencyId === regencyId),
-  })
+  const districtsQuery = api.address.districts.useQuery(
+    { regencyId },
+    {
+      enabled: !!regencyId && regencyValue !== "",
+      select: (districts: District[]) =>
+        districts.filter((district) => district.regency_id === regencyId),
+    }
+  )
 
   const districtId = districtsQuery?.data?.find(
-    (district) => district.name.toLowerCase() === districtValue
-  )?.id
+    (d) => d.name.toLowerCase() === districtValue
+  )?.id as string
 
-  const villagesQuery = api.address.villages.useQuery(undefined, {
-    enabled: districtValue !== "" && districtValue !== undefined,
-    select: (data) => data.filter((d) => d.districtId === districtId),
-  })
+  const villagesQuery = api.address.villages.useQuery(
+    { districtId },
+    {
+      enabled: !!districtId && districtValue !== "",
+      select: (villages: Village[]) =>
+        villages.filter((village) => village.district_id === districtId),
+    }
+  )
 
   /*
     disabled-button validation!
     to avoid not-matching between provinceId-regencyId-districtId-villageId records into database
   */
   const villageId = villagesQuery?.data?.find(
-    (village) => village.name.toLowerCase() === villageValue
+    (v) => v.name.toLowerCase() === villageValue
   )?.id
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
