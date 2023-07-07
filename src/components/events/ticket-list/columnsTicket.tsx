@@ -41,15 +41,6 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
       cell: ({ row }) => <div className="w-auto">{row.getValue("id")}</div>,
     },
     {
-      accessorKey: "sku",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="SKU" />
-      ),
-      cell: ({ row }) => (
-        <div className="w-[80px] uppercase">{row.getValue("sku")}</div>
-      ),
-    },
-    {
       accessorKey: "price",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="price" />
@@ -131,9 +122,9 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
       id: "actions",
       cell: ({ row }) => {
         const {
-          original: { id, sku, status },
+          original: { id, status },
         } = row
-        return <RowTicketActions id={id} sku={sku} status={status} />
+        return <RowTicketActions id={id} status={status} />
       },
     },
   ]

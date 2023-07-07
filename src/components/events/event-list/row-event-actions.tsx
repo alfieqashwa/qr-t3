@@ -21,7 +21,7 @@ export function RowEventActions(props: DataTableRowActionsProps) {
   const { id, title } = props
   const [open, setOpen] = useState(false)
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"

@@ -19,7 +19,7 @@ export function SelectEvent({ events }: Props): JSX.Element {
 
   return (
     <Select name="eventId" defaultValue={initialEvent}>
-      <SelectTrigger className="w-1/2 uppercase">
+      <SelectTrigger className="w-[240px] uppercase">
         <SelectValue placeholder="Select a event" className="capitalize" />
       </SelectTrigger>
       <SelectContent>

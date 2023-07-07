@@ -55,7 +55,6 @@ export function GenerateTicket(): JSX.Element {
         description: "Your ticket(s) has been created.",
       })
       await utils.ticket.getAll.invalidate()
-      await utils.ticket.count.invalidate()
       setCategoryInput("")
       await wait().then(() => setOpen(false))
     },

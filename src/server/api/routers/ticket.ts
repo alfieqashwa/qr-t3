@@ -63,36 +63,12 @@ export const ticketRouter = createTRPCRouter({
     .mutation(async ({ ctx, input: { qty, price, category, eventId } }) => {
       try {
         const eventOrganizerId = ctx.session.user.eventOrganizerId as string
-        const event = await ctx.prisma.event.findUnique({
-          where: { id: eventId },
-          select: {
-            title: true,
-            venue: true,
-            eventOrganizer: {
-              select: { name: true },
-            },
-          },
-        })
-
-        // radiohead kid a -> rka
-        function abbreviationWords(words: string): string {
-          return words
-            .split(" ")
-            .map((word) => word.charAt(0))
-            .join("")
-        }
-        const eoName = abbreviationWords(event?.eventOrganizer.name as string)
-        const eventName = abbreviationWords(event?.title as string)
-        let venue = event?.venue as string
-        venue = venue.length > 3 ? venue.substring(0, 3) : venue
-
         function generateTickets() {
           return Array.from({ length: qty }, () => ({
             price,
             category,
             eventId,
             eventOrganizerId,
-            sku: `${eoName}-${eventName}-${venue}`,
           }))
         }
         const generatedTickets = generateTickets()

@@ -14,15 +14,10 @@ import { DeleteTicket } from "./delete-ticket"
 
 interface DataTableRowActionsProps {
   id: string
-  sku: string
   status: Status
 }
 
-export function RowTicketActions({
-  id,
-  sku,
-  status,
-}: DataTableRowActionsProps) {
+export function RowTicketActions({ id, status }: DataTableRowActionsProps) {
   const [open, setOpen] = useState(false)
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -45,13 +40,7 @@ export function RowTicketActions({
         </DropdownMenuItem>
         <EditorOnly>
           <DropdownMenuSeparator />
-          <DeleteTicket
-            id={id}
-            sku={sku}
-            status={status}
-            open={open}
-            setOpen={setOpen}
-          />
+          <DeleteTicket id={id} status={status} open={open} setOpen={setOpen} />
         </EditorOnly>
       </DropdownMenuContent>
     </DropdownMenu>

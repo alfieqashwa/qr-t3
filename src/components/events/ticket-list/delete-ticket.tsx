@@ -18,13 +18,12 @@ import { wait } from "~/utils/wait"
 
 type Props = {
   id: string
-  sku: string
   status: Status
   open: boolean
   setOpen: React.Dispatch<SetStateAction<boolean>>
 }
 
-export function DeleteTicket({ id, sku, status, open, setOpen }: Props) {
+export function DeleteTicket({ id, status, open, setOpen }: Props) {
   const utils = api.useContext()
   const { toast } = useToast()
 
@@ -80,10 +79,6 @@ export function DeleteTicket({ id, sku, status, open, setOpen }: Props) {
                 sure to delete ticket
                 <span className="px-1.5 font-medium uppercase text-amber-300">
                   {id}
-                </span>
-                -
-                <span className="px-1.5 font-medium uppercase text-amber-300">
-                  {sku}
                 </span>
               </p>
             </DialogDescription>

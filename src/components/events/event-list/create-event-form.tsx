@@ -24,6 +24,7 @@ import { ToastAction } from "~/ui/toast"
 import { useToast } from "~/ui/use-toast"
 import { api } from "~/utils/api"
 import { wait } from "~/utils/wait"
+import type { SelectSingleEventHandler } from "react-day-picker"
 
 type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -82,7 +83,7 @@ export function CreateEventForm(props: Props) {
             <FormItem>
               <FormLabel>Event</FormLabel>
               <FormControl>
-                <Input placeholder="title" {...field} />
+                <Input placeholder="title" {...field} className="capitalize" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -95,7 +96,7 @@ export function CreateEventForm(props: Props) {
             <FormItem>
               <FormLabel>Venue</FormLabel>
               <FormControl>
-                <Input placeholder="venue" {...field} />
+                <Input placeholder="venue" {...field} className="capitalize" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -130,7 +131,7 @@ export function CreateEventForm(props: Props) {
                   <Calendar
                     mode="single"
                     selected={field.value}
-                    onSelect={field.onChange}
+                    onSelect={field.onChange as SelectSingleEventHandler}
                     disabled={(date) =>
                       date < new Date() || date < new Date("1900-01-01")
                     }
