@@ -1,7 +1,7 @@
 import { Role } from "@prisma/client"
 import { z } from "zod"
-import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
 import { createTeamSchema } from "~/src/types/schema"
+import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
 
 export const userRouter = createTRPCRouter({
   // Queries
@@ -49,17 +49,13 @@ export const userRouter = createTRPCRouter({
   create: adminProcedure
     .input(createTeamSchema)
     .mutation(async ({ ctx, input: { email, role } }) => {
-      try {
-        return await ctx.prisma.user.create({
-          data: {
-            email,
-            role,
-            eventOrganizerId: ctx.session.user.eventOrganizerId,
-          },
-        })
-      } catch (err) {
-        console.error(err)
-      }
+      return await ctx.prisma.user.create({
+        data: {
+          email,
+          role,
+          eventOrganizerId: ctx.session.user.eventOrganizerId,
+        },
+      })
     }),
   updateTeam: adminProcedure
     .input(
@@ -69,49 +65,33 @@ export const userRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input: { id, role } }) => {
-      try {
-        return await ctx.prisma.user.update({
-          where: { id },
-          data: { role, eventOrganizerId: ctx.session.user.eventOrganizerId },
-        })
-      } catch (err) {
-        console.error(err)
-      }
+      return await ctx.prisma.user.update({
+        where: { id },
+        data: { role, eventOrganizerId: ctx.session.user.eventOrganizerId },
+      })
     }),
   delete: adminProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
-      try {
-        return await ctx.prisma.user.delete({
-          where: { id },
-        })
-      } catch (err) {
-        console.error(err)
-      }
+      return await ctx.prisma.user.delete({
+        where: { id },
+      })
     }),
   updateImageProfile: protectedProcedure
     .input(z.object({ imageUpdate: z.string().url() }))
     .mutation(async ({ ctx, input: { imageUpdate } }) => {
-      try {
-        return await ctx.prisma.user.update({
-          where: { id: ctx.session.user.id },
-          data: {
-            imageUpdate,
-          },
-        })
-      } catch (err) {
-        console.error(err)
-      }
+      return await ctx.prisma.user.update({
+        where: { id: ctx.session.user.id },
+        data: {
+          imageUpdate,
+        },
+      })
     }),
   deleteMe: protectedProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
-      try {
-        return await ctx.prisma.user.delete({
-          where: { id },
-        })
-      } catch (err) {
-        console.error(err)
-      }
+      return await ctx.prisma.user.delete({
+        where: { id },
+      })
     }),
 })

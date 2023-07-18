@@ -30,39 +30,27 @@ export const eventRouter = createTRPCRouter({
   create: adminProcedure
     .input(createEventSchema)
     .mutation(async ({ ctx, input: { title, venue, date } }) => {
-      try {
-        return await ctx.prisma.event.create({
-          data: {
-            title,
-            venue,
-            date,
-            eventOrganizerId: ctx.session.user.eventOrganizerId as string,
-          },
-        })
-      } catch (err) {
-        console.error(err)
-      }
+      return await ctx.prisma.event.create({
+        data: {
+          title,
+          venue,
+          date,
+          eventOrganizerId: ctx.session.user.eventOrganizerId as string,
+        },
+      })
     }),
   update: adminProcedure
     .input(updateEventSchema)
     .mutation(async ({ ctx, input: { id, title, venue, date } }) => {
-      try {
-        return await ctx.prisma.event.update({
-          where: { id },
-          data: { title, venue, date },
-        })
-      } catch (err) {
-        console.error(err)
-      }
+      return await ctx.prisma.event.update({
+        where: { id },
+        data: { title, venue, date },
+      })
     }),
   delete: adminProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
-      try {
-        return await ctx.prisma.event.delete({ where: { id } })
-      } catch (err) {
-        console.error(err)
-      }
+      return await ctx.prisma.event.delete({ where: { id } })
     }),
   deleteSelected: adminProcedure
     .input(z.array(z.object({ id: z.string().cuid() })))

@@ -53,27 +53,23 @@ export const eoRouter = createTRPCRouter({
           postalCode,
         },
       }) => {
-        try {
-          await ctx.prisma.eventOrganizer.create({
-            data: {
-              name,
-              phone,
-              province,
-              regency,
-              district,
-              village,
-              street,
-              postalCode,
-              users: {
-                connect: {
-                  id: ctx.session.user.id,
-                },
+        await ctx.prisma.eventOrganizer.create({
+          data: {
+            name,
+            phone,
+            province,
+            regency,
+            district,
+            village,
+            street,
+            postalCode,
+            users: {
+              connect: {
+                id: ctx.session.user.id,
               },
             },
-          })
-        } catch (err) {
-          console.error(err)
-        }
+          },
+        })
       }
     ),
   read: protectedProcedure.query(async ({ ctx }) => {
@@ -134,28 +130,24 @@ export const eoRouter = createTRPCRouter({
           postalCode,
         },
       }) => {
-        try {
-          await ctx.prisma.eventOrganizer.update({
-            where: { id },
-            data: {
-              name,
-              phone,
-              province,
-              regency,
-              district,
-              village,
-              street,
-              postalCode,
-              users: {
-                connect: {
-                  id: ctx.session.user.id,
-                },
+        await ctx.prisma.eventOrganizer.update({
+          where: { id },
+          data: {
+            name,
+            phone,
+            province,
+            regency,
+            district,
+            village,
+            street,
+            postalCode,
+            users: {
+              connect: {
+                id: ctx.session.user.id,
               },
             },
-          })
-        } catch (err) {
-          console.error(err)
-        }
+          },
+        })
       }
     ),
   delete: adminProcedure

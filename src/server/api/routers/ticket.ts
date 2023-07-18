@@ -61,74 +61,54 @@ export const ticketRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input: { qty, price, category, eventId } }) => {
-      try {
-        const eventOrganizerId = ctx.session.user.eventOrganizerId as string
-        function generateTickets() {
-          return Array.from({ length: qty }, () => ({
-            price,
-            category,
-            eventId,
-            eventOrganizerId,
-          }))
-        }
-        const generatedTickets = generateTickets()
-        return await ctx.prisma.ticket.createMany({
-          data: generatedTickets,
-        })
-      } catch (err) {
-        console.error(err)
+      const eventOrganizerId = ctx.session.user.eventOrganizerId as string
+      function generateTickets() {
+        return Array.from({ length: qty }, () => ({
+          price,
+          category,
+          eventId,
+          eventOrganizerId,
+        }))
       }
+      const generatedTickets = generateTickets()
+      return await ctx.prisma.ticket.createMany({
+        data: generatedTickets,
+      })
     }),
   // Automatic change status to SOLD whenever the ticket get purchased by customer(s)
   sold: editorProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
-      try {
-        return await ctx.prisma.ticket.update({
-          where: { id },
-          data: {
-            status: Status.SOLD,
-          },
-        })
-      } catch (err) {
-        console.error(err)
-      }
+      return await ctx.prisma.ticket.update({
+        where: { id },
+        data: {
+          status: Status.SOLD,
+        },
+      })
     }),
   // Automatic change status to REFUND whenever the ticket get refund by customer(s)
   refund: editorProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
-      try {
-        return await ctx.prisma.ticket.update({
-          where: { id },
-          data: {
-            status: Status.REFUND,
-          },
-        })
-      } catch (err) {
-        console.error(err)
-      }
+      return await ctx.prisma.ticket.update({
+        where: { id },
+        data: {
+          status: Status.REFUND,
+        },
+      })
     }),
   delete: editorProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
-      try {
-        return await ctx.prisma.ticket.delete({ where: { id } })
-      } catch (err) {
-        console.error(err)
-      }
+      return await ctx.prisma.ticket.delete({ where: { id } })
     }),
   deleteSelected: editorProcedure
     .input(z.array(z.object({ id: z.string().cuid() })))
     .mutation(async ({ ctx, input }) => {
-      try {
-        return await ctx.prisma.ticket.deleteMany({
-          where: {
-            OR: input,
-          },
-        })
-      } catch (err) {
-        console.error(err)
-      }
+      return await ctx.prisma.ticket.deleteMany({
+        where: {
+          OR: input,
+        },
+      })
     }),
 })
