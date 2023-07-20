@@ -100,7 +100,7 @@ Add more libs.
     - [x] Setup toggle dark mode
     - [x] Setup colors (light && dark)
 
-- [ ] Setup Visitor Page
+- [ ] Setup Visitor Page (name, phone, isCheckIn, checkInDate, event, tickets)
   - [ ] Configure Visitor CRUD
   - [ ] Setup Table
   - [ ] Setup Search
