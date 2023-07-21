@@ -1,6 +1,6 @@
 import type { Table } from "@tanstack/react-table"
 import type { LucideIcon } from "lucide-react"
-import { MapPin, X } from "lucide-react"
+import { MapPin, Tags, X } from "lucide-react"
 import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-filter"
 import { DataTableViewOptions } from "~/components/table/data-table-view-options"
 import { Button } from "~/ui/button"
@@ -27,31 +27,43 @@ export function VisitorTableToolbar<TData>({
     icon?: LucideIcon
   }
 
-  const { data, status } = api.event.eventData.useQuery()
-  const venues = data?.map((d) => ({
-    value: d.venue,
-    label: d.venue,
-    icon: MapPin,
-  })) as Options[]
+  const ischeckInQuery = api.visitor.isCheckIn.useQuery(undefined, {
+    select: (data) => {
+      const isCheckIn = data.map((d) => d.isCheckIn)
+      return [...new Set(isCheckIn)]
+    },
+  })
 
+  const isCheckIn = ischeckInQuery?.data?.map((isCheck) => {
+    const _isCheckIn = isCheck ? "check in" : "check out"
+    return {
+      value: _isCheckIn,
+      label: _isCheckIn,
+      icon: MapPin,
+    }
+  }) as Options[]
+
+  // return {
+  // }
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Filter events..."
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter visitor..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {status === "success" && table.getColumn("venue") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("venue")}
-            title="Venue"
-            options={venues}
-          />
-        )}
+        {ischeckInQuery.status === "success" &&
+          table.getColumn("isCheckIn") && (
+            <DataTableFacetedFilter
+              column={table.getColumn("isCheckIn")}
+              title="Is Check In"
+              options={isCheckIn}
+            />
+          )}
         {isFiltered && (
           <Button
             variant="ghost"
