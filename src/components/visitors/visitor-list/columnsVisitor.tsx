@@ -75,6 +75,22 @@ export const columnsVisitor: ColumnDef<
     },
   },
   {
+    accessorKey: "eventId",
+    accessorFn: (row) => row.eventId,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Event" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center">
+          <span className="whitespace-nowrap font-medium capitalize">
+            {row.getValue("eventId")}
+          </span>
+        </div>
+      )
+    },
+  },
+  {
     accessorKey: "isCheckIn",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Is Check In" />

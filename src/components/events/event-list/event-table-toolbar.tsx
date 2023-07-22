@@ -65,10 +65,10 @@ export function EventTableToolbar<TData>({
       </div>
       <span className="flex items-center space-x-4">
         <AdminOnly>
-          {table.getFilteredSelectedRowModel().rows.length > 0 ? (
-            <DeleteEventList table={table} />
-          ) : (
+          {!table.getFilteredSelectedRowModel().rows.length ? (
             <CreateNewEvent />
+          ) : (
+            <DeleteEventList table={table} />
           )}
         </AdminOnly>
         <DataTableViewOptions table={table} />
