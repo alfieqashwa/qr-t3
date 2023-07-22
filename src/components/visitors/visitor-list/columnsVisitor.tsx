@@ -75,16 +75,34 @@ export const columnsVisitor: ColumnDef<
     },
   },
   {
-    accessorKey: "eventId",
-    accessorFn: (row) => row.eventId,
+    accessorKey: "event",
+    accessorFn: (row) => row.event.title,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Event" />
     ),
     cell: ({ row }) => {
+      const eventTitle = row.getValue("event")
       return (
         <div className="flex items-center">
           <span className="whitespace-nowrap font-medium capitalize">
-            {row.getValue("eventId")}
+            {eventTitle as string}
+          </span>
+        </div>
+      )
+    },
+  },
+  {
+    accessorKey: "ticket",
+    accessorFn: (row) => row.ticket.category,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Ticket" />
+    ),
+    cell: ({ row }) => {
+      const ticketCategory = row.getValue("ticket")
+      return (
+        <div className="flex items-center">
+          <span className="whitespace-nowrap font-medium capitalize">
+            {ticketCategory as string}
           </span>
         </div>
       )
