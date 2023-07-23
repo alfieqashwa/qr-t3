@@ -1,14 +1,13 @@
 import type { Table } from "@tanstack/react-table"
 import type { LucideIcon } from "lucide-react"
-import { MapPin, Tags, X } from "lucide-react"
+import { MapPin, X } from "lucide-react"
 import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-filter"
 import { DataTableViewOptions } from "~/components/table/data-table-view-options"
 import { Button } from "~/ui/button"
 import { Input } from "~/ui/input"
 import { api } from "~/utils/api"
-// import { CreateNewEvent } from "./create-new-event"
-// import { DeleteEventList } from "./delete-event-list"
 import { AdminOnly } from "../../authed"
+import { CreateNewVisitor } from "./create-new-visitor"
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -77,11 +76,13 @@ export function VisitorTableToolbar<TData>({
       </div>
       <span className="flex items-center space-x-4">
         <AdminOnly>
-          {/* {table.getFilteredSelectedRowModel().rows.length > 0 ? (
-            <DeleteEventList table={table} />
+          {table.getFilteredSelectedRowModel().rows.length > 0 ? (
+            // TODO
+            // <DeleteEventList table={table} />
+            <p>Delete Visitor</p>
           ) : (
-            <CreateNewEvent />
-          )} */}
+            <CreateNewVisitor />
+          )}
         </AdminOnly>
         <DataTableViewOptions table={table} />
       </span>

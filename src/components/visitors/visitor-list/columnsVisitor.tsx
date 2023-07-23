@@ -1,3 +1,4 @@
+import type { Status } from "@prisma/client"
 import type { ColumnDef } from "@tanstack/react-table"
 import { format, formatDistance, subDays } from "date-fns"
 import { id } from "date-fns/locale"
@@ -92,17 +93,34 @@ export const columnsVisitor: ColumnDef<
     },
   },
   {
-    accessorKey: "ticket",
+    accessorKey: "ticketCategory",
     accessorFn: (row) => row.ticket.category,
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Ticket" />
+      <DataTableColumnHeader column={column} title="Ticket Category" />
     ),
     cell: ({ row }) => {
-      const ticketCategory = row.getValue("ticket")
+      const ticketCategory = row.getValue("ticketCategory")
       return (
         <div className="flex items-center">
           <span className="whitespace-nowrap font-medium capitalize">
             {ticketCategory as string}
+          </span>
+        </div>
+      )
+    },
+  },
+  {
+    accessorKey: "ticketStatus",
+    accessorFn: (row) => row.ticket.status,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Ticket Status" />
+    ),
+    cell: ({ row }) => {
+      const ticketStatus = row.getValue("ticketStatus")
+      return (
+        <div className="flex items-center">
+          <span className="whitespace-nowrap font-medium capitalize">
+            {ticketStatus as Status}
           </span>
         </div>
       )

@@ -28,6 +28,14 @@ export const ticketRouter = createTRPCRouter({
     })
   }),
 
+  getAllByEventId: protectedProcedure
+    .input((z.object({ eventId: z.string().cuid() })))
+    .query(async ({ ctx, input: { eventId } }) => {
+      return await ctx.prisma.ticket.findMany({
+        where: { eventId }
+      })
+    }),
+
   // Mutations
   generate: editorProcedure
     .input(

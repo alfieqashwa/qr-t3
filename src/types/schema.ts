@@ -30,3 +30,23 @@ export const updateEventSchema = z.object({
   venue: z.string().min(5).max(25),
   date: z.date(),
 })
+
+
+export const createVisitorSchema = z.object({
+  name: z
+    .string()
+    .min(3, {
+      message: "Name must be at least 3 characters.",
+    })
+    .max(25),
+  phone: z
+    .string({
+      required_error: "Phone is required",
+      invalid_type_error: "Phone must be a string",
+    })
+    .min(7)
+    .max(12),
+  email: z.string().email(),
+  eventId: z.string().cuid(),
+  ticketId: z.string().cuid(),
+})
