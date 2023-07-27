@@ -1,4 +1,4 @@
-import { Copy, MoreHorizontal } from "lucide-react"
+import { MoreHorizontal } from "lucide-react"
 import { useState } from "react"
 import { AdminOnly } from "~/components/authed"
 import { Button } from "~/ui/button"
@@ -9,8 +9,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/ui/dropdown-menu"
-import { UpdateVisitor } from "./update-visitor"
 import { DeleteVisitor } from "./delete-visitor"
+import { UpdateVisitor } from "./update-visitor"
 
 interface DataTableRowActionsProps {
   id: string
@@ -32,13 +32,6 @@ export function RowVisitorActions(props: DataTableRowActionsProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem
-          onClick={() => navigator.clipboard.writeText(id)}
-          className="hover:cursor-pointer"
-        >
-          <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-          Copy ID
-        </DropdownMenuItem>
         <AdminOnly>
           <DropdownMenuSeparator />
           <UpdateVisitor id={id} title={title} setOpen={setOpen} />

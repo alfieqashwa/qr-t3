@@ -90,6 +90,9 @@ export const columnsVisitor: ColumnDef<
         </div>
       )
     },
+    filterFn: (row, id, value: string) => {
+      return value.includes(row.getValue(id))
+    },
   },
   {
     accessorKey: "ticketCategory",

@@ -1,6 +1,6 @@
 import type { Table } from "@tanstack/react-table"
 import type { LucideIcon } from "lucide-react"
-import { MapPin, X } from "lucide-react"
+import { Calendar, MapPin, X } from "lucide-react"
 import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-filter"
 import { DataTableViewOptions } from "~/components/table/data-table-view-options"
 import { Button } from "~/ui/button"
@@ -26,6 +26,13 @@ export function VisitorTableToolbar<TData>({
     icon?: LucideIcon
   }
 
+  const eventQuery = api.event.eventData.useQuery()
+  const eventTitles = eventQuery.data?.map((d) => ({
+    value: d.title,
+    label: d.title,
+    icon: Calendar,
+  })) as Options[]
+
   const ischeckInQuery = api.visitor.isCheckIn.useQuery(undefined, {
     select: (data) => {
       const isCheckIn = data.map((d) => d.isCheckIn)
@@ -42,8 +49,6 @@ export function VisitorTableToolbar<TData>({
     }
   }) as Options[]
 
-  // return {
-  // }
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
@@ -55,6 +60,13 @@ export function VisitorTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
+        {table.getColumn("event") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("event")}
+            title="Event"
+            options={eventTitles}
+          />
+        )}
         {ischeckInQuery.status === "success" &&
           table.getColumn("isCheckIn") && (
             <DataTableFacetedFilter
