@@ -6,7 +6,8 @@ export const createTeamSchema = z.object({
   role: z.nativeEnum(Role),
 })
 
-export const createEventSchema = z.object({
+export const updateEventSchema = z.object({
+  id: z.string().cuid(),
   title: z
     .string()
     .min(5, {
@@ -24,13 +25,7 @@ export const createEventSchema = z.object({
   }),
 })
 
-export const updateEventSchema = z.object({
-  id: z.string().cuid(),
-  title: z.string().min(5).max(25),
-  venue: z.string().min(5).max(25),
-  date: z.date(),
-})
-
+export const createEventSchema = updateEventSchema.omit({ id: true })
 
 const visitorSchema = z.object({
   id: z.string().cuid(),
