@@ -184,15 +184,20 @@ export const CreateVisitorForm = (props: Props) => {
                 <SelectContent>
                   {!!getSelection &&
                     tickets.status === "success" &&
-                    tickets.data.map((ticket) => (
-                      <SelectItem
-                        value={ticket.id}
-                        key={ticket.id}
-                        className="uppercase"
-                      >
-                        {ticket.category}
-                      </SelectItem>
-                    ))}
+                    tickets.data.map((ticket) => {
+                      const ticketCategory = `${
+                        ticket.category
+                      }-${ticket.id.slice(-6, -1)}`
+                      return (
+                        <SelectItem
+                          value={ticket.id}
+                          key={ticket.id}
+                          className="uppercase"
+                        >
+                          {ticketCategory}
+                        </SelectItem>
+                      )
+                    })}
                 </SelectContent>
               </Select>
               <FormMessage />
