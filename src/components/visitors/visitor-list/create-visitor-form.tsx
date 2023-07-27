@@ -240,7 +240,7 @@ export const CreateVisitorForm = (props: Props) => {
             </Button>
           ) : (
             <Button type="submit" size="sm">
-              Create
+              Create Visitor
             </Button>
           )}
         </div>
