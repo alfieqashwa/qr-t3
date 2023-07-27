@@ -18,11 +18,13 @@ import { api } from "~/utils/api"
 import { wait } from "~/utils/wait"
 import { SelectCategory } from "./select-category"
 import { SelectEvent } from "./select-event"
+import { formattedInputPriceValue } from "~/src/utils/formattedPriceInputValue"
 
 export function GenerateTicket(): JSX.Element {
   const tickets = api.ticket.getAll.useQuery()
 
   const [open, setOpen] = useState(false)
+  const [inputPrice, setInputPrice] = useState("")
   const [categoryInput, setCategoryInput] = useState<string>("")
   const [disabled, setDisabled] = useState(false)
 
@@ -57,6 +59,7 @@ export function GenerateTicket(): JSX.Element {
       await utils.ticket.getAll.invalidate()
       await utils.ticket.categories.invalidate()
       setCategoryInput("")
+      setInputPrice("")
       await wait().then(() => setOpen(false))
     },
 
@@ -78,7 +81,6 @@ export function GenerateTicket(): JSX.Element {
       .get("category-selected")
       ?.toString()
       ?.toLowerCase() as string
-    const price = formData.get("price")?.toString()?.toLowerCase() as string
     const eventId = formData.get("eventId") as string
 
     // if user input the existed category, then show the error toast with clear messages.
@@ -101,10 +103,11 @@ export function GenerateTicket(): JSX.Element {
     } else {
       category = categorySelected
     }
-
+    // convert price -> float
+    const price = parseFloat(inputPrice.toString().replace(/,/g, ""))
     const hasNotEqualPrice = tickets.data?.some(
       (t) =>
-        t.eventId === eventId && t.category === category && t.price !== +price
+        t.eventId === eventId && t.category === category && t.price !== price
     )
 
     // Validate an error whenever the same event and category has different price from the existing one.
@@ -125,7 +128,7 @@ export function GenerateTicket(): JSX.Element {
     mutate({
       qty: +qty,
       category,
-      price: +price,
+      price,
       eventId,
     })
   }
@@ -179,9 +182,14 @@ export function GenerateTicket(): JSX.Element {
               <Input
                 id="price"
                 name="price"
-                type="number"
+                type="text"
                 className="capitalize"
                 placeholder="Sale price..."
+                value={formattedInputPriceValue(inputPrice)}
+                // onChange={(e) => setPrice(e.target.value.replace(/\D/, ""))}
+                onChange={(e) =>
+                  setInputPrice(e.target.value.replace(/\D/g, ""))
+                }
               />
               {error?.data?.zodError?.fieldErrors.price && (
                 <span className="text-xs text-destructive">

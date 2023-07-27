@@ -129,6 +129,7 @@ export const CreateVisitorForm = (props: Props) => {
                 <FormLabel className="text-right">Phone</FormLabel>
                 <FormControl>
                   <Input
+                    type="number"
                     placeholder="phone"
                     {...field}
                     className="col-span-3 w-[240px] capitalize"

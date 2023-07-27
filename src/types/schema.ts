@@ -46,10 +46,7 @@ export const createVisitorSchema = z.object({
     })
     .min(7)
     .max(12),
-  email: z.string({
-    required_error: "Email is required",
-    invalid_type_error: "Email must be a string",
-  }).email(),
+  email: z.optional(z.string().email()),
   eventId: z.string({
     required_error: "Event is required",
     invalid_type_error: "Event must be a string",
