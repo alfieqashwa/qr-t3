@@ -52,7 +52,8 @@ export const CreateVisitorForm = (props: Props) => {
     },
   })
 
-  const form = useForm<z.infer<typeof createVisitorSchema>>({
+  type CreateVisitorSchema = z.infer<typeof createVisitorSchema>
+  const form = useForm<CreateVisitorSchema>({
     resolver: zodResolver(createVisitorSchema),
     defaultValues: {
       name: "",
@@ -86,7 +87,7 @@ export const CreateVisitorForm = (props: Props) => {
     }
   )
 
-  function onSubmit(values: z.infer<typeof createVisitorSchema>) {
+  function onSubmit(values: CreateVisitorSchema) {
     const { name, phone, email, eventId, ticketId } = values
 
     mutate({
@@ -149,6 +150,7 @@ export const CreateVisitorForm = (props: Props) => {
                 <FormLabel className="text-right">Email</FormLabel>
                 <FormControl>
                   <Input
+                    type="email"
                     placeholder="email"
                     {...field}
                     className="col-span-3 w-[240px]"

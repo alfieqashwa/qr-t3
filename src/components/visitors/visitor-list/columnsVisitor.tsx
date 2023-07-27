@@ -4,10 +4,9 @@ import { format, formatDistance, subDays } from "date-fns"
 import { id } from "date-fns/locale"
 import { MapPin, Star } from "lucide-react"
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header"
-import { Badge } from "~/ui/badge"
 import { Checkbox } from "~/ui/checkbox"
 import type { RouterOutputs } from "~/utils/api"
-// import { RowEventActions } from "./row-event-actions"
+import { RowVisitorActions } from "./row-visitor-actions"
 
 export const columnsVisitor: ColumnDef<
   RouterOutputs["visitor"]["getAll"][0]
@@ -102,7 +101,7 @@ export const columnsVisitor: ColumnDef<
       const ticketCategory = row.getValue("ticketCategory")
       return (
         <div className="flex items-center">
-          <span className="whitespace-nowrap font-medium capitalize">
+          <span className="whitespace-nowrap font-medium uppercase">
             {ticketCategory as string}
           </span>
         </div>
@@ -199,7 +198,7 @@ export const columnsVisitor: ColumnDef<
       const {
         original: { id, name },
       } = row
-      // return <RowEventActions id={id} title={name} />
+      return <RowVisitorActions id={id} title={name} />
     },
   },
 ]

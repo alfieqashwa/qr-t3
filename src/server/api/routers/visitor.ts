@@ -1,5 +1,6 @@
-import { createVisitorSchema } from "~/src/types/schema"
-import { createTRPCRouter, protectedProcedure } from "../trpc"
+import { z } from "zod"
+import { createVisitorSchema, updateVisitorSchema } from "~/src/types/schema"
+import { createTRPCRouter, editorProcedure, protectedProcedure } from "../trpc"
 
 export const visitorRouter = createTRPCRouter({
   // Queries
@@ -10,6 +11,13 @@ export const visitorRouter = createTRPCRouter({
       orderBy: { updatedAt: "asc" },
     })
   }),
+  getById: protectedProcedure
+    .input(z.object({ id: z.string().cuid() }))
+    .query(async ({ ctx, input: { id } }) => {
+      return await ctx.prisma.visitor.findUnique({
+        where: { id }
+      })
+    }),
   isCheckIn: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.visitor.findMany({
       where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
@@ -18,7 +26,7 @@ export const visitorRouter = createTRPCRouter({
   }),
 
   // Mutations
-  create: protectedProcedure
+  create: editorProcedure
     .input(createVisitorSchema)
     .mutation(async ({ ctx, input: { name, phone, email, eventId, ticketId } }) => {
       return await ctx.prisma.visitor.create({
@@ -30,6 +38,25 @@ export const visitorRouter = createTRPCRouter({
           eventId,
           ticketId
         }
+      })
+    }),
+  update: editorProcedure
+    .input(updateVisitorSchema)
+    .mutation(async ({ ctx, input: { id, name, phone, email } }) => {
+      return await ctx.prisma.visitor.update({
+        where: { id },
+        data: {
+          name,
+          phone,
+          email
+        }
+      })
+    }),
+  delete: editorProcedure
+    .input(z.object({ id: z.string().cuid() }))
+    .mutation(async ({ ctx, input: { id } }) => {
+      return await ctx.prisma.visitor.delete({
+        where: { id }
       })
     })
 })

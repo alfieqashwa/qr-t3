@@ -32,7 +32,8 @@ export const updateEventSchema = z.object({
 })
 
 
-export const createVisitorSchema = z.object({
+const visitorSchema = z.object({
+  id: z.string().cuid(),
   name: z
     .string()
     .min(3, {
@@ -58,3 +59,6 @@ export const createVisitorSchema = z.object({
     invalid_type_error: "Ticket must be a string",
   }).cuid({ message: "Ticket is required" }),
 })
+
+export const createVisitorSchema = visitorSchema.omit({ id: true })
+export const updateVisitorSchema = visitorSchema.pick({ id: true, name: true, phone: true, email: true })
