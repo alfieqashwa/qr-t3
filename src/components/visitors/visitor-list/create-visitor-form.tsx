@@ -147,7 +147,7 @@ export const CreateVisitorForm = (props: Props) => {
             <FormItem>
               <FormLabel>Event</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
+                <FormControl className="capitalize">
                   <SelectTrigger>
                     <SelectValue placeholder="Select an event" />
                   </SelectTrigger>
@@ -155,7 +155,11 @@ export const CreateVisitorForm = (props: Props) => {
                 <SelectContent>
                   {events.status === "success" &&
                     events.data.map((event) => (
-                      <SelectItem value={event.id} key={event.id}>
+                      <SelectItem
+                        value={event.id}
+                        key={event.id}
+                        className="capitalize"
+                      >
                         {event.title}
                       </SelectItem>
                     ))}
@@ -172,7 +176,7 @@ export const CreateVisitorForm = (props: Props) => {
             <FormItem>
               <FormLabel>Ticket</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
+                <FormControl className="uppercase">
                   <SelectTrigger>
                     <SelectValue placeholder="Select an event" />
                   </SelectTrigger>
@@ -181,7 +185,11 @@ export const CreateVisitorForm = (props: Props) => {
                   {!!getSelection &&
                     tickets.status === "success" &&
                     tickets.data.map((ticket) => (
-                      <SelectItem value={ticket.id} key={ticket.id}>
+                      <SelectItem
+                        value={ticket.id}
+                        key={ticket.id}
+                        className="uppercase"
+                      >
                         {ticket.category}
                       </SelectItem>
                     ))}
