@@ -100,17 +100,23 @@ export const CreateVisitorForm = (props: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 mt-8">
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input placeholder="name" {...field} className="capitalize" />
-              </FormControl>
-              <FormMessage />
+              <div className="grid grid-cols-6 items-center gap-x-4">
+                <FormLabel className="text-right">Name</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="name"
+                    {...field}
+                    className="col-span-3 w-[240px] capitalize"
+                  />
+                </FormControl>
+              </div>
+              <FormMessage className="pl-4" />
             </FormItem>
           )}
         />
@@ -119,11 +125,17 @@ export const CreateVisitorForm = (props: Props) => {
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone</FormLabel>
-              <FormControl>
-                <Input placeholder="phone" {...field} className="capitalize" />
-              </FormControl>
-              <FormMessage />
+              <div className="grid grid-cols-6 items-center gap-x-4">
+                <FormLabel className="text-right">Phone</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="phone"
+                    {...field}
+                    className="col-span-3 w-[240px] capitalize"
+                  />
+                </FormControl>
+              </div>
+              <FormMessage className="pl-4" />
             </FormItem>
           )}
         />
@@ -132,11 +144,17 @@ export const CreateVisitorForm = (props: Props) => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="email" {...field} />
-              </FormControl>
-              <FormMessage />
+              <div className="grid grid-cols-6 items-center gap-x-4">
+                <FormLabel className="text-right">Email</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="email"
+                    {...field}
+                    className="col-span-3 w-[240px] capitalize"
+                  />
+                </FormControl>
+              </div>
+              <FormMessage className="pl-4" />
             </FormItem>
           )}
         />
@@ -145,26 +163,31 @@ export const CreateVisitorForm = (props: Props) => {
           name="eventId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Event</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl className="capitalize">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select an event" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {events.status === "success" &&
-                    events.data.map((event) => (
-                      <SelectItem
-                        value={event.id}
-                        key={event.id}
-                        className="capitalize"
-                      >
-                        {event.title}
-                      </SelectItem>
-                    ))}
-                </SelectContent>
-              </Select>
+              <div className="grid grid-cols-6 items-center gap-x-4">
+                <FormLabel className="text-right">Event</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl className="capitalize col-span-3 w-[240px]">
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select an event" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {events.status === "success" &&
+                      events.data.map((event) => (
+                        <SelectItem
+                          value={event.id}
+                          key={event.id}
+                          className="capitalize"
+                        >
+                          {event.title}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+              </div>
               <FormMessage />
             </FormItem>
           )}
@@ -174,46 +197,53 @@ export const CreateVisitorForm = (props: Props) => {
           name="ticketId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Ticket</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl className="uppercase">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select an event" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {!!getSelection &&
-                    tickets.status === "success" &&
-                    tickets.data.map((ticket) => {
-                      const ticketCategory = `${
-                        ticket.category
-                      }-${ticket.id.slice(-6, -1)}`
-                      return (
-                        <SelectItem
-                          value={ticket.id}
-                          key={ticket.id}
-                          className="uppercase"
-                        >
-                          {ticketCategory}
-                        </SelectItem>
-                      )
-                    })}
-                </SelectContent>
-              </Select>
+              <div className="grid grid-cols-6 items-center gap-x-4">
+                <FormLabel className="text-right">Ticket</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl className="col-span-3 w-[240px] uppercase">
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select an event" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {!!getSelection &&
+                      tickets.status === "success" &&
+                      tickets.data.map((ticket) => {
+                        const ticketCategory = `${
+                          ticket.category
+                        }-${ticket.id.slice(-6, -1)}`
+                        return (
+                          <SelectItem
+                            value={ticket.id}
+                            key={ticket.id}
+                            className="uppercase"
+                          >
+                            {ticketCategory}
+                          </SelectItem>
+                        )
+                      })}
+                  </SelectContent>
+                </Select>
+              </div>
               <FormMessage />
             </FormItem>
           )}
         />
-        {isLoading ? (
-          <Button disabled size="sm">
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Please wait
-          </Button>
-        ) : (
-          <Button type="submit" size="sm">
-            Create
-          </Button>
-        )}
+        <div className="mt-8">
+          {isLoading ? (
+            <Button disabled size="sm">
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Please wait
+            </Button>
+          ) : (
+            <Button type="submit" size="sm">
+              Create
+            </Button>
+          )}
+        </div>
       </form>
     </Form>
   )
