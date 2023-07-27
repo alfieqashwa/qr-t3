@@ -46,7 +46,18 @@ export const createVisitorSchema = z.object({
     })
     .min(7)
     .max(12),
-  email: z.string().email(),
-  eventId: z.string().cuid(),
-  ticketId: z.string().cuid(),
+  email: z.string({
+    required_error: "Email is required",
+    invalid_type_error: "Email must be a string",
+  }).email(),
+  eventId: z.string({
+    required_error: "Event is required",
+    invalid_type_error: "Event must be a string",
+  }).cuid({
+    message: "Event is required"
+  }),
+  ticketId: z.string({
+    required_error: "Ticket is required",
+    invalid_type_error: "Ticket must be a string",
+  }).cuid({ message: "Ticket is required" }),
 })

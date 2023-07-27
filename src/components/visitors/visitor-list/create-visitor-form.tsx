@@ -116,7 +116,7 @@ export const CreateVisitorForm = (props: Props) => {
                   />
                 </FormControl>
               </div>
-              <FormMessage className="pl-4" />
+              <FormMessage className="text-center" />
             </FormItem>
           )}
         />
@@ -135,7 +135,7 @@ export const CreateVisitorForm = (props: Props) => {
                   />
                 </FormControl>
               </div>
-              <FormMessage className="pl-4" />
+              <FormMessage className="text-center" />
             </FormItem>
           )}
         />
@@ -150,11 +150,11 @@ export const CreateVisitorForm = (props: Props) => {
                   <Input
                     placeholder="email"
                     {...field}
-                    className="col-span-3 w-[240px] capitalize"
+                    className="col-span-3 w-[240px]"
                   />
                 </FormControl>
               </div>
-              <FormMessage className="pl-4" />
+              <FormMessage className="text-center" />
             </FormItem>
           )}
         />
@@ -188,7 +188,7 @@ export const CreateVisitorForm = (props: Props) => {
                   </SelectContent>
                 </Select>
               </div>
-              <FormMessage />
+              <FormMessage className="text-center" />
             </FormItem>
           )}
         />
@@ -228,7 +228,7 @@ export const CreateVisitorForm = (props: Props) => {
                   </SelectContent>
                 </Select>
               </div>
-              <FormMessage />
+              <FormMessage className="text-center" />
             </FormItem>
           )}
         />
