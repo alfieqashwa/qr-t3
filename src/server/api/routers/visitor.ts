@@ -1,6 +1,6 @@
 import { z } from "zod"
 import { createVisitorSchema, updateVisitorSchema } from "~/src/types/schema"
-import { createTRPCRouter, editorProcedure, protectedProcedure } from "../trpc"
+import { adminProcedure, createTRPCRouter, editorProcedure, protectedProcedure } from "../trpc"
 
 export const visitorRouter = createTRPCRouter({
   // Queries
@@ -57,6 +57,19 @@ export const visitorRouter = createTRPCRouter({
     .mutation(async ({ ctx, input: { id } }) => {
       return await ctx.prisma.visitor.delete({
         where: { id }
+      })
+    }),
+  deleteSelected: adminProcedure
+    .input(z.array(
+      z.object({
+        id: z.string().cuid()
+      })
+    ))
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.prisma.visitor.deleteMany({
+        where: {
+          OR: input,
+        }
       })
     })
 })

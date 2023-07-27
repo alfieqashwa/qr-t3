@@ -8,6 +8,7 @@ import { Input } from "~/ui/input"
 import { api } from "~/utils/api"
 import { AdminOnly } from "../../authed"
 import { CreateNewVisitor } from "./create-new-visitor"
+import { DeleteVisitorList } from "./delete-visitor-list"
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -89,9 +90,7 @@ export function VisitorTableToolbar<TData>({
       <span className="flex items-center space-x-4">
         <AdminOnly>
           {table.getFilteredSelectedRowModel().rows.length > 0 ? (
-            // TODO
-            // <DeleteEventList table={table} />
-            <p>Delete Visitor</p>
+            <DeleteVisitorList table={table} />
           ) : (
             <CreateNewVisitor />
           )}
