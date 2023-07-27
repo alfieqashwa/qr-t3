@@ -214,7 +214,7 @@ export const CreateVisitorForm = (props: Props) => {
                       tickets.data.map((ticket) => {
                         const ticketCategory = `${
                           ticket.category
-                        }-${ticket.id.slice(-6, -1)}`
+                        }-${ticket.id.slice(-8, -1)}`
                         return (
                           <SelectItem
                             value={ticket.id}
