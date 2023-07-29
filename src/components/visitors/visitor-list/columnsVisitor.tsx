@@ -197,9 +197,13 @@ export const columnsVisitor: ColumnDef<
     id: "actions",
     cell: ({ row }) => {
       const {
-        original: { id, name },
+        original: {
+          id,
+          name,
+          ticket: { status },
+        },
       } = row
-      return <RowVisitorActions id={id} title={name} />
+      return <RowVisitorActions id={id} title={name} ticketStatus={status} />
     },
   },
 ]
