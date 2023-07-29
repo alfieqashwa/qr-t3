@@ -49,7 +49,7 @@ export function PurchaseTicket({ id, ticketStatus }: Props) {
       toast({
         title: "Succeed!",
         variant: "default",
-        description: "The visitor has been updated.",
+        description: "Ticket status has been updated.",
       })
       /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(!open))
@@ -71,6 +71,10 @@ export function PurchaseTicket({ id, ticketStatus }: Props) {
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      status: ticketStatus,
+    },
+    mode: "onChange",
   })
 
   function onSubmit(values: z.infer<typeof FormSchema>) {
@@ -85,7 +89,12 @@ export function PurchaseTicket({ id, ticketStatus }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm">{ticketStatus}</Button>
+        <Button
+          size="sm"
+          variant={ticketStatus === "AVAILABLE" ? "secondary" : "default"}
+        >
+          {ticketStatus}
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-1/2">
@@ -108,18 +117,22 @@ export function PurchaseTicket({ id, ticketStatus }: Props) {
                   <FormLabel>Ticket Status</FormLabel>
                   <Select
                     onValueChange={(value) => field.onChange(value as Status)}
-                    defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a ticket status to display" />
+                        <SelectValue placeholder={ticketStatus} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value={Status.AVAILABLE}>
-                        {Status.AVAILABLE}
-                      </SelectItem>
-                      <SelectItem value={Status.SOLD}>{Status.SOLD}</SelectItem>
+                      {ticketStatus === "AVAILABLE" ? (
+                        <SelectItem value={Status.SOLD}>
+                          {Status.SOLD}
+                        </SelectItem>
+                      ) : (
+                        <SelectItem value={Status.AVAILABLE}>
+                          {Status.AVAILABLE}
+                        </SelectItem>
+                      )}
                     </SelectContent>
                   </Select>
                   <FormDescription>
