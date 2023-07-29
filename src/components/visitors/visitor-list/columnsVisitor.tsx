@@ -1,4 +1,3 @@
-import type { Status } from "@prisma/client"
 import type { ColumnDef } from "@tanstack/react-table"
 import { format, formatDistance, subDays } from "date-fns"
 import { id } from "date-fns/locale"
@@ -6,6 +5,7 @@ import { MapPin, Star } from "lucide-react"
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header"
 import { Checkbox } from "~/ui/checkbox"
 import type { RouterOutputs } from "~/utils/api"
+import { PurchaseTicket } from "./purchase-ticket"
 import { RowVisitorActions } from "./row-visitor-actions"
 
 export const columnsVisitor: ColumnDef<
@@ -113,19 +113,17 @@ export const columnsVisitor: ColumnDef<
   },
   {
     accessorKey: "ticketStatus",
-    accessorFn: (row) => row.ticket.status,
+    accessorFn: (row) => row.ticket,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Ticket Status" />
     ),
     cell: ({ row }) => {
-      const ticketStatus = row.getValue("ticketStatus")
-      return (
-        <div className="flex items-center">
-          <span className="whitespace-nowrap font-medium capitalize">
-            {ticketStatus as Status}
-          </span>
-        </div>
-      )
+      const {
+        original: {
+          ticket: { id, status: ticketStatus },
+        },
+      } = row
+      return <PurchaseTicket id={id} ticketStatus={ticketStatus} />
     },
   },
   {

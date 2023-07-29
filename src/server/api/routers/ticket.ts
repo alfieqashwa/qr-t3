@@ -84,6 +84,17 @@ export const ticketRouter = createTRPCRouter({
         data: generatedTickets,
       })
     }),
+  updateStatus: editorProcedure
+    .input(z.object({
+      id: z.string().cuid(),
+      status: z.nativeEnum(Status),
+    }))
+    .mutation(async ({ ctx, input: { id, status } }) => {
+      return await ctx.prisma.ticket.update({
+        where: { id },
+        data: { status }
+      })
+    }),
   // Automatic change status to SOLD whenever the ticket get purchased by customer(s)
   sold: editorProcedure
     .input(z.object({ id: z.string().cuid() }))
