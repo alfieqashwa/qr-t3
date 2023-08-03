@@ -69,7 +69,6 @@ export function UpdateTeam({ id, currentRole, username }: Props) {
           Edit Role
         </Button>
       </DialogTrigger>
-
       <DialogContent className="sm:max-w-1/2">
         <DialogHeader>
           <DialogTitle>Update Team</DialogTitle>
