@@ -33,7 +33,7 @@ export const GenerateQRCode = ({
       <DialogContent className="sm:max-w-1/2">
         <DialogHeader>
           <DialogTitle>Generate QR Code</DialogTitle>
-          <DialogDescription asChild>
+          <DialogDescription className="thom flex flex-col items-center space-y-4 py-4">
             <p>
               Click
               <span className="px-1.5 font-medium text-amber-300">
@@ -41,10 +41,11 @@ export const GenerateQRCode = ({
               </span>
               to download the QR Code.
             </p>
+            <SvgQRCode />
           </DialogDescription>
         </DialogHeader>
 
-        <DialogFooter className="mt-4 flex flex-row items-center justify-end space-x-2">
+        <DialogFooter className="flex flex-row items-center justify-end space-x-2">
           {isLoading ? (
             <Button disabled variant="destructive" size="sm">
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
