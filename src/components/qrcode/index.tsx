@@ -1,6 +1,65 @@
+import type { Status } from "@prisma/client"
+import { Loader2, QrCode } from "lucide-react"
 import { QRCodeCanvas, QRCodeSVG } from "qrcode.react"
+import { Button } from "../ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog"
 
 const VALUE = "https://picturesofpeoplescanningqrcodes.tumblr.com/" as const
+
+type GenerateQRCodeProps = {
+  id: string
+  ticketStatus: Status
+}
+
+export const GenerateQRCode = ({
+  id,
+  ticketStatus,
+}: GenerateQRCodeProps): JSX.Element => {
+  const isLoading = false
+  return (
+    <Dialog>
+      <DialogTrigger className="w-md flex justify-center px-6">
+        {ticketStatus === "SOLD" && <QrCode size={28} />}
+      </DialogTrigger>
+
+      <DialogContent className="sm:max-w-1/2">
+        <DialogHeader>
+          <DialogTitle>Generate QR Code</DialogTitle>
+          <DialogDescription asChild>
+            <p>
+              Click
+              <span className="px-1.5 font-medium text-amber-300">
+                Download
+              </span>
+              to download the QR Code.
+            </p>
+          </DialogDescription>
+        </DialogHeader>
+
+        <DialogFooter className="mt-4 flex flex-row items-center justify-end space-x-2">
+          {isLoading ? (
+            <Button disabled variant="destructive" size="sm">
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Please wait
+            </Button>
+          ) : (
+            <Button type="submit" size="sm">
+              Download
+            </Button>
+          )}
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
 
 type QRCodeProps = {
   value?: string
@@ -51,5 +110,3 @@ const CanvasQRCode = ({
     />
   )
 }
-
-export { SvgQRCode, CanvasQRCode }
