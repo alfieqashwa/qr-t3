@@ -6,7 +6,7 @@
 
 ## Docker run on local machine
 
-docker run --name <container_name> -e POSTGRES_USER=<user_name> -e  POSTGRES_PASSWORD=<passwd_name> -p 5432:5432 -d <image_name>
+docker run --name <container_name> -e POSTGRES_USER=<user_name> -e POSTGRES_PASSWORD=<passwd_name> -p 5432:5432 -d <image_name>
 
 Add more libs.
 
@@ -37,9 +37,9 @@ Add more libs.
   - [x] Update User Role back to USER after success deleted Event Organizer
 - [x] Deactivate (Admin Access):
 - [x] Create custom procedure:
-  - [x]  adminProcedure
-  - [x]  editorProcedure
-  - [x]  operatorProcedure
+  - [x] adminProcedure
+  - [x] editorProcedure
+  - [x] operatorProcedure
 - [x] CRUD Editor and Operator Users (Admin Access)
   - [x] Create-Team API & Create Dialog Form
   - [x] Fetch all Teams based on EO-ID API & Setup Table list
@@ -54,10 +54,12 @@ Add more libs.
   - [x] Settings
 - [x] Store Addresses [PROVINCES, REGENCIES, DISTRICTS, VILLAGES] into database using prisma db seed
 - [x] Image Uploader
+
   - [x] Upload and remove user avatar
   - [ ] Add tooltip whenever user hovering the user avatar
 
-- [ ] Setup Event Page
+- [x] Setup Event Page
+
   - [x] Configure Event CRUD
     - [x] Setup Table
     - [x] Setup Search
@@ -77,13 +79,28 @@ Add more libs.
     - [x] Setup colors (light && dark)
 
 - [x] Setup Visitor Page (name, phone, isCheckIn, checkInDate, event, tickets)
+
   - [x] Configure Visitor CRUD
   - [x] Setup Table
   - [x] Setup Search
   - [x] Setup Filter
   - [x] Setup Pagination
   - [x] Delete Selected // All
+
+- [ ] Setup QRCode
+
+  - [x] Create QRCode Generator
+  - [ ] Create QRCode Svg & Canvas option list
+  - [ ] Download Button for QRCode Svg & Canvas
+  - [ ] Setup Source Link content for QRCode
+  - [ ] Create Dynamic Page based on QRCode Source Link
+  - [ ] QRCode Scanner Configuration
+  - [ ] Operator Access Level Configuration
+
+## Upgrade Version
+
 - [ ] Setup Dashboard Page
+
   - [ ] Setup Charts
   - [ ] Setup Table
   - [ ] Setup Search
@@ -92,12 +109,6 @@ Add more libs.
 
 - [ ] Setup DB on Planet Scale
 - [ ] Deploy on Vercel
-
-## Upgrade Version
-
-- [ ] Setup QR-Code
-  - [ ] Create QR-Code Generator
-  - [ ] Read QR-Code
 
 ## Future Planning for DayDreamer
 
