@@ -16,32 +16,63 @@ const VALUE = "https://picturesofpeoplescanningqrcodes.tumblr.com/" as const
 
 type GenerateQRCodeProps = {
   id: string
+  name: string
   ticketStatus: Status
 }
 
 export const GenerateQRCode = ({
   id,
+  name,
   ticketStatus,
 }: GenerateQRCodeProps): JSX.Element => {
+  /**
+   * ? source: https://github.com/zpao/qrcode.react/issues/140
+   */
+  const onSVGButtonClick = () => {
+    const node = document.getElementById("QRCode")
+    if (node == null) return
+
+    const svgData = new XMLSerializer().serializeToString(node)
+    const canvas = document.createElement("canvas")
+    const ctx = canvas.getContext("2d")
+    const img = new Image()
+
+    img.onload = () => {
+      canvas.width = img.width
+      canvas.height = img.height
+      ctx?.drawImage(img, 0, 0)
+      const pngFile = canvas.toDataURL("image/png")
+      const downloadLink = document.createElement("a")
+      downloadLink.download = name
+      downloadLink.href = `${pngFile}`
+      downloadLink.click()
+    }
+    img.src = `data:image/svg+xml;base64,${btoa(svgData)}`
+  }
+
   const isLoading = false
   return (
     <Dialog>
-      <DialogTrigger className="w-md flex justify-center px-6">
+      <DialogTrigger className="flex justify-center px-6">
         {ticketStatus === "SOLD" && <QrCode size={28} />}
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-1/2">
+      <DialogContent className="min-w-full pl-32">
         <DialogHeader>
           <DialogTitle>Generate QR Code</DialogTitle>
-          <DialogDescription className="thom flex flex-col items-center space-y-4 py-4">
-            <p>
-              Click
-              <span className="px-1.5 font-medium text-amber-300">
-                Download
-              </span>
-              to download the QR Code.
-            </p>
-            <SvgQRCode />
+          <DialogDescription asChild>
+            <>
+              <p>
+                Click
+                <span className="px-1.5 font-medium text-amber-300">
+                  Download
+                </span>
+                button to download QR Code.
+              </p>
+              <div className="w-full">
+                <SvgQRCode id="QRCode" value={VALUE} size={512} />
+              </div>
+            </>
           </DialogDescription>
         </DialogHeader>
 
@@ -52,7 +83,7 @@ export const GenerateQRCode = ({
               Please wait
             </Button>
           ) : (
-            <Button type="submit" size="sm">
+            <Button type="submit" size="sm" onClick={onSVGButtonClick}>
               Download
             </Button>
           )}
@@ -63,13 +94,15 @@ export const GenerateQRCode = ({
 }
 
 type QRCodeProps = {
-  value?: string
-  size?: number
+  id: string
+  value: string
+  size: number
 }
 
-const SvgQRCode = ({ value = VALUE, size = 256 }: QRCodeProps): JSX.Element => {
+const SvgQRCode = ({ id, value, size }: QRCodeProps): JSX.Element => {
   return (
     <QRCodeSVG
+      id={id}
       value={value}
       size={size}
       bgColor={"#ffffff"}
@@ -88,26 +121,26 @@ const SvgQRCode = ({ value = VALUE, size = 256 }: QRCodeProps): JSX.Element => {
   )
 }
 
-const CanvasQRCode = ({
-  value = VALUE,
-  size = 256,
-}: QRCodeProps): JSX.Element => {
-  return (
-    <QRCodeCanvas
-      value={value}
-      size={size}
-      bgColor={"#ffffff"}
-      fgColor={"#000000"}
-      level="H"
-      includeMargin={true}
-      imageSettings={{
-        src: "https://static.zpao.com/favicon.png",
-        x: undefined,
-        y: undefined,
-        height: 36,
-        width: 36,
-        excavate: true,
-      }}
-    />
-  )
-}
+// const CanvasQRCode = ({
+//   value = VALUE,
+//   size = 256,
+// }: QRCodeProps): JSX.Element => {
+//   return (
+//     <QRCodeCanvas
+//       value={value}
+//       size={size}
+//       bgColor={"#ffffff"}
+//       fgColor={"#000000"}
+//       level="H"
+//       includeMargin={true}
+//       imageSettings={{
+//         src: "https://static.zpao.com/favicon.png",
+//         x: undefined,
+//         y: undefined,
+//         height: 36,
+//         width: 36,
+//         excavate: true,
+//       }}
+//     />
+//   )
+// }
