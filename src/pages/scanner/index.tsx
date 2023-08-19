@@ -2,7 +2,7 @@ import { type GetServerSideProps, type NextPage } from "next"
 import { getServerSession } from "next-auth"
 import { authOptions } from "~/src/server/auth"
 
-const VisitorByIdPage: NextPage = (): JSX.Element => {
+const ScannerPage: NextPage = (): JSX.Element => {
   return (
     <div>
       <h2>SCANNER</h2>
@@ -40,4 +40,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 }
 
-export default VisitorByIdPage
+export default ScannerPage
