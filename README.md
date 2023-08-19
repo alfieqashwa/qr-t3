@@ -90,12 +90,12 @@ Add more libs.
 - [ ] Setup QRCode
 
   - [x] Create QRCode Generator
-  - [ ] Create QRCode Svg & Canvas option list
-  - [ ] Download Button for QRCode Svg & Canvas
-  - [ ] Setup Source Link content for QRCode
-  - [ ] Create Dynamic Page based on QRCode Source Link
+  - [x] Create QRCode Svg & Canvas option list
+  - [x] Download Button for QRCode Svg & Canvas
+  - [x] Setup Source Link content for QRCode
+  - [x] Create Dynamic Page based on QRCode Source Link
+  - [x] Operator Access Level Configuration
   - [ ] QRCode Scanner Configuration
-  - [ ] Operator Access Level Configuration
 
 ## Upgrade Version
 
