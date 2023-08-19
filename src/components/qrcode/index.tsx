@@ -1,6 +1,6 @@
 import type { Status } from "@prisma/client"
 import { Loader2, QrCode } from "lucide-react"
-import { QRCodeCanvas, QRCodeSVG } from "qrcode.react"
+import { QRCodeSVG } from "qrcode.react"
 import { Button } from "../ui/button"
 import {
   Dialog,
@@ -11,8 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog"
-
-const VALUE = "https://picturesofpeoplescanningqrcodes.tumblr.com/" as const
+import { clientEnv } from "~/src/env/schema.mjs"
 
 type GenerateQRCodeProps = {
   id: string
@@ -70,7 +69,13 @@ export const GenerateQRCode = ({
                 button to download QR Code.
               </p>
               <div className="w-full">
-                <SvgQRCode id="QRCode" value={VALUE} size={512} />
+                <SvgQRCode
+                  id="QRCode"
+                  value={`${
+                    clientEnv.NEXT_PUBLIC_BASEURL as string
+                  }/visitor/${id}`}
+                  size={512}
+                />
               </div>
             </>
           </DialogDescription>
