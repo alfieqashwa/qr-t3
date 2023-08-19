@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog"
 import { clientEnv } from "~/src/env/schema.mjs"
+import Link from "next/link"
 
 type GenerateQRCodeProps = {
   id: string
@@ -82,16 +83,12 @@ export const GenerateQRCode = ({
         </DialogHeader>
 
         <DialogFooter className="flex flex-row items-center justify-end space-x-2">
-          {isLoading ? (
-            <Button disabled variant="destructive" size="sm">
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Please wait
-            </Button>
-          ) : (
-            <Button type="submit" size="sm" onClick={onSVGButtonClick}>
-              Download
-            </Button>
-          )}
+          <Button type="button" size="sm" onClick={onSVGButtonClick}>
+            Download
+          </Button>
+          <Link href={`/visitor/${id}`} passHref>
+            <Button variant="ghost">Details</Button>
+          </Link>
         </DialogFooter>
       </DialogContent>
     </Dialog>
