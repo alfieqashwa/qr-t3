@@ -1,7 +1,7 @@
 import { Status } from "@prisma/client"
 import { z } from "zod"
 import { TASKS } from "~/components/table-list-sample/data/tasks"
-import { createTRPCRouter, editorProcedure, protectedProcedure } from "../trpc"
+import { createTRPCRouter, editorProcedure, operatorProcedure, protectedProcedure } from "../trpc"
 
 export const ticketRouter = createTRPCRouter({
   // Queries
@@ -27,6 +27,15 @@ export const ticketRouter = createTRPCRouter({
       orderBy: { event: { date: "asc" } },
     })
   }),
+
+  getAllById: operatorProcedure
+    .input(z.object({ ticketId: z.string().cuid() }))
+    .query(async ({ ctx, input: { ticketId } }) => {
+      return await ctx.prisma.ticket.findUnique({
+        where: { id: ticketId },
+        include: { visitors: true, event: true, eventOrganizer: true }
+      })
+    }),
 
   getAllByEventId: protectedProcedure
     .input((z.object({ eventId: z.string().cuid() })))
