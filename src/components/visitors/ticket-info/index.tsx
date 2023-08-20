@@ -1,4 +1,3 @@
-
 import { format } from "date-fns"
 import { id } from "date-fns/locale"
 import {
@@ -18,10 +17,12 @@ type TicketInfoProps = {
 }
 export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
   return (
-    <Card className="min-h-screen min-w-fit">
+    <Card className="thom min-h-screen min-w-fit py-8">
       <CardHeader className="text-center">
         <CardTitle className="md:text-xl">Ticket Information</CardTitle>
-        <CardDescription className="md:text-lg">Ticket ID: {ticket?.id}</CardDescription>
+        <CardDescription className="md:text-lg">
+          Ticket ID: {ticket?.id}
+        </CardDescription>
       </CardHeader>
 
       <CardContent>
@@ -69,4 +70,3 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
     </Card>
   )
 }
-

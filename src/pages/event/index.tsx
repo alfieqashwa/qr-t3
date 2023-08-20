@@ -71,6 +71,16 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
 
+  // If user has EventOrganizerId but as an OPERATOR, then cannot enter this page.
+  if (session.user.eventOrganizerId && session.user.role === "OPERATOR") {
+    return {
+      redirect: {
+        destination: "/scanner",
+        permanent: false,
+      },
+    }
+  }
+
   return {
     props: {
       session,
