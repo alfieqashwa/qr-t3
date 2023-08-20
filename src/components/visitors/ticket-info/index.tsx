@@ -17,7 +17,7 @@ type TicketInfoProps = {
 }
 export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
   return (
-    <Card className="thom min-h-screen min-w-fit py-8">
+    <Card className="min-h-screen min-w-fit py-8">
       <CardHeader className="text-center">
         <CardTitle className="md:text-xl">Ticket Information</CardTitle>
         <CardDescription className="md:text-lg">

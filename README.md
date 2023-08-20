@@ -87,7 +87,7 @@ Add more libs.
   - [x] Setup Pagination
   - [x] Delete Selected // All
 
-- [ ] Setup QRCode
+- [x] Setup QRCode
 
   - [x] Create QRCode Generator
   - [x] Create QRCode Svg & Canvas option list
@@ -95,7 +95,13 @@ Add more libs.
   - [x] Setup Source Link content for QRCode
   - [x] Create Dynamic Page based on QRCode Source Link
   - [x] Operator Access Level Configuration
-  - [ ] QRCode Scanner Configuration
+  - [x] QRCode Scanner Configuration
+
+- [ ] Testing QRCode
+
+  - [ ] Testing Operator Access Level
+  - [ ] Testing Scanning QRCode on mobile-view
+  - [ ] Add Check-[In/Out] Toggle Button
 
 ## Upgrade Version
 
