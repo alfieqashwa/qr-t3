@@ -1,11 +1,11 @@
 import { type GetServerSideProps, type NextPage } from "next"
 import { getServerSession } from "next-auth"
-import QRScanner from "~/src/components/qrcode/scanner"
-import { authOptions } from "~/src/server/auth"
+import QRScanner from "~/components/qrcode/scanner"
+import { authOptions } from "~/server/auth"
 
 const ScannerPage: NextPage = (): JSX.Element => {
   return (
-    <div className="min-h-screen w-full p-4">
+    <div className="min-h-screen w-full px-3 py-6">
       <QRScanner />
     </div>
   )
