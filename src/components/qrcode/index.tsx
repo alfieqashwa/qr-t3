@@ -1,6 +1,5 @@
 import type { Status } from "@prisma/client"
-import { Loader2, QrCode } from "lucide-react"
-import { QRCodeSVG } from "qrcode.react"
+import { QrCode } from "lucide-react"
 import { Button } from "../ui/button"
 import {
   Dialog,
@@ -13,6 +12,7 @@ import {
 } from "../ui/dialog"
 import { clientEnv } from "~/src/env/schema.mjs"
 import Link from "next/link"
+import { SvgQRCode } from "./svg-qrcode"
 
 type GenerateQRCodeProps = {
   id: string
@@ -50,7 +50,6 @@ export const GenerateQRCode = ({
     img.src = `data:image/svg+xml;base64,${btoa(svgData)}`
   }
 
-  const isLoading = false
   return (
     <Dialog>
       <DialogTrigger className="flex justify-center px-6">
@@ -94,55 +93,3 @@ export const GenerateQRCode = ({
     </Dialog>
   )
 }
-
-type QRCodeProps = {
-  id: string
-  value: string
-  size: number
-}
-
-const SvgQRCode = ({ id, value, size }: QRCodeProps): JSX.Element => {
-  return (
-    <QRCodeSVG
-      id={id}
-      value={value}
-      size={size}
-      bgColor={"#ffffff"}
-      fgColor={"#000000"}
-      level="H"
-      includeMargin={true}
-      imageSettings={{
-        src: "https://static.zpao.com/favicon.png",
-        x: undefined,
-        y: undefined,
-        height: 36,
-        width: 36,
-        excavate: true,
-      }}
-    />
-  )
-}
-
-// const CanvasQRCode = ({
-//   value = VALUE,
-//   size = 256,
-// }: QRCodeProps): JSX.Element => {
-//   return (
-//     <QRCodeCanvas
-//       value={value}
-//       size={size}
-//       bgColor={"#ffffff"}
-//       fgColor={"#000000"}
-//       level="H"
-//       includeMargin={true}
-//       imageSettings={{
-//         src: "https://static.zpao.com/favicon.png",
-//         x: undefined,
-//         y: undefined,
-//         height: 36,
-//         width: 36,
-//         excavate: true,
-//       }}
-//     />
-//   )
-// }
