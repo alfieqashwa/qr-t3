@@ -12,7 +12,6 @@ import { Button } from "~/ui/button"
 import { ToastAction } from "~/ui/toast"
 import { toast } from "~/ui/use-toast"
 import { Wrapper } from "./ticket-wrapper"
-import { Loader2 } from "lucide-react"
 
 type TicketInfoProps = {
   ticket: RouterOutputs["ticket"]["getAllById"]
@@ -38,6 +37,12 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
       })
     },
   })
+
+  const handleCheckIn = (visitorId: string) =>
+    mutate({ id: visitorId, isCheckIn: true })
+
+  const handleCheckOut = (visitorId: string) =>
+    mutate({ id: visitorId, isCheckIn: false })
 
   return (
     <Card className="min-h-screen min-w-fit py-8">
@@ -74,43 +79,40 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
         <Wrapper title="Visitor" className="mt-2">
           {ticket?.visitors
             .filter((t) => t.ticketId === ticketId)
-            .map((t) => (
-              <ul key={t.id} className="flex flex-col items-center text-sm">
-                <li className="capitalize">{t.name}</li>
-                <li>{t.phone}</li>
-                <li>{t.email}</li>
+            .map((v) => (
+              <ul key={v.id} className="flex flex-col items-center text-sm">
+                <li className="capitalize">{v.name}</li>
+                <li>{v.phone}</li>
+                <li>{v.email}</li>
                 {/* // TODOS: CONFIG CHECK-IN */}
-                <li className="mt-8">
-                  {isLoading ? (
-                    <Button
-                      size="lg"
-                      disabled
-                      className="flex items-center justify-center"
-                    >
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Please wait
-                    </Button>
-                  ) : (
-                    <Button
-                      size="lg"
-                      onClick={() =>
-                        mutate({
-                          id: t.id,
-                          isCheckIn: !t.isCheckIn,
-                        })
-                      }
-                      className="flex items-center justify-center"
-                    >
-                      {!t.isCheckIn ? (
-                        <span>Check In</span>
-                      ) : (
-                        <span>Check Out</span>
-                      )}
-                    </Button>
-                  )}
+                <li className="mt-8 flex items-center justify-center space-x-6">
+                  {/* //? STARTS CHECK-IN */}
+                  <Button
+                    disabled={isLoading || v.isCheckIn}
+                    size="lg"
+                    variant={`${v.isCheckIn ? "destructive" : "default"}`}
+                    onClick={() => handleCheckIn(v.id)}
+                    className="flex items-center justify-center uppercase"
+                  >
+                    <span className="whitespace-nowrap">Check In</span>
+                  </Button>
+                  {/* //? ENDS CHECK-IN */}
+
+                  {/* //? STARTS CHECK-OUT */}
+                  <Button
+                    disabled={!v.isCheckIn}
+                    size="lg"
+                    variant={`${!v.isCheckIn ? "destructive" : "default"}`}
+                    onClick={() => handleCheckOut(v.id)}
+                    className="flex items-center justify-center uppercase"
+                  >
+                    <span className="whitespace-nowrap">Check Out</span>
+                  </Button>
+                  {/* //? ENDS CHECK-OUT */}
                 </li>
+
                 <li className="mt-4">
-                  checkinDate: {t.checkInDate?.toString() ?? "-"}
+                  checkinDate: {v.checkInDate?.toString() ?? "-"}
                 </li>
               </ul>
             ))}

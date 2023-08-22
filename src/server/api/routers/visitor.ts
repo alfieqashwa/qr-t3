@@ -55,12 +55,14 @@ export const visitorRouter = createTRPCRouter({
   toggleCheck: operatorProcedure
     .input(z.object({
       id: z.string().cuid(),
-      isCheckIn: z.boolean()
+      isCheckIn: z.boolean(),
+      checkInDate: z.date().optional(),
+      checkOutDate: z.date().optional()
     }))
-    .mutation(async ({ ctx, input: { id, isCheckIn } }) => {
+    .mutation(async ({ ctx, input: { id, isCheckIn, checkInDate, checkOutDate } }) => {
       return await ctx.prisma.visitor.update({
         where: { id },
-        data: { isCheckIn }
+        data: { isCheckIn, checkInDate, checkOutDate }
       })
     }),
   delete: editorProcedure

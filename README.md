@@ -101,6 +101,7 @@ Add more libs.
 
   - [x] Add Check-[In/Out] Toggle Button
   - [ ] Configure Check-In Date
+  - [ ] Configure Check-Out Date
   - [ ] Testing Operator Access Level
   - [ ] Testing Scanning QRCode on mobile-view
 
