@@ -1,6 +1,6 @@
 import { z } from "zod"
 import { createVisitorSchema, updateVisitorSchema } from "~/src/types/schema"
-import { adminProcedure, createTRPCRouter, editorProcedure, protectedProcedure } from "../trpc"
+import { adminProcedure, createTRPCRouter, editorProcedure, operatorProcedure, protectedProcedure } from "../trpc"
 
 export const visitorRouter = createTRPCRouter({
   // Queries
@@ -50,6 +50,17 @@ export const visitorRouter = createTRPCRouter({
           phone,
           email
         }
+      })
+    }),
+  toggleCheck: operatorProcedure
+    .input(z.object({
+      id: z.string().cuid(),
+      isCheckIn: z.boolean()
+    }))
+    .mutation(async ({ ctx, input: { id, isCheckIn } }) => {
+      return await ctx.prisma.visitor.update({
+        where: { id },
+        data: { isCheckIn }
       })
     }),
   delete: editorProcedure
