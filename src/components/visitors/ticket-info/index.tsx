@@ -100,7 +100,7 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
 
                   {/* //? STARTS CHECK-OUT */}
                   <Button
-                    disabled={!v.isCheckIn}
+                    disabled={isLoading || !v.isCheckIn}
                     size="lg"
                     variant={`${!v.isCheckIn ? "destructive" : "default"}`}
                     onClick={() => handleCheckOut(v.id)}
