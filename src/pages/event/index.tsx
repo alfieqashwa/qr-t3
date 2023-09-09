@@ -4,7 +4,6 @@ import { getServerSession } from "next-auth/next"
 import { EventList, TicketList } from "~/components/events"
 import { HeaderTitle } from "~/components/header-title"
 import { Layout } from "~/components/layout"
-import { DataListSample } from "~/components/table-list-sample"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
 import { authOptions } from "~/server/auth"
 import { LoadingSpinner } from "~/src/components/loading"
@@ -29,9 +28,6 @@ const EventPage: NextPage = (): JSX.Element => {
           >
             Ticket
           </TabsTrigger>
-          <TabsTrigger className="text-xs lg:text-sm" value="visitor">
-            Visitor
-          </TabsTrigger>
         </TabsList>
         {isLoading && <LoadingSpinner />}
         <TabsContent value="event-list">
@@ -39,9 +35,6 @@ const EventPage: NextPage = (): JSX.Element => {
         </TabsContent>
         <TabsContent value="ticket-list">
           <TicketList />
-        </TabsContent>
-        <TabsContent value="visitor">
-          <DataListSample />
         </TabsContent>
       </Tabs>
     </Layout>

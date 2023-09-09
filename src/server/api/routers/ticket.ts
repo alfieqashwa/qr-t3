@@ -1,13 +1,9 @@
 import { Status } from "@prisma/client"
 import { z } from "zod"
-import { TASKS } from "~/components/table-list-sample/data/tasks"
 import { createTRPCRouter, editorProcedure, operatorProcedure, protectedProcedure } from "../trpc"
 
 export const ticketRouter = createTRPCRouter({
   // Queries
-  tasks: protectedProcedure.query(() => {
-    return TASKS
-  }),
   count: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.ticket.count()
   }),
