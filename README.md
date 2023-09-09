@@ -97,6 +97,11 @@ Add more libs.
   - [x] Operator Access Level Configuration
   - [x] QRCode Scanner Configuration
 
+- [x] Deploy on Production (Testing)
+
+  - [x] Deploy DB on Planet Scale (main & dev)
+  - [x] Deploy Web on Vercel
+
 - [ ] Testing QRCode
 
   - [x] Add Check-[In/Out] Toggle Button
