@@ -114,6 +114,9 @@ export function CreateTeamForm(props: Props) {
           render={({ field }) => (
             <FormItem className="pt-4">
               <Select
+                // TODOS: zod convert enum -> string
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
                 onValueChange={field.onChange}
                 defaultValue={field.value as Role}
               >

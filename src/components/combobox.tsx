@@ -15,14 +15,16 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover"
 import { cn } from "~/src/utils"
-import type { RouterOutputs } from "~/utils/api"
 
 type CommandComboboxProps = {
-  datas?:
-    | RouterOutputs["address"]["provinces"]
-    | RouterOutputs["address"]["regencies"]
-    | RouterOutputs["address"]["districts"]
-    | RouterOutputs["address"]["villages"]
+  datas?: {
+    id: string
+    name: string
+  }[]
+  // | RouterOutputs["address"]["provinces"]
+  // | RouterOutputs["address"]["regencies"]
+  // | RouterOutputs["address"]["districts"]
+  // | RouterOutputs["address"]["villages"]
   isLoading: boolean
   value: string
   setValue: React.Dispatch<React.SetStateAction<string>>

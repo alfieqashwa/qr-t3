@@ -52,6 +52,8 @@ export default function Scanner() {
             onResult={(result, err) => {
               if (!!result) {
                 // TODO: ts-checking
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
                 const resultText = result?.text as string // Assign the value to a new variable
                 setData(resultText || "")
                 setStartScan(false)
@@ -65,6 +67,8 @@ export default function Scanner() {
             constraints={{
               facingMode: selected,
             }}
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             delay={500}
           />
           <Select value={selected} onValueChange={setSelected}>
