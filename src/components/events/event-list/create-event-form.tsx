@@ -43,6 +43,7 @@ export function CreateEventForm(props: Props) {
       })
       await utils.event.count.invalidate()
       await utils.event.getAll.invalidate()
+      await utils.event.eventData.invalidate()
       await wait().then(() => props.setOpen(false))
     },
     onError() {
