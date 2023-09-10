@@ -8,6 +8,7 @@ import { api } from "~/utils/api"
 import { wait } from "~/utils/wait"
 import { HeaderSettings } from "../header-settings"
 import { ProfileImage } from "./profile-image"
+import { UpdateRole } from "./update-role"
 
 export function ProfileInfo(): JSX.Element {
   const router = useRouter()
@@ -58,6 +59,13 @@ export function ProfileInfo(): JSX.Element {
                 {profile.role}
               </small>
             </div>
+            {profile.email === process.env.NEXT_PUBLIC_DEWA && (
+              <UpdateRole
+                id={profile.id}
+                username={profile.name}
+                currentRole={profile.role}
+              />
+            )}
             <div>
               <small className="text-sm font-medium lg:text-base lg:font-semibold">
                 Login as <span>{profile.email}</span>
