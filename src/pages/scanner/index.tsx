@@ -10,7 +10,7 @@ const ScannerPage: NextPage = (): JSX.Element => {
   return (
     <div className="relative min-h-screen w-full py-6">
       <QRScanner />
-      <div className="absolute bottom-10 w-full text-center">
+      <div className="absolute bottom-16 w-full text-center">
         <Button size="sm" variant="secondary" onClick={() => signOut()}>
           <span className="px-2">Sign Out</span>
           <LogOut size={18} className="shrink-0" />
