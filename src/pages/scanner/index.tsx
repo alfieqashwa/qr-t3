@@ -8,9 +8,9 @@ import { Button } from "~/src/components/ui/button"
 
 const ScannerPage: NextPage = (): JSX.Element => {
   return (
-    <div className="relative min-h-screen w-full py-6">
+    <div className="min-h-screen w-full py-6">
       <QRScanner />
-      <div className="absolute bottom-16 w-full text-center">
+      <div className="mt-8 w-full text-center">
         <Button size="sm" variant="secondary" onClick={() => signOut()}>
           <span className="px-2">Sign Out</span>
           <LogOut size={18} className="shrink-0" />
