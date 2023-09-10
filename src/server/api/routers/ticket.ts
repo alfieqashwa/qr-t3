@@ -23,7 +23,6 @@ export const ticketRouter = createTRPCRouter({
       orderBy: { event: { date: "asc" } },
     })
   }),
-
   getAllById: operatorProcedure
     .input(z.object({ ticketId: z.string().cuid() }))
     .query(async ({ ctx, input: { ticketId } }) => {
@@ -37,7 +36,7 @@ export const ticketRouter = createTRPCRouter({
     .input((z.object({ eventId: z.string().cuid() })))
     .query(async ({ ctx, input: { eventId } }) => {
       return await ctx.prisma.ticket.findMany({
-        where: { eventId, eventOrganizerId: ctx.session.user.eventOrganizerId as string }
+        where: { eventId, eventOrganizerId: ctx.session.user.eventOrganizerId as string },
       })
     }),
 

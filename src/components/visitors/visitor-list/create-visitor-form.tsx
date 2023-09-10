@@ -66,6 +66,9 @@ export const CreateVisitorForm = (props: Props) => {
 
   //! no-need to use useEffect
   const selectedEventId = form.watch("eventId")
+  const selectedCategory = form.watch("category")
+
+  console.log({ selectedCategory })
 
   const events = api.event.getAll.useQuery(undefined, {
     select: (events) =>
@@ -75,6 +78,17 @@ export const CreateVisitorForm = (props: Props) => {
       })),
   })
 
+  const ticketCategory = api.ticket.getAllByEventId.useQuery(
+    { eventId: selectedEventId },
+    {
+      enabled: !!selectedEventId,
+      select: (tickets) => {
+        const categories = tickets.map((ticket) => ticket.category)
+        return [...new Set(categories)]
+      },
+    }
+  )
+
   const tickets = api.ticket.getAllByEventId.useQuery(
     { eventId: selectedEventId },
     {
@@ -83,6 +97,7 @@ export const CreateVisitorForm = (props: Props) => {
         tickets.map(({ id, category }) => ({
           id,
           category,
+          categoryType: [...new Set(tickets.map((c) => c.category))],
         })),
     }
   )
@@ -101,7 +116,7 @@ export const CreateVisitorForm = (props: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 mt-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-8 grid gap-4">
         <FormField
           control={form.control}
           name="name"
@@ -172,7 +187,7 @@ export const CreateVisitorForm = (props: Props) => {
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <FormControl className="capitalize col-span-3 w-[240px]">
+                  <FormControl className="col-span-3 w-[240px] capitalize">
                     <SelectTrigger>
                       <SelectValue placeholder="Select an event" />
                     </SelectTrigger>
@@ -186,6 +201,40 @@ export const CreateVisitorForm = (props: Props) => {
                           className="capitalize"
                         >
                           {event.title}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <FormMessage className="text-center" />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="category"
+          render={({ field }) => (
+            <FormItem>
+              <div className="grid grid-cols-6 items-center gap-x-4">
+                <FormLabel className="text-right">Category</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl className="col-span-3 w-[240px] uppercase">
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select an event" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {ticketCategory.status === "success" &&
+                      ticketCategory.data.map((category) => (
+                        <SelectItem
+                          value={category}
+                          key={category}
+                          className="uppercase"
+                        >
+                          {category}
                         </SelectItem>
                       ))}
                   </SelectContent>
@@ -214,20 +263,24 @@ export const CreateVisitorForm = (props: Props) => {
                   <SelectContent>
                     {!!getSelection &&
                       tickets.status === "success" &&
-                      tickets.data.map((ticket) => {
-                        const ticketCategory = `${
-                          ticket.category
-                        }-${ticket.id.slice(-8, -1)}`
-                        return (
-                          <SelectItem
-                            value={ticket.id}
-                            key={ticket.id}
-                            className="uppercase"
-                          >
-                            {ticketCategory}
-                          </SelectItem>
+                      tickets.data
+                        .filter(
+                          (ticket) => ticket.category === selectedCategory
                         )
-                      })}
+                        .map((ticket) => {
+                          const ticketCategory = `${
+                            ticket.category
+                          }-${ticket.id.slice(-8, -1)}`
+                          return (
+                            <SelectItem
+                              value={ticket.id}
+                              key={ticket.id}
+                              className="uppercase"
+                            >
+                              {ticketCategory}
+                            </SelectItem>
+                          )
+                        })}
                   </SelectContent>
                 </Select>
               </div>

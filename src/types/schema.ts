@@ -49,6 +49,7 @@ const visitorSchema = z.object({
   }).cuid({
     message: "Event is required"
   }),
+  category: z.string().optional(),
   ticketId: z.string({
     required_error: "Ticket is required",
     invalid_type_error: "Ticket must be a string",
