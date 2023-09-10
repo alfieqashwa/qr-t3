@@ -13,9 +13,9 @@ import { api } from "~/src/utils/api"
 
 const title = "Dewa"
 const SettingsPage: NextPage = () => {
-  const { data: users, isLoading } = api.dewa.getAll.useQuery()
-  console.table(users)
-  console.log({ users })
+  const { data, status } = api.dewa.getAll.useQuery()
+  console.table(data)
+  console.log({ data })
 
   return (
     <Layout title={title}>
@@ -23,8 +23,9 @@ const SettingsPage: NextPage = () => {
       <div className="mt-4 h-[calc(100vh_-_17vh)]">
         <h3>{title} is here...</h3>
         <div className="mt-8">
-          {isLoading && <LoadingSpinner />}
-          <pre>{JSON.stringify(users, null, 4)}</pre>
+          {status === "loading" && <LoadingSpinner />}
+          {status === "error" && <p>An Error occured</p>}
+          {status === "success" && <pre>{JSON.stringify(data, null, 4)}</pre>}
         </div>
       </div>
     </Layout>

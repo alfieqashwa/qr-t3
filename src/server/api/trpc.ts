@@ -132,7 +132,7 @@ const isDewa = t.middleware(({ ctx, next }) => {
   ) {
     throw new TRPCError({
       code: "UNAUTHORIZED",
-      message: "Only Admin is allowed!",
+      message: "Only Dewa is allowed!",
     })
   }
   return next({
