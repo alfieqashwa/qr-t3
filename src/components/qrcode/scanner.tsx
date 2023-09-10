@@ -20,7 +20,7 @@ export default function Scanner() {
   const [selected, setSelected] = useState<string>("environment")
   const [startScan, setStartScan] = useState(false)
   const [loadingScan, setLoadingScan] = useState(false)
-  const [data, setData] = useState("No Result...")
+  const [data, setData] = useState<string | null>(null)
 
   useEffect(() => {
     if (startScan && data === "No Result...") {
@@ -82,13 +82,15 @@ export default function Scanner() {
             </SelectContent>
           </Select>
           <div className="my-4 space-y-2 text-center">
-            {data && (
+            {data ? (
               <Link
                 href={data}
                 className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Detail Info
               </Link>
+            ) : (
+              <p className="font-semibold">No Result... </p>
             )}
           </div>
         </div>

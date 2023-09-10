@@ -12,12 +12,14 @@ import { Button } from "~/ui/button"
 import { ToastAction } from "~/ui/toast"
 import { toast } from "~/ui/use-toast"
 import { Wrapper } from "./ticket-wrapper"
+import { useRouter } from "next/router"
 
 type TicketInfoProps = {
   ticket: RouterOutputs["ticket"]["getAllById"]
   ticketId: string
 }
 export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
+  const router = useRouter()
   const utils = api.useContext()
   const { mutate, isLoading } = api.visitor.toggleCheck.useMutation({
     async onSuccess() {
@@ -116,6 +118,15 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
                 </li>
               </ul>
             ))}
+
+          <Button
+            variant="secondary"
+            size="lg"
+            className="mt-8"
+            onClick={() => void router.back()}
+          >
+            Go Back
+          </Button>
         </Wrapper>
       </CardContent>
     </Card>
