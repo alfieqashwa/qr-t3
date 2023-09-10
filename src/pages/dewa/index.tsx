@@ -7,15 +7,25 @@ import { Layout } from "~/src/components/layout"
 import { Role } from "@prisma/client"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "~/server/auth"
+import { LoadingSpinner } from "~/src/components/loading"
 import { prisma } from "~/src/server/db"
+import { api } from "~/src/utils/api"
 
 const title = "Dewa"
 const SettingsPage: NextPage = () => {
+  const { data: users, isLoading } = api.dewa.getAll.useQuery()
+  console.table(users)
+  console.log({ users })
+
   return (
     <Layout title={title}>
       <HeaderTitle title={title} />
       <div className="mt-4 h-[calc(100vh_-_17vh)]">
         <h3>{title} is here...</h3>
+        <div className="mt-8">
+          {isLoading && <LoadingSpinner />}
+          <pre>{JSON.stringify(users, null, 4)}</pre>
+        </div>
       </div>
     </Layout>
   )

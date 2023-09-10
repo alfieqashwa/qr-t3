@@ -120,6 +120,29 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   })
 })
 
+const isDewa = t.middleware(({ ctx, next }) => {
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({ code: "UNAUTHORIZED" })
+  }
+  if (
+    ctx.session?.user.role === Role.USER ||
+    ctx.session?.user.role === Role.OPERATOR ||
+    ctx.session?.user.role === Role.EDITOR ||
+    ctx.session?.user.role === Role.ADMIN
+  ) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "Only Admin is allowed!",
+    })
+  }
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session?.user },
+    },
+  })
+})
+
 const isAdmin = t.middleware(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" })
@@ -190,6 +213,7 @@ const isOperator = t.middleware(({ ctx, next }) => {
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed)
+export const dewaProcedure = t.procedure.use(isDewa)
 export const adminProcedure = t.procedure.use(isAdmin)
 export const editorProcedure = t.procedure.use(isEditor)
 export const operatorProcedure = t.procedure.use(isOperator)
