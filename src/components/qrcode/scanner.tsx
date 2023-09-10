@@ -23,10 +23,19 @@ export default function Scanner() {
   const [data, setData] = useState<string | null>(null)
 
   useEffect(() => {
-    if (startScan && data === "No Result...") {
-      setLoadingScan(true)
+    // if (startScan && data === null) {
+    //   setLoadingScan(true)
+    // } else {
+    //   setLoadingScan(false)
+    // }
+    if (startScan) {
+      if (data == null) {
+        setLoadingScan(true)
+      } else {
+        setLoadingScan(false)
+      }
     } else {
-      setLoadingScan(false)
+      setData(null)
     }
   }, [startScan, data])
 
