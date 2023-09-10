@@ -32,12 +32,18 @@ export const UserProfile = ({ image }: { image: string }) => {
                   className={`group capitalize hover:cursor-pointer
                     ${
                       pathname === `/${path}`
-                        ? "bg-secondary text-secondary-foreground"
+                        ? "bg-secondary text-amber-300"
                         : ""
                     }`}
                 >
                   {path}
-                  <MenubarShortcut className="text-foreground transition duration-300 ease-in-out group-hover:text-foreground">
+                  <MenubarShortcut
+                    className={`transition duration-300 ease-in-out ${
+                      pathname === `/${path}`
+                        ? "text-amber-300"
+                        : "text-foreground"
+                    }`}
+                  >
                     {Icon}
                   </MenubarShortcut>
                 </MenubarItem>

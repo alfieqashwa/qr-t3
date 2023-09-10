@@ -37,14 +37,16 @@ export const MenuList = (): JSX.Element => {
       {MENU_LINKS?.map((link) => (
         <li
           className={`rounded-xl border-b-2 border-r-2 ${
-            pathname === `/${link.path}` ? "bg-muted" : "bg-background"
+            pathname === `/${link.path}`
+              ? "bg-muted text-amber-300"
+              : "bg-background"
           }`}
           key={link.path}
         >
           <Link
             href={`/${link.path}`}
             className={cn(
-              "flex items-center rounded-xl py-3 transition duration-150 ease-in-out hover:bg-accent hover:text-foreground",
+              "flex items-center rounded-xl py-3 transition duration-150 ease-in-out hover:bg-accent",
               toggle
                 ? "flex-row space-x-6 px-6"
                 : "flex-col justify-end space-y-3 px-2"
