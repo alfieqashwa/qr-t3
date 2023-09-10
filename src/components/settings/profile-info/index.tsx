@@ -1,4 +1,5 @@
 import { UploadDropzone } from "@uploadthing/react"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { LoadingSpinner } from "~/components/loading"
 import type { OurFileRouter } from "~/server/uploadthing/router"
@@ -42,10 +43,20 @@ export function ProfileInfo(): JSX.Element {
   if (isLoading) return <LoadingSpinner />
   return (
     <div className="mx-auto w-full">
-      <HeaderSettings
-        title={profile?.name as string}
-        subTitle="Information of User Profile"
-      />
+      <div className="flex items-center justify-between">
+        <HeaderSettings
+          title={profile?.name as string}
+          subTitle="Information of User Profile"
+        />
+        {profile?.role === "DEWA" && (
+          <Link
+            href="/dewa"
+            className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Go to Dewa
+          </Link>
+        )}
+      </div>
       <div className="mt-4 border-t-2"></div>
       <section className="mt-4 rounded-md border-2 p-8">
         {!!profile && (

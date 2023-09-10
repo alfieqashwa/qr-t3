@@ -35,8 +35,7 @@ export function UpdateRole({ id, currentRole, username }: Props) {
         variant: "default",
         description: "Role has been updated.",
       })
-      await utils.user.getAllByEOId.invalidate()
-      await utils.user.getRole.invalidate()
+      await utils.user.me.invalidate()
       /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(false))
     },
