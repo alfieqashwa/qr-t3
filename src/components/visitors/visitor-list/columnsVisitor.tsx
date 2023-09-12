@@ -188,17 +188,17 @@ export const columnsVisitor: ColumnDef<
       )
     },
   },
-  {
-    accessorKey: "createdAt",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="CreatedAt" />
-    ),
-    cell: ({ row }) => (
-      <div className="whitespace-nowrap">
-        {format(row.getValue("createdAt"), "PPPpp", { locale: id })}
-      </div>
-    ),
-  },
+  // {
+  //   accessorKey: "createdAt",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="CreatedAt" />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <div className="whitespace-nowrap">
+  //       {format(row.getValue("createdAt"), "PPPpp", { locale: id })}
+  //     </div>
+  //   ),
+  // },
   {
     accessorKey: "updatedAt",
     header: ({ column }) => (

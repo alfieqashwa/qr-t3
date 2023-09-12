@@ -19,7 +19,7 @@ export function CreateNewVisitor() {
         <Button
           variant="outline"
           size="sm"
-          className="ml-auto hidden h-8 lg:flex"
+          className="ml-auto flex h-8 whitespace-nowrap"
         >
           <FilePlus2 size={26} className="mr-2 h-4 w-4" />
           Create Visitor
