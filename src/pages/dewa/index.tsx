@@ -1,15 +1,15 @@
 import type { GetServerSideProps } from "next"
 import { type NextPage } from "next"
 
-import { HeaderTitle } from "~/src/components/header-title"
-import { Layout } from "~/src/components/layout"
+import { HeaderTitle } from "~/components/header-title"
+import { Layout } from "~/components/layout"
 
 import { Role } from "@prisma/client"
 import { getServerSession } from "next-auth/next"
+import { LoadingSpinner } from "~/components/loading"
 import { authOptions } from "~/server/auth"
-import { LoadingSpinner } from "~/src/components/loading"
-import { prisma } from "~/src/server/db"
-import { api } from "~/src/utils/api"
+import { prisma } from "~/server/db"
+import { api } from "~/utils/api"
 
 const title = "Dewa"
 const SettingsPage: NextPage = () => {

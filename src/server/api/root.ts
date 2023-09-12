@@ -1,4 +1,5 @@
 import { addressRouter } from "./routers/address"
+import { dashboardRouter } from "./routers/dashboard"
 import { dewaRouter } from "./routers/dewa"
 import { eoRouter } from "./routers/eo"
 import { eventRouter } from "./routers/event"
@@ -16,6 +17,7 @@ export const appRouter = createTRPCRouter({
   user: userRouter,
   eo: eoRouter,
   address: addressRouter,
+  dashboard: dashboardRouter,
   event: eventRouter,
   ticket: ticketRouter,
   visitor: visitorRouter,
