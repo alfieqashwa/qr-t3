@@ -11,18 +11,31 @@ const title = "Dashboard" as const
 const DashboardPage: NextPage = () => {
   const { data, status } = api.dashboard.getAll.useQuery()
 
-  console.log({ data })
+  const totalPrice = (category: string) =>
+    data?.map((d) =>
+      d.tickets
+        .filter((t) => t.category === category)
+        .reduce((total, ticket) => total + ticket.price, 0)
+    )
+
+  console.log(`FESTIVAL::: `, totalPrice("festival"))
+  console.log(`TRIBUN::: `, totalPrice("tribun"))
 
   return (
     <Layout title={title}>
-      <div>
+      <div className="mb-8 text-xl font-semibold text-rose-400">
         {/* // TODOS:  Divide Ticket based on category */}
         {/* // TODOS:  Estimate ticket omzet based on category */}
-        <p></p>
+        <p>TODOS: List all Events</p>
+        <p>TODOS: Estimate the total of ticket price of all events</p>
+        <p>TODOS: Divide Ticket based on category</p>
+        <p>
+          TODOS: Estimate the total of ticket price based on ticket category
+        </p>
       </div>
       <div>
         {status === "loading" && <LoadingSpinner />}
-        {status === "success" && <pre>{JSON.stringify(data, null, 4)}</pre>}
+        {status === "success" && <pre>{JSON.stringify(data, null, 2)}</pre>}
       </div>
       <div>
         <p>Ticket: {data?.map((d) => d._count.tickets)}</p>
