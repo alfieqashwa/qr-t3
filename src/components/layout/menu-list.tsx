@@ -33,10 +33,10 @@ export const MenuList = (): JSX.Element => {
   const { toggle } = useToggleStore()
   const { pathname } = useRouter()
   return (
-    <ul className="mt-8 space-y-2 px-1.5">
+    <ul className="space-y-2 px-1.5">
       {MENU_LINKS?.map((link) => (
         <li
-          className={`rounded-xl border-b-2 border-r-2 ${
+          className={`rounded-xl border-b border-r border-slate-700 ${
             pathname === `/${link.path}`
               ? "bg-muted text-amber-300"
               : "bg-background"

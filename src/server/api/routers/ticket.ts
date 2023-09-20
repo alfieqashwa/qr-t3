@@ -1,19 +1,23 @@
 import { Status } from "@prisma/client"
 import { z } from "zod"
-import { createTRPCRouter, editorProcedure, operatorProcedure, protectedProcedure } from "../trpc"
+import {
+  createTRPCRouter,
+  editorProcedure,
+  operatorProcedure,
+  protectedProcedure,
+} from "../trpc"
 
 export const ticketRouter = createTRPCRouter({
   // Queries
   count: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.ticket.count()
   }),
-  categories: protectedProcedure
-    .query(async ({ ctx }) => {
-      return await ctx.prisma.ticket.findMany({
-        where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
-        select: { category: true },
-      })
-    }),
+  categories: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.ticket.findMany({
+      where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
+      select: { category: true },
+    })
+  }),
   getAll: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.ticket.findMany({
       where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
@@ -28,15 +32,18 @@ export const ticketRouter = createTRPCRouter({
     .query(async ({ ctx, input: { ticketId } }) => {
       return await ctx.prisma.ticket.findUnique({
         where: { id: ticketId },
-        include: { visitors: true, event: true, eventOrganizer: true }
+        include: { visitors: true, event: true, eventOrganizer: true },
       })
     }),
 
   getAllByEventId: protectedProcedure
-    .input((z.object({ eventId: z.string().cuid() })))
+    .input(z.object({ eventId: z.string().cuid() }))
     .query(async ({ ctx, input: { eventId } }) => {
       return await ctx.prisma.ticket.findMany({
-        where: { eventId, eventOrganizerId: ctx.session.user.eventOrganizerId as string },
+        where: {
+          eventId,
+          eventOrganizerId: ctx.session.user.eventOrganizerId as string,
+        },
       })
     }),
 
@@ -89,14 +96,16 @@ export const ticketRouter = createTRPCRouter({
       })
     }),
   updateStatus: editorProcedure
-    .input(z.object({
-      id: z.string().cuid(),
-      status: z.nativeEnum(Status),
-    }))
+    .input(
+      z.object({
+        id: z.string().cuid(),
+        status: z.nativeEnum(Status),
+      })
+    )
     .mutation(async ({ ctx, input: { id, status } }) => {
       return await ctx.prisma.ticket.update({
         where: { id },
-        data: { status }
+        data: { status },
       })
     }),
   // Automatic change status to SOLD whenever the ticket get purchased by customer(s)

@@ -13,13 +13,8 @@ export const Drawer = (): JSX.Element => {
       animate={toggle ? "open" : "close"}
       variants={asideVariant}
       layout
-      className="fixed z-40 hidden min-h-screen border-r-2 pt-28 transition duration-500 ease-in-out lg:block"
+      className="fixed z-40 hidden min-h-screen border-r border-slate-700 pt-28 transition duration-500 ease-in-out lg:block"
     >
-      <div className="flex items-center justify-center whitespace-nowrap">
-        <h3 className={cn("font-semibold", toggle ? "text-sm" : "text-xs")}>
-          Main Menu
-        </h3>
-      </div>
       <MenuList />
     </motion.aside>
   )

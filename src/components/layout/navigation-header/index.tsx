@@ -12,7 +12,7 @@ export const NavigationHeader = () => {
   const userImageUpdate = me?.imageUpdate
 
   return (
-    <nav className="fixed z-50 flex h-20 w-full justify-between border-b-2 bg-background">
+    <nav className="fixed z-50 flex h-20 w-full justify-between border-b border-slate-700 bg-background">
       <section className="z-40 flex h-16 items-center justify-end space-x-8 pl-6">
         <div className="flex w-full items-center justify-around">
           <Codesandbox size={36} className="animate-spin" />
