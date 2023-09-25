@@ -20,7 +20,7 @@ export const AuthShowcase = (): JSX.Element => {
             session.data
               ? () => void signOut()
               : () =>
-                  void signIn("google", {
+                  signIn("google", {
                     callbackUrl: "/dashboard",
                   })
           }
