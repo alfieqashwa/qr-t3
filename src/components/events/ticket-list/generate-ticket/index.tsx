@@ -15,10 +15,10 @@ import {
 import { ToastAction } from "~/ui/toast"
 import { toast } from "~/ui/use-toast"
 import { api } from "~/utils/api"
+import { formattedInputPriceValue } from "~/utils/formattedPrice"
 import { wait } from "~/utils/wait"
 import { SelectCategory } from "./select-category"
 import { SelectEvent } from "./select-event"
-import { formattedInputPriceValue } from "~/src/utils/formattedPriceInputValue"
 
 export function GenerateTicket(): JSX.Element {
   const tickets = api.ticket.getAll.useQuery()

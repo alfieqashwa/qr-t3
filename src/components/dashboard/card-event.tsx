@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/ui/select"
-import { formattedInputPriceValue } from "~/utils/formattedPriceInputValue"
+import { formattedPrice } from "~/utils/formattedPrice"
 
 type CardEventProps = {
   title: string
@@ -38,16 +38,15 @@ export function CardEvent(props: CardEventProps) {
 
   const totalPrice = (category: string) => {
     let getTotal: number
-
     if (category === "") {
       getTotal = tickets.reduce((total, ticket) => total + ticket.price, 0)
-      return formattedInputPriceValue(getTotal)
+      return formattedPrice.format(getTotal)
     }
 
     getTotal = tickets
       .filter((t) => t.category === category)
       .reduce((total, ticket) => total + ticket.price, 0)
-    return formattedInputPriceValue(getTotal)
+    return formattedPrice.format(getTotal)
   }
 
   function totalTicket(category: string) {
