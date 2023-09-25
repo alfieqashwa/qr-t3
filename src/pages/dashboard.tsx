@@ -1,5 +1,4 @@
 import type { GetServerSideProps, NextPage } from "next"
-
 import { getServerSession } from "next-auth/next"
 import { CardEvent } from "~/components/dashboard"
 import { Layout } from "~/components/layout"
@@ -16,24 +15,18 @@ const DashboardPage: NextPage = () => {
       <div className="mt-4 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3 xl:gap-8">
         {status === "success" &&
           data.map((event) => {
-            const { id, title, venue, date, tickets } = event
+            const { id, title, venue, date, tickets, visitors } = event
             return (
               <CardEvent
                 title={title}
                 venue={venue}
                 date={date}
                 tickets={tickets}
+                visitors={visitors}
                 key={id}
               />
             )
           })}
-      </div>
-      <div>
-        {status === "success" && <pre>{JSON.stringify(data, null, 2)}</pre>}
-      </div>
-      <div>
-        <p>Ticket: {data?.map((d) => d._count.tickets)}</p>
-        <p>Visitor: {data?.map((d) => d._count.visitors)}</p>
       </div>
     </Layout>
   )

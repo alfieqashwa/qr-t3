@@ -1,4 +1,4 @@
-import type { Status } from "@prisma/client"
+import type { Ticket, Visitor } from "@prisma/client"
 import { format } from "date-fns"
 import { id } from "date-fns/locale"
 import { useState } from "react"
@@ -19,27 +19,17 @@ import {
 } from "~/ui/select"
 import { formattedInputPriceValue } from "~/utils/formattedPriceInputValue"
 
-type TicketProps = {
-  id: string
-  category: string
-  price: number
-  status: Status
-  eventId: string | null
-  eventOrganizerId: string
-  createdAt: Date
-  updatedAt: Date
-}
-
 type CardEventProps = {
   title: string
   thumbnail?: string | null
   date: Date
   venue: string
-  tickets: TicketProps[]
+  tickets: Ticket[]
+  visitors: Visitor[]
 }
 
 export function CardEvent(props: CardEventProps) {
-  const { title, venue, date, tickets } = props
+  const { title, venue, date, tickets, visitors } = props
 
   const formattedDate = format(date, "PPPP", { locale: id })
   const categoryList = [...new Set(tickets.map((t) => t.category))]
@@ -60,24 +50,44 @@ export function CardEvent(props: CardEventProps) {
     return formattedInputPriceValue(getTotal)
   }
 
+  function totalTicket(category: string) {
+    if (category === "") {
+      return tickets.length
+    }
+    return tickets.filter((l) => l.category === category).length
+  }
+
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <div>
           <CardTitle className="uppercase">{title}</CardTitle>
-          <CardDescription className="whitespace-nowrap text-base font-bold text-amber-300">
-            Omzet: Rp {totalPrice(value)}
-          </CardDescription>
         </div>
         <div className="flex justify-between">
-          <CardDescription className="capitalize">
+          <CardDescription className="font-bold capitalize">
             {formattedDate}
           </CardDescription>
-          <CardDescription className="capitalize">{venue}</CardDescription>
+          <CardDescription className="font-bold capitalize">
+            {venue}
+          </CardDescription>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="grid w-full items-center gap-4">
+        <CardDescription className="space-y-0.5 text-end font-medium">
+          <p className="space-x-1">
+            <span>Omzet:</span>
+            <span className="text-amber-300">{totalPrice(value)}</span>
+          </p>
+          <p className="space-x-1">
+            <span>Total Ticket:</span>
+            <span className="text-amber-300">{totalTicket(value)}</span>
+          </p>
+          <p className="space-x-1">
+            <span>Total Visitor:</span>
+            <span className="text-amber-300">{visitors.length}</span>
+          </p>
+        </CardDescription>
+        <div className="mt-4 grid w-full items-center gap-4">
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="category" className="sr-only">
               Category
@@ -90,6 +100,9 @@ export function CardEvent(props: CardEventProps) {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent position="popper">
+                  <SelectItem className="uppercase" value="">
+                    All
+                  </SelectItem>
                   {categoryList.map((category) => (
                     <SelectItem
                       className="uppercase"

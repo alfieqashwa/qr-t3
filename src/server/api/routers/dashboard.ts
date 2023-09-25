@@ -9,8 +9,7 @@ export const dashboardRouter = createTRPCRouter({
       include: {
         visitors: true,
         tickets: true,
-        _count: true
-      }
+      },
     })
   }),
 })
