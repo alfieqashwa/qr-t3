@@ -4,6 +4,7 @@ import { CardEvent } from "~/components/dashboard"
 import { Layout } from "~/components/layout"
 import { LoadingSpinner } from "~/components/loading"
 import { authOptions } from "~/server/auth"
+import { prisma } from "~/src/server/db"
 import { api } from "~/utils/api"
 
 const title = "Dashboard" as const
@@ -38,6 +39,26 @@ export default DashboardPage
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerSession(ctx.req, ctx.res, authOptions)
 
+  const slugQuery = await prisma.eventOrganizer.findUnique({
+    where: { id: session?.user.eventOrganizerId as string },
+    select: { name: true },
+  })
+
+  const currentSlug = ctx.query.slug as string
+  const slug = slugQuery?.name.replace(/\s+/g, "-") as string
+
+  console.log({ slug })
+  console.log({ currentSlug })
+
+  if (currentSlug !== slug) {
+    return {
+      redirect: {
+        destination: "/404",
+        permanent: false,
+      },
+    }
+  }
+
   if (!session) {
     return {
       redirect: {
@@ -61,7 +82,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (session.user.eventOrganizerId && session.user.role === "OPERATOR") {
     return {
       redirect: {
-        destination: "/scanner",
+        destination: `${slug}/scanner`,
         permanent: false,
       },
     }
