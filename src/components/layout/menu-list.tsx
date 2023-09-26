@@ -29,22 +29,23 @@ export const MENU_LINKS = [
   },
 ] as const
 
-export const MenuList = (): JSX.Element => {
+export const MenuList = ({ slug }: { slug: string }): JSX.Element => {
   const { toggle } = useToggleStore()
   const { pathname } = useRouter()
+
   return (
     <ul className="space-y-2 px-1.5">
       {MENU_LINKS?.map((link) => (
         <li
           className={`rounded-xl border-b border-r border-slate-700 ${
-            pathname === `/${link.path}`
+            pathname === `/[slug]/${link.path}`
               ? "bg-muted text-amber-300"
               : "bg-background"
           }`}
           key={link.path}
         >
           <Link
-            href={`/${link.path}`}
+            href={`/${slug}/${link.path}`}
             className={cn(
               "flex items-center rounded-xl py-3 transition duration-150 ease-in-out hover:bg-accent",
               toggle

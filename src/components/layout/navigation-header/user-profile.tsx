@@ -14,7 +14,12 @@ import { MENU_LINKS } from "../menu-list"
 import { Home, LogOut } from "lucide-react"
 import { useRouter } from "next/router"
 
-export const UserProfile = ({ image }: { image: string }) => {
+type UserProfileProps = {
+  slug: string
+  image: string
+}
+
+export const UserProfile = ({ slug, image }: UserProfileProps) => {
   const { pathname } = useRouter()
   return (
     <Menubar className="h-12 w-12 items-center justify-center rounded-full border-2 border-foreground/50 p-0 transition-colors duration-300 ease-in-out hover:border-foreground/75">
@@ -27,11 +32,11 @@ export const UserProfile = ({ image }: { image: string }) => {
           {MENU_LINKS?.map((link) => {
             const { path, iconSmall: Icon } = link
             return (
-              <Link href={`/${path}`} key={path}>
+              <Link href={`/${slug}/${path}`} key={path}>
                 <MenubarItem
                   className={`group capitalize hover:cursor-pointer
                     ${
-                      pathname === `/${path}`
+                      pathname === `/[slug]/${path}`
                         ? "bg-secondary text-amber-300"
                         : ""
                     }`}
@@ -39,7 +44,7 @@ export const UserProfile = ({ image }: { image: string }) => {
                   {path}
                   <MenubarShortcut
                     className={`transition duration-300 ease-in-out ${
-                      pathname === `/${path}`
+                      pathname === `/[slug]/${path}`
                         ? "text-amber-300"
                         : "text-foreground"
                     }`}

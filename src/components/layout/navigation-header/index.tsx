@@ -4,7 +4,7 @@ import useToggleStore from "~/store/useToggle"
 import { UserAvatar } from "./user-avatar"
 import { ThemeToggle } from "./theme-toggle"
 
-export const NavigationHeader = () => {
+export const NavigationHeader = ({ slug }: { slug: string }) => {
   const { toggle, handleToggle } = useToggleStore()
 
   const { data: me, isLoading } = api.user.me.useQuery(undefined, {})
@@ -32,6 +32,7 @@ export const NavigationHeader = () => {
         <Bell />
         <ThemeToggle />
         <UserAvatar
+          slug={slug}
           isLoading={isLoading}
           userImage={userImage}
           userImageUpdate={userImageUpdate}
