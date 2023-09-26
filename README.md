@@ -18,7 +18,7 @@ Add more libs.
 
 - [x] Create Drawer
 - [x] Create Event Organizer Form (Admin Access):
-  - [x] Redirect pages into `settings/create-eo` if user doesn't have eoID
+  - [x] Redirect pages into `/create-eo` if user doesn't have eoID
   - [x] Redirect nto `/dashboard` page if user has eoID
   - [x] Delete new user from DB if signed-out before fill createEO form
   - [x] Error handling

@@ -1,55 +1,36 @@
 import type { GetServerSideProps } from "next"
 import { type NextPage } from "next"
-
-import { HeaderTitle } from "~/src/components/header-title"
-import { Layout } from "~/src/components/layout"
-
 import { getServerSession } from "next-auth/next"
+import { VisitorList } from "~/components/visitors"
+import { HeaderTitle } from "~/components/header-title"
+import { Layout } from "~/components/layout"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
 import { authOptions } from "~/server/auth"
-import { AdminOnly } from "~/src/components/authed"
-import { EOInfo, ProfileInfo, TeamList } from "~/src/components/settings"
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "~/src/components/ui/tabs"
 
-const title = "Settings" as const
-
-const SettingsPage: NextPage = () => {
+const title = "Visitors" as const
+const VisitorPage: NextPage = (): JSX.Element => {
   return (
     <Layout title={title}>
       <HeaderTitle title={title} />
-      <Tabs defaultValue="profile" className="mt-4">
+      <Tabs defaultValue="visitor-list" className="mt-4">
         <TabsList className="mb-3">
-          <TabsTrigger className="text-xs lg:text-sm" value="profile">
-            Profile
+          <TabsTrigger className="text-xs lg:text-sm" value="visitor-list">
+            Visitors
           </TabsTrigger>
-          <TabsTrigger className="text-xs lg:text-sm" value="event-organizer">
-            Event Organizer
+          <TabsTrigger disabled className="text-xs lg:text-sm" value="preview">
+            Preview
           </TabsTrigger>
-          <AdminOnly>
-            <TabsTrigger className="text-xs lg:text-sm" value="team-info">
-              Team Info
-            </TabsTrigger>
-          </AdminOnly>
         </TabsList>
-        <TabsContent value="profile">
-          <ProfileInfo />
+        <TabsContent value="visitor-list">
+          <VisitorList />
         </TabsContent>
-        <TabsContent value="event-organizer">
-          <EOInfo />
-        </TabsContent>
-        <TabsContent value="team-info">
-          <TeamList />
+        <TabsContent value="preview">
+          <p>empty</p>
         </TabsContent>
       </Tabs>
     </Layout>
   )
 }
-
-export default SettingsPage
 
 // If No Authenticated, then redirect to Home Page. Else, enter this page.
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -64,10 +45,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
 
+  // If user has not have EventOrganizerId, then redirect to page "/create-eo"
   if (!session.user.eventOrganizerId) {
     return {
       redirect: {
-        destination: "/settings/create-eo",
+        destination: "/create-eo",
         permanent: false,
       },
     }
@@ -89,3 +71,5 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     },
   }
 }
+
+export default VisitorPage

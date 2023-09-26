@@ -40,7 +40,7 @@ export function DeleteEventOrganizerDialog({ id }: Props) {
       await utils.eo.read.invalidate()
       /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(false))
-      await router.replace("/settings/create-eo")
+      await router.replace("/create-eo")
     },
     onError() {
       toast({

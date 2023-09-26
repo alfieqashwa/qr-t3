@@ -320,7 +320,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
 
-  // If user has EventOrganizerId, then cannot enter this page "/settings/create-eo"
+  // If user has EventOrganizerId, then cannot enter this page "/create-eo"
   if (session && session.user.eventOrganizerId) {
     return {
       redirect: {
