@@ -11,6 +11,16 @@ export default SlugPage
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerSession(ctx.req, ctx.res, authOptions)
 
+  const allowedPath = "/create-eo"
+
+  if (ctx.query.slug !== allowedPath)
+    return {
+      redirect: {
+        destination: "/404",
+        permanent: false, // Set to true for a permanent redirect (HTTP 301), false for temporary (HTTP 302)
+      },
+    }
+
   if (!session) {
     return {
       redirect: {
@@ -21,9 +31,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 
   return {
-    redirect: {
-      destination: "/404",
-      permanent: false, // Set to true for a permanent redirect (HTTP 301), false for temporary (HTTP 302)
-    },
+    props: { session },
   }
 }

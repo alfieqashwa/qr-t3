@@ -6,6 +6,7 @@ import { HeaderTitle } from "~/components/header-title"
 import { Layout } from "~/components/layout"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
 import { authOptions } from "~/server/auth"
+import { prisma } from "~/src/server/db"
 
 const title = "Visitors" as const
 const VisitorPage: NextPage = (): JSX.Element => {
@@ -35,6 +36,23 @@ const VisitorPage: NextPage = (): JSX.Element => {
 // If No Authenticated, then redirect to Home Page. Else, enter this page.
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerSession(ctx.req, ctx.res, authOptions)
+
+  const slugQuery = await prisma.eventOrganizer.findUnique({
+    where: { id: session?.user.eventOrganizerId as string },
+    select: { name: true },
+  })
+
+  const querySlug = ctx.query.slug as string
+  const slug = slugQuery?.name.replace(/\s+/g, "-") as string
+
+  if (querySlug !== slug) {
+    return {
+      redirect: {
+        destination: "/404",
+        permanent: false,
+      },
+    }
+  }
 
   if (!session) {
     return {

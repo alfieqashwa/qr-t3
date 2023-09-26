@@ -44,13 +44,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     select: { name: true },
   })
 
-  const currentSlug = ctx.query.slug as string
+  const querySlug = ctx.query.slug as string
   const slug = slugQuery?.name.replace(/\s+/g, "-") as string
 
-  console.log({ slug })
-  console.log({ currentSlug })
-
-  if (currentSlug !== slug) {
+  if (querySlug !== slug) {
     return {
       redirect: {
         destination: "/404",

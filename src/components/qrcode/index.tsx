@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from "~/ui/dialog"
 import { SvgQRCode } from "./svg-qrcode"
+import { api } from "~/src/utils/api"
 
 type GenerateQRCodeProps = {
   id: string
@@ -27,6 +28,12 @@ export const GenerateQRCode = ({
   /**
    * ? source: https://github.com/zpao/qrcode.react/issues/140
    */
+  const { data, status } = api.eo.slug.useQuery(undefined, {
+    select: (data) => ({
+      slug: data?.name.replace(/\s+/g, "-"),
+    }),
+  })
+
   const onSVGButtonClick = () => {
     const node = document.getElementById("QRCode")
     if (node == null) return
@@ -55,41 +62,43 @@ export const GenerateQRCode = ({
         {ticketStatus === "SOLD" && <QrCode size={28} />}
       </DialogTrigger>
 
-      <DialogContent className="min-w-full pl-32">
-        <DialogHeader>
-          <DialogTitle>Generate QR Code</DialogTitle>
-          <DialogDescription asChild>
-            <>
-              <p>
-                Click
-                <span className="px-1.5 font-medium text-amber-300">
-                  Download
-                </span>
-                button to download QR Code.
-              </p>
-              <div className="w-full">
-                <SvgQRCode
-                  id="QRCode"
-                  // value={`${
-                  //   clientEnv.NEXT_PUBLIC_BASEURL as string
-                  // }/visitor/${id}`}
-                  value={`/visitor/${id}`}
-                  size={512}
-                />
-              </div>
-            </>
-          </DialogDescription>
-        </DialogHeader>
+      {status === "success" && (
+        <DialogContent className="min-w-full pl-32">
+          <DialogHeader>
+            <DialogTitle>Generate QR Code</DialogTitle>
+            <DialogDescription asChild>
+              <>
+                <p>
+                  Click
+                  <span className="px-1.5 font-medium text-amber-300">
+                    Download
+                  </span>
+                  button to download QR Code.
+                </p>
+                <div className="w-full">
+                  <SvgQRCode
+                    id="QRCode"
+                    // value={`${
+                    //   clientEnv.NEXT_PUBLIC_BASEURL as string
+                    // }/visitor/${id}`}
+                    value={`/${data.slug as string}/visitor/${id}`}
+                    size={512}
+                  />
+                </div>
+              </>
+            </DialogDescription>
+          </DialogHeader>
 
-        <DialogFooter className="flex flex-row items-center justify-end space-x-2">
-          <Button type="button" size="sm" onClick={onSVGButtonClick}>
-            Download
-          </Button>
-          <Link href={`/visitor/${id}`} passHref>
-            <Button variant="ghost">Details</Button>
-          </Link>
-        </DialogFooter>
-      </DialogContent>
+          <DialogFooter className="flex flex-row items-center justify-end space-x-2">
+            <Button type="button" size="sm" onClick={onSVGButtonClick}>
+              Download
+            </Button>
+            <Link href={`/${data.slug as string}/visitor/${id}`} passHref>
+              <Button variant="ghost">Details</Button>
+            </Link>
+          </DialogFooter>
+        </DialogContent>
+      )}
     </Dialog>
   )
 }
