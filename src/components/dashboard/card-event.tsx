@@ -81,19 +81,17 @@ export function CardEvent(props: CardEventProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <CardDescription className="space-y-0.5 text-end font-medium">
-          <p className="space-x-1">
-            <span>Omzet:</span>
-            <span className="text-amber-300">{totalPrice(value)}</span>
-          </p>
-          <p className="space-x-1">
-            <span>Total Ticket:</span>
-            <span className="text-amber-300">{totalTicket(value)}</span>
-          </p>
-          <p className="space-x-1">
-            <span>Total Visitor:</span>
-            <span className="text-amber-300">{totalVisitor(value)}</span>
-          </p>
+        <CardDescription className="space-x-1 space-y-0.5 text-end font-medium">
+          <span>Omzet:</span>
+          <span className="text-amber-300">{totalPrice(value)}</span>
+        </CardDescription>
+        <CardDescription className="space-x-1 space-y-0.5 text-end font-medium">
+          <span>Total Ticket:</span>
+          <span className="text-amber-300">{totalTicket(value)}</span>
+        </CardDescription>
+        <CardDescription className="space-x-1 space-y-0.5 text-end font-medium">
+          <span>Total Visitor:</span>
+          <span className="text-amber-300">{totalVisitor(value)}</span>
         </CardDescription>
         <div className="mt-4 grid w-full items-center gap-4">
           <div className="flex flex-col space-y-1.5">
@@ -101,7 +99,7 @@ export function CardEvent(props: CardEventProps) {
               Category
             </Label>
             {!categoryList.length ? (
-              <p>&nbsp;</p>
+              <h1>&nbsp;</h1>
             ) : (
               <Select onValueChange={setValue}>
                 <SelectTrigger id="category" className="capitalize">
