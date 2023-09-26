@@ -19,13 +19,15 @@ import {
 } from "~/ui/select"
 import { formattedPrice } from "~/utils/formattedPrice"
 
+type VisitorProps = Visitor & { ticket: Ticket }
+
 type CardEventProps = {
   title: string
   thumbnail?: string | null
   date: Date
   venue: string
   tickets: Ticket[]
-  visitors: Visitor[]
+  visitors: VisitorProps[]
 }
 
 export function CardEvent(props: CardEventProps) {
@@ -56,6 +58,13 @@ export function CardEvent(props: CardEventProps) {
     return tickets.filter((l) => l.category === category).length
   }
 
+  function totalVisitor(category: string) {
+    if (category === "") {
+      return visitors.length
+    }
+    return visitors.filter((v) => v.ticket.category === category).length
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -83,7 +92,7 @@ export function CardEvent(props: CardEventProps) {
           </p>
           <p className="space-x-1">
             <span>Total Visitor:</span>
-            <span className="text-amber-300">{visitors.length}</span>
+            <span className="text-amber-300">{totalVisitor(value)}</span>
           </p>
         </CardDescription>
         <div className="mt-4 grid w-full items-center gap-4">
