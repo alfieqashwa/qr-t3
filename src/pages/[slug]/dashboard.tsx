@@ -39,13 +39,13 @@ export default DashboardPage
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerSession(ctx.req, ctx.res, authOptions)
 
-  const slugQuery = await prisma.eventOrganizer.findUnique({
+  const slugQuery = await prisma.eventOrganizer.findFirst({
     where: { id: session?.user.eventOrganizerId as string },
     select: { name: true },
   })
 
   const querySlug = ctx.query.slug as string
-  const slug = slugQuery?.name.replace(/\s+/g, "-") as string
+  const slug = slugQuery?.name?.replace(/\s+/g, "-") as string
 
   if (querySlug !== slug) {
     return {
