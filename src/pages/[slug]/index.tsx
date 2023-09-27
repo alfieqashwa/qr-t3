@@ -19,17 +19,15 @@ const SlugPage = (props: Props) => {
 export default SlugPage
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const slugQuery = await prisma.eventOrganizer.findMany({
+  const getAllEoName = await prisma.eventOrganizer.findMany({
     select: { name: true },
   })
 
-  const filteredSlug = slugQuery.filter(
+  const filteredSlug = getAllEoName.filter(
     (eo) => eo.name.replace(/\s+/g, "-") === (ctx.query.slug as string)
   )
 
-  const allowedPath = "create-eo"
-
-  if (ctx.query.slug !== allowedPath && !filteredSlug[0]?.name)
+  if (!filteredSlug[0]?.name)
     return {
       redirect: {
         destination: "/404",

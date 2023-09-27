@@ -4,6 +4,7 @@ import { useRouter } from "next/router"
 import { LoadingSpinner } from "~/src/components/loading"
 import { TicketInfo } from "~/src/components/visitors/ticket-info"
 import { authOptions } from "~/src/server/auth"
+import { prisma } from "~/src/server/db"
 import { api } from "~/src/utils/api"
 
 const VisitorByIdPage: NextPage = (): JSX.Element => {
@@ -32,11 +33,27 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
 
+  const getEoNameBySessionId = await prisma.eventOrganizer.findUnique({
+    where: { id: session.user.eventOrganizerId as string },
+    select: { name: true },
+  })
+
+  const slug = getEoNameBySessionId?.name.replace(/\s+/g, "-") as string
+
   // If user has not have EventOrganizerId, then redirect to page "/create-eo"
   if (!session.user.eventOrganizerId) {
     return {
       redirect: {
         destination: "/create-eo",
+        permanent: false,
+      },
+    }
+  }
+
+  if (session.user.eventOrganizerId && slug !== ctx.query.slug) {
+    return {
+      redirect: {
+        destination: "/404",
         permanent: false,
       },
     }
