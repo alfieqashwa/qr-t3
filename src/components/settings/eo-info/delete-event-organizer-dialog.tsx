@@ -1,7 +1,9 @@
 import { Loader2, Trash2 } from "lucide-react"
 import { useRouter } from "next/router"
 import { useState } from "react"
-import { Button } from "~/components/ui/button"
+import { api } from "~/src/utils/api"
+import { wait } from "~/src/utils/wait"
+import { Button } from "~/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -10,11 +12,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/ui/dialog"
-import { api } from "~/src/utils/api"
-import { wait } from "~/src/utils/wait"
-import { ToastAction } from "../../ui/toast"
-import { useToast } from "../../ui/use-toast"
+} from "~/ui/dialog"
+import { ToastAction } from "~/ui/toast"
+import { useToast } from "~/ui/use-toast"
 
 type Props = {
   id: string

@@ -1,7 +1,7 @@
 import { api } from "~/src/utils/api"
 import { columnsEvent } from "./columnsEvent"
 import { EventTable } from "./event-table"
-import { LoadingSpinner } from "../../loading"
+import { LoadingSpinner } from "~/components/loading"
 
 export function EventList(): JSX.Element {
   const { data: events, status } = api.event.getAll.useQuery()

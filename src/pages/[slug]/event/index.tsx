@@ -4,10 +4,10 @@ import { getServerSession } from "next-auth/next"
 import { EventList, TicketList } from "~/components/events"
 import { HeaderTitle } from "~/components/header-title"
 import { Layout } from "~/components/layout"
+import { LoadingSpinner } from "~/components/loading"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
 import { authOptions } from "~/server/auth"
-import { LoadingSpinner } from "~/src/components/loading"
-import { prisma } from "~/src/server/db"
+import { prisma } from "~/server/db"
 import { api } from "~/utils/api"
 
 const title = "Events" as const

@@ -15,7 +15,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import * as React from "react"
-
+import { DataTablePagination } from "~/components/table/data-table-pagination"
 import {
   Table,
   TableBody,
@@ -24,8 +24,6 @@ import {
   TableHeader,
   TableRow,
 } from "~/ui/table"
-
-import { DataTablePagination } from "~/components/table/data-table-pagination"
 import { VisitorTableToolbar } from "./visitor-table-toolbar"
 
 interface DataTableProps<TData, TValue> {

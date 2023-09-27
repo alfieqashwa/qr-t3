@@ -1,18 +1,18 @@
 import { format } from "date-fns"
 import { id } from "date-fns/locale"
+import { useRouter } from "next/router"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "~/src/components/ui/card"
+} from "~/components/ui/card"
 import { api, type RouterOutputs } from "~/src/utils/api"
 import { Button } from "~/ui/button"
 import { ToastAction } from "~/ui/toast"
 import { toast } from "~/ui/use-toast"
 import { Wrapper } from "./ticket-wrapper"
-import { useRouter } from "next/router"
 
 type TicketInfoProps = {
   ticket: RouterOutputs["ticket"]["getAllById"]

@@ -1,11 +1,11 @@
 import { type GetServerSideProps, type NextPage } from "next"
 import { getServerSession } from "next-auth"
 import { useRouter } from "next/router"
-import { LoadingSpinner } from "~/src/components/loading"
-import { TicketInfo } from "~/src/components/visitors/ticket-info"
-import { authOptions } from "~/src/server/auth"
-import { prisma } from "~/src/server/db"
-import { api } from "~/src/utils/api"
+import { LoadingSpinner } from "~/components/loading"
+import { TicketInfo } from "~/components/visitors/ticket-info"
+import { authOptions } from "~/server/auth"
+import { prisma } from "~/server/db"
+import { api } from "~/utils/api"
 
 const VisitorByIdPage: NextPage = (): JSX.Element => {
   const { query } = useRouter()

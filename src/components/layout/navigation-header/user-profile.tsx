@@ -1,6 +1,8 @@
+import { Home, LogOut } from "lucide-react"
 import { signOut } from "next-auth/react"
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/router"
 import {
   Menubar,
   MenubarContent,
@@ -9,10 +11,8 @@ import {
   MenubarSeparator,
   MenubarShortcut,
   MenubarTrigger,
-} from "~/components/ui/menubar"
+} from "~/ui/menubar"
 import { MENU_LINKS } from "../menu-list"
-import { Home, LogOut } from "lucide-react"
-import { useRouter } from "next/router"
 
 type UserProfileProps = {
   slug: string

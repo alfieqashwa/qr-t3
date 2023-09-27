@@ -1,12 +1,12 @@
 import type { GetServerSideProps } from "next"
 import { type NextPage } from "next"
 import { getServerSession } from "next-auth/next"
-import { VisitorList } from "~/components/visitors"
 import { HeaderTitle } from "~/components/header-title"
 import { Layout } from "~/components/layout"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
+import { VisitorList } from "~/components/visitors"
 import { authOptions } from "~/server/auth"
-import { prisma } from "~/src/server/db"
+import { prisma } from "~/server/db"
 
 const title = "Visitors" as const
 const VisitorPage: NextPage = (): JSX.Element => {

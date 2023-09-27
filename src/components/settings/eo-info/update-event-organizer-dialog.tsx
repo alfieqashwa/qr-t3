@@ -1,8 +1,12 @@
 import { Edit, Loader2 } from "lucide-react"
 import { useState } from "react"
 import { CommandCombobox } from "~/components/combobox"
-import { Button } from "~/components/ui/button"
-import { CardDescription } from "~/components/ui/card"
+import type { RouterOutputs } from "~/src/utils/api"
+import { api } from "~/src/utils/api"
+import { wait } from "~/src/utils/wait"
+import type { District, Province, Regency, Village } from "~/types/address"
+import { Button } from "~/ui/button"
+import { CardDescription } from "~/ui/card"
 import {
   Dialog,
   DialogContent,
@@ -11,15 +15,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/ui/dialog"
-import { Input } from "~/components/ui/input"
-import { Label } from "~/components/ui/label"
-import { ToastAction } from "~/components/ui/toast"
-import { useToast } from "~/components/ui/use-toast"
-import type { RouterOutputs } from "~/src/utils/api"
-import type { Province, Regency, District, Village } from "~/types/address"
-import { api } from "~/src/utils/api"
-import { wait } from "~/src/utils/wait"
+} from "~/ui/dialog"
+import { Input } from "~/ui/input"
+import { Label } from "~/ui/label"
+import { ToastAction } from "~/ui/toast"
+import { useToast } from "~/ui/use-toast"
 
 type Props = {
   currentEO: RouterOutputs["eo"]["read"]

@@ -3,9 +3,9 @@ import { type GetServerSideProps, type NextPage } from "next"
 import { getServerSession } from "next-auth"
 import { signOut } from "next-auth/react"
 import QRScanner from "~/components/qrcode/scanner"
+import { Button } from "~/components/ui/button"
 import { authOptions } from "~/server/auth"
-import { Button } from "~/src/components/ui/button"
-import { prisma } from "~/src/server/db"
+import { prisma } from "~/server/db"
 
 const ScannerPage: NextPage = (): JSX.Element => {
   return (

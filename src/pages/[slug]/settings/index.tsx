@@ -1,20 +1,15 @@
 import type { GetServerSideProps } from "next"
 import { type NextPage } from "next"
 
-import { HeaderTitle } from "~/src/components/header-title"
-import { Layout } from "~/src/components/layout"
+import { HeaderTitle } from "~/components/header-title"
+import { Layout } from "~/components/layout"
 
 import { getServerSession } from "next-auth/next"
+import { AdminOnly } from "~/components/authed"
+import { EOInfo, ProfileInfo, TeamList } from "~/components/settings"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
 import { authOptions } from "~/server/auth"
-import { AdminOnly } from "~/src/components/authed"
-import { EOInfo, ProfileInfo, TeamList } from "~/src/components/settings"
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "~/src/components/ui/tabs"
-import { prisma } from "~/src/server/db"
+import { prisma } from "~/server/db"
 
 const title = "Settings" as const
 

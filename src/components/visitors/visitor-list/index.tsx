@@ -1,5 +1,5 @@
+import { LoadingSpinner } from "~/components/loading"
 import { api } from "~/src/utils/api"
-import { LoadingSpinner } from "../../loading"
 import { columnsVisitor } from "./columnsVisitor"
 import { VisitorTable } from "./visitor-table"
 

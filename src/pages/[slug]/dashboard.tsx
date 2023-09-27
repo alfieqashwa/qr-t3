@@ -4,7 +4,7 @@ import { CardEvent } from "~/components/dashboard"
 import { Layout } from "~/components/layout"
 import { LoadingSpinner } from "~/components/loading"
 import { authOptions } from "~/server/auth"
-import { prisma } from "~/src/server/db"
+import { prisma } from "~/server/db"
 import { api } from "~/utils/api"
 
 const title = "Dashboard" as const

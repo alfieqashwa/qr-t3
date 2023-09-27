@@ -1,20 +1,16 @@
 import { Check, ChevronsUpDown } from "lucide-react"
 import * as React from "react"
 
-import { Button } from "~/components/ui/button"
+import { cn } from "~/src/utils"
+import { Button } from "~/ui/button"
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "~/components/ui/command"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover"
-import { cn } from "~/src/utils"
+} from "~/ui/command"
+import { Popover, PopoverContent, PopoverTrigger } from "~/ui/popover"
 
 type CommandComboboxProps = {
   datas?: {

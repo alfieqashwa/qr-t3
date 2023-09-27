@@ -1,12 +1,12 @@
 import type { Table } from "@tanstack/react-table"
 import type { LucideIcon } from "lucide-react"
 import { Calendar, MapPin, X } from "lucide-react"
+import { AdminOnly } from "~/components/authed"
 import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-filter"
 import { DataTableViewOptions } from "~/components/table/data-table-view-options"
 import { Button } from "~/ui/button"
 import { Input } from "~/ui/input"
 import { api } from "~/utils/api"
-import { AdminOnly } from "../../authed"
 import { CreateNewVisitor } from "./create-new-visitor"
 import { DeleteVisitorList } from "./delete-visitor-list"
 

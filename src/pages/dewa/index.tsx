@@ -1,11 +1,9 @@
+import { Role } from "@prisma/client"
 import type { GetServerSideProps } from "next"
 import { type NextPage } from "next"
-
+import { getServerSession } from "next-auth/next"
 import { HeaderTitle } from "~/components/header-title"
 import { Layout } from "~/components/layout"
-
-import { Role } from "@prisma/client"
-import { getServerSession } from "next-auth/next"
 import { LoadingSpinner } from "~/components/loading"
 import { authOptions } from "~/server/auth"
 import { prisma } from "~/server/db"

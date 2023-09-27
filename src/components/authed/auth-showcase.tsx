@@ -1,6 +1,6 @@
 import { signIn, signOut, useSession } from "next-auth/react"
 import Link from "next/link"
-import { api } from "~/src/utils/api"
+import { api } from "~/utils/api"
 
 export const AuthShowcase = (): JSX.Element => {
   const session = useSession()

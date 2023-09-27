@@ -9,7 +9,6 @@ import {
 } from "~/ui/dialog"
 import { api } from "~/utils/api"
 import { UpdateVisitorForm } from "./update-visitor-form"
-// import { UpdateEventForm } from "./update-event-form"
 
 type Props = {
   id: string

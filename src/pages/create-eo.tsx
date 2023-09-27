@@ -1,7 +1,6 @@
 import { Role } from "@prisma/client"
 import { Loader2 } from "lucide-react"
 import type { GetServerSideProps, NextPage } from "next"
-import type { Province, Regency, District, Village } from "~/types/address"
 import { getServerSession } from "next-auth"
 import { signOut, useSession } from "next-auth/react"
 import { useRouter } from "next/router"
@@ -14,15 +13,16 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "~/src/components/ui/card"
-import { DialogFooter } from "~/src/components/ui/dialog"
-import { Input } from "~/src/components/ui/input"
-import { Label } from "~/src/components/ui/label"
-import { ToastAction } from "~/src/components/ui/toast"
-import { useToast } from "~/src/components/ui/use-toast"
-import { authOptions } from "~/src/server/auth"
-import { api } from "~/src/utils/api"
-import { prisma } from "../server/db"
+} from "~/components/ui/card"
+import { DialogFooter } from "~/components/ui/dialog"
+import { Input } from "~/components/ui/input"
+import { Label } from "~/components/ui/label"
+import { ToastAction } from "~/components/ui/toast"
+import { useToast } from "~/components/ui/use-toast"
+import { authOptions } from "~/server/auth"
+import { prisma } from "~/server/db"
+import type { District, Province, Regency, Village } from "~/types/address"
+import { api } from "~/utils/api"
 
 const CreateEOPage: NextPage = (): JSX.Element => {
   const [session, router] = [useSession(), useRouter()]

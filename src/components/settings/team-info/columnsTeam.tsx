@@ -1,12 +1,12 @@
 import type { ColumnDef } from "@tanstack/react-table"
 import { Building2, Key, Mail, User } from "lucide-react"
+import Image from "next/image"
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header"
+import { Badge } from "~/ui/badge"
 import { Checkbox } from "~/ui/checkbox"
 import type { RouterOutputs } from "~/utils/api"
 import { DeleteTeam } from "./delete-team"
 import { UpdateTeam } from "./update-team"
-import Image from "next/image"
-import { Badge } from "../../ui/badge"
 
 export const columnsTeam: ColumnDef<
   RouterOutputs["user"]["getAllByEOId"][0]
