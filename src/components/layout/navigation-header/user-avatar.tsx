@@ -2,13 +2,11 @@ import { Loader2, User } from "lucide-react"
 import { UserProfile } from "./user-profile"
 
 type UserAvatarProps = {
-  slug: string
   isLoading: boolean
   userImageUpdate?: string | null
   userImage?: string | null
 }
 export const UserAvatar = ({
-  slug,
   isLoading,
   userImage,
   userImageUpdate,
@@ -17,9 +15,9 @@ export const UserAvatar = ({
     {isLoading ? (
       <Loader2 size={24} className="animate-spin" />
     ) : !!userImageUpdate ? (
-      <UserProfile slug={slug} image={userImageUpdate} />
+      <UserProfile image={userImageUpdate} />
     ) : !!userImage ? (
-      <UserProfile slug={slug} image={userImage} />
+      <UserProfile image={userImage} />
     ) : (
       <User />
     )}

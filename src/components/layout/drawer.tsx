@@ -3,7 +3,7 @@ import { asideVariant } from "~/src/utils/motion"
 import useToggleStore from "~/store/useToggle"
 import { MenuList } from "./menu-list"
 
-export const Drawer = ({ slug }: { slug: string }): JSX.Element => {
+export const Drawer = (): JSX.Element => {
   const { toggle } = useToggleStore()
 
   return (
@@ -14,7 +14,7 @@ export const Drawer = ({ slug }: { slug: string }): JSX.Element => {
       layout
       className="fixed z-40 hidden min-h-screen border-r border-slate-700 pt-28 transition duration-500 ease-in-out lg:block"
     >
-      <MenuList slug={slug} />
+      <MenuList />
     </motion.aside>
   )
 }

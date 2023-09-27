@@ -3,6 +3,8 @@ import { signOut } from "next-auth/react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { useContext } from "react"
+import { SlugContext } from "~/store/slug-context-provider"
 import {
   Menubar,
   MenubarContent,
@@ -15,11 +17,11 @@ import {
 import { MENU_LINKS } from "../menu-list"
 
 type UserProfileProps = {
-  slug: string
   image: string
 }
 
-export const UserProfile = ({ slug, image }: UserProfileProps) => {
+export const UserProfile = ({ image }: UserProfileProps) => {
+  const { slug } = useContext(SlugContext)
   const { pathname } = useRouter()
   return (
     <Menubar className="h-12 w-12 items-center justify-center rounded-full border-2 border-foreground/50 p-0 transition-colors duration-300 ease-in-out hover:border-foreground/75">
@@ -32,7 +34,7 @@ export const UserProfile = ({ slug, image }: UserProfileProps) => {
           {MENU_LINKS?.map((link) => {
             const { path, iconSmall: Icon } = link
             return (
-              <Link href={`/${slug}/${path}`} key={path}>
+              <Link href={`/${slug as string}/${path}`} key={path}>
                 <MenubarItem
                   className={`group capitalize hover:cursor-pointer
                     ${

@@ -1,12 +1,10 @@
-"use client"
-
 import type { ReactNode } from "react"
+import { SlugContextProvider } from "~/src/store/slug-context-provider"
+import { cn } from "~/src/utils"
+import useToggleStore from "~/store/useToggle"
 import { Drawer } from "./drawer"
 import { Header } from "./header"
 import { NavigationHeader } from "./navigation-header"
-import useToggleStore from "~/store/useToggle"
-import { cn } from "~/src/utils"
-import { api } from "~/src/utils/api"
 
 type LayoutProps = { title: string; children: ReactNode }
 
@@ -15,19 +13,12 @@ export const Layout = ({ title, children }: LayoutProps) => {
 
   const titleHeader = `${title} | QR Ticket Concert`
 
-  const { data, status } = api.eo.nameBySessionId.useQuery(undefined, {
-    select: (data) => ({
-      slug: data?.name.replace(/\s+/g, "-"),
-    }),
-  })
   return (
-    <>
+    <SlugContextProvider>
       <Header titleHeader={titleHeader} />
       <div>
-        {status === "success" && (
-          <NavigationHeader slug={data?.slug as string} />
-        )}
-        {status === "success" && <Drawer slug={data?.slug as string} />}
+        <NavigationHeader />
+        <Drawer />
         {/* STARTS MAIN */}
         <main
           className={cn(
@@ -39,6 +30,6 @@ export const Layout = ({ title, children }: LayoutProps) => {
         </main>
         {/* ENDS MAIN */}
       </div>
-    </>
+    </SlugContextProvider>
   )
 }

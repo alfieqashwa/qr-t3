@@ -2,9 +2,11 @@ import { motion } from "framer-motion"
 import { Calendar, LayoutDashboard, Settings, Users } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import useToggleStore from "~/src/store/useToggle"
+import { useContext } from "react"
 import { cn } from "~/src/utils"
 import { titleVariant } from "~/src/utils/motion"
+import { SlugContext } from "~/store/slug-context-provider"
+import useToggleStore from "~/store/useToggle"
 
 export const MENU_LINKS = [
   {
@@ -29,9 +31,10 @@ export const MENU_LINKS = [
   },
 ] as const
 
-export const MenuList = ({ slug }: { slug: string }): JSX.Element => {
-  const { toggle } = useToggleStore()
+export const MenuList = (): JSX.Element => {
   const { pathname } = useRouter()
+  const { toggle } = useToggleStore()
+  const { slug } = useContext(SlugContext)
 
   return (
     <ul className="space-y-2 px-1.5">
@@ -45,7 +48,7 @@ export const MenuList = ({ slug }: { slug: string }): JSX.Element => {
           key={link.path}
         >
           <Link
-            href={`/${slug}/${link.path}`}
+            href={`/${slug as string}/${link.path}`}
             className={cn(
               "flex items-center rounded-xl py-3 transition duration-150 ease-in-out hover:bg-accent",
               toggle
