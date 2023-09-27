@@ -28,7 +28,7 @@ export const GenerateQRCode = ({
   /**
    * ? source: https://github.com/zpao/qrcode.react/issues/140
    */
-  const { data, status } = api.eo.slug.useQuery(undefined, {
+  const { data, status } = api.eo.nameBySessionId.useQuery(undefined, {
     select: (data) => ({
       slug: data?.name.replace(/\s+/g, "-"),
     }),

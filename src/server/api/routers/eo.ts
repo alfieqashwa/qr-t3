@@ -72,7 +72,7 @@ export const eoRouter = createTRPCRouter({
         })
       }
     ),
-  slug: protectedProcedure.query(async ({ ctx }) => {
+  nameBySessionId: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.eventOrganizer.findUnique({
       where: { id: ctx.session.user.eventOrganizerId as string },
       select: { name: true },

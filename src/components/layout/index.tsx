@@ -15,7 +15,7 @@ export const Layout = ({ title, children }: LayoutProps) => {
 
   const titleHeader = `${title} | QR Ticket Concert`
 
-  const { data, status } = api.eo.slug.useQuery(undefined, {
+  const { data, status } = api.eo.nameBySessionId.useQuery(undefined, {
     select: (data) => ({
       slug: data?.name.replace(/\s+/g, "-"),
     }),
