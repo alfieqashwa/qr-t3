@@ -22,6 +22,7 @@ import { ToastAction } from "~/src/components/ui/toast"
 import { useToast } from "~/src/components/ui/use-toast"
 import { authOptions } from "~/src/server/auth"
 import { api } from "~/src/utils/api"
+import { prisma } from "../server/db"
 
 const CreateEO: NextPage = (): JSX.Element => {
   const [session, router] = [useSession(), useRouter()]
@@ -320,21 +321,32 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
 
+  const getEoNameBySessionId = await prisma.eventOrganizer.findUnique({
+    where: { id: session.user.eventOrganizerId as string },
+    select: { name: true },
+  })
+
+  const slug = getEoNameBySessionId?.name.replace(/\s+/g, "-") as string
+
   // If user has EventOrganizerId, then cannot enter this page "/create-eo"
-  if (session && session.user.eventOrganizerId) {
+  if (session && session.user.eventOrganizerId && !!slug) {
     return {
       redirect: {
-        destination: "/dashboard",
+        destination: `/${slug}/dashboard`,
         permanent: false,
       },
     }
   }
 
   // If user has EventOrganizerId but as an OPERATOR, then cannot enter this page.
-  if (session.user.eventOrganizerId && session.user.role === "OPERATOR") {
+  if (
+    session.user.eventOrganizerId &&
+    !!slug &&
+    session.user.role === "OPERATOR"
+  ) {
     return {
       redirect: {
-        destination: "/scanner",
+        destination: `/${slug}/scanner`,
         permanent: false,
       },
     }
@@ -346,21 +358,3 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     },
   }
 }
-
-/**
- * FROM T3 DOCS
-<form onSubmit={(e) => {
-      e.preventDefault();
-      const formData = new FormData(e.currentTarget);
-      mutate({ title: formData.get('title') });
-    }}>
-      <input name="title" />
-      {error?.data?.zodError?.fieldErrors.title && (
-        <span className="mb-8 text-red-500">
-          {error.data.zodError.fieldErrors.title}
-        </span>
-      )}
-
-      ...
-    </form>
- */
