@@ -1,6 +1,4 @@
 import type { GetServerSideProps } from "next"
-import { getServerSession } from "next-auth"
-import { authOptions } from "~/server/auth"
 import { prisma } from "~/server/db"
 
 type Props = { slug: string }
@@ -21,20 +19,17 @@ const SlugPage = (props: Props) => {
 export default SlugPage
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await getServerSession(ctx.req, ctx.res, authOptions)
-  const slugQuery = await prisma.eventOrganizer.findFirst({
-    where: { id: session?.user.eventOrganizerId as string },
+  const slugQuery = await prisma.eventOrganizer.findMany({
     select: { name: true },
   })
 
-  const slug = slugQuery?.name as string
-
-  const allowedPath = "/create-eo"
-
-  if (
-    ctx.query.slug !== allowedPath &&
-    ctx.query.slug !== slug.replace(/\s+/g, "-")
+  const filteredSlug = slugQuery.filter(
+    (eo) => eo.name.replace(/\s+/g, "-") === (ctx.query.slug as string)
   )
+
+  const allowedPath = "create-eo"
+
+  if (ctx.query.slug !== allowedPath && !filteredSlug[0]?.name)
     return {
       redirect: {
         destination: "/404",
@@ -44,7 +39,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      slug,
+      slug: filteredSlug[0]?.name, // 'cello ltd'
     },
   }
 }
