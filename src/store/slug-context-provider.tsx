@@ -19,13 +19,13 @@ export const SlugContextProvider = ({ children }: Props) => {
     }),
   })
 
-  if (status !== "success") {
-    return
-  }
-
   return (
-    <SlugContext.Provider value={{ slug: data.slug }}>
-      {children}
-    </SlugContext.Provider>
+    <>
+      {status == "success" && (
+        <SlugContext.Provider value={{ slug: data.slug }}>
+          {children}
+        </SlugContext.Provider>
+      )}
+    </>
   )
 }
