@@ -1,8 +1,8 @@
-import { createTRPCRouter, dewaProcedure } from "../trpc"
+import { createTRPCRouter, publicProcedure } from "../trpc"
 
 export const dewaRouter = createTRPCRouter({
   // Queries
-  getAll: dewaProcedure.query(async ({ ctx }) => {
+  getAll: publicProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.eventOrganizer.findMany({
       include: {
         events: true,
@@ -12,5 +12,9 @@ export const dewaRouter = createTRPCRouter({
         _count: true,
       },
     })
+  }),
+  // TEMPORARY
+  deleteAll: publicProcedure.mutation(async ({ ctx }) => {
+    return await ctx.prisma.eventOrganizer.deleteMany()
   }),
 })

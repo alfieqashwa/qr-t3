@@ -72,12 +72,14 @@ export const eoRouter = createTRPCRouter({
         })
       }
     ),
-  nameBySessionId: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.eventOrganizer.findUnique({
-      where: { id: ctx.session.user.eventOrganizerId as string },
-      select: { name: true },
-    })
-  }),
+  nameBySessionId: protectedProcedure
+    .input(z.object({ id: z.string().cuid() }))
+    .query(async ({ ctx, input: { id } }) => {
+      return await ctx.prisma.eventOrganizer.findUnique({
+        where: { id },
+        select: { name: true },
+      })
+    }),
   read: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.eventOrganizer.findFirst({
       where: { users: { some: { id: ctx.session.user.id } } },

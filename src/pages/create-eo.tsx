@@ -321,7 +321,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
 
-  // If user has EventOrganizerId, then cannot enter this page "/create-eo"
   if (session && session.user.eventOrganizerId) {
     const getEoNameBySessionId = await prisma.eventOrganizer.findUnique({
       where: { id: session.user.eventOrganizerId },
@@ -330,26 +329,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     const slug = getEoNameBySessionId?.name.replace(/\s+/g, "-") as string
 
-    return {
-      redirect: {
-        destination: `/${slug}/dashboard`,
-        permanent: false,
-      },
-    }
-  }
-
-  // If user has EventOrganizerId but as an OPERATOR, then cannot enter this page.
-  if (session.user.eventOrganizerId && session.user.role === "OPERATOR") {
-    const getEoNameBySessionId = await prisma.eventOrganizer.findUnique({
-      where: { id: session.user.eventOrganizerId },
-      select: { name: true },
-    })
-
-    const slug = getEoNameBySessionId?.name.replace(/\s+/g, "-") as string
+    const destination =
+      session.user.role === "OPERATOR"
+        ? `/${slug}/scanner` // If user has EventOrganizerId and user role as an OPERATOR, then enter this page.
+        : `/${slug}/dashboard`
 
     return {
       redirect: {
-        destination: `/${slug}/scanner`,
+        destination,
         permanent: false,
       },
     }

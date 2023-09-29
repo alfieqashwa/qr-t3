@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/react"
 import { createContext, type ReactNode } from "react"
 import { api } from "~/utils/api"
 
@@ -13,11 +14,18 @@ export const SlugContext = createContext<SlugContextProvider>({
 })
 
 export const SlugContextProvider = ({ children }: Props) => {
-  const { data, status } = api.eo.nameBySessionId.useQuery(undefined, {
-    select: (data) => ({
-      slug: data?.name.replace(/\s+/g, "-"),
-    }),
-  })
+  const { data: session } = useSession()
+  const { data, status } = api.eo.nameBySessionId.useQuery(
+    {
+      id: session?.user.eventOrganizerId as string,
+    },
+    {
+      enabled: !!session?.user.eventOrganizerId,
+      select: (data) => ({
+        slug: data?.name.replace(/\s+/g, "-"),
+      }),
+    }
+  )
 
   return (
     <>
