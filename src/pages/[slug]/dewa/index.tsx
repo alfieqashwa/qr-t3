@@ -21,6 +21,27 @@ const DewaPage: NextPage = () => {
   console.table(data)
   console.log({ data })
 
+  // === STARTS DELETE ALL EVENT ===
+  const deleteAllEventOrganizer = api.dewa.deleteAll.useMutation({
+    async onSuccess() {
+      toast({
+        title: "Succeed!",
+        variant: "default",
+        description: "All Event Organizers have been deleted.",
+      })
+      await utils.dewa.getAll.invalidate()
+      /* auto-closed after succeed submit the dialog form */
+    },
+    onError() {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      })
+    },
+  })
+
   // === STARTS DELETE A USER ====
   const deleteUser = api.user.delete.useMutation({
     async onSuccess() {
@@ -158,6 +179,11 @@ const DewaPage: NextPage = () => {
           {status === "loading" && <LoadingSpinner />}
           {status === "error" && <p>An Error occured</p>}
           {status === "success" && <pre>{JSON.stringify(data, null, 4)}</pre>}
+        </div>
+        <div className="my-8 text-center">
+          <Button onClick={() => deleteAllEventOrganizer.mutate()}>
+            Delete All Event Organizer
+          </Button>
         </div>
         <section className="mx-auto mb-20 grid max-w-4xl grid-cols-2 gap-8">
           <form
