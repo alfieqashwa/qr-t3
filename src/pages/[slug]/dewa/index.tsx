@@ -7,13 +7,81 @@ import { Layout } from "~/components/layout"
 import { LoadingSpinner } from "~/components/loading"
 import { authOptions } from "~/server/auth"
 import { prisma } from "~/server/db"
+import { Button } from "~/ui/button"
+import { Input } from "~/ui/input"
+import { Label } from "~/ui/label"
+import { ToastAction } from "~/ui/toast"
+import { toast } from "~/ui/use-toast"
 import { api } from "~/utils/api"
 
 const title = "Dewa"
 const DewaPage: NextPage = () => {
+  const utils = api.useContext()
   const { data, status } = api.dewa.getAll.useQuery()
   console.table(data)
   console.log({ data })
+
+  const deleteUser = api.user.delete.useMutation({
+    async onSuccess() {
+      toast({
+        title: "Succeed!",
+        variant: "default",
+        description: "The user has been deleted.",
+      })
+      await utils.dewa.getAll.invalidate()
+      /* auto-closed after succeed submit the dialog form */
+    },
+    onError() {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      })
+    },
+  })
+
+  const handleUserSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    const formData = new FormData(e.currentTarget)
+    const userId = formData.get("userId") as string
+
+    deleteUser.mutate({
+      id: userId,
+    })
+  }
+
+  const deleteEo = api.eo.delete.useMutation({
+    async onSuccess() {
+      toast({
+        title: "Succeed!",
+        variant: "default",
+        description: "The EO has been deleted.",
+      })
+      await utils.dewa.getAll.invalidate()
+      /* auto-closed after succeed submit the dialog form */
+    },
+    onError() {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      })
+    },
+  })
+
+  const handleEOSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    const formData = new FormData(e.currentTarget)
+    const eoId = formData.get("eoId") as string
+
+    deleteEo.mutate({
+      id: eoId,
+    })
+  }
 
   return (
     <Layout title={title}>
@@ -25,6 +93,40 @@ const DewaPage: NextPage = () => {
           {status === "error" && <p>An Error occured</p>}
           {status === "success" && <pre>{JSON.stringify(data, null, 4)}</pre>}
         </div>
+        <section className="mx-auto mb-20 flex max-w-2xl items-center justify-between border-2 px-8 py-4">
+          <form onSubmit={handleUserSubmit}>
+            <div className="flex- flex-col space-y-1.5">
+              <Label htmlFor="name">USER ID</Label>
+              <Input
+                id="userId"
+                type="text"
+                name="userId"
+                placeholder="Input User ID"
+              />
+            </div>
+            <div className="mt-8 flex justify-end">
+              <Button type="submit" size="sm">
+                Delete User
+              </Button>
+            </div>
+          </form>
+          <form onSubmit={handleEOSubmit}>
+            <div className="flex- flex-col space-y-1.5">
+              <Label htmlFor="name">EO ID</Label>
+              <Input
+                id="eoId"
+                type="text"
+                name="eoId"
+                placeholder="Input EO ID"
+              />
+            </div>
+            <div className="mt-8 flex justify-end">
+              <Button type="submit" size="sm">
+                Delete EO
+              </Button>
+            </div>
+          </form>
+        </section>
       </div>
     </Layout>
   )
