@@ -13,6 +13,7 @@ import {
 } from "~/ui/dialog"
 import { SvgQRCode } from "./svg-qrcode"
 import { api } from "~/src/utils/api"
+import { useRouter } from "next/router"
 
 type GenerateQRCodeProps = {
   id: string
@@ -28,11 +29,19 @@ export const GenerateQRCode = ({
   /**
    * ? source: https://github.com/zpao/qrcode.react/issues/140
    */
-  const { data, status } = api.eo.nameBySessionId.useQuery(undefined, {
-    select: (data) => ({
-      slug: data?.name.replace(/\s+/g, "-"),
-    }),
-  })
+
+  const { query } = useRouter()
+  const { data, status } = api.eo.nameBySessionId.useQuery(
+    {
+      id: query.slug as string,
+    },
+    {
+      enabled: !!query.slug,
+      select: (data) => ({
+        slug: data?.name.replace(/\s+/g, "-"),
+      }),
+    }
+  )
 
   const onSVGButtonClick = () => {
     const node = document.getElementById("QRCode")

@@ -1,6 +1,6 @@
 import { useRouter } from "next/router"
 import { createContext, type ReactNode } from "react"
-import { LoadingSpinner } from "~/components/loading"
+import { LoadingSpinner } from "../components/loading"
 
 type SlugContextProvider = {
   slug: string | undefined
@@ -19,6 +19,7 @@ export const SlugContextProvider = ({ children }: Props) => {
   const slug = query.slug as string
 
   if (!slug) return <LoadingSpinner />
+
   return (
     <SlugContext.Provider value={{ slug }}>{children}</SlugContext.Provider>
   )
