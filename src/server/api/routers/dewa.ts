@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { createTRPCRouter, dewaProcedure, publicProcedure } from "../trpc"
+import { createTRPCRouter, dewaProcedure } from "../trpc"
 
 export const dewaRouter = createTRPCRouter({
   // Queries
