@@ -221,9 +221,9 @@ export const CreateVisitorForm = (props: Props) => {
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <FormControl className="col-span-3 w-[240px] uppercase">
+                  <FormControl className="col-span-3 w-[240px]">
                     <SelectTrigger>
-                      <SelectValue placeholder="Select an event" />
+                      <SelectValue placeholder="Select an Event" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>

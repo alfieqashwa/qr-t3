@@ -1,16 +1,16 @@
-import { GetServerSideProps, type NextPage } from "next"
 import Head from "next/head"
 import { AuthShowcase } from "~/components/authed"
-import { Button } from "../components/ui/button"
-import { api } from "../utils/api"
-import { Session, getServerSession } from "next-auth"
-import { authOptions } from "../server/auth"
-import { prisma } from "../server/db"
 
 const HomePage = () => {
   // const utils = api.useContext()
   // const { data, status } = api.dewa.getAll.useQuery()
   // const { mutate } = api.dewa.deleteAll.useMutation({
+  //   async onSuccess() {
+  //     await utils.dewa.getAll.invalidate()
+  //   },
+  // })
+
+  // const { mutate } = api.dewa.deleteEo.useMutation({
   //   async onSuccess() {
   //     await utils.dewa.getAll.invalidate()
   //   },
@@ -32,7 +32,10 @@ const HomePage = () => {
           </div>
         </div>
       </main>
-      {/* <Button onClick={() => mutate()}>Delete All Users</Button> */}
+      {/* // TEMPORARY */}
+      {/* <Button onClick={() => mutate({ id: "cln4mlyal001txhkknj2w6vx7" })}>
+        Delete A User
+      </Button> */}
     </>
   )
 }

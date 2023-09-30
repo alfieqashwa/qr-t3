@@ -6,7 +6,6 @@ import { signOut, useSession } from "next-auth/react"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { CommandCombobox } from "~/components/combobox"
-import { Button } from "~/components/ui/button"
 import {
   Card,
   CardContent,
@@ -14,14 +13,15 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card"
-import { DialogFooter } from "~/components/ui/dialog"
-import { Input } from "~/components/ui/input"
-import { Label } from "~/components/ui/label"
-import { ToastAction } from "~/components/ui/toast"
-import { useToast } from "~/components/ui/use-toast"
 import { authOptions } from "~/server/auth"
 import { prisma } from "~/server/db"
 import type { District, Province, Regency, Village } from "~/types/address"
+import { Button } from "~/ui/button"
+import { DialogFooter } from "~/ui/dialog"
+import { Input } from "~/ui/input"
+import { Label } from "~/ui/label"
+import { ToastAction } from "~/ui/toast"
+import { useToast } from "~/ui/use-toast"
 import { api } from "~/utils/api"
 
 const CreateEOPage: NextPage = (): JSX.Element => {
@@ -30,7 +30,8 @@ const CreateEOPage: NextPage = (): JSX.Element => {
 
   const updateUserRoleAsAdmin = api.user.updateRole.useMutation()
   const { mutate, isLoading, error } = api.eo.create.useMutation({
-    async onSuccess() {
+    async onSuccess(_data, variables) {
+      const { name } = variables
       // update user role as ADMIN
       await updateUserRoleAsAdmin.mutateAsync({ role: Role.ADMIN })
       toast({
@@ -38,7 +39,7 @@ const CreateEOPage: NextPage = (): JSX.Element => {
         variant: "default",
         description: "Your form has been created.",
       })
-      await router.push("/dashboard")
+      await router.push(`/${name.replace(/\s+/g, "-")}/dashboard`)
     },
     onError() {
       toast({

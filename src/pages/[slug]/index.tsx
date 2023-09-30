@@ -18,26 +18,26 @@ const SlugPage = (props: Props) => {
 
 export default SlugPage
 
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
-//   const getAllEoName = await prisma.eventOrganizer.findMany({
-//     select: { name: true },
-//   })
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const getAllEoName = await prisma.eventOrganizer.findMany({
+    select: { name: true },
+  })
 
-//   const filteredSlug = getAllEoName.filter(
-//     (eo) => eo.name.replace(/\s+/g, "-") === (ctx.query.slug as string)
-//   )
+  const filteredSlug = getAllEoName.filter(
+    (eo) => eo.name.replace(/\s+/g, "-") === (ctx.query.slug as string)
+  )
 
-//   if (!filteredSlug[0]?.name)
-//     return {
-//       redirect: {
-//         destination: "/404",
-//         permanent: false, // Set to true for a permanent redirect (HTTP 301), false for temporary (HTTP 302)
-//       },
-//     }
+  if (!filteredSlug[0]?.name)
+    return {
+      redirect: {
+        destination: "/404",
+        permanent: false, // Set to true for a permanent redirect (HTTP 301), false for temporary (HTTP 302)
+      },
+    }
 
-//   return {
-//     props: {
-//       slug: filteredSlug[0]?.name, // 'cello ltd'
-//     },
-//   }
-// }
+  return {
+    props: {
+      slug: filteredSlug[0]?.name, // 'cello ltd'
+    },
+  }
+}

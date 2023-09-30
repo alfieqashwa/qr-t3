@@ -1,3 +1,4 @@
+import { z } from "zod"
 import { createTRPCRouter, publicProcedure } from "../trpc"
 
 export const dewaRouter = createTRPCRouter({
@@ -14,6 +15,14 @@ export const dewaRouter = createTRPCRouter({
     })
   }),
   // TEMPORARY
+  deleteEo: publicProcedure
+    .input(z.object({ id: z.string().cuid() }))
+    .mutation(async ({ ctx, input: { id } }) => {
+      return await ctx.prisma.eventOrganizer.delete({
+        where: { id },
+      })
+    }),
+
   deleteAll: publicProcedure.mutation(async ({ ctx }) => {
     return await ctx.prisma.eventOrganizer.deleteMany()
   }),

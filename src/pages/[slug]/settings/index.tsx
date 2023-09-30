@@ -1,15 +1,13 @@
 import type { GetServerSideProps } from "next"
 import { type NextPage } from "next"
-
-import { HeaderTitle } from "~/components/header-title"
-import { Layout } from "~/components/layout"
-
 import { getServerSession } from "next-auth/next"
 import { AdminOnly } from "~/components/authed"
+import { HeaderTitle } from "~/components/header-title"
+import { Layout } from "~/components/layout"
 import { EOInfo, ProfileInfo, TeamList } from "~/components/settings"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
 import { authOptions } from "~/server/auth"
 import { prisma } from "~/server/db"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/ui/tabs"
 
 const title = "Settings" as const
 
@@ -60,14 +58,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
 
-  const getEoNameBySessionId = await prisma.eventOrganizer.findUnique({
-    where: { id: session.user.eventOrganizerId as string },
-    select: { name: true },
-  })
-
-  const slug = getEoNameBySessionId?.name.replace(/\s+/g, "-") as string
-
-  if (!session.user.eventOrganizerId) {
+  // If user has not have EventOrganizerId, then redirect to page "/create-eo"
+  if (session && !session.user.eventOrganizerId) {
     return {
       redirect: {
         destination: "/create-eo",
@@ -76,27 +68,30 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
 
-  if (session.user.eventOrganizerId && slug !== ctx.query.slug) {
-    return {
-      redirect: {
-        destination: "/404",
-        permanent: false,
-      },
-    }
-  }
+  if (session && session.user.eventOrganizerId) {
+    const getEoNameBySessionId = await prisma.eventOrganizer.findUnique({
+      where: { id: session.user.eventOrganizerId },
+      select: { name: true },
+    })
 
-  // If user has EventOrganizerId but as an OPERATOR, then cannot enter this page.
-  if (
-    session.user.eventOrganizerId &&
-    !!slug &&
-    session.user.role === "OPERATOR"
-  ) {
-    return {
-      redirect: {
-        destination: `/${slug}/scanner`,
-        permanent: false,
-      },
+    const slug = getEoNameBySessionId?.name.replace(/\s+/g, "-") as string
+
+    if (slug !== ctx.query.slug) {
+      return {
+        redirect: {
+          destination: "/404",
+          permanent: false,
+        },
+      }
     }
+
+    if (session.user.role === "OPERATOR")
+      return {
+        redirect: {
+          destination: `/${slug}/scanner`, // If user has EventOrganizerId and user role as an OPERATOR, then enter this page.
+          permanent: false,
+        },
+      }
   }
 
   return {

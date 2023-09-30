@@ -3,9 +3,9 @@ import { type GetServerSideProps, type NextPage } from "next"
 import { getServerSession } from "next-auth"
 import { signOut } from "next-auth/react"
 import QRScanner from "~/components/qrcode/scanner"
-import { Button } from "~/components/ui/button"
 import { authOptions } from "~/server/auth"
 import { prisma } from "~/server/db"
+import { Button } from "~/ui/button"
 
 const ScannerPage: NextPage = (): JSX.Element => {
   return (
@@ -25,23 +25,6 @@ const ScannerPage: NextPage = (): JSX.Element => {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerSession(ctx.req, ctx.res, authOptions)
 
-  const slugQuery = await prisma.eventOrganizer.findUnique({
-    where: { id: session?.user.eventOrganizerId as string },
-    select: { name: true },
-  })
-
-  const querySlug = ctx.query.slug as string
-  const slug = slugQuery?.name.replace(/\s+/g, "-") as string
-
-  if (querySlug !== slug) {
-    return {
-      redirect: {
-        destination: "/404",
-        permanent: false,
-      },
-    }
-  }
-
   if (!session) {
     return {
       redirect: {
@@ -59,6 +42,32 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         permanent: false,
       },
     }
+  }
+
+  if (session && session.user.eventOrganizerId) {
+    const getEoNameBySessionId = await prisma.eventOrganizer.findUnique({
+      where: { id: session.user.eventOrganizerId },
+      select: { name: true },
+    })
+
+    const slug = getEoNameBySessionId?.name.replace(/\s+/g, "-") as string
+
+    if (slug !== ctx.query.slug) {
+      return {
+        redirect: {
+          destination: "/404",
+          permanent: false,
+        },
+      }
+    }
+
+    if (session.user.role !== "OPERATOR")
+      return {
+        redirect: {
+          destination: `/${slug}/dashboard`, // If user has EventOrganizerId and user role as NOT an OPERATOR, then enter this page.
+          permanent: false,
+        },
+      }
   }
 
   return {

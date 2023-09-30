@@ -92,7 +92,7 @@ export function VisitorTableToolbar<TData>({
           {table.getFilteredSelectedRowModel().rows.length > 0 ? (
             <DeleteVisitorList table={table} />
           ) : (
-            <CreateNewVisitor />
+            !!eventQuery.data?.length && <CreateNewVisitor />
           )}
         </AdminOnly>
         <DataTableViewOptions table={table} />
