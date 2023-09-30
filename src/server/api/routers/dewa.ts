@@ -7,7 +7,12 @@ export const dewaRouter = createTRPCRouter({
     return await ctx.prisma.eventOrganizer.findMany({
       include: {
         events: true,
-        users: true,
+        users: {
+          include: {
+            accounts: true,
+            sessions: true,
+          },
+        },
         tickets: true,
         visitors: true,
         _count: true,
@@ -15,10 +20,17 @@ export const dewaRouter = createTRPCRouter({
     })
   }),
   // TEMPORARY
-  deleteEo: dewaProcedure
+  deleteAccount: dewaProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
-      return await ctx.prisma.eventOrganizer.delete({
+      return await ctx.prisma.account.delete({
+        where: { id },
+      })
+    }),
+  deleteSession: dewaProcedure
+    .input(z.object({ id: z.string().cuid() }))
+    .mutation(async ({ ctx, input: { id } }) => {
+      return await ctx.prisma.session.delete({
         where: { id },
       })
     }),

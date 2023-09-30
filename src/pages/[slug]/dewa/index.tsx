@@ -21,6 +21,7 @@ const DewaPage: NextPage = () => {
   console.table(data)
   console.log({ data })
 
+  // === STARTS DELETE A USER ====
   const deleteUser = api.user.delete.useMutation({
     async onSuccess() {
       toast({
@@ -45,13 +46,14 @@ const DewaPage: NextPage = () => {
     e.preventDefault()
 
     const formData = new FormData(e.currentTarget)
-    const userId = formData.get("userId") as string
+    const id = formData.get("userId") as string
 
     deleteUser.mutate({
-      id: userId,
+      id,
     })
   }
 
+  // === STARTS DELETE AN EVENT ORGANIZER ====
   const deleteEo = api.eo.delete.useMutation({
     async onSuccess() {
       toast({
@@ -76,10 +78,74 @@ const DewaPage: NextPage = () => {
     e.preventDefault()
 
     const formData = new FormData(e.currentTarget)
-    const eoId = formData.get("eoId") as string
+    const id = formData.get("eoId") as string
 
     deleteEo.mutate({
-      id: eoId,
+      id,
+    })
+  }
+
+  // === STARTS DELETE AN ACCOUNT ====
+  const deleteAccount = api.eo.delete.useMutation({
+    async onSuccess() {
+      toast({
+        title: "Succeed!",
+        variant: "default",
+        description: "The Account has been deleted.",
+      })
+      await utils.dewa.getAll.invalidate()
+      /* auto-closed after succeed submit the dialog form */
+    },
+    onError() {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      })
+    },
+  })
+
+  const handleAccountSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    const formData = new FormData(e.currentTarget)
+    const id = formData.get("accountId") as string
+
+    deleteAccount.mutate({
+      id,
+    })
+  }
+
+  // === STARTS DELETE A SESSION ====
+  const deleteSession = api.eo.delete.useMutation({
+    async onSuccess() {
+      toast({
+        title: "Succeed!",
+        variant: "default",
+        description: "The Session has been deleted.",
+      })
+      await utils.dewa.getAll.invalidate()
+      /* auto-closed after succeed submit the dialog form */
+    },
+    onError() {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      })
+    },
+  })
+
+  const handleSessionSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    const formData = new FormData(e.currentTarget)
+    const id = formData.get("sessionId") as string
+
+    deleteSession.mutate({
+      id,
     })
   }
 
@@ -93,9 +159,12 @@ const DewaPage: NextPage = () => {
           {status === "error" && <p>An Error occured</p>}
           {status === "success" && <pre>{JSON.stringify(data, null, 4)}</pre>}
         </div>
-        <section className="mx-auto mb-20 flex max-w-2xl items-center justify-between border-2 px-8 py-4">
-          <form onSubmit={handleUserSubmit}>
-            <div className="flex- flex-col space-y-1.5">
+        <section className="mx-auto mb-20 grid max-w-4xl grid-cols-2 gap-8">
+          <form
+            onSubmit={handleUserSubmit}
+            className="rounded-lg border-2 px-8 py-4"
+          >
+            <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">USER ID</Label>
               <Input
                 id="userId"
@@ -110,8 +179,11 @@ const DewaPage: NextPage = () => {
               </Button>
             </div>
           </form>
-          <form onSubmit={handleEOSubmit}>
-            <div className="flex- flex-col space-y-1.5">
+          <form
+            onSubmit={handleEOSubmit}
+            className="rounded-lg border-2 px-8 py-4"
+          >
+            <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">EO ID</Label>
               <Input
                 id="eoId"
@@ -123,6 +195,44 @@ const DewaPage: NextPage = () => {
             <div className="mt-8 flex justify-end">
               <Button type="submit" size="sm">
                 Delete EO
+              </Button>
+            </div>
+          </form>
+          <form
+            onSubmit={handleAccountSubmit}
+            className="rounded-lg border-2 px-8 py-4"
+          >
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="name">Account ID</Label>
+              <Input
+                id="accountId"
+                type="text"
+                name="accountId"
+                placeholder="Input Account ID"
+              />
+            </div>
+            <div className="mt-8 flex justify-end">
+              <Button type="submit" size="sm">
+                Delete Account
+              </Button>
+            </div>
+          </form>
+          <form
+            onSubmit={handleSessionSubmit}
+            className="rounded-lg border-2 px-8 py-4"
+          >
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="name">Session ID</Label>
+              <Input
+                id="sessionId"
+                type="text"
+                name="sessionId"
+                placeholder="Input Session ID"
+              />
+            </div>
+            <div className="mt-8 flex justify-end">
+              <Button type="submit" size="sm">
+                Delete Session
               </Button>
             </div>
           </form>
