@@ -1,10 +1,11 @@
-import { useSession } from "next-auth/react"
+import { useRouter } from "next/router"
 import { createContext, type ReactNode } from "react"
-import { api } from "~/utils/api"
+import { LoadingSpinner } from "~/components/loading"
 
 type SlugContextProvider = {
   slug: string | undefined
 }
+
 type Props = {
   children: ReactNode
 }
@@ -14,26 +15,11 @@ export const SlugContext = createContext<SlugContextProvider>({
 })
 
 export const SlugContextProvider = ({ children }: Props) => {
-  const { data: session } = useSession()
-  const { data, status } = api.eo.nameBySessionId.useQuery(
-    {
-      id: session?.user.eventOrganizerId as string,
-    },
-    {
-      enabled: !!session?.user.eventOrganizerId,
-      select: (data) => ({
-        slug: data?.name.replace(/\s+/g, "-"),
-      }),
-    }
-  )
+  const { query } = useRouter()
+  const slug = query.slug as string
 
+  if (!slug) return <LoadingSpinner />
   return (
-    <>
-      {status == "success" && (
-        <SlugContext.Provider value={{ slug: data.slug }}>
-          {children}
-        </SlugContext.Provider>
-      )}
-    </>
+    <SlugContext.Provider value={{ slug }}>{children}</SlugContext.Provider>
   )
 }
