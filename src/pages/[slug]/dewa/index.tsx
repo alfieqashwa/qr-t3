@@ -17,10 +17,12 @@ import { api } from "~/utils/api"
 const title = "Dewa"
 const DewaPage: NextPage = () => {
   const utils = api.useContext()
-  const { data, status } = api.dewa.getAll.useQuery()
-  console.table(data)
-  console.log({ data })
 
+  // QUERIES
+  const { data, status } = api.dewa.getAll.useQuery()
+  const getAllAccount = api.dewa.getAllAccount.useQuery()
+
+  // MUTATIONS
   // === STARTS DELETE ALL EVENT ===
   const deleteAllEventOrganizer = api.dewa.deleteAll.useMutation({
     async onSuccess() {
@@ -176,6 +178,19 @@ const DewaPage: NextPage = () => {
       <div className="mt-4 h-[calc(100vh_-_17vh)]">
         <h3>{title} is here...</h3>
         <div className="mt-8">
+          <h2 className="text-3xl font-bold text-amber-300">
+            Get All Accounts
+          </h2>
+          {status === "loading" && <LoadingSpinner />}
+          {status === "error" && <p>An Error occured</p>}
+          {status === "success" && (
+            <pre>{JSON.stringify(getAllAccount.data, null, 4)}</pre>
+          )}
+        </div>
+        <div className="mt-8">
+          <h2 className="text-3xl font-bold text-amber-300">
+            Get All Event Organizers
+          </h2>
           {status === "loading" && <LoadingSpinner />}
           {status === "error" && <p>An Error occured</p>}
           {status === "success" && <pre>{JSON.stringify(data, null, 4)}</pre>}

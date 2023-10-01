@@ -19,7 +19,13 @@ export const dewaRouter = createTRPCRouter({
       },
     })
   }),
-  // TEMPORARY
+  getAllAccount: dewaProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.account.findMany({
+      include: { user: true },
+    })
+  }),
+
+  // Mutations
   deleteAccount: dewaProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
