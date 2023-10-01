@@ -3,22 +3,6 @@ import { createTRPCRouter, dewaProcedure } from "../trpc"
 
 export const dewaRouter = createTRPCRouter({
   // Queries
-  getAll: dewaProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.eventOrganizer.findMany({
-      include: {
-        events: true,
-        users: {
-          include: {
-            accounts: true,
-            sessions: true,
-          },
-        },
-        tickets: true,
-        visitors: true,
-        _count: true,
-      },
-    })
-  }),
   getAllAccount: dewaProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.account.findMany({
       include: { user: true },

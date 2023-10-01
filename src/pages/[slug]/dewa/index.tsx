@@ -2,6 +2,7 @@ import { Role } from "@prisma/client"
 import type { GetServerSideProps } from "next"
 import { type NextPage } from "next"
 import { getServerSession } from "next-auth/next"
+import { InputCardList } from "~/components/dewa/input-card-list"
 import { Userlist } from "~/components/dewa/user-list"
 import { HeaderTitle } from "~/components/header-title"
 import { Layout } from "~/components/layout"
@@ -20,9 +21,15 @@ const DewaPage: NextPage = () => {
           <TabsTrigger className="text-xs lg:text-sm" value="user-info">
             User Info
           </TabsTrigger>
+          <TabsTrigger className="text-xs lg:text-sm" value="input-card">
+            Input Card
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="user-info">
           <Userlist />
+        </TabsContent>
+        <TabsContent value="input-card">
+          <InputCardList />
         </TabsContent>
       </Tabs>
     </Layout>

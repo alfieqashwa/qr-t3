@@ -12,7 +12,7 @@ export const eoRouter = createTRPCRouter({
   // Dewa Procedure
   getAll: dewaProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.eventOrganizer.findMany({
-      select: { name: true },
+      select: { id: true, name: true },
     })
   }),
 
