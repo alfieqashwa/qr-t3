@@ -30,7 +30,7 @@ export const UserProfile = ({ image }: UserProfileProps) => {
           <Image src={image} alt="User Avatar" fill className="rounded-full" />
         </MenubarTrigger>
         <MenubarContent className="w-52">
-          <HomeMenu />
+          <HomeMenu slug={slug as string} />
           {MENU_LINKS?.map((link) => {
             const { path, iconSmall: Icon } = link
             return (
@@ -74,8 +74,8 @@ export const UserProfile = ({ image }: UserProfileProps) => {
 }
 
 // Add Home Menu
-const HomeMenu = (): JSX.Element => (
-  <Link href="/">
+const HomeMenu = ({ slug }: { slug: string }): JSX.Element => (
+  <Link href={`/${slug}`}>
     <MenubarItem className="group capitalize hover:cursor-pointer">
       home
       <MenubarShortcut className="text-foreground transition duration-300 ease-in-out group-hover:text-foreground">
