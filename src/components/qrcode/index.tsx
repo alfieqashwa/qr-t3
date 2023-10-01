@@ -1,6 +1,8 @@
 import type { Status } from "@prisma/client"
 import { QrCode } from "lucide-react"
+import { useSession } from "next-auth/react"
 import Link from "next/link"
+import { api } from "~/src/utils/api"
 import { Button } from "~/ui/button"
 import {
   Dialog,
@@ -12,8 +14,6 @@ import {
   DialogTrigger,
 } from "~/ui/dialog"
 import { SvgQRCode } from "./svg-qrcode"
-import { api } from "~/src/utils/api"
-import { useRouter } from "next/router"
 
 type GenerateQRCodeProps = {
   id: string
@@ -30,13 +30,13 @@ export const GenerateQRCode = ({
    * ? source: https://github.com/zpao/qrcode.react/issues/140
    */
 
-  const { query } = useRouter()
+  const { data: session } = useSession()
   const { data, status } = api.eo.nameBySessionId.useQuery(
     {
-      id: query.slug as string,
+      id: session?.user.eventOrganizerId as string,
     },
     {
-      enabled: !!query.slug,
+      enabled: !!session?.user.eventOrganizerId,
       select: (data) => ({
         slug: data?.name.replace(/\s+/g, "-"),
       }),
@@ -87,9 +87,6 @@ export const GenerateQRCode = ({
                 <div className="w-full">
                   <SvgQRCode
                     id="QRCode"
-                    // value={`${
-                    //   clientEnv.NEXT_PUBLIC_BASEURL as string
-                    // }/visitor/${id}`}
                     value={`/${data.slug as string}/visitor/${id}`}
                     size={512}
                   />
