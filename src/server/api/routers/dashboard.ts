@@ -1,8 +1,8 @@
-import { adminProcedure, createTRPCRouter } from "../trpc"
+import { createTRPCRouter, editorProcedure } from "../trpc"
 
 export const dashboardRouter = createTRPCRouter({
-  // Queries
-  getAll: adminProcedure.query(async ({ ctx }) => {
+  // Queries - Editor Procedure
+  getAll: editorProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.event.findMany({
       where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
       orderBy: { date: "asc" },

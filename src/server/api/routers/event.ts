@@ -3,7 +3,7 @@ import { createEventSchema, updateEventSchema } from "~/types/schema"
 import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
 
 export const eventRouter = createTRPCRouter({
-  // Queries
+  // Queries - Protected Procedure
   count: protectedProcedure.query(
     async ({ ctx }) => await ctx.prisma.event.count()
   ),
@@ -13,6 +13,14 @@ export const eventRouter = createTRPCRouter({
       orderBy: { date: "asc" },
     })
   }),
+  eventData: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.event.findMany({
+      where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
+      select: { title: true, venue: true },
+    })
+  }),
+
+  // Queries - Admin Procedure
   getById: adminProcedure
     .input(z.object({ id: z.string().cuid() }))
     .query(async ({ ctx, input: { id } }) => {
@@ -20,13 +28,8 @@ export const eventRouter = createTRPCRouter({
         where: { id },
       })
     }),
-  eventData: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.event.findMany({
-      where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
-      select: { title: true, venue: true },
-    })
-  }),
-  // Mutations
+
+  // Mutations - Admin Procedure
   create: adminProcedure
     .input(createEventSchema)
     .mutation(async ({ ctx, input: { title, venue, date } }) => {

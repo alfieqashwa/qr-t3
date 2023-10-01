@@ -8,7 +8,7 @@ import {
 } from "../trpc"
 
 export const ticketRouter = createTRPCRouter({
-  // Queries
+  // Queries - Protected Procedure
   count: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.ticket.count()
   }),
@@ -27,15 +27,6 @@ export const ticketRouter = createTRPCRouter({
       orderBy: { event: { date: "asc" } },
     })
   }),
-  getAllById: operatorProcedure
-    .input(z.object({ ticketId: z.string().cuid() }))
-    .query(async ({ ctx, input: { ticketId } }) => {
-      return await ctx.prisma.ticket.findUnique({
-        where: { id: ticketId },
-        include: { visitors: true, event: true, eventOrganizer: true },
-      })
-    }),
-
   getAllByEventId: protectedProcedure
     .input(z.object({ eventId: z.string().cuid() }))
     .query(async ({ ctx, input: { eventId } }) => {
@@ -47,7 +38,17 @@ export const ticketRouter = createTRPCRouter({
       })
     }),
 
-  // Mutations
+  // Queries - Operator Procedure
+  getAllById: operatorProcedure
+    .input(z.object({ ticketId: z.string().cuid() }))
+    .query(async ({ ctx, input: { ticketId } }) => {
+      return await ctx.prisma.ticket.findUnique({
+        where: { id: ticketId },
+        include: { visitors: true, event: true, eventOrganizer: true },
+      })
+    }),
+
+  // Mutations - Editor Procedure
   generate: editorProcedure
     .input(
       z.object({

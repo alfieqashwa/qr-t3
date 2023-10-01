@@ -7,16 +7,29 @@ import {
 } from "../trpc"
 
 export const eoRouter = createTRPCRouter({
-  // Queries
+  // Queries - Protected Procedure
+  nameBySessionId: protectedProcedure
+    .input(z.object({ id: z.string().cuid() }))
+    .query(async ({ ctx, input: { id } }) => {
+      return await ctx.prisma.eventOrganizer.findUnique({
+        where: { id },
+        select: { name: true },
+      })
+    }),
+  read: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.eventOrganizer.findFirst({
+      where: { users: { some: { id: ctx.session.user.id } } },
+    })
+  }),
 
-  // Dewa Procedure
+  // Queries - Dewa Procedure
   getAll: dewaProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.eventOrganizer.findMany({
       select: { id: true, name: true },
     })
   }),
 
-  // Mutations
+  // Mutations - Protected Procedure
   create: protectedProcedure
     .input(
       z
@@ -87,19 +100,8 @@ export const eoRouter = createTRPCRouter({
         })
       }
     ),
-  nameBySessionId: protectedProcedure
-    .input(z.object({ id: z.string().cuid() }))
-    .query(async ({ ctx, input: { id } }) => {
-      return await ctx.prisma.eventOrganizer.findUnique({
-        where: { id },
-        select: { name: true },
-      })
-    }),
-  read: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.eventOrganizer.findFirst({
-      where: { users: { some: { id: ctx.session.user.id } } },
-    })
-  }),
+
+  // Mutations - Admin Procedure
   update: adminProcedure
     .input(
       z

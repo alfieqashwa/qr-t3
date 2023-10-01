@@ -1,11 +1,12 @@
 import { z } from "zod"
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc"
 import { env } from "~/src/env/client.mjs"
+import { createTRPCRouter, protectedProcedure } from "../trpc"
 
 const api = env.NEXT_PUBLIC_ADDRESS_API
 
 export const addressRouter = createTRPCRouter({
-  provinces: publicProcedure.query(async () => {
+  // Queries - Protected Procedure
+  provinces: protectedProcedure.query(async () => {
     return fetch(`${api}/provinces.json`).then((res) => res.json())
   }),
   regencies: protectedProcedure

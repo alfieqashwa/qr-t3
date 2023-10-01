@@ -9,16 +9,14 @@ import {
 } from "../trpc"
 
 export const userRouter = createTRPCRouter({
-  // Queries
-
-  // Dewa Procedure
-  getAllUsers: dewaProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.user.findMany({
-      include: { eventOrganizer: { select: { name: true } } },
+  // Queries - Protected Procedure
+  me: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.user.findUnique({
+      where: { id: ctx.session.user.id },
     })
   }),
 
-  // Admin Procedure
+  // Queries - Admin Procedure
   getAllByEOId: adminProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.user.findMany({
       where: {
@@ -38,30 +36,39 @@ export const userRouter = createTRPCRouter({
     })
   }),
 
-  // Protected Procedure
-  me: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.user.findUnique({
-      where: { id: ctx.session.user.id },
+  // Queries - Dewa Procedure
+  getAllUsers: dewaProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.user.findMany({
+      include: { eventOrganizer: { select: { name: true } } },
     })
   }),
 
-  // Mutations
+  // Mutations - Protected Procedure
   removeImageUpdate: protectedProcedure.mutation(async ({ ctx }) => {
     return await ctx.prisma.user.update({
       where: { id: ctx.session.user.id },
       data: { imageUpdate: null },
     })
   }),
-  updateRole: protectedProcedure
-    .input(z.object({ role: z.nativeEnum(Role) }))
-    .mutation(async ({ ctx, input: { role } }) => {
+  updateImageProfile: protectedProcedure
+    .input(z.object({ imageUpdate: z.string().url() }))
+    .mutation(async ({ ctx, input: { imageUpdate } }) => {
       return await ctx.prisma.user.update({
         where: { id: ctx.session.user.id },
         data: {
-          role,
+          imageUpdate,
         },
       })
     }),
+  deleteMe: protectedProcedure // if user sign out before submit create-eo form -> so, it should be protected procedure
+    .input(z.object({ id: z.string().cuid() }))
+    .mutation(async ({ ctx, input: { id } }) => {
+      return await ctx.prisma.user.delete({
+        where: { id },
+      })
+    }),
+
+  // Mutations - Admin Procedure
   create: adminProcedure
     .input(createTeamSchema)
     .mutation(async ({ ctx, input: { email, role } }) => {
@@ -70,6 +77,16 @@ export const userRouter = createTRPCRouter({
           email,
           role,
           eventOrganizerId: ctx.session.user.eventOrganizerId,
+        },
+      })
+    }),
+  updateRole: adminProcedure
+    .input(z.object({ role: z.nativeEnum(Role) }))
+    .mutation(async ({ ctx, input: { role } }) => {
+      return await ctx.prisma.user.update({
+        where: { id: ctx.session.user.id },
+        data: {
+          role,
         },
       })
     }),
@@ -86,24 +103,7 @@ export const userRouter = createTRPCRouter({
         data: { role, eventOrganizerId: ctx.session.user.eventOrganizerId },
       })
     }),
-  delete: adminProcedure
-    .input(z.object({ id: z.string().cuid() }))
-    .mutation(async ({ ctx, input: { id } }) => {
-      return await ctx.prisma.user.delete({
-        where: { id },
-      })
-    }),
-  updateImageProfile: protectedProcedure
-    .input(z.object({ imageUpdate: z.string().url() }))
-    .mutation(async ({ ctx, input: { imageUpdate } }) => {
-      return await ctx.prisma.user.update({
-        where: { id: ctx.session.user.id },
-        data: {
-          imageUpdate,
-        },
-      })
-    }),
-  deleteMe: protectedProcedure
+  delete: adminProcedure // --> only dewa or admin can access this.
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
       return await ctx.prisma.user.delete({
