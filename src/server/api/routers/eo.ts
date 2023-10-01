@@ -1,7 +1,22 @@
 import { z } from "zod"
-import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
+import {
+  adminProcedure,
+  createTRPCRouter,
+  dewaProcedure,
+  protectedProcedure,
+} from "../trpc"
 
 export const eoRouter = createTRPCRouter({
+  // Queries
+
+  // Dewa Procedure
+  getAll: dewaProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.eventOrganizer.findMany({
+      select: { name: true },
+    })
+  }),
+
+  // Mutations
   create: protectedProcedure
     .input(
       z

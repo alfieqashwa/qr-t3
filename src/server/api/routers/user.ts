@@ -1,17 +1,26 @@
 import { Role } from "@prisma/client"
 import { z } from "zod"
 import { createTeamSchema } from "~/src/types/schema"
-import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
+import {
+  adminProcedure,
+  createTRPCRouter,
+  dewaProcedure,
+  protectedProcedure,
+} from "../trpc"
 
 export const userRouter = createTRPCRouter({
   // Queries
-  me: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.user.findUnique({
-      where: { id: ctx.session.user.id },
+
+  // Dewa Procedure
+  getAllUsers: dewaProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.user.findMany({
+      include: { eventOrganizer: { select: { name: true } } },
     })
   }),
+
+  // Admin Procedure
   getAllByEOId: adminProcedure.query(async ({ ctx }) => {
-    return ctx.prisma.user.findMany({
+    return await ctx.prisma.user.findMany({
       where: {
         eventOrganizerId: ctx.session.user.eventOrganizerId,
         OR: [
@@ -26,6 +35,13 @@ export const userRouter = createTRPCRouter({
   getRole: adminProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.user.findMany({
       select: { role: true },
+    })
+  }),
+
+  // Protected Procedure
+  me: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.user.findUnique({
+      where: { id: ctx.session.user.id },
     })
   }),
 
