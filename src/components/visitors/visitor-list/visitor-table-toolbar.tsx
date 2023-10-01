@@ -1,7 +1,7 @@
 import type { Table } from "@tanstack/react-table"
 import type { LucideIcon } from "lucide-react"
 import { Calendar, MapPin, X } from "lucide-react"
-import { AdminOnly } from "~/components/authed"
+import { EditorOnly } from "~/components/authed"
 import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-filter"
 import { DataTableViewOptions } from "~/components/table/data-table-view-options"
 import { Button } from "~/ui/button"
@@ -27,6 +27,7 @@ export function VisitorTableToolbar<TData>({
     icon?: LucideIcon
   }
 
+  const { data: ticketCount } = api.ticket.count.useQuery()
   const eventQuery = api.event.eventData.useQuery()
   const eventTitles = eventQuery.data?.map((d) => ({
     value: d.title,
@@ -88,13 +89,13 @@ export function VisitorTableToolbar<TData>({
         )}
       </div>
       <span className="flex items-center space-x-4">
-        <AdminOnly>
-          {table.getFilteredSelectedRowModel().rows.length > 0 ? (
-            <DeleteVisitorList table={table} />
+        <EditorOnly>
+          {!table.getFilteredSelectedRowModel().rows.length ? (
+            !!ticketCount && <CreateNewVisitor />
           ) : (
-            !!eventQuery.data?.length && <CreateNewVisitor />
+            <DeleteVisitorList table={table} />
           )}
-        </AdminOnly>
+        </EditorOnly>
         <DataTableViewOptions table={table} />
       </span>
     </div>
