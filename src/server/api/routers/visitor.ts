@@ -50,7 +50,7 @@ export const visitorRouter = createTRPCRouter({
       }
     ),
   // Mutations - Editor Procedure
-  create: editorProcedure
+  createEditorRole: editorProcedure
     .input(createVisitorSchema)
     .mutation(
       async ({ ctx, input: { name, phone, email, eventId, ticketId } }) => {
@@ -66,7 +66,7 @@ export const visitorRouter = createTRPCRouter({
         })
       }
     ),
-  update: editorProcedure
+  updateEditorRole: editorProcedure
     .input(updateVisitorSchema)
     .mutation(async ({ ctx, input: { id, name, phone, email } }) => {
       return await ctx.prisma.visitor.update({
@@ -78,7 +78,7 @@ export const visitorRouter = createTRPCRouter({
         },
       })
     }),
-  delete: editorProcedure
+  deleteEditorRole: editorProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
       return await ctx.prisma.visitor.delete({

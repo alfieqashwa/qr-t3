@@ -49,7 +49,7 @@ export const ticketRouter = createTRPCRouter({
     }),
 
   // Mutations - Editor Procedure
-  generate: editorProcedure
+  generateEditorRole: editorProcedure
     .input(
       z.object({
         eventId: z
@@ -96,7 +96,7 @@ export const ticketRouter = createTRPCRouter({
         data: generatedTickets,
       })
     }),
-  updateStatus: editorProcedure
+  updateStatusEditorRole: editorProcedure
     .input(
       z.object({
         id: z.string().cuid(),
@@ -110,7 +110,7 @@ export const ticketRouter = createTRPCRouter({
       })
     }),
   // Automatic change status to SOLD whenever the ticket get purchased by customer(s)
-  sold: editorProcedure
+  soldEditorRole: editorProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
       return await ctx.prisma.ticket.update({
@@ -121,7 +121,7 @@ export const ticketRouter = createTRPCRouter({
       })
     }),
   // Automatic change status to REFUND whenever the ticket get refund by customer(s)
-  refund: editorProcedure
+  refundEditorRole: editorProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
       return await ctx.prisma.ticket.update({
@@ -131,7 +131,7 @@ export const ticketRouter = createTRPCRouter({
         },
       })
     }),
-  delete: editorProcedure
+  deleteEditorRole: editorProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
       return await ctx.prisma.ticket.delete({ where: { id } })

@@ -44,7 +44,7 @@ export function PurchaseTicket({ id, ticketStatus }: Props) {
 
   const utils = api.useContext()
 
-  const { mutate, isLoading } = api.ticket.updateStatus.useMutation({
+  const { mutate, isLoading } = api.ticket.updateStatusEditorRole.useMutation({
     async onSuccess() {
       toast({
         title: "Succeed!",

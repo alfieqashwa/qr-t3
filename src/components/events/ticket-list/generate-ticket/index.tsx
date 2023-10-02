@@ -49,29 +49,30 @@ export function GenerateTicket(): JSX.Element {
 
   const { data: events } = api.event.getAll.useQuery()
 
-  const { mutate, isLoading, error } = api.ticket.generate.useMutation({
-    async onSuccess() {
-      toast({
-        title: "Succeed!",
-        variant: "default",
-        description: "Your ticket(s) has been created.",
-      })
-      await utils.ticket.getAll.invalidate()
-      await utils.ticket.categories.invalidate()
-      setCategoryInput("")
-      setInputPrice("")
-      await wait().then(() => setOpen(false))
-    },
+  const { mutate, isLoading, error } =
+    api.ticket.generateEditorRole.useMutation({
+      async onSuccess() {
+        toast({
+          title: "Succeed!",
+          variant: "default",
+          description: "Your ticket(s) has been created.",
+        })
+        await utils.ticket.getAll.invalidate()
+        await utils.ticket.categories.invalidate()
+        setCategoryInput("")
+        setInputPrice("")
+        await wait().then(() => setOpen(false))
+      },
 
-    onError() {
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your request.",
-        action: <ToastAction altText="Try again">Try again</ToastAction>,
-      })
-    },
-  })
+      onError() {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
+      },
+    })
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

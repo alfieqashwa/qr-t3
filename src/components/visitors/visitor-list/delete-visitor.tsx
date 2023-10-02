@@ -24,7 +24,7 @@ export function DeleteVisitor({ id, title, setOpen }: Props) {
   const utils = api.useContext()
   const { toast } = useToast()
 
-  const { mutate, isLoading } = api.visitor.delete.useMutation({
+  const { mutate, isLoading } = api.visitor.deleteEditorRole.useMutation({
     async onSuccess() {
       // delete user from team
       toast({
