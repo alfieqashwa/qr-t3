@@ -27,7 +27,7 @@ export const MenuList = (): JSX.Element => {
           <Link
             href={`/${slug as string}/${link.path}`}
             className={cn(
-              "flex items-center rounded-xl py-3 transition duration-150 ease-in-out hover:bg-accent",
+              "flex items-center rounded-xl py-3 hover:bg-accent",
               toggle
                 ? "flex-row space-x-6 px-6"
                 : "flex-col justify-end space-y-3 px-2"

@@ -83,7 +83,7 @@ export const UserProfile = ({ image }: { image: string }) => {
         <MenubarTrigger className="relative h-10 w-10 rounded-full px-0 py-0 hover:cursor-pointer">
           <Image src={image} alt="User Avatar" fill className="rounded-full" />
         </MenubarTrigger>
-        <MenubarContent className="w-52">
+        <MenubarContent className="mr-2 mt-3.5 w-52">
           {destkopViewLink}
           {mobileViewLink}
           <MenubarItem

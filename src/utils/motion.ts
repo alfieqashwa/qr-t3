@@ -4,15 +4,15 @@ export const asideVariant = {
   open: {
     width: 224,
     transition: {
-      duration: 1,
-      type: "spring",
+      // duration: 1,
+      // type: "spring",
     },
   },
   close: {
     width: 96,
     transition: {
-      duration: 1,
-      type: "spring",
+      // duration: 1,
+      // type: "spring",
     },
   },
 }
@@ -27,14 +27,16 @@ export const titleVariant = {
   open: {
     fontSize: ".875rem",
     transition: {
-      duration: 0.75,
+      // duration: 0.75,
+      // delay: 0.05,
       type: "spring",
     },
   },
   close: {
     fontSize: ".625rem",
     transition: {
-      duration: 0.75,
+      // duration: 0.75,
+      // delay: 0.05,
       type: "spring",
     },
   },

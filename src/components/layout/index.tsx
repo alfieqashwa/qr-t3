@@ -22,7 +22,7 @@ export const Layout = ({ title, children }: LayoutProps) => {
         {/* STARTS MAIN */}
         <main
           className={cn(
-            "px-4 pt-24 transition-all duration-500 ease-in-out lg:ml-[256px] lg:px-8",
+            "px-6 pt-24 transition-all duration-500 ease-in-out lg:ml-[256px] lg:px-8",
             toggle ? "" : "lg:-translate-x-[128px]"
           )}
         >

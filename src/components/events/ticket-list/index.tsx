@@ -7,7 +7,7 @@ export const TicketList = (): JSX.Element => {
   const tickets = api.ticket.getAll.useQuery()
   if (tickets.status !== "success") return <LoadingSpinner />
   return (
-    <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
+    <div className="hidden h-full flex-1 flex-col space-y-8 py-8 md:flex">
       <TicketTable data={tickets.data} columns={columnsTicket} />
     </div>
   )

@@ -3,6 +3,7 @@ import { api } from "~/src/utils/api"
 import useToggleStore from "~/store/useToggle"
 import { UserAvatar } from "./user-avatar"
 import { ThemeToggle } from "./theme-toggle"
+import { cn } from "~/src/utils"
 
 export const NavigationHeader = () => {
   const { toggle, handleToggle } = useToggleStore()
@@ -18,14 +19,13 @@ export const NavigationHeader = () => {
           <Codesandbox size={36} className="animate-spin" />
         </div>
         <button
-          className="hidden rounded-full p-2.5 transition duration-300 ease-in-out lg:block"
+          className={cn(
+            "hidden rounded-full p-2.5 transition-transform duration-300 ease-in-out lg:block",
+            toggle && "text-amber-300 transition-colors"
+          )}
           onClick={handleToggle}
         >
-          {toggle ? (
-            <SidebarClose className="" />
-          ) : (
-            <SidebarOpen className="" />
-          )}
+          {toggle ? <SidebarClose /> : <SidebarOpen />}
         </button>
       </section>
       <section className="flex w-full items-center justify-end space-x-4 px-4 lg:px-8">
