@@ -34,7 +34,7 @@ export function CreateEventForm(props: Props) {
   const utils = api.useContext()
   const { toast } = useToast()
 
-  const createEvent = api.event.create.useMutation({
+  const createEvent = api.event.createAdminRole.useMutation({
     async onSuccess() {
       toast({
         title: "Succeed!",

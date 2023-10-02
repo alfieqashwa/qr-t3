@@ -28,27 +28,29 @@ export function UpdateTeam({ id, currentRole, username }: Props) {
 
   const [open, setOpen] = useState(false)
 
-  const { mutate, isLoading, error } = api.user.updateTeam.useMutation({
-    async onSuccess() {
-      toast({
-        title: "Succeed!",
-        variant: "default",
-        description: "Your team has been updated.",
-      })
-      await utils.user.getAllByEOId.invalidate()
-      await utils.user.getRole.invalidate()
-      /* auto-closed after succeed submit the dialog form */
-      await wait().then(() => setOpen(false))
-    },
-    onError() {
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your request.",
-        action: <ToastAction altText="Try again">Try again</ToastAction>,
-      })
-    },
-  })
+  const { mutate, isLoading, error } = api.user.updateTeamAdminRole.useMutation(
+    {
+      async onSuccess() {
+        toast({
+          title: "Succeed!",
+          variant: "default",
+          description: "Your team has been updated.",
+        })
+        await utils.user.getAllByEOIdAdminRole.invalidate()
+        await utils.user.getRoleAdminRole.invalidate()
+        /* auto-closed after succeed submit the dialog form */
+        await wait().then(() => setOpen(false))
+      },
+      onError() {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
+      },
+    }
+  )
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

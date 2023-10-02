@@ -9,7 +9,7 @@ import { DeleteTeam } from "./delete-team"
 import { UpdateTeam } from "./update-team"
 
 export const columnsTeam: ColumnDef<
-  RouterOutputs["user"]["getAllByEOId"][0]
+  RouterOutputs["user"]["getAllByEOIdAdminRole"][0]
 >[] = [
   {
     id: "select",

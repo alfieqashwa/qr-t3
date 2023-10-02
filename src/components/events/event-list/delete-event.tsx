@@ -25,7 +25,7 @@ export function DeleteEvent({ id, title, open, setOpen }: Props) {
   const utils = api.useContext()
   const { toast } = useToast()
 
-  const { mutate, isLoading } = api.event.delete.useMutation({
+  const { mutate, isLoading } = api.event.deleteAdminRole.useMutation({
     async onSuccess() {
       // delete user from team
       toast({

@@ -102,7 +102,7 @@ export const eoRouter = createTRPCRouter({
     ),
 
   // Mutations - Admin Procedure
-  update: adminProcedure
+  updateAdminRole: adminProcedure
     .input(
       z
         .object({
@@ -175,7 +175,7 @@ export const eoRouter = createTRPCRouter({
         })
       }
     ),
-  delete: adminProcedure
+  deleteAdminRole: adminProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
       try {

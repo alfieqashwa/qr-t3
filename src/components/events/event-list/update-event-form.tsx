@@ -18,7 +18,7 @@ import { cn } from "~/utils/index"
 import { wait } from "~/utils/wait"
 
 type Props = {
-  event: RouterOutputs["event"]["getById"]
+  event: RouterOutputs["event"]["getByIdAdminRole"]
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -30,7 +30,7 @@ export const UpdateEventForm = ({
 }: Props): JSX.Element => {
   const utils = api.useContext()
 
-  const { mutate, isLoading } = api.event.update.useMutation({
+  const { mutate, isLoading } = api.event.updateAdminRole.useMutation({
     async onSuccess() {
       toast({
         title: "Succeed!",

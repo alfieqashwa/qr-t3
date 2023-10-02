@@ -18,10 +18,8 @@ type Props = {
 }
 
 export function UpdateEvent({ id, title, open, setOpen }: Props) {
-  const { data: event, status: eventStatus } = api.event.getById.useQuery(
-    { id },
-    { enabled: !!id }
-  )
+  const { data: event, status: eventStatus } =
+    api.event.getByIdAdminRole.useQuery({ id }, { enabled: !!id })
 
   return (
     <Dialog>

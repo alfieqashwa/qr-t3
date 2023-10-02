@@ -27,8 +27,8 @@ export function DeleteEventOrganizerDialog({ id }: Props) {
 
   const [open, setOpen] = useState(false)
 
-  const updateRoleBackAsUser = api.user.updateRole.useMutation()
-  const { mutate, isLoading } = api.eo.delete.useMutation({
+  const updateRoleBackAsUser = api.user.updateRoleAdminRole.useMutation()
+  const { mutate, isLoading } = api.eo.deleteAdminRole.useMutation({
     async onSuccess() {
       // update user role back as USER
       await updateRoleBackAsUser.mutateAsync({ role: "USER" })

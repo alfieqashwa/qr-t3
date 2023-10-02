@@ -30,7 +30,7 @@ export function UpdateEventOrganizerDialog({ currentEO }: Props) {
 
   const [open, setOpen] = useState(false)
 
-  const { mutate, isLoading, error } = api.eo.update.useMutation({
+  const { mutate, isLoading, error } = api.eo.updateAdminRole.useMutation({
     async onSuccess() {
       toast({
         title: "Succeed!",

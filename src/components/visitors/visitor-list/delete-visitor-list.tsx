@@ -36,27 +36,29 @@ export function DeleteVisitorList<TData>({
     id: row.id,
   }))
 
-  const { mutate, isLoading } = api.visitor.deleteSelected.useMutation({
-    async onSuccess() {
-      toast({
-        title: "Succeed!",
-        variant: "default",
-        description: "All selected visitors have been deleted.",
-      })
-      await utils.visitor.getAll.invalidate()
-      table.resetRowSelection() // reset row selection after succeed
-      /* auto-closed after succeed submit the dialog form */
-      await wait().then(() => setOpen(false))
-    },
-    onError() {
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your request.",
-        action: <ToastAction altText="Try again">Try again</ToastAction>,
-      })
-    },
-  })
+  const { mutate, isLoading } = api.visitor.deleteSelectedAdminRole.useMutation(
+    {
+      async onSuccess() {
+        toast({
+          title: "Succeed!",
+          variant: "default",
+          description: "All selected visitors have been deleted.",
+        })
+        await utils.visitor.getAll.invalidate()
+        table.resetRowSelection() // reset row selection after succeed
+        /* auto-closed after succeed submit the dialog form */
+        await wait().then(() => setOpen(false))
+      },
+      onError() {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
+      },
+    }
+  )
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

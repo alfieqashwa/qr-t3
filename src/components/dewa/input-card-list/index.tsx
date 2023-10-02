@@ -13,7 +13,7 @@ export const InputCardList = () => {
   const getAllAccount = api.account.getAllDewaRole.useQuery()
 
   // MUTATIONS
-  const deleteUser = api.user.delete.useMutation({
+  const deleteUser = api.user.deleteAdminRole.useMutation({
     async onSuccess() {
       toast({
         title: "Succeed!",
@@ -33,7 +33,7 @@ export const InputCardList = () => {
     },
   })
 
-  const deleteEo = api.eo.delete.useMutation({
+  const deleteEo = api.eo.deleteAdminRole.useMutation({
     async onSuccess() {
       toast({
         title: "Succeed!",

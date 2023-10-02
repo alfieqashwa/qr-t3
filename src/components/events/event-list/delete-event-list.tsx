@@ -34,7 +34,7 @@ export function DeleteEventList<TData>({ table }: DeleteEventListProps<TData>) {
     id: row.id,
   }))
 
-  const { mutate, isLoading } = api.event.deleteSelected.useMutation({
+  const { mutate, isLoading } = api.event.deleteSelectedAdminRole.useMutation({
     async onSuccess() {
       // delete user from team
       toast({

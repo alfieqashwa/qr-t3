@@ -38,14 +38,14 @@ export function CreateTeamForm(props: Props) {
   const utils = api.useContext()
   const { toast } = useToast()
 
-  const createTeam = api.user.create.useMutation({
+  const createTeam = api.user.createAdminRole.useMutation({
     async onSuccess() {
       toast({
         title: "Succeed!",
         variant: "default",
         description: "Your new team has been created.",
       })
-      await utils.user.getAllByEOId.invalidate()
+      await utils.user.getAllByEOIdAdminRole.invalidate()
       await wait().then(() => props.setOpen(false))
     },
     onError() {

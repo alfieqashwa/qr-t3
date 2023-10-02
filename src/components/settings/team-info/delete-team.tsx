@@ -28,7 +28,7 @@ export function DeleteTeam({ id, email }: Props) {
 
   const [open, setOpen] = useState(false)
 
-  const { mutate, isLoading } = api.user.delete.useMutation({
+  const { mutate, isLoading } = api.user.deleteAdminRole.useMutation({
     async onSuccess() {
       // delete user from team
       toast({
@@ -36,7 +36,7 @@ export function DeleteTeam({ id, email }: Props) {
         variant: "default",
         description: "Your Team has been deleted.",
       })
-      await utils.user.getAllByEOId.invalidate()
+      await utils.user.getAllByEOIdAdminRole.invalidate()
       /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(false))
       await router.replace("/settings")

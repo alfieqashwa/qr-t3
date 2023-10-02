@@ -87,7 +87,7 @@ export const visitorRouter = createTRPCRouter({
     }),
 
   // Mutations - Admin Procedure
-  deleteSelected: adminProcedure
+  deleteSelectedAdminRole: adminProcedure
     .input(
       z.array(
         z.object({

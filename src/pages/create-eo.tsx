@@ -28,7 +28,7 @@ const CreateEOPage: NextPage = (): JSX.Element => {
   const [session, router] = [useSession(), useRouter()]
   const { toast } = useToast()
 
-  const updateUserRoleAsAdmin = api.user.updateRole.useMutation()
+  const updateUserRoleAsAdmin = api.user.updateRoleAdminRole.useMutation()
   const { mutate, isLoading, error } = api.eo.create.useMutation({
     async onSuccess(_data, variables) {
       const { name } = variables

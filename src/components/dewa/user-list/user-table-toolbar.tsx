@@ -38,7 +38,7 @@ export function UserTableToolbar<TData>({
   // uncaught-invariant-violation-rendered-more-hooks-than-during-the-previous-rende
 
   // === STARTS Step 1. Call all the required Apis ===
-  const roleQuery = api.user.getRole.useQuery()
+  const roleQuery = api.user.getRoleAdminRole.useQuery()
   const eventOrganizerQuery = api.eo.getAllDewaRole.useQuery()
   // === ENDS Step 1. Call all the required Apis ===
 

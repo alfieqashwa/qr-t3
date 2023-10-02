@@ -30,7 +30,7 @@ export function UpdateTicket({ id, title, venue, date }: Props) {
 
   const [open, setOpen] = useState(false)
 
-  const { mutate, isLoading, error } = api.event.update.useMutation({
+  const { mutate, isLoading, error } = api.event.updateAdminRole.useMutation({
     async onSuccess() {
       toast({
         title: "Succeed!",

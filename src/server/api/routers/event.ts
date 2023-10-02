@@ -38,7 +38,7 @@ export const eventRouter = createTRPCRouter({
   }),
 
   // Queries - Admin Procedure
-  getById: adminProcedure
+  getByIdAdminRole: adminProcedure
     .input(z.object({ id: z.string().cuid() }))
     .query(async ({ ctx, input: { id } }) => {
       return await ctx.prisma.event.findUnique({
@@ -47,7 +47,7 @@ export const eventRouter = createTRPCRouter({
     }),
 
   // Mutations - Admin Procedure
-  create: adminProcedure
+  createAdminRole: adminProcedure
     .input(createEventSchema)
     .mutation(async ({ ctx, input: { title, venue, date } }) => {
       return await ctx.prisma.event.create({
@@ -59,7 +59,7 @@ export const eventRouter = createTRPCRouter({
         },
       })
     }),
-  update: adminProcedure
+  updateAdminRole: adminProcedure
     .input(updateEventSchema)
     .mutation(async ({ ctx, input: { id, title, venue, date } }) => {
       return await ctx.prisma.event.update({
@@ -67,12 +67,12 @@ export const eventRouter = createTRPCRouter({
         data: { title, venue, date },
       })
     }),
-  delete: adminProcedure
+  deleteAdminRole: adminProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
       return await ctx.prisma.event.delete({ where: { id } })
     }),
-  deleteSelected: adminProcedure
+  deleteSelectedAdminRole: adminProcedure
     .input(z.array(z.object({ id: z.string().cuid() })))
     .mutation(async ({ ctx, input }) => {
       return await ctx.prisma.event.deleteMany({

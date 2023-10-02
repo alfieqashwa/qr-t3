@@ -26,7 +26,7 @@ export function TeamTableToolbar<TData>({
     icon?: LucideIcon
   }
 
-  const { data, status } = api.user.getRole.useQuery()
+  const { data, status } = api.user.getRoleAdminRole.useQuery()
   if (status !== "success") return null
   const roles: Options[] = data
     .filter((f) => f.role === "EDITOR" || f.role === "OPERATOR")

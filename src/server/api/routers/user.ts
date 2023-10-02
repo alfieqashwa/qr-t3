@@ -17,7 +17,7 @@ export const userRouter = createTRPCRouter({
   }),
 
   // Queries - Admin Procedure
-  getAllByEOId: adminProcedure.query(async ({ ctx }) => {
+  getAllByEOIdAdminRole: adminProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.user.findMany({
       where: {
         eventOrganizerId: ctx.session.user.eventOrganizerId,
@@ -30,7 +30,7 @@ export const userRouter = createTRPCRouter({
       include: { eventOrganizer: { select: { name: true } } }, // include EO but only select the name of EO
     })
   }),
-  getRole: adminProcedure.query(async ({ ctx }) => {
+  getRoleAdminRole: adminProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.user.findMany({
       select: { role: true },
     })
@@ -69,7 +69,7 @@ export const userRouter = createTRPCRouter({
     }),
 
   // Mutations - Admin Procedure
-  create: adminProcedure
+  createAdminRole: adminProcedure
     .input(createTeamSchema)
     .mutation(async ({ ctx, input: { email, role } }) => {
       return await ctx.prisma.user.create({
@@ -80,7 +80,7 @@ export const userRouter = createTRPCRouter({
         },
       })
     }),
-  updateRole: adminProcedure
+  updateRoleAdminRole: adminProcedure
     .input(z.object({ role: z.nativeEnum(Role) }))
     .mutation(async ({ ctx, input: { role } }) => {
       return await ctx.prisma.user.update({
@@ -90,7 +90,7 @@ export const userRouter = createTRPCRouter({
         },
       })
     }),
-  updateTeam: adminProcedure
+  updateTeamAdminRole: adminProcedure
     .input(
       z.object({
         id: z.string().cuid(),
@@ -103,7 +103,7 @@ export const userRouter = createTRPCRouter({
         data: { role, eventOrganizerId: ctx.session.user.eventOrganizerId },
       })
     }),
-  delete: adminProcedure // --> only dewa or admin can access this.
+  deleteAdminRole: adminProcedure // --> only dewa or admin can access this.
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
       return await ctx.prisma.user.delete({
