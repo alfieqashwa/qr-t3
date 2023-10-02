@@ -39,7 +39,7 @@ export const ticketRouter = createTRPCRouter({
     }),
 
   // Queries - Operator Procedure
-  getAllById: operatorProcedure
+  getAllByIdOperatorRole: operatorProcedure
     .input(z.object({ ticketId: z.string().cuid() }))
     .query(async ({ ctx, input: { ticketId } }) => {
       return await ctx.prisma.ticket.findUnique({

@@ -11,10 +11,11 @@ const VisitorByIdPage: NextPage = (): JSX.Element => {
   const { query } = useRouter()
   const ticketId = query.id as string
 
-  const { data: ticket, status: ticketStatus } = api.ticket.getAllById.useQuery(
-    { ticketId },
-    { enabled: !!ticketId }
-  )
+  const { data: ticket, status: ticketStatus } =
+    api.ticket.getAllByIdOperatorRole.useQuery(
+      { ticketId },
+      { enabled: !!ticketId }
+    )
 
   if (ticketStatus !== "success") return <LoadingSpinner />
   return <TicketInfo ticket={ticket} ticketId={ticketId} />

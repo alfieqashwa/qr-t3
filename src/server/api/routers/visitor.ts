@@ -32,7 +32,7 @@ export const visitorRouter = createTRPCRouter({
   }),
 
   // Mutations - Operator Procedure
-  toggleCheck: operatorProcedure
+  toggleCheckOperatorRole: operatorProcedure
     .input(
       z.object({
         id: z.string().cuid(),

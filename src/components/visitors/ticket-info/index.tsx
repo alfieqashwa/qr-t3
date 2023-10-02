@@ -15,30 +15,32 @@ import { toast } from "~/ui/use-toast"
 import { Wrapper } from "./ticket-wrapper"
 
 type TicketInfoProps = {
-  ticket: RouterOutputs["ticket"]["getAllById"]
+  ticket: RouterOutputs["ticket"]["getAllByIdOperatorRole"]
   ticketId: string
 }
 export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
   const router = useRouter()
   const utils = api.useContext()
-  const { mutate, isLoading } = api.visitor.toggleCheck.useMutation({
-    async onSuccess() {
-      toast({
-        title: "Succeed!",
-        variant: "default",
-        description: "Check has been updated.",
-      })
-      await utils.ticket.getAllById.invalidate()
-    },
-    onError() {
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your request.",
-        action: <ToastAction altText="Try again">Try again</ToastAction>,
-      })
-    },
-  })
+  const { mutate, isLoading } = api.visitor.toggleCheckOperatorRole.useMutation(
+    {
+      async onSuccess() {
+        toast({
+          title: "Succeed!",
+          variant: "default",
+          description: "Check has been updated.",
+        })
+        await utils.ticket.getAllByIdOperatorRole.invalidate()
+      },
+      onError() {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
+      },
+    }
+  )
 
   const handleCheckIn = (visitorId: string) =>
     mutate({ id: visitorId, isCheckIn: true })
