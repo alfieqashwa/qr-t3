@@ -102,23 +102,21 @@ Add more libs.
   - [x] Deploy DB on Planet Scale (main & dev)
   - [x] Deploy Web on Vercel
 
-- [ ] Testing QRCode
+- [x] Testing QRCode
 
   - [x] Add Check-[In/Out] Toggle Button
+  - [x] Testing Operator Access Level
+  - [x] Testing Scanning QRCode on mobile-view
   - [ ] Configure Check-In Date
   - [ ] Configure Check-Out Date
-  - [ ] Testing Operator Access Level
-  - [ ] Testing Scanning QRCode on mobile-view
 
-## Upgrade Version
+- [ ] Setup Dashboard Page
 
-- [ ] Setup Dashborad Page
-
+  - [ ] Setup Charts
   - [x] Setup Event Organizer Card
   - [x] Setup Omzet Filter
-  - [ ] Setup Charts
 
-- [ ] Setup SuperAdmin Page
+- [x] Setup SuperAdmin Page
 
   - [ ] Setup Charts
   - [x] Setup User Table
@@ -126,32 +124,31 @@ Add more libs.
   - [x] Setup Filter
   - [x] Setup Pagination
   - [x] Copy User ID
-  - [ ] Copy Event Organizer ID
+  - [x] Copy Event Organizer ID
   - [x] Setup Mutation Form:
 
     - [x] Delete User
     - [x] Delete Event Organizer
     - [x] Delete All Event Organizers
-    - [ ] Delete Event
-
-- [x] Setup Dynamic Public Page for each Event Organizer
-
-  - [ ] Create Home Website
 
 - [x] Setup DB on Planet Scale
 
   - [x] Setup DEV and MAIN DB
 
 - [x] Deploy on Vercel
+- [x] Configure Vercel Analytics
 
+## Upgrade Version
+
+- [x] Setup Dynamic Public Page for each Event Organizer
+- [ ] Create Home Website
 - [ ] Visitor / User Configuration
-
   - [ ] Auth Visitor
   - [ ] Visitor Profile Page
   - [ ] Online Payment Transaction
 
 ## Future Planning for DayDreamer
 
-- [ ] Convert App into Turbopack
+- [ ] Convert Next-Pages to Next-AppRouter
+- [ ] Configure sub-domain for each Event Organizer (Multi-Tenancy App)
 - [ ] Create Documentation Web
-- [ ] Setup React-Native (QR-Code Reader/Validator)
