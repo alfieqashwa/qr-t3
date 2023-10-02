@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react';
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import "@uploadthing/react/styles.css" // <-- must before "~/styles/gloals.css"
 import { type Session } from "next-auth"
@@ -16,6 +17,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <SessionProvider session={session}>
+          <Analytics />
           <Component {...pageProps} />
           <Toaster />
         </SessionProvider>

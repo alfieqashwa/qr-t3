@@ -71,6 +71,9 @@ dependencies:
   '@uploadthing/react':
     specifier: ^3.0.5
     version: 3.0.5(react-dropzone@14.2.3)(react@18.2.0)(uploadthing@3.0.5)
+  '@vercel/analytics':
+    specifier: ^1.0.2
+    version: 1.0.2
   class-variance-authority:
     specifier: ^0.5.3
     version: 0.5.3(typescript@4.9.5)
@@ -1817,6 +1820,10 @@ packages:
       react: 18.2.0
       react-dropzone: 14.2.3(react@18.2.0)
       uploadthing: 3.0.5
+    dev: false
+
+  /@vercel/analytics@1.0.2:
+    resolution: {integrity: sha512-BZFxVrv24VbNNl5xMxqUojQIegEeXMI6rX3rg1uVLYUEXsuKNBSAEQf4BWEcjQDp/8aYJOj6m8V4PUA3x/cxgg==}
     dev: false
 
   /@zxing/browser@0.0.7(@zxing/library@0.18.6):
