@@ -112,16 +112,43 @@ Add more libs.
 
 ## Upgrade Version
 
-- [ ] Setup Dashboard Page
+- [ ] Setup Dashborad Page
+
+  - [x] Setup Event Organizer Card
+  - [x] Setup Omzet Filter
+  - [ ] Setup Charts
+
+- [ ] Setup SuperAdmin Page
 
   - [ ] Setup Charts
-  - [ ] Setup Table
-  - [ ] Setup Search
-  - [ ] Setup Filter
-  - [ ] Setup Pagination
+  - [x] Setup User Table
+  - [x] Setup User Search
+  - [x] Setup Filter
+  - [x] Setup Pagination
+  - [x] Copy User ID
+  - [ ] Copy Event Organizer ID
+  - [x] Setup Mutation Form:
 
-- [ ] Setup DB on Planet Scale
-- [ ] Deploy on Vercel
+    - [x] Delete User
+    - [x] Delete Event Organizer
+    - [x] Delete All Event Organizers
+    - [ ] Delete Event
+
+- [x] Setup Dynamic Public Page for each Event Organizer
+
+  - [ ] Create Home Website
+
+- [x] Setup DB on Planet Scale
+
+  - [x] Setup DEV and MAIN DB
+
+- [x] Deploy on Vercel
+
+- [ ] Visitor / User Configuration
+
+  - [ ] Auth Visitor
+  - [ ] Visitor Profile Page
+  - [ ] Online Payment Transaction
 
 ## Future Planning for DayDreamer
 
