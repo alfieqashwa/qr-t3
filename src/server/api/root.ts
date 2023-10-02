@@ -1,8 +1,8 @@
+import { accountRouter } from "./routers/account"
 import { addressRouter } from "./routers/address"
-import { dashboardRouter } from "./routers/dashboard"
-import { dewaRouter } from "./routers/dewa"
 import { eoRouter } from "./routers/eo"
 import { eventRouter } from "./routers/event"
+import { sessionRouter } from "./routers/session"
 import { ticketRouter } from "./routers/ticket"
 import { userRouter } from "./routers/user"
 import { visitorRouter } from "./routers/visitor"
@@ -17,11 +17,11 @@ export const appRouter = createTRPCRouter({
   user: userRouter,
   eo: eoRouter,
   address: addressRouter,
-  dashboard: dashboardRouter,
   event: eventRouter,
   ticket: ticketRouter,
   visitor: visitorRouter,
-  dewa: dewaRouter,
+  account: accountRouter,
+  session: sessionRouter,
 })
 
 // export type definition of API

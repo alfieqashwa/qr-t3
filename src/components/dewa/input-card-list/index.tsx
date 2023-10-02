@@ -10,7 +10,7 @@ export const InputCardList = () => {
 
   // QUERIES
   const { data, status } = api.eo.getAll.useQuery()
-  const getAllAccount = api.dewa.getAllAccount.useQuery()
+  const getAllAccount = api.account.getAll.useQuery()
 
   // MUTATIONS
   const deleteUser = api.user.delete.useMutation({
@@ -53,14 +53,14 @@ export const InputCardList = () => {
     },
   })
 
-  const deleteAccount = api.eo.delete.useMutation({
+  const deleteAccount = api.account.delete.useMutation({
     async onSuccess() {
       toast({
         title: "Succeed!",
         variant: "default",
         description: "The Account has been deleted.",
       })
-      await utils.dewa.getAllAccount.invalidate()
+      await utils.account.getAll.invalidate()
       /* auto-closed after succeed submit the dialog form */
     },
     onError() {
@@ -73,7 +73,7 @@ export const InputCardList = () => {
     },
   })
 
-  const deleteSession = api.eo.delete.useMutation({
+  const deleteSession = api.session.delete.useMutation({
     async onSuccess() {
       toast({
         title: "Succeed!",
@@ -93,7 +93,7 @@ export const InputCardList = () => {
     },
   })
 
-  const deleteAllEventOrganizer = api.dewa.deleteAll.useMutation({
+  const deleteAllEventOrganizer = api.eo.deleteAll.useMutation({
     async onSuccess() {
       toast({
         title: "Succeed!",

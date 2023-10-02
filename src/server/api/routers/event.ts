@@ -1,6 +1,11 @@
 import { z } from "zod"
 import { createEventSchema, updateEventSchema } from "~/types/schema"
-import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc"
+import {
+  adminProcedure,
+  createTRPCRouter,
+  editorProcedure,
+  protectedProcedure,
+} from "../trpc"
 
 export const eventRouter = createTRPCRouter({
   // Queries - Protected Procedure
@@ -17,6 +22,18 @@ export const eventRouter = createTRPCRouter({
     return await ctx.prisma.event.findMany({
       where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
       select: { title: true, venue: true },
+    })
+  }),
+
+  // Queries - Editor Procedure
+  getAllEditorRole: editorProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.event.findMany({
+      where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
+      orderBy: { date: "asc" },
+      include: {
+        tickets: true,
+        visitors: { include: { ticket: true } },
+      },
     })
   }),
 

@@ -9,7 +9,7 @@ import { api } from "~/utils/api"
 
 const title = "Dashboard" as const
 const DashboardPage: NextPage = () => {
-  const { data, status } = api.dashboard.getAll.useQuery()
+  const { data, status } = api.event.getAllEditorRole.useQuery()
   return (
     <Layout title={title}>
       {status === "loading" && <LoadingSpinner />}

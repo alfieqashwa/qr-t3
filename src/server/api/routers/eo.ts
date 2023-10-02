@@ -184,4 +184,9 @@ export const eoRouter = createTRPCRouter({
         console.error(err)
       }
     }),
+
+  // Mutations - Dewa Procedure
+  deleteAll: dewaProcedure.mutation(async ({ ctx }) => {
+    return await ctx.prisma.eventOrganizer.deleteMany()
+  }),
 })
