@@ -1,35 +1,12 @@
 import { motion } from "framer-motion"
-import { Calendar, LayoutDashboard, Settings, Users } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useContext } from "react"
+import { linkList } from "~/src/constants/link-list"
 import { cn } from "~/src/utils"
 import { titleVariant } from "~/src/utils/motion"
 import { SlugContext } from "~/store/slug-context-provider"
 import useToggleStore from "~/store/useToggle"
-
-export const MENU_LINKS = [
-  {
-    path: "dashboard",
-    iconDefault: <LayoutDashboard className="shrink-0" />,
-    iconSmall: <LayoutDashboard size={18} className="shrink-0" />,
-  },
-  {
-    path: "event",
-    iconDefault: <Calendar className="shrink-0" />,
-    iconSmall: <Calendar size={18} className="shrink-0" />,
-  },
-  {
-    path: "visitor",
-    iconDefault: <Users className="shrink-0" />,
-    iconSmall: <Users size={18} className="shrink-0" />,
-  },
-  {
-    path: "settings",
-    iconDefault: <Settings className="shrink-0" />,
-    iconSmall: <Settings size={18} className="shrink-0" />,
-  },
-] as const
 
 export const MenuList = (): JSX.Element => {
   const { pathname } = useRouter()
@@ -38,7 +15,7 @@ export const MenuList = (): JSX.Element => {
 
   return (
     <ul className="space-y-2 px-1.5">
-      {MENU_LINKS?.map((link) => (
+      {linkList.map((link) => (
         <li
           className={`rounded-xl border-b border-r border-slate-700 ${
             pathname === `/[slug]/${link.path}`
@@ -64,7 +41,7 @@ export const MenuList = (): JSX.Element => {
               variants={titleVariant}
               className="font-semibold capitalize tracking-wider"
             >
-              {link.path}
+              {link.title}
             </motion.h3>
           </Link>
         </li>

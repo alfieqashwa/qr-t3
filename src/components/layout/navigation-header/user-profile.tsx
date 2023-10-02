@@ -1,9 +1,10 @@
-import { Home, LogOut } from "lucide-react"
+import { LogOut } from "lucide-react"
 import { signOut } from "next-auth/react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useContext } from "react"
+import { linkList } from "~/src/constants/link-list"
 import { SlugContext } from "~/store/slug-context-provider"
 import {
   Menubar,
@@ -14,15 +15,68 @@ import {
   MenubarShortcut,
   MenubarTrigger,
 } from "~/ui/menubar"
-import { MENU_LINKS } from "../menu-list"
 
-type UserProfileProps = {
-  image: string
+type TLink = "" | "home" | "dashboard" | "event" | "visitor" | "settings"
+type TMenuLink = {
+  path: Exclude<TLink, "home">
+  title: Exclude<TLink, "">
+  iconSmall: JSX.Element
 }
 
-export const UserProfile = ({ image }: UserProfileProps) => {
+type CustomLinkProps = {
+  link: TMenuLink
+  pathname: string
+}
+
+const CustomLink = ({ link, pathname }: CustomLinkProps) => {
   const { slug } = useContext(SlugContext)
+  return (
+    <Link href={`/${slug as string}/${link.path}`}>
+      <MenubarItem
+        className={`group capitalize hover:cursor-pointer
+                    ${
+                      pathname === `/[slug]/${link.path}`
+                        ? "bg-secondary text-amber-300"
+                        : ""
+                    }`}
+      >
+        {link.title}
+        <MenubarShortcut
+          className={`transition duration-300 ease-in-out ${
+            pathname === `/[slug]/${link.path}`
+              ? "text-amber-300"
+              : "text-foreground"
+          }`}
+        >
+          {link.iconSmall}
+        </MenubarShortcut>
+      </MenubarItem>
+      <MenubarSeparator />
+    </Link>
+  )
+}
+
+export const UserProfile = ({ image }: { image: string }) => {
   const { pathname } = useRouter()
+
+  const destkopViewLink = linkList
+    ?.filter((f) => f.title === "home" || f.title === "settings")
+    ?.map((link, i) => {
+      return (
+        <div className="hidden lg:block" key={i}>
+          <CustomLink link={link as TMenuLink} pathname={pathname} />
+        </div>
+      )
+    })
+
+  const mobileViewLink = linkList?.map((link, i) => {
+    return (
+      <div className="lg:hidden" key={i}>
+        <CustomLink link={link as TMenuLink} pathname={pathname} />
+      </div>
+    )
+  })
+
   return (
     <Menubar className="h-12 w-12 items-center justify-center rounded-full border-2 border-foreground/50 p-0 transition-colors duration-300 ease-in-out hover:border-foreground/75">
       <MenubarMenu>
@@ -30,34 +84,8 @@ export const UserProfile = ({ image }: UserProfileProps) => {
           <Image src={image} alt="User Avatar" fill className="rounded-full" />
         </MenubarTrigger>
         <MenubarContent className="w-52">
-          <HomeMenu slug={slug as string} />
-          {MENU_LINKS?.map((link) => {
-            const { path, iconSmall: Icon } = link
-            return (
-              <Link href={`/${slug as string}/${path}`} key={path}>
-                <MenubarItem
-                  className={`group capitalize hover:cursor-pointer
-                    ${
-                      pathname === `/[slug]/${path}`
-                        ? "bg-secondary text-amber-300"
-                        : ""
-                    }`}
-                >
-                  {path}
-                  <MenubarShortcut
-                    className={`transition duration-300 ease-in-out ${
-                      pathname === `/[slug]/${path}`
-                        ? "text-amber-300"
-                        : "text-foreground"
-                    }`}
-                  >
-                    {Icon}
-                  </MenubarShortcut>
-                </MenubarItem>
-                <MenubarSeparator />
-              </Link>
-            )
-          })}
+          {destkopViewLink}
+          {mobileViewLink}
           <MenubarItem
             onClick={() => signOut()}
             className="hover:cursor-pointer"
@@ -72,16 +100,3 @@ export const UserProfile = ({ image }: UserProfileProps) => {
     </Menubar>
   )
 }
-
-// Add Home Menu
-const HomeMenu = ({ slug }: { slug: string }): JSX.Element => (
-  <Link href={`/${slug}`}>
-    <MenubarItem className="group capitalize hover:cursor-pointer">
-      home
-      <MenubarShortcut className="text-foreground transition duration-300 ease-in-out group-hover:text-foreground">
-        <Home size={18} />
-      </MenubarShortcut>
-    </MenubarItem>
-    <MenubarSeparator />
-  </Link>
-)
