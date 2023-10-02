@@ -134,9 +134,11 @@ export const columnsUser: ColumnDef<RouterOutputs["user"]["getAllUsers"][0]>[] =
       id: "actions",
       cell: ({ row }) => {
         const {
-          original: { id },
+          original: { id, eventOrganizerId },
         } = row
-        return <RowUserActions id={id} />
+        return (
+          <RowUserActions userId={id} eventOrganizerId={eventOrganizerId} />
+        )
       },
     },
   ]

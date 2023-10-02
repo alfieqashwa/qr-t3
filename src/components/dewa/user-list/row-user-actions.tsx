@@ -5,15 +5,17 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/ui/dropdown-menu"
 
 interface DataTableRowActionsProps {
-  id: string
+  userId: string
+  eventOrganizerId: string | null
 }
 
 export function RowUserActions(props: DataTableRowActionsProps) {
-  const { id } = props
+  const { userId, eventOrganizerId } = props
   const [open, setOpen] = useState(false)
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -28,12 +30,22 @@ export function RowUserActions(props: DataTableRowActionsProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
         <DropdownMenuItem
-          onClick={() => navigator.clipboard.writeText(id)}
+          onClick={() => navigator.clipboard.writeText(userId)}
           className="hover:cursor-pointer"
         >
           <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-          Copy ID
+          Copy User ID
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        {!!eventOrganizerId && (
+          <DropdownMenuItem
+            onClick={() => navigator.clipboard.writeText(eventOrganizerId)}
+            className="hover:cursor-pointer"
+          >
+            <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+            Copy Event ID
+          </DropdownMenuItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   )
