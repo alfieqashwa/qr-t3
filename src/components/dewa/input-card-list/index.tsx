@@ -9,8 +9,8 @@ export const InputCardList = () => {
   const utils = api.useContext()
 
   // QUERIES
-  const { data, status } = api.eo.getAll.useQuery()
-  const getAllAccount = api.account.getAll.useQuery()
+  const { data, status } = api.eo.getAllDewaRole.useQuery()
+  const getAllAccount = api.account.getAllDewaRole.useQuery()
 
   // MUTATIONS
   const deleteUser = api.user.delete.useMutation({
@@ -20,7 +20,7 @@ export const InputCardList = () => {
         variant: "default",
         description: "The user has been deleted.",
       })
-      await utils.eo.getAll.invalidate()
+      await utils.eo.getAllDewaRole.invalidate()
       /* auto-closed after succeed submit the dialog form */
     },
     onError() {
@@ -40,7 +40,7 @@ export const InputCardList = () => {
         variant: "default",
         description: "The EO has been deleted.",
       })
-      await utils.eo.getAll.invalidate()
+      await utils.eo.getAllDewaRole.invalidate()
       /* auto-closed after succeed submit the dialog form */
     },
     onError() {
@@ -53,14 +53,14 @@ export const InputCardList = () => {
     },
   })
 
-  const deleteAccount = api.account.delete.useMutation({
+  const deleteAccount = api.account.deleteDewaRole.useMutation({
     async onSuccess() {
       toast({
         title: "Succeed!",
         variant: "default",
         description: "The Account has been deleted.",
       })
-      await utils.account.getAll.invalidate()
+      await utils.account.getAllDewaRole.invalidate()
       /* auto-closed after succeed submit the dialog form */
     },
     onError() {
@@ -73,14 +73,14 @@ export const InputCardList = () => {
     },
   })
 
-  const deleteSession = api.session.delete.useMutation({
+  const deleteSession = api.session.deleteDewaRole.useMutation({
     async onSuccess() {
       toast({
         title: "Succeed!",
         variant: "default",
         description: "The Session has been deleted.",
       })
-      await utils.eo.getAll.invalidate()
+      await utils.eo.getAllDewaRole.invalidate()
       /* auto-closed after succeed submit the dialog form */
     },
     onError() {
@@ -93,14 +93,14 @@ export const InputCardList = () => {
     },
   })
 
-  const deleteAllEventOrganizer = api.eo.deleteAll.useMutation({
+  const deleteAllEventOrganizer = api.eo.deleteAllDewaRole.useMutation({
     async onSuccess() {
       toast({
         title: "Succeed!",
         variant: "default",
         description: "All Event Organizers have been deleted.",
       })
-      await utils.eo.getAll.invalidate()
+      await utils.eo.getAllDewaRole.invalidate()
       /* auto-closed after succeed submit the dialog form */
     },
     onError() {

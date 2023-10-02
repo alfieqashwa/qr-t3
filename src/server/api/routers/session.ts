@@ -5,7 +5,7 @@ export const sessionRouter = createTRPCRouter({
   // Queries - Dewa Procedure
 
   // Mutations - Dewa Procedure
-  delete: dewaProcedure
+  deleteDewaRole: dewaProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
       return await ctx.prisma.session.delete({

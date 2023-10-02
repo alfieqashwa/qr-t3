@@ -39,7 +39,7 @@ export function UserTableToolbar<TData>({
 
   // === STARTS Step 1. Call all the required Apis ===
   const roleQuery = api.user.getRole.useQuery()
-  const eventOrganizerQuery = api.eo.getAll.useQuery()
+  const eventOrganizerQuery = api.eo.getAllDewaRole.useQuery()
   // === ENDS Step 1. Call all the required Apis ===
 
   // === STARTS Step 2. Then Map the variables ===

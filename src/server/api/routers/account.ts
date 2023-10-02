@@ -3,14 +3,14 @@ import { createTRPCRouter, dewaProcedure } from "../trpc"
 
 export const accountRouter = createTRPCRouter({
   // Queries - Dewa Procedure
-  getAll: dewaProcedure.query(async ({ ctx }) => {
+  getAllDewaRole: dewaProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.account.findMany({
       include: { user: true },
     })
   }),
 
   // Mutations - Dewa Procedure
-  delete: dewaProcedure
+  deleteDewaRole: dewaProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
       return await ctx.prisma.account.delete({

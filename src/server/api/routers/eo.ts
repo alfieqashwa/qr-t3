@@ -23,7 +23,7 @@ export const eoRouter = createTRPCRouter({
   }),
 
   // Queries - Dewa Procedure
-  getAll: dewaProcedure.query(async ({ ctx }) => {
+  getAllDewaRole: dewaProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.eventOrganizer.findMany({
       select: { id: true, name: true },
     })
@@ -186,7 +186,7 @@ export const eoRouter = createTRPCRouter({
     }),
 
   // Mutations - Dewa Procedure
-  deleteAll: dewaProcedure.mutation(async ({ ctx }) => {
+  deleteAllDewaRole: dewaProcedure.mutation(async ({ ctx }) => {
     return await ctx.prisma.eventOrganizer.deleteMany()
   }),
 })
