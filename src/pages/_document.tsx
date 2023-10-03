@@ -6,7 +6,7 @@ export default class _Document extends Document {
       <Html lang="en">
         <Head />
         <Main />
-        <body className="min-h-screen max-w-[120rem] bg-background font-sans antialiased">
+        <body className="mx-auto min-h-screen max-w-[120rem] bg-background font-sans antialiased">
           <NextScript />
         </body>
       </Html>
