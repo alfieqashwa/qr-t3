@@ -171,11 +171,13 @@ const CreateEOPage: NextPage = (): JSX.Element => {
     villageId === null
 
   return (
-    <div className="grid min-h-screen place-items-center">
-      <Card className="w-1/3 shadow-md shadow-amber-300">
+    <div className="min-h-screen p-2 sm:p-8">
+      <Card className="mx-auto max-w-lg">
         <CardHeader>
           <CardTitle>Create New Event Organizer</CardTitle>
-          <CardDescription>Deploy your new EO in one-click.</CardDescription>
+          <CardDescription>
+            Deploy new Event Organizer in one-click.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
@@ -186,7 +188,7 @@ const CreateEOPage: NextPage = (): JSX.Element => {
                   id="name"
                   type="text"
                   name="name"
-                  placeholder="Name of your Event Organizer"
+                  placeholder="Event Organizer Name"
                   className="capitalize"
                 />
                 {error?.data?.zodError?.fieldErrors.name && (
@@ -279,22 +281,23 @@ const CreateEOPage: NextPage = (): JSX.Element => {
                   </span>
                 )}
               </div>
-              <DialogFooter className="mx-auto mt-2 w-full">
+              <DialogFooter className="mt-4">
                 <Button
                   type="button"
+                  size="lg"
                   variant="outline"
-                  className="w-1/2"
+                  className="mt-2 sm:mt-0"
                   onClick={deleteUser}
                 >
                   Sign Out
                 </Button>
                 {isLoading ? (
-                  <Button disabled className="w-1/2">
+                  <Button size="lg" disabled>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Please wait
                   </Button>
                 ) : (
-                  <Button type="submit" disabled={disabled} className="w-1/2">
+                  <Button type="submit" size="lg" disabled={disabled}>
                     Submit
                   </Button>
                 )}

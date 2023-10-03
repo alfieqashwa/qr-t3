@@ -44,7 +44,10 @@ export function CommandCombobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="mt-6 w-full justify-between pl-3"
+          className={cn(
+            "mt-6 w-full justify-between pl-3",
+            !value && "text-muted-foreground"
+          )}
         >
           {value
             ? datas?.find((data) => data.name === value?.toUpperCase())?.name
