@@ -52,8 +52,8 @@ export function VisitorTableToolbar<TData>({
   }) as Options[]
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex flex-1 items-center space-x-2">
+    <div className="flex flex-col items-start space-y-1 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+      <div className="flex flex-1 flex-col items-start space-x-0 space-y-1 sm:flex-row sm:items-center sm:space-x-2 sm:space-y-0">
         <Input
           placeholder="Filter visitor..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}

@@ -36,7 +36,7 @@ export function EventTableToolbar<TData>({
 
   return (
     <div className="flex flex-col space-y-1 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
-      <div className="flex flex-1 items-center space-x-2">
+      <div className="flex flex-col items-start space-y-1 sm:flex-1 sm:flex-row sm:items-center sm:space-x-2 sm:space-y-0">
         <Input
           placeholder="Filter events..."
           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}

@@ -107,9 +107,6 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
     },
   },
   {
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Actions" />
-    ),
     id: "actions",
     cell: ({ row }) => {
       const {

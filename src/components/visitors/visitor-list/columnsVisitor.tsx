@@ -226,7 +226,11 @@ export const columnsVisitor: ColumnDef<
           ticket: { status },
         },
       } = row
-      return <RowVisitorActions id={id} title={name} ticketStatus={status} />
+      return (
+        <div className="relative">
+          <RowVisitorActions id={id} title={name} ticketStatus={status} />
+        </div>
+      )
     },
   },
 ]

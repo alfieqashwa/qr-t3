@@ -7,7 +7,7 @@ export function VisitorList(): JSX.Element {
   const visitors = api.visitor.getAll.useQuery()
   if (visitors.status !== "success") return <LoadingSpinner />
   return (
-    <div className="hidden h-full flex-1 flex-col space-y-8 py-8 md:flex">
+    <div className="py-4">
       <VisitorTable data={visitors.data} columns={columnsVisitor} />
       {/* <pre>{JSON.stringify(visitors.data, null, 2)}</pre> */}
     </div>
