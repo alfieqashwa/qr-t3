@@ -16,7 +16,7 @@ export function CreateTeam() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" className="whitespace-nowrap">
           Create Team
         </Button>
       </SheetTrigger>

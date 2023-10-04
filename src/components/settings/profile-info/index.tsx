@@ -10,6 +10,7 @@ import { wait } from "~/utils/wait"
 import { HeaderSettings } from "../header-settings"
 import { ProfileImage } from "./profile-image"
 import { UpdateRole } from "./update-role"
+import { Button } from "../../ui/button"
 
 export function ProfileInfo(): JSX.Element {
   const router = useRouter()
@@ -52,14 +53,16 @@ export function ProfileInfo(): JSX.Element {
         {profile?.role === "DEWA" && (
           <Link
             href={`/${slug}/dewa`}
-            className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            // className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            Go to Dewa
+            <Button variant="destructive" size="sm">
+              Go to Dewa
+            </Button>
           </Link>
         )}
       </div>
       <div className="mt-4 border-t-2"></div>
-      <section className="mt-4 rounded-md border-2 p-8">
+      <section className="mt-4 rounded-lg border-2 p-8">
         {!!profile && (
           <article className="flex flex-col items-center space-y-6">
             <ProfileImage profile={profile} />

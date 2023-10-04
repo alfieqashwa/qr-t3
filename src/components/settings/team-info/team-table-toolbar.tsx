@@ -8,6 +8,7 @@ import { Button } from "~/ui/button"
 import { Input } from "~/ui/input"
 import { api } from "~/utils/api"
 import { CreateTeam } from "./create-team"
+import { AdminOnly } from "../../authed"
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -37,8 +38,8 @@ export function TeamTableToolbar<TData>({
     }))
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex flex-1 items-center space-x-2">
+    <div className="flex flex-col space-y-1 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+      <div className="flex flex-col items-start space-y-1 sm:flex-1 sm:flex-row sm:items-center sm:space-x-2 sm:space-y-0">
         <Input
           placeholder="Filter email..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
@@ -66,7 +67,9 @@ export function TeamTableToolbar<TData>({
         )}
       </div>
       <span className="flex items-center space-x-4">
-        <CreateTeam />
+        <AdminOnly>
+          <CreateTeam />
+        </AdminOnly>
         <DataTableViewOptions table={table} />
       </span>
     </div>
