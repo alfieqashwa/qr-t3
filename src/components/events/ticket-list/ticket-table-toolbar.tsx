@@ -50,8 +50,8 @@ export function TicketTableToolbar<TData>({
   })) as Options[]
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex flex-1 items-center space-x-2">
+    <div className="flex flex-col space-y-1 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+      <div className="sm:item-center flex flex-col items-start space-y-1 sm:flex-1 sm:flex-row sm:space-x-2 sm:space-y-0">
         <Input
           placeholder="Filter tickets..."
           value={(table.getColumn("id")?.getFilterValue() as string) ?? ""}
@@ -94,10 +94,10 @@ export function TicketTableToolbar<TData>({
       </div>
       <span className="flex items-center space-x-4">
         <EditorOnly>
-          {table.getFilteredSelectedRowModel().rows.length > 0 ? (
-            <DeleteTicketList table={table} />
-          ) : (
+          {!table.getFilteredSelectedRowModel().rows.length ? (
             <GenerateTicket />
+          ) : (
+            <DeleteTicketList table={table} />
           )}
         </EditorOnly>
         <DataTableViewOptions table={table} />

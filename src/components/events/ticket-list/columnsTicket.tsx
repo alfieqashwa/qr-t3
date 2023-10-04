@@ -124,7 +124,11 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
         const {
           original: { id, status },
         } = row
-        return <RowTicketActions id={id} status={status} />
+        return (
+          <div className="relative">
+            <RowTicketActions id={id} status={status} />
+          </div>
+        )
       },
     },
   ]
