@@ -137,6 +137,7 @@ Add more libs.
 
 - [x] Deploy on Vercel
 - [x] Configure Vercel Analytics
+- [x] OpenGraph.dev meta for index page and dynamic home page
 
 ## Upgrade Version
 
