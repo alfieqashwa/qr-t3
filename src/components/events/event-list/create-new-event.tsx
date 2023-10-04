@@ -16,11 +16,7 @@ export function CreateNewEvent() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button
-          variant="outline"
-          size="sm"
-          className="ml-auto hidden h-8 lg:flex"
-        >
+        <Button variant="outline" size="sm">
           <FilePlus2 size={26} className="mr-2 h-4 w-4" />
           Create Event
         </Button>
