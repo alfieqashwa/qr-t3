@@ -53,7 +53,9 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
       return (
         <div className="flex items-center">
           <MapPin className="mr-2 h-4 w-4 text-muted-foreground" />
-          <span className="uppercase">{row.getValue("venue")}</span>
+          <span className="whitespace-nowrap capitalize">
+            {row.getValue("venue")}
+          </span>
         </div>
       )
     },
@@ -105,12 +107,19 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
     },
   },
   {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Actions" />
+    ),
     id: "actions",
     cell: ({ row }) => {
       const {
         original: { id, title },
       } = row
-      return <RowEventActions id={id} title={title} />
+      return (
+        <div className="relative">
+          <RowEventActions id={id} title={title} />
+        </div>
+      )
     },
   },
 ]

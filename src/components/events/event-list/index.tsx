@@ -6,7 +6,7 @@ import { LoadingSpinner } from "~/components/loading"
 export function EventList(): JSX.Element {
   const { data: events, status } = api.event.getAll.useQuery()
   return (
-    <div className="hidden h-full flex-1 flex-col space-y-8 py-8 md:flex">
+    <div className="py-4">
       {status === "loading" && <LoadingSpinner />}
       {status === "success" && (
         <EventTable data={events} columns={columnsEvent} />

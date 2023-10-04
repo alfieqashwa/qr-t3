@@ -35,7 +35,7 @@ export function EventTableToolbar<TData>({
   })) as Options[]
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex flex-col space-y-1 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
       <div className="flex flex-1 items-center space-x-2">
         <Input
           placeholder="Filter events..."
@@ -63,7 +63,7 @@ export function EventTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <span className="flex items-center space-x-4">
+      <span className="flex items-center space-x-6">
         <AdminOnly>
           {!table.getFilteredSelectedRowModel().rows.length ? (
             <CreateNewEvent />
