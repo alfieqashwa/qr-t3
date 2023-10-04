@@ -1,9 +1,11 @@
 import Head from "next/head"
 import { AuthShowcase } from "~/components/authed"
+import { HeadMetaData } from "~/components/head-metadata"
 
 const HomePage = () => {
   return (
     <>
+      <HeadMetaData metaDescription="QR-Code Event Organizer - Alfie Qashwa Application" />
       <Head>
         <title>QR Ticket Concert</title>
         <meta name="description" content="QR Ticket" />

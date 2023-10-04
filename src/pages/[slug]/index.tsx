@@ -1,18 +1,26 @@
 import type { GetServerSideProps } from "next"
 import { prisma } from "~/server/db"
+import { HeadMetaData } from "~/src/components/head-metadata"
 
 type Props = { slug: string }
 
 const SlugPage = (props: Props) => {
   const { slug } = props
+  const pathname = slug.replace(/\s+/g, "-")
 
   return (
-    <div className="min-h-screen bg-slate-950 p-12">
-      <header className="space-y-3 text-center text-4xl font-bold">
-        <h1 className="uppercase text-amber-300">{slug}</h1>
-        <h2 className="capitalize">Official Website</h2>
-      </header>
-    </div>
+    <>
+      <HeadMetaData
+        metaDescription={`QR-Code Event Organizer - ${slug.toUpperCase()} Application`}
+        pathname={`/${pathname}`}
+      />
+      <div className="min-h-screen bg-slate-950 p-12">
+        <header className="space-y-3 text-center text-4xl font-bold">
+          <h1 className="uppercase text-amber-300">{slug}</h1>
+          <h2 className="capitalize">Official Website</h2>
+        </header>
+      </div>
+    </>
   )
 }
 
