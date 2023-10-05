@@ -1,6 +1,6 @@
 import { Role } from "@prisma/client"
 import { z } from "zod"
-import { createTeamSchema } from "~/src/types/schema"
+import { createTeamSchema, updateTeamSchema } from "~/src/types/schema"
 import {
   adminProcedure,
   createTRPCRouter,
@@ -91,12 +91,7 @@ export const userRouter = createTRPCRouter({
       })
     }),
   updateTeamAdminRole: adminProcedure
-    .input(
-      z.object({
-        id: z.string().cuid(),
-        role: z.nativeEnum(Role),
-      })
-    )
+    .input(updateTeamSchema)
     .mutation(async ({ ctx, input: { id, role } }) => {
       return await ctx.prisma.user.update({
         where: { id },

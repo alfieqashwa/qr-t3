@@ -1,5 +1,9 @@
 import { z } from "zod"
 import {
+  createEventOrganizerSchema,
+  updateEventOrganizerSchema,
+} from "~/src/types/schema"
+import {
   adminProcedure,
   createTRPCRouter,
   dewaProcedure,
@@ -31,42 +35,7 @@ export const eoRouter = createTRPCRouter({
 
   // Mutations - Protected Procedure
   create: protectedProcedure
-    .input(
-      z
-        .object({
-          name: z
-            .string({
-              required_error: "Name is required",
-              invalid_type_error: "Name must be a string",
-            })
-            .min(3)
-            .max(25),
-          phone: z
-            .string({
-              required_error: "Phone is required",
-              invalid_type_error: "Phone must be a string",
-            })
-            .min(7)
-            .max(12),
-          province: z.string(),
-          regency: z.string(),
-          district: z.string(),
-          village: z.string(),
-          street: z
-            .string({
-              required_error: "Required",
-              invalid_type_error: "Must be a string",
-            })
-            .min(10),
-          postalCode: z
-            .string({
-              required_error: "Required",
-              invalid_type_error: "Must be a string",
-            })
-            .length(5),
-        })
-        .required()
-    )
+    .input(createEventOrganizerSchema)
     .mutation(
       async ({
         ctx,
@@ -103,43 +72,7 @@ export const eoRouter = createTRPCRouter({
 
   // Mutations - Admin Procedure
   updateAdminRole: adminProcedure
-    .input(
-      z
-        .object({
-          id: z.string().cuid(),
-          name: z
-            .string({
-              required_error: "Name is required",
-              invalid_type_error: "Name must be a string",
-            })
-            .min(3)
-            .max(25),
-          phone: z
-            .string({
-              required_error: "Phone is required",
-              invalid_type_error: "Phone must be a string",
-            })
-            .min(7)
-            .max(12),
-          province: z.string(),
-          regency: z.string(),
-          district: z.string(),
-          village: z.string(),
-          street: z
-            .string({
-              required_error: "Required",
-              invalid_type_error: "Must be a string",
-            })
-            .min(10),
-          postalCode: z
-            .string({
-              required_error: "Required",
-              invalid_type_error: "Must be a string",
-            })
-            .length(5),
-        })
-        .required()
-    )
+    .input(updateEventOrganizerSchema)
     .mutation(
       async ({
         ctx,

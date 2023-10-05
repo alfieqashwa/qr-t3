@@ -1,11 +1,48 @@
 import { Role } from "@prisma/client"
 import { z } from "zod"
 
-export const createTeamSchema = z.object({
-  email: z.string().email(),
-  role: z.nativeEnum(Role),
+// EVENT ORGANIZERS
+export const updateEventOrganizerSchema = z
+  .object({
+    id: z.string().cuid(),
+    name: z
+      .string({
+        required_error: "Name is required",
+        invalid_type_error: "Name must be a string",
+      })
+      .min(3)
+      .max(25),
+    phone: z
+      .string({
+        required_error: "Phone is required",
+        invalid_type_error: "Phone must be a string",
+      })
+      .min(7)
+      .max(12),
+    province: z.string(),
+    regency: z.string(),
+    district: z.string(),
+    village: z.string(),
+    street: z
+      .string({
+        required_error: "Required",
+        invalid_type_error: "Must be a string",
+      })
+      .min(10),
+    postalCode: z
+      .string({
+        required_error: "Required",
+        invalid_type_error: "Must be a string",
+      })
+      .length(5),
+  })
+  .required()
+
+export const createEventOrganizerSchema = updateEventOrganizerSchema.omit({
+  id: true,
 })
 
+// EVENTS
 export const updateEventSchema = z.object({
   id: z.string().cuid(),
   title: z
@@ -27,6 +64,38 @@ export const updateEventSchema = z.object({
 
 export const createEventSchema = updateEventSchema.omit({ id: true })
 
+// TICKETS
+export const generateTicketSchema = z.object({
+  category: z
+    .string({
+      required_error: "Category is required",
+      invalid_type_error: "Category must be a string",
+    })
+    .min(3)
+    .max(15),
+  price: z
+    .number({
+      required_error: "Price is required",
+      invalid_type_error: "Price must be a number",
+    })
+    .int()
+    .gt(0),
+  qty: z
+    .number({
+      required_error: "Qty is required",
+      invalid_type_error: "Qty must be a number",
+    })
+    .int()
+    .gte(10),
+  eventId: z
+    .string({
+      required_error: "EventId is required",
+      invalid_type_error: "EventId must be a string",
+    })
+    .cuid(),
+})
+
+// VISITORS
 const visitorSchema = z.object({
   id: z.string().cuid(),
   name: z
@@ -43,18 +112,36 @@ const visitorSchema = z.object({
     .min(7)
     .max(12),
   email: z.optional(z.string().email()),
-  eventId: z.string({
-    required_error: "Event is required",
-    invalid_type_error: "Event must be a string",
-  }).cuid({
-    message: "Event is required"
-  }),
+  eventId: z
+    .string({
+      required_error: "Event is required",
+      invalid_type_error: "Event must be a string",
+    })
+    .cuid({
+      message: "Event is required",
+    }),
   category: z.string().optional(),
-  ticketId: z.string({
-    required_error: "Ticket is required",
-    invalid_type_error: "Ticket must be a string",
-  }).cuid({ message: "Ticket is required" }),
+  ticketId: z
+    .string({
+      required_error: "Ticket is required",
+      invalid_type_error: "Ticket must be a string",
+    })
+    .cuid({ message: "Ticket is required" }),
 })
 
 export const createVisitorSchema = visitorSchema.omit({ id: true })
-export const updateVisitorSchema = visitorSchema.pick({ id: true, name: true, phone: true, email: true })
+export const updateVisitorSchema = visitorSchema.pick({
+  id: true,
+  name: true,
+  phone: true,
+  email: true,
+})
+
+// USERS
+const userSchema = z.object({
+  id: z.string().cuid(),
+  email: z.string().email(),
+  role: z.nativeEnum(Role),
+})
+export const createTeamSchema = userSchema.omit({ id: true })
+export const updateTeamSchema = userSchema.omit({ email: true })

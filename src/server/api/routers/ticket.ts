@@ -1,5 +1,6 @@
 import { Status } from "@prisma/client"
 import { z } from "zod"
+import { generateTicketSchema } from "~/src/types/schema"
 import {
   createTRPCRouter,
   editorProcedure,
@@ -50,37 +51,7 @@ export const ticketRouter = createTRPCRouter({
 
   // Mutations - Editor Procedure
   generateEditorRole: editorProcedure
-    .input(
-      z.object({
-        eventId: z
-          .string({
-            required_error: "EventId is required",
-            invalid_type_error: "EventId must be a string",
-          })
-          .cuid(),
-        category: z
-          .string({
-            required_error: "Category is required",
-            invalid_type_error: "Category must be a string",
-          })
-          .min(3)
-          .max(15),
-        price: z
-          .number({
-            required_error: "Price is required",
-            invalid_type_error: "Price must be a number",
-          })
-          .int()
-          .gt(0),
-        qty: z
-          .number({
-            required_error: "Qty is required",
-            invalid_type_error: "Qty must be a number",
-          })
-          .int()
-          .gte(10),
-      })
-    )
+    .input(generateTicketSchema)
     .mutation(async ({ ctx, input: { qty, price, category, eventId } }) => {
       const eventOrganizerId = ctx.session.user.eventOrganizerId as string
       function generateTickets() {
