@@ -5,6 +5,8 @@ import type * as z from "zod"
 import { format } from "date-fns"
 import { id } from "date-fns/locale"
 import { CalendarIcon, Loader2 } from "lucide-react"
+import { useState } from "react"
+import type { SelectSingleEventHandler } from "react-day-picker"
 import { cn } from "~/src/utils"
 import { createEventSchema } from "~/types/schema"
 import { Button } from "~/ui/button"
@@ -24,7 +26,6 @@ import { ToastAction } from "~/ui/toast"
 import { useToast } from "~/ui/use-toast"
 import { api } from "~/utils/api"
 import { wait } from "~/utils/wait"
-import type { SelectSingleEventHandler } from "react-day-picker"
 
 type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -65,12 +66,35 @@ export function CreateEventForm(props: Props) {
     },
   })
 
+  const [timeValue, setTimeValue] = useState<string>("00:00")
+
+  const handleTimeChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const time = e.target.value
+    setTimeValue(time)
+  }
+
   function onSubmit(values: z.infer<typeof createEventSchema>) {
     const { title, venue, date } = values
+
+    /**
+     * Source: https://react-day-picker.js.org/guides/input-fields
+     */
+    const [hours, minutes] = timeValue
+      .split(":")
+      .map((str) => parseInt(str, 10))
+
+    const newSelectedDate = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      hours,
+      minutes
+    )
+
     createEvent.mutate({
       title,
       venue,
-      date,
+      date: newSelectedDate,
     })
   }
 
@@ -115,12 +139,18 @@ export function CreateEventForm(props: Props) {
                     <Button
                       variant={"outline"}
                       className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
+                        "w-[320px] pl-3 text-left font-normal",
                         !field.value && "text-muted-foreground"
                       )}
                     >
                       {field.value ? (
-                        format(field.value, "PPPP", { locale: id })
+                        <p>
+                          <span>
+                            {format(field.value, "PPPP", { locale: id })}
+                          </span>
+                          <span className="px-1">Pukul</span>
+                          <span>{timeValue}</span>
+                        </p>
                       ) : (
                         <span>Pick a date</span>
                       )}
@@ -137,6 +167,17 @@ export function CreateEventForm(props: Props) {
                       date < new Date() || date < new Date("1900-01-01")
                     }
                     initialFocus
+                    footer={
+                      <div className="mt-4 text-sm">
+                        <p className="font-bold">Pick a time:</p>
+                        <Input
+                          className="mt-1 text-primary-foreground"
+                          type="time"
+                          value={timeValue}
+                          onChange={handleTimeChange}
+                        />
+                      </div>
+                    }
                   />
                 </PopoverContent>
               </Popover>

@@ -72,7 +72,7 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
       <div className="flex space-x-2">
         <Badge variant="secondary" className="px-3 py-1.5">
           <span className="max-w-[500px] truncate font-medium capitalize">
-            {format(row.getValue("date"), "PPPP", { locale: id })}
+            {format(row.getValue("date"), "PPPPpp", { locale: id })}
           </span>
         </Badge>
       </div>
