@@ -43,7 +43,7 @@ export function RowVisitorActions(props: DataTableRowActionsProps) {
               className="hover:cursor-pointer"
             >
               <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-              Generate QR
+              Copy ID
             </DropdownMenuItem>
           )}
           <DropdownMenuSeparator />

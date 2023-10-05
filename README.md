@@ -108,8 +108,10 @@ Add more libs.
   - [x] Add Check-[In/Out] Toggle Button
   - [x] Testing Operator Access Level
   - [x] Testing Scanning QRCode on mobile-view
-  - [ ] Configure Check-In Date
-  - [ ] Configure Check-Out Date
+  - [x] Configure Check-In Date
+  - [x] Configure Check-Out Date
+  - [ ] Setup Event Start & End Time
+  - [ ] Config Clock Countdown
 
 - [ ] Setup Dashboard Page
 

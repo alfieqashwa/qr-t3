@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "~/components/ui/card"
 import { api, type RouterOutputs } from "~/src/utils/api"
+import { formattedPrice } from "~/src/utils/formattedPrice"
 import { Button } from "~/ui/button"
 import { ToastAction } from "~/ui/toast"
 import { toast } from "~/ui/use-toast"
@@ -43,94 +44,165 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
   )
 
   const handleCheckIn = (visitorId: string) =>
-    mutate({ id: visitorId, isCheckIn: true })
+    mutate({ id: visitorId, isCheckIn: true, checkInDate: new Date() })
 
   const handleCheckOut = (visitorId: string) =>
-    mutate({ id: visitorId, isCheckIn: false })
+    mutate({ id: visitorId, isCheckIn: false, checkOutDate: new Date() })
 
+  const isTodaysEventYet =
+    ticket?.event?.date &&
+    ticket.event.date.toDateString() === new Date().toDateString()
+  console.log(`isTodayEventYet::: `, isTodaysEventYet)
   return (
-    <Card className="min-h-screen min-w-fit py-8">
-      <CardHeader className="text-center">
-        <CardTitle className="md:text-xl">Ticket Information</CardTitle>
-        <CardDescription className="md:text-lg">
-          Ticket ID: {ticket?.id}
-        </CardDescription>
-      </CardHeader>
+    <>
+      <pre>{JSON.stringify(ticket, null, 2)}</pre>
+      <Card className="min-h-screen min-w-fit px-2 py-8 sm:px-6 lg:px-12">
+        <CardHeader className="text-center">
+          <CardTitle className="md:text-xl">Ticket Information</CardTitle>
+          <CardDescription className="md:text-lg">
+            Ticket ID: {ticket?.id}
+          </CardDescription>
+        </CardHeader>
 
-      <CardContent>
-        <Wrapper title="Event">
-          <p className="uppercase">{ticket?.event?.title}</p>
-          <p>
-            {ticket?.event?.date &&
-              format(ticket.event.date, "PPPP", { locale: id })}
-          </p>
-          <p>
-            <span className="capitalize">{ticket?.event?.venue}</span>
-          </p>
-          <p>
-            <span className="uppercase">{ticket?.eventOrganizer?.name}</span>
-          </p>
-        </Wrapper>
+        <CardContent className="rounded-xl border-2 py-6">
+          <Wrapper title="Event">
+            <p className="uppercase text-amber-300">{ticket?.event?.title}</p>
+            <p>
+              {ticket?.event?.date &&
+                format(ticket.event.date, "PPPP", { locale: id })}
+            </p>
+            <p>
+              <span>Venue: </span>
+              <span className="capitalize">{ticket?.event?.venue}</span>
+            </p>
+            <p>
+              <span className="uppercase text-amber-300">
+                {ticket?.eventOrganizer?.name}
+              </span>
+            </p>
+          </Wrapper>
 
-        <Wrapper title="Ticket Info" className="mt-2">
-          <p>
-            Category: <span className="uppercase">{ticket?.category}</span>
-          </p>
-          <p>Price: {ticket?.price}</p>
-          <p>Status: {ticket?.status}</p>
-        </Wrapper>
+          <Wrapper title="Ticket Info" className="mt-2">
+            <p>
+              Category:{" "}
+              <span className="uppercase text-amber-300">
+                {ticket?.category}
+              </span>
+            </p>
+            <p>
+              Price:{" "}
+              <span className="text-amber-300">
+                {formattedPrice.format(ticket?.price as number)}
+              </span>
+            </p>
+            <p>
+              Status:{" "}
+              <span className="font-bold uppercase text-amber-300">
+                {ticket?.status === "SOLD" && "Purchased"}
+              </span>
+            </p>
+          </Wrapper>
 
-        <Wrapper title="Visitor" className="mt-2">
-          {ticket?.visitors
-            .filter((t) => t.ticketId === ticketId)
-            .map((v) => (
-              <ul key={v.id} className="flex flex-col items-center text-sm">
-                <li className="capitalize">{v.name}</li>
-                <li>{v.phone}</li>
-                <li>{v.email}</li>
-                {/* // TODOS: CONFIG CHECK-IN */}
-                <li className="mt-8 flex items-center justify-center space-x-6">
-                  {/* //? STARTS CHECK-IN */}
-                  <Button
-                    disabled={isLoading || v.isCheckIn}
-                    size="lg"
-                    variant={`${v.isCheckIn ? "destructive" : "default"}`}
-                    onClick={() => handleCheckIn(v.id)}
-                    className="flex items-center justify-center uppercase"
-                  >
-                    <span className="whitespace-nowrap">Check In</span>
-                  </Button>
-                  {/* //? ENDS CHECK-IN */}
+          <Wrapper title="Visitor" className="mt-2">
+            {ticket?.visitors
+              .filter((t) => t.ticketId === ticketId)
+              .map((v) => (
+                <ul key={v.id} className="flex flex-col items-center">
+                  <li className="capitalize">
+                    <span>Name: </span>
+                    <span className="text-amber-300">{v.name}</span>
+                  </li>
+                  <li>
+                    <span>Phone: </span>
+                    <span className="text-amber-300">{v.phone}</span>
+                  </li>
+                  <li>
+                    <span>Email: </span>
+                    <span className="text-amber-300">{v.email}</span>
+                  </li>
+                  {!isTodaysEventYet ? (
+                    <div>
+                      <div className="mt-4 text-center text-xl font-bold">
+                        <p>Today is not the Event Date</p>
+                        <p className="text-base text-rose-400">
+                          TODOS: Setup Start & End Event Time
+                        </p>
+                        <p className="text-base text-rose-400">
+                          TODOS: Countdown Clock
+                        </p>
+                      </div>
+                      <li className="mt-8 flex items-center justify-center space-x-6">
+                        {/* //? STARTS CHECK-IN */}
+                        <Button
+                          disabled={isLoading || v.isCheckIn}
+                          size="lg"
+                          variant={`${v.isCheckIn ? "destructive" : "default"}`}
+                          onClick={() => handleCheckIn(v.id)}
+                          className="flex items-center justify-center uppercase"
+                        >
+                          <span className="whitespace-nowrap">Check In</span>
+                        </Button>
+                        {/* //? ENDS CHECK-IN */}
 
-                  {/* //? STARTS CHECK-OUT */}
-                  <Button
-                    disabled={isLoading || !v.isCheckIn}
-                    size="lg"
-                    variant={`${!v.isCheckIn ? "destructive" : "default"}`}
-                    onClick={() => handleCheckOut(v.id)}
-                    className="flex items-center justify-center uppercase"
-                  >
-                    <span className="whitespace-nowrap">Check Out</span>
-                  </Button>
-                  {/* //? ENDS CHECK-OUT */}
-                </li>
+                        {/* //? STARTS CHECK-OUT */}
+                        <Button
+                          disabled={isLoading || !v.isCheckIn}
+                          size="lg"
+                          variant={`${
+                            !v.isCheckIn ? "destructive" : "default"
+                          }`}
+                          onClick={() => handleCheckOut(v.id)}
+                          className="flex items-center justify-center uppercase"
+                        >
+                          <span className="whitespace-nowrap">Check Out</span>
+                        </Button>
+                        {/* //? ENDS CHECK-OUT */}
+                      </li>
 
-                <li className="mt-4">
-                  checkinDate: {v.checkInDate?.toString() ?? "-"}
-                </li>
-              </ul>
-            ))}
+                      <li className="mt-4 text-center">
+                        <p>
+                          Check In:{" "}
+                          <span className="text-amber-300">
+                            {!!v.checkInDate
+                              ? format(v.checkInDate, "pp")
+                              : "Not Available"}
+                          </span>
+                        </p>
+                        <p>
+                          Check Out:{" "}
+                          <span className="text-amber-300">
+                            {!!v.checkOutDate
+                              ? format(v.checkOutDate, "pp")
+                              : "Not Available"}
+                          </span>
+                        </p>
+                      </li>
+                    </div>
+                  ) : (
+                    <div className="mt-4 text-center text-xl font-bold">
+                      <p>Today is not the Event Date</p>
+                      <p className="text-base text-rose-400">
+                        TODOS: Setup Start & End Event Time
+                      </p>
+                      <p className="text-base text-rose-400">
+                        TODOS: Countdown Clock
+                      </p>
+                    </div>
+                  )}
+                </ul>
+              ))}
 
-          <Button
-            variant="secondary"
-            size="lg"
-            className="mt-8"
-            onClick={() => void router.back()}
-          >
-            Go Back
-          </Button>
-        </Wrapper>
-      </CardContent>
-    </Card>
+            <Button
+              variant="secondary"
+              size="lg"
+              className="mt-8"
+              onClick={() => void router.back()}
+            >
+              Go Back
+            </Button>
+          </Wrapper>
+        </CardContent>
+      </Card>
+    </>
   )
 }

@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 
   // If user has not have EventOrganizerId, then redirect to page "/create-eo"
-  if (!session.user.eventOrganizerId) {
+  if (session && !session.user.eventOrganizerId) {
     return {
       redirect: {
         destination: "/create-eo",
@@ -61,7 +61,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       }
     }
 
-    if (session.user.role !== "OPERATOR")
+    if (session.user.role !== "OPERATOR" && session.user.role !== "DEWA")
       return {
         redirect: {
           destination: `/${slug}/dashboard`, // If user has EventOrganizerId and user role as NOT an OPERATOR, then enter this page.
