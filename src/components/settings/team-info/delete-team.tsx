@@ -1,5 +1,4 @@
 import { Loader2 } from "lucide-react"
-import { useRouter } from "next/router"
 import { useState } from "react"
 import {
   Dialog,
@@ -22,7 +21,6 @@ type Props = {
 }
 
 export function DeleteTeam({ id, email }: Props) {
-  const router = useRouter()
   const utils = api.useContext()
   const { toast } = useToast()
 
@@ -39,7 +37,6 @@ export function DeleteTeam({ id, email }: Props) {
       await utils.user.getAllByEOIdAdminRole.invalidate()
       /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(false))
-      await router.replace("/settings")
     },
     onError() {
       toast({

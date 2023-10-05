@@ -2,9 +2,10 @@ import type { ColumnDef } from "@tanstack/react-table"
 import { Building2, Key, Mail, User } from "lucide-react"
 import Image from "next/image"
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header"
+import { cn } from "~/src/utils"
 import { Badge } from "~/ui/badge"
 import { Checkbox } from "~/ui/checkbox"
-import type { RouterOutputs } from "~/utils/api"
+import { api, type RouterOutputs } from "~/utils/api"
 import { DeleteTeam } from "./delete-team"
 import { UpdateTeam } from "./update-team"
 
@@ -71,11 +72,26 @@ export const columnsTeam: ColumnDef<
       <DataTableColumnHeader column={column} title="Name" />
     ),
     cell: ({ row }) => {
+      const {
+        original: { id, name },
+      } = row
+
+      const { data: sessions, status } =
+        api.session.getAllByEOIdAdminRole.useQuery()
+      const hasActiveUser =
+        status === "success" && sessions?.some((active) => active.userId === id)
+
       return (
-        <Badge variant="secondary" className="px-3 py-1.5">
-          <User className="mr-2 h-4 w-4 text-muted-foreground" />
+        <Badge
+          variant="secondary"
+          className={cn(
+            "px-3 py-1.5",
+            hasActiveUser ? "text-amber-300" : "text-muted-foreground"
+          )}
+        >
+          <User className="mr-2 h-4 w-4" />
           <span className="whitespace-nowrap capitalize">
-            {row.getValue("name") ?? "pending"}
+            {name ?? "pending"}
           </span>
         </Badge>
       )
