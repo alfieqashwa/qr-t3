@@ -110,7 +110,7 @@ Add more libs.
   - [x] Testing Scanning QRCode on mobile-view
   - [x] Configure Check-In Date
   - [x] Configure Check-Out Date
-  - [ ] Setup Event Start & End Time
+  - [x] Setup Event Start & End Time
   - [ ] Config Clock Countdown
 
 - [ ] Setup Dashboard Page
