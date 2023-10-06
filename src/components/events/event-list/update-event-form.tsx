@@ -1,6 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { format } from "date-fns"
+import { id } from "date-fns/locale"
 import { Calendar as CalendarIcon, Loader2 } from "lucide-react"
+import { useState } from "react"
 import type { SelectSingleEventHandler } from "react-day-picker"
 import { useForm } from "react-hook-form"
 import type { z } from "zod"
@@ -66,14 +68,46 @@ export const UpdateEventForm = ({
     mode: "onChange",
   })
 
+  /* Get the hours and minutes of the current date,
+   * join them and separate them with double-colon,
+   * and convert to string. ("05:30")
+   */
+  const getHours = event?.date.getHours() as number
+  const getMinutes = event?.date.getMinutes() as number
+  const currentTimeValue = `${getHours.toString().padStart(2, "0")}:${getMinutes
+    .toString()
+    .padStart(2, "0")}`
+
+  const [timeValue, setTimeValue] = useState<string>(currentTimeValue)
+
+  const handleTimeChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const time = e.target.value
+    setTimeValue(time)
+  }
+
   function onSubmit(values: UpdateEventSchema) {
     const { id, title, date, venue } = values
+
+    /**
+     * Source: https://react-day-picker.js.org/guides/input-fields
+     */
+    const [hours, minutes] = timeValue
+      .split(":")
+      .map((str) => parseInt(str, 10))
+
+    const newSelectedDate = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      hours,
+      minutes
+    )
 
     mutate({
       id,
       title,
       venue,
-      date,
+      date: newSelectedDate,
     })
   }
 
@@ -114,7 +148,7 @@ export const UpdateEventForm = ({
           control={form.control}
           name="date"
           render={({ field }) => (
-            <FormItem className="grid grid-cols-4 items-center gap-4">
+            <FormItem className="grid grid-cols-6 items-center gap-4">
               <FormLabel className="mt-2 text-right">Date</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
@@ -122,12 +156,18 @@ export const UpdateEventForm = ({
                     <Button
                       variant={"outline"}
                       className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
+                        "w-[320px] pl-3 text-left font-normal",
                         !field.value && "text-muted-foreground"
                       )}
                     >
                       {field.value ? (
-                        format(field.value, "PPP")
+                        <p>
+                          <span>
+                            {format(field.value, "PPPP", { locale: id })}
+                          </span>
+                          <span className="px-1">Pukul</span>
+                          <span>{timeValue}</span>
+                        </p>
                       ) : (
                         <span>Pick a date</span>
                       )}
@@ -144,6 +184,17 @@ export const UpdateEventForm = ({
                       date < new Date() || date < new Date("1900-01-01")
                     }
                     initialFocus
+                    footer={
+                      <div className="mt-4 text-sm">
+                        <p className="font-bold">Pick a time:</p>
+                        <Input
+                          className="mt-1 text-primary-foreground"
+                          type="time"
+                          value={timeValue}
+                          onChange={handleTimeChange}
+                        />
+                      </div>
+                    }
                   />
                 </PopoverContent>
               </Popover>
