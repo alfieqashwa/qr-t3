@@ -1,24 +1,52 @@
 import type { GetServerSideProps } from "next"
+import { HeadMetaData } from "~/components/head-metadata"
+import { LoadingSpinner } from "~/components/loading"
+import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area"
+import { EventArtwork } from "~/components/website/event-artwork"
 import { prisma } from "~/server/db"
-import { HeadMetaData } from "~/src/components/head-metadata"
+import { api } from "~/utils/api"
 
-type Props = { slug: string }
+type Props = { eventOrganizerId: string; slug: string }
 
-const SlugPage = (props: Props) => {
-  const { slug } = props
+const SlugPage = ({ eventOrganizerId, slug }: Props) => {
+  const events = api.event.getAllByEventOrganizerIdPublic.useQuery({
+    eventOrganizerId: eventOrganizerId,
+  })
+
   const pathname = slug.replace(/\s+/g, "-")
 
+  if (events.status !== "success") return <LoadingSpinner />
   return (
     <>
       <HeadMetaData
+        title={slug.toUpperCase()}
         metaDescription={`QR-Code Event Organizer - ${slug.toUpperCase()} Application`}
         pathname={`/${pathname}`}
       />
-      <div className="min-h-screen bg-slate-950 p-12">
+      <div className="min-h-screen bg-slate-950 p-4 sm:p-2 lg:p-12">
         <header className="space-y-3 text-center text-4xl font-bold">
           <h1 className="uppercase text-amber-300">{slug}</h1>
           <h2 className="capitalize">Official Website</h2>
         </header>
+        <main>
+          <div className="relative mt-12 flex justify-center">
+            <ScrollArea>
+              <div className="flex space-x-4 pb-4">
+                {events.data.map((event) => (
+                  <EventArtwork
+                    key={event.id}
+                    event={event}
+                    className="w-[300px]"
+                    aspectRatio="square"
+                    width={300}
+                    height={300}
+                  />
+                ))}
+              </div>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          </div>
+        </main>
       </div>
     </>
   )
@@ -28,14 +56,14 @@ export default SlugPage
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const getAllEoName = await prisma.eventOrganizer.findMany({
-    select: { name: true },
+    select: { id: true, name: true },
   })
 
-  const filteredSlug = getAllEoName.filter(
+  const findEoByQuerySlug = getAllEoName.find(
     (eo) => eo.name.replace(/\s+/g, "-") === (ctx.query.slug as string)
   )
 
-  if (!filteredSlug[0]?.name)
+  if (!findEoByQuerySlug?.name)
     return {
       redirect: {
         destination: "/404",
@@ -43,9 +71,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     }
 
+  const { id: eventOrganizerId, name: slug } = findEoByQuerySlug
+
   return {
     props: {
-      slug: filteredSlug[0]?.name, // 'cello ltd'
+      eventOrganizerId,
+      slug,
     },
   }
 }

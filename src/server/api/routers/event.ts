@@ -5,9 +5,20 @@ import {
   createTRPCRouter,
   editorProcedure,
   protectedProcedure,
+  publicProcedure,
 } from "../trpc"
 
 export const eventRouter = createTRPCRouter({
+  // Queries - Public Procedure
+  getAllByEventOrganizerIdPublic: publicProcedure
+    .input(z.object({ eventOrganizerId: z.string().cuid() }))
+    .query(async ({ ctx, input: { eventOrganizerId } }) => {
+      return await ctx.prisma.event.findMany({
+        where: { eventOrganizerId },
+        orderBy: { date: "asc" },
+      })
+    }),
+
   // Queries - Protected Procedure
   count: protectedProcedure.query(
     async ({ ctx }) => await ctx.prisma.event.count()
