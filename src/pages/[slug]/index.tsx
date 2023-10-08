@@ -5,7 +5,6 @@ import { LoadingSpinner } from "~/components/loading"
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area"
 import { EventArtwork } from "~/components/website/event-artwork"
 import { prisma } from "~/server/db"
-import { VisitorAuthShowcase } from "~/src/components/authed/visitor-auth-showcase"
 import { api } from "~/utils/api"
 
 type Props = { eventOrganizerId: string; slug: string }
@@ -32,7 +31,7 @@ const SlugPage = ({ eventOrganizerId, slug }: Props) => {
         </header>
         <main>
           <div className="relative mt-12 flex justify-center">
-            <ScrollArea className="h-72 w-48">
+            <ScrollArea>
               <div className="flex space-x-4 pb-4">
                 {events.data.map((event) => (
                   <Link href={`/${pathname}/${event.id}`} key={event.id}>

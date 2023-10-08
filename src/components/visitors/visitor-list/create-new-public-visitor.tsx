@@ -1,7 +1,6 @@
 import { FilePlus2 } from "lucide-react"
 import { useState } from "react"
 import { Button } from "~/ui/button"
-import { CreatePublicVisitorForm } from "./create-public-visitor-form"
 import {
   Dialog,
   DialogContent,
@@ -10,8 +9,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/ui/dialog"
+import { CreatePublicVisitorForm } from "./create-public-visitor-form"
 
-export function CreateNewPublicVisitor() {
+export function CreateNewPublicVisitor({
+  eventOrganizerId,
+  eventId,
+}: {
+  eventOrganizerId: string
+  eventId: string
+}) {
   const [open, setOpen] = useState(false)
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -22,17 +28,21 @@ export function CreateNewPublicVisitor() {
           className="mx-auto mt-8 flex h-8 whitespace-nowrap"
         >
           <FilePlus2 size={26} className="mr-2 h-4 w-4" />
-          Create Visitor
+          Purchase Ticket
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add New Visitor</DialogTitle>
+          <DialogTitle>Purchase Ticket</DialogTitle>
           <DialogDescription>
-            Create new visitor here. Click Create when you&apos;re done.
+            Fill the form here. Click Purchase Ticket when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <CreatePublicVisitorForm setOpen={setOpen} />
+        <CreatePublicVisitorForm
+          setOpen={setOpen}
+          eventOrganizerId={eventOrganizerId}
+          eventId={eventId}
+        />
       </DialogContent>
     </Dialog>
   )

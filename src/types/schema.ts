@@ -132,11 +132,13 @@ const visitorSchema = z.object({
 
 export const createPublicVisitorSchema = visitorSchema.omit({
   id: true,
+  // eventOrganizerId: true,
 })
 export const createVisitorSchema = visitorSchema.omit({
   id: true,
   eventOrganizerId: true,
 })
+
 export const updateVisitorSchema = visitorSchema.pick({
   id: true,
   name: true,

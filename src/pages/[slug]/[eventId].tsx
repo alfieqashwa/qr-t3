@@ -5,18 +5,21 @@ import Image from "next/image"
 import { useRouter } from "next/router"
 import { HeadMetaData } from "~/components/head-metadata"
 import { LoadingSpinner } from "~/components/loading"
-import { CreateNewPublicVisitor } from "~/src/components/visitors/visitor-list/create-new-public-visitor"
+import { CreateNewPublicVisitor } from "~/components/visitors/visitor-list/create-new-public-visitor"
 import { cn } from "~/src/utils"
 import { api } from "~/src/utils/api"
 
 const EventIdPage: NextPage = () => {
   const { query } = useRouter()
-  const slug = query.slug as string
-  const eventId = query.eventId as string
+  const slug = query?.slug as string
+  const eventId = query?.eventId as string
 
-  const { data: event, status } = api.event.getByIdPublic.useQuery({
-    id: eventId,
-  })
+  const { data: event, status } = api.event.getByIdPublic.useQuery(
+    {
+      id: eventId,
+    },
+    { enabled: !!eventId }
+  )
 
   if (status !== "success") return <LoadingSpinner />
   return (
@@ -36,7 +39,10 @@ const EventIdPage: NextPage = () => {
           </h2>
         </header>
         <main>
-          <CreateNewPublicVisitor />
+          <CreateNewPublicVisitor
+            eventOrganizerId={event?.eventOrganizerId as string}
+            eventId={event?.id as string}
+          />
           <div className="relative mt-12 flex justify-center">
             {status === "success" && (
               <Image

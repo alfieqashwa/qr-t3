@@ -42,16 +42,16 @@ export const visitorRouter = createTRPCRouter({
     .mutation(
       async ({
         ctx,
-        input: { eventOrganizerId, name, phone, email, eventId, ticketId },
+        input: { name, phone, email, eventId, ticketId, eventOrganizerId },
       }) => {
         return await ctx.prisma.visitor.create({
           data: {
-            eventOrganizerId,
             name,
             phone,
             email,
             eventId,
             ticketId,
+            eventOrganizerId,
           },
         })
       }

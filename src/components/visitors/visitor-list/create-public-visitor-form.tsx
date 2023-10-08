@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import type { z } from "zod"
-import { createVisitorSchema } from "~/src/types/schema"
+import { createPublicVisitorSchema } from "~/src/types/schema"
 import { api } from "~/src/utils/api"
 import { wait } from "~/src/utils/wait"
 import { Button } from "~/ui/button"
@@ -27,18 +27,21 @@ import { toast } from "~/ui/use-toast"
 
 type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  eventOrganizerId: string
+  eventId: string
 }
 
 export const CreatePublicVisitorForm = (props: Props) => {
   const utils = api.useContext()
 
-  const { mutate, isLoading } = api.visitor.createEditorRole.useMutation({
+  const { mutate, isLoading } = api.visitor.createPublic.useMutation({
     async onSuccess() {
       toast({
         title: "Succeed!",
         variant: "default",
         description: "Your form has been created.",
       })
+      await utils.ticket.getAllByEventIdPublic.invalidate()
       await utils.visitor.getAll.invalidate()
       await wait().then(() => props.setOpen(false))
     },
@@ -52,65 +55,46 @@ export const CreatePublicVisitorForm = (props: Props) => {
     },
   })
 
-  type CreateVisitorSchema = z.infer<typeof createVisitorSchema>
-  const form = useForm<CreateVisitorSchema>({
-    resolver: zodResolver(createVisitorSchema),
+  const { data: tickets, status: ticketStatus } =
+    api.ticket.getAllByEventIdPublic.useQuery(
+      { eventId: props.eventId },
+      {
+        enabled: !!props.eventId,
+        select: (tickets) => {
+          const categories = tickets.map((ticket) => ticket.category)
+          return {
+            categories: [...new Set(categories)],
+            all: tickets,
+          }
+        },
+      }
+    )
+
+  type CreatePublicVisitorSchema = z.infer<typeof createPublicVisitorSchema>
+  const form = useForm<CreatePublicVisitorSchema>({
+    resolver: zodResolver(createPublicVisitorSchema),
     defaultValues: {
+      eventId: props.eventId,
+      eventOrganizerId: props.eventOrganizerId,
       name: "",
       phone: "",
       email: "",
-      eventId: "",
       ticketId: "",
     },
   })
 
-  //! no-need to use useEffect
-  const selectedEventId = form.watch("eventId")
   const selectedCategory = form.watch("category")
 
-  console.log({ selectedCategory })
-
-  const events = api.event.getAll.useQuery(undefined, {
-    select: (events) =>
-      events.map(({ id, title }) => ({
-        id,
-        title,
-      })),
-  })
-
-  const ticketCategory = api.ticket.getAllByEventId.useQuery(
-    { eventId: selectedEventId },
-    {
-      enabled: !!selectedEventId,
-      select: (tickets) => {
-        const categories = tickets.map((ticket) => ticket.category)
-        return [...new Set(categories)]
-      },
-    }
-  )
-
-  const tickets = api.ticket.getAllByEventId.useQuery(
-    { eventId: selectedEventId },
-    {
-      enabled: !!selectedEventId,
-      select: (tickets) =>
-        tickets.map(({ id, category }) => ({
-          id,
-          category,
-          categoryType: [...new Set(tickets.map((c) => c.category))],
-        })),
-    }
-  )
-
-  function onSubmit(values: CreateVisitorSchema) {
-    const { name, phone, email, eventId, ticketId } = values
+  function onSubmit(values: CreatePublicVisitorSchema) {
+    const { name, phone, email, ticketId } = values
 
     mutate({
       name,
       phone,
       email,
-      eventId,
+      eventId: props.eventId,
       ticketId,
+      eventOrganizerId: props.eventOrganizerId,
     })
   }
 
@@ -178,40 +162,6 @@ export const CreatePublicVisitorForm = (props: Props) => {
         />
         <FormField
           control={form.control}
-          name="eventId"
-          render={({ field }) => (
-            <FormItem>
-              <div className="grid grid-cols-6 items-center gap-x-4">
-                <FormLabel className="text-right">Event</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl className="col-span-3 w-[240px] capitalize">
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select an event" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {events.status === "success" &&
-                      events.data.map((event) => (
-                        <SelectItem
-                          value={event.id}
-                          key={event.id}
-                          className="capitalize"
-                        >
-                          {event.title}
-                        </SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <FormMessage className="text-center" />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
           name="category"
           render={({ field }) => (
             <FormItem>
@@ -221,14 +171,14 @@ export const CreatePublicVisitorForm = (props: Props) => {
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <FormControl className="col-span-3 w-[240px]">
+                  <FormControl className="col-span-3 w-[240px] uppercase">
                     <SelectTrigger>
                       <SelectValue placeholder="Select an Event" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {ticketCategory.status === "success" &&
-                      ticketCategory.data.map((category) => (
+                    {ticketStatus === "success" &&
+                      tickets.categories.map((category) => (
                         <SelectItem
                           value={category}
                           key={category}
@@ -261,8 +211,8 @@ export const CreatePublicVisitorForm = (props: Props) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {tickets.status === "success" &&
-                      tickets.data
+                    {ticketStatus === "success" &&
+                      tickets.all
                         .filter(
                           (ticket) => ticket.category === selectedCategory
                         )
@@ -295,7 +245,7 @@ export const CreatePublicVisitorForm = (props: Props) => {
             </Button>
           ) : (
             <Button type="submit" size="sm">
-              Create Visitor
+              Purchase Ticket
             </Button>
           )}
         </div>

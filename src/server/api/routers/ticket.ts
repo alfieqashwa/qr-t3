@@ -6,9 +6,21 @@ import {
   editorProcedure,
   operatorProcedure,
   protectedProcedure,
+  publicProcedure,
 } from "../trpc"
 
 export const ticketRouter = createTRPCRouter({
+  // Queries - Public Procedure
+  getAllByEventIdPublic: publicProcedure
+    .input(z.object({ eventId: z.string().cuid() }))
+    .query(async ({ ctx, input: { eventId } }) => {
+      return await ctx.prisma.ticket.findMany({
+        where: {
+          eventId,
+          status: "AVAILABLE",
+        },
+      })
+    }),
   // Queries - Protected Procedure
   count: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.ticket.count()
