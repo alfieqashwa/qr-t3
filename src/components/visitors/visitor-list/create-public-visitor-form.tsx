@@ -29,7 +29,7 @@ type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const CreateVisitorForm = (props: Props) => {
+export const CreatePublicVisitorForm = (props: Props) => {
   const utils = api.useContext()
 
   const { mutate, isLoading } = api.visitor.createEditorRole.useMutation({

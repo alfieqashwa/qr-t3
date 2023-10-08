@@ -97,6 +97,7 @@ export const generateTicketSchema = z.object({
 
 // VISITORS
 const visitorSchema = z.object({
+  eventOrganizerId: z.string().cuid(),
   id: z.string().cuid(),
   name: z
     .string()
@@ -129,7 +130,13 @@ const visitorSchema = z.object({
     .cuid({ message: "Ticket is required" }),
 })
 
-export const createVisitorSchema = visitorSchema.omit({ id: true })
+export const createPublicVisitorSchema = visitorSchema.omit({
+  id: true,
+})
+export const createVisitorSchema = visitorSchema.omit({
+  id: true,
+  eventOrganizerId: true,
+})
 export const updateVisitorSchema = visitorSchema.pick({
   id: true,
   name: true,

@@ -6,6 +6,7 @@ import {
   createTRPCRouter,
   dewaProcedure,
   protectedProcedure,
+  publicProcedure,
 } from "../trpc"
 
 export const userRouter = createTRPCRouter({

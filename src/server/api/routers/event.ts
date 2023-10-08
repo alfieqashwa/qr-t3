@@ -10,6 +10,14 @@ import {
 
 export const eventRouter = createTRPCRouter({
   // Queries - Public Procedure
+  getByIdPublic: publicProcedure
+    .input(z.object({ id: z.string().cuid() }))
+    .query(async ({ ctx, input: { id } }) => {
+      return await ctx.prisma.event.findUnique({
+        where: { id },
+      })
+    }),
+  // Queries - Public Procedure
   getAllByEventOrganizerIdPublic: publicProcedure
     .input(z.object({ eventOrganizerId: z.string().cuid() }))
     .query(async ({ ctx, input: { eventOrganizerId } }) => {

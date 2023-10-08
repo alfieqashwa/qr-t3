@@ -1,9 +1,11 @@
 import type { GetServerSideProps } from "next"
+import Link from "next/link"
 import { HeadMetaData } from "~/components/head-metadata"
 import { LoadingSpinner } from "~/components/loading"
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area"
 import { EventArtwork } from "~/components/website/event-artwork"
 import { prisma } from "~/server/db"
+import { VisitorAuthShowcase } from "~/src/components/authed/visitor-auth-showcase"
 import { api } from "~/utils/api"
 
 type Props = { eventOrganizerId: string; slug: string }
@@ -30,22 +32,29 @@ const SlugPage = ({ eventOrganizerId, slug }: Props) => {
         </header>
         <main>
           <div className="relative mt-12 flex justify-center">
-            <ScrollArea>
+            <ScrollArea className="h-72 w-48">
               <div className="flex space-x-4 pb-4">
                 {events.data.map((event) => (
-                  <EventArtwork
-                    key={event.id}
-                    event={event}
-                    className="w-[300px]"
-                    aspectRatio="square"
-                    width={300}
-                    height={300}
-                  />
+                  <Link href={`/${pathname}/${event.id}`} key={event.id}>
+                    <EventArtwork
+                      event={event}
+                      className="w-[300px]"
+                      aspectRatio="square"
+                      width={300}
+                      height={300}
+                    />
+                  </Link>
                 ))}
               </div>
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
           </div>
+          {/* <div className="flex flex-col items-center gap-2">
+            <VisitorAuthShowcase
+              eventOrganizerId={eventOrganizerId}
+              pathname={pathname}
+            />
+          </div> */}
         </main>
       </div>
     </>

@@ -1,6 +1,7 @@
 import { format } from "date-fns"
 import { id } from "date-fns/locale"
 import Image from "next/image"
+import Link from "next/link"
 import { CountdownTimer } from "~/components/countdownTimer"
 import { cn } from "~/src/utils"
 import { type RouterOutputs } from "~/utils/api"

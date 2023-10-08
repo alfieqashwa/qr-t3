@@ -1,11 +1,16 @@
 import { z } from "zod"
-import { createVisitorSchema, updateVisitorSchema } from "~/src/types/schema"
+import {
+  createPublicVisitorSchema,
+  createVisitorSchema,
+  updateVisitorSchema,
+} from "~/src/types/schema"
 import {
   adminProcedure,
   createTRPCRouter,
   editorProcedure,
   operatorProcedure,
   protectedProcedure,
+  publicProcedure,
 } from "../trpc"
 
 export const visitorRouter = createTRPCRouter({
@@ -31,6 +36,26 @@ export const visitorRouter = createTRPCRouter({
     })
   }),
 
+  // Mutations - Public Procedure
+  createPublic: publicProcedure
+    .input(createPublicVisitorSchema)
+    .mutation(
+      async ({
+        ctx,
+        input: { eventOrganizerId, name, phone, email, eventId, ticketId },
+      }) => {
+        return await ctx.prisma.visitor.create({
+          data: {
+            eventOrganizerId,
+            name,
+            phone,
+            email,
+            eventId,
+            ticketId,
+          },
+        })
+      }
+    ),
   // Mutations - Operator Procedure
   toggleCheckOperatorRole: operatorProcedure
     .input(
