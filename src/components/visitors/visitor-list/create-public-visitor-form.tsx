@@ -3,6 +3,7 @@ import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import type { z } from "zod"
 import { createPublicVisitorSchema } from "~/src/types/schema"
+import { cn } from "~/src/utils"
 import { api } from "~/src/utils/api"
 import { wait } from "~/src/utils/wait"
 import { Button } from "~/ui/button"
@@ -188,7 +189,12 @@ export const CreatePublicVisitorForm = (props: Props) => {
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <FormControl className="col-span-3 w-[240px] uppercase">
+                  <FormControl
+                    className={cn(
+                      "col-span-3 w-[240px]",
+                      field.value && "uppercase"
+                    )}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select an Event" />
                     </SelectTrigger>

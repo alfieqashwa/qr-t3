@@ -49,6 +49,7 @@ export const ticketRouter = createTRPCRouter({
           eventId,
           eventOrganizerId: ctx.session.user.eventOrganizerId as string,
         },
+        include: { visitors: { select: { ticketId: true } } },
       })
     }),
 

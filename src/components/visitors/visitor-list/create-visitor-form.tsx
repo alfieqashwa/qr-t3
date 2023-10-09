@@ -3,6 +3,7 @@ import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import type { z } from "zod"
 import { createVisitorSchema } from "~/src/types/schema"
+import { cn } from "~/src/utils"
 import { api } from "~/src/utils/api"
 import { wait } from "~/src/utils/wait"
 import { Button } from "~/ui/button"
@@ -68,8 +69,6 @@ export const CreateVisitorForm = (props: Props) => {
   const selectedEventId = form.watch("eventId")
   const selectedCategory = form.watch("category")
 
-  console.log({ selectedCategory })
-
   const events = api.event.getAll.useQuery(undefined, {
     select: (events) =>
       events.map(({ id, title }) => ({
@@ -78,29 +77,37 @@ export const CreateVisitorForm = (props: Props) => {
       })),
   })
 
-  const ticketCategory = api.ticket.getAllByEventId.useQuery(
-    { eventId: selectedEventId },
-    {
-      enabled: !!selectedEventId,
-      select: (tickets) => {
-        const categories = tickets.map((ticket) => ticket.category)
-        return [...new Set(categories)]
-      },
-    }
-  )
+  const { data: tickets, status: ticketStatus } =
+    api.ticket.getAllByEventId.useQuery(
+      { eventId: selectedEventId },
+      {
+        enabled: !!selectedEventId,
+        select: (tickets) => {
+          const categories = tickets.map((ticket) => ticket.category)
+          const _visitorTicketIds = tickets
+            .filter((t) => t.visitors.length > 0)
+            .map((t) => t.visitors)
+            .reduce((acc, current) => {
+              current.forEach((ticket) => {
+                acc.push(ticket)
+              })
+              return acc
+            }, [])
+            .map((t) => ({ ticketId: t.ticketId }))
+          const _selectedTicketIds = new Set(
+            _visitorTicketIds.map((t) => t.ticketId)
+          )
+          const filteredTicketIds = tickets.filter(
+            (t) => !_selectedTicketIds.has(t.id)
+          )
 
-  const tickets = api.ticket.getAllByEventId.useQuery(
-    { eventId: selectedEventId },
-    {
-      enabled: !!selectedEventId,
-      select: (tickets) =>
-        tickets.map(({ id, category }) => ({
-          id,
-          category,
-          categoryType: [...new Set(tickets.map((c) => c.category))],
-        })),
-    }
-  )
+          return {
+            categories: [...new Set(categories)],
+            filteredTicketIds,
+          }
+        },
+      }
+    )
 
   function onSubmit(values: CreateVisitorSchema) {
     const { name, phone, email, eventId, ticketId } = values
@@ -221,14 +228,19 @@ export const CreateVisitorForm = (props: Props) => {
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <FormControl className="col-span-3 w-[240px]">
+                  <FormControl
+                    className={cn(
+                      "col-span-3 w-[240px]",
+                      field.value && "uppercase"
+                    )}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select an Event" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {ticketCategory.status === "success" &&
-                      ticketCategory.data.map((category) => (
+                    {ticketStatus === "success" &&
+                      tickets.categories.map((category) => (
                         <SelectItem
                           value={category}
                           key={category}
@@ -261,8 +273,8 @@ export const CreateVisitorForm = (props: Props) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {tickets.status === "success" &&
-                      tickets.data
+                    {ticketStatus === "success" &&
+                      tickets.filteredTicketIds
                         .filter(
                           (ticket) => ticket.category === selectedCategory
                         )
