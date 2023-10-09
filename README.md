@@ -144,12 +144,12 @@ Add more libs.
 
 ## Upgrade Version
 
-- [x] Setup Dynamic Public Page for each Event Organizer
+- [x] Setup dynamic Public Page for each Event Organizer
 - [ ] Create Home Website
-- [ ] Visitor / User Configuration
-  - [ ] Auth Visitor
-  - [ ] Visitor Profile Page
-  - [ ] Online Payment Transaction
+- [x] Visitor / User Configuration
+  - [x] Setup dynamic Public event Page based on EventID (info and image)
+  - [x] Create Public Form so anyone can order the ticket
+  - [ ] Online Payment Transaction (QRIS)
 
 ## Future Planning for DayDreamer
 

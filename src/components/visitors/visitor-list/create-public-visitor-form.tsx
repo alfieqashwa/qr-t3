@@ -229,7 +229,7 @@ export const CreatePublicVisitorForm = (props: Props) => {
         />
         <div className="grid grid-cols-6 items-center gap-x-4">
           <FormLabel className="text-right">Price</FormLabel>
-          <div className="text-right text-amber-300">
+          <div className="text-right text-sm font-medium text-amber-300">
             {!!selectedPrice ? formattedPrice.format(selectedPrice) : ""}
           </div>
         </div>
