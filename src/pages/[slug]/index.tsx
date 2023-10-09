@@ -48,12 +48,6 @@ const SlugPage = ({ eventOrganizerId, slug }: Props) => {
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
           </div>
-          {/* <div className="flex flex-col items-center gap-2">
-            <VisitorAuthShowcase
-              eventOrganizerId={eventOrganizerId}
-              pathname={pathname}
-            />
-          </div> */}
         </main>
       </div>
     </>

@@ -5,6 +5,7 @@ import type { z } from "zod"
 import { createPublicVisitorSchema } from "~/src/types/schema"
 import { cn } from "~/src/utils"
 import { api } from "~/src/utils/api"
+import { formattedPrice } from "~/src/utils/formattedPrice"
 import { wait } from "~/src/utils/wait"
 import { Button } from "~/ui/button"
 import {
@@ -102,6 +103,15 @@ export const CreatePublicVisitorForm = (props: Props) => {
   })
 
   const selectedCategory = form.watch("category")
+
+  // select the price based on selectedCategory
+  const selectedPrice = [
+    ...new Set(
+      tickets?.filteredTicketIds
+        .filter((f) => f.category === selectedCategory)
+        .map((t) => t.price)
+    ),
+  ]?.[0]
 
   function onSubmit(values: CreatePublicVisitorSchema) {
     const { name, phone, email, ticketId } = values
@@ -217,6 +227,12 @@ export const CreatePublicVisitorForm = (props: Props) => {
             </FormItem>
           )}
         />
+        <div className="grid grid-cols-6 items-center gap-x-4">
+          <FormLabel className="text-right">Price</FormLabel>
+          <div className="text-right text-amber-300">
+            {!!selectedPrice ? formattedPrice.format(selectedPrice) : ""}
+          </div>
+        </div>
         <FormField
           control={form.control}
           name="ticketId"

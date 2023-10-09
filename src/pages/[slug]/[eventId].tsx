@@ -15,9 +15,7 @@ const EventIdPage: NextPage = () => {
   const eventId = query?.eventId as string
 
   const { data: event, status } = api.event.getByIdPublic.useQuery(
-    {
-      id: eventId,
-    },
+    { id: eventId },
     { enabled: !!eventId }
   )
 
@@ -29,7 +27,7 @@ const EventIdPage: NextPage = () => {
         metaDescription={`QR-Code Event Organizer - ${slug.toUpperCase()} Application`}
         pathname={`/${slug}`}
       />
-      <div className="min-h-screen bg-slate-950 p-4 sm:p-2 lg:p-12">
+      <div className="thom min-h-screen bg-slate-950 p-4 sm:p-2 lg:p-12">
         <header className="space-y-3 text-center text-4xl font-bold">
           <h1 className="uppercase text-amber-300">{slug}</h1>
           <h2 className="capitalize">{event?.title}</h2>
@@ -37,6 +35,7 @@ const EventIdPage: NextPage = () => {
           <h2 className="capitalize">
             {format(event?.date as Date, "PPPP", { locale: id })}
           </h2>
+          <pre>{JSON.stringify(event, null, 2)}</pre>
         </header>
         <main>
           <CreateNewPublicVisitor
@@ -60,15 +59,8 @@ const EventIdPage: NextPage = () => {
               />
             )}
           </div>
-          {/* <div className="flex flex-col items-center gap-2">
-            <VisitorAuthShowcase
-              eventOrganizerId={eventOrganizerId}
-              pathname={pathname}
-            />
-          </div> */}
         </main>
       </div>
-      <pre>{JSON.stringify(event, null, 2)}</pre>
     </>
   )
 }
