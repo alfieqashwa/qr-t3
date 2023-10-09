@@ -19,6 +19,7 @@ export const ticketRouter = createTRPCRouter({
           eventId,
           status: "AVAILABLE",
         },
+        include: { visitors: { select: { ticketId: true } } },
       })
     }),
   // Queries - Protected Procedure

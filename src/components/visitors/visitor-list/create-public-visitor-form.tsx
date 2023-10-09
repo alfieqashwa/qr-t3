@@ -62,9 +62,26 @@ export const CreatePublicVisitorForm = (props: Props) => {
         enabled: !!props.eventId,
         select: (tickets) => {
           const categories = tickets.map((ticket) => ticket.category)
+          const _visitorTicketIds = tickets
+            .filter((t) => t.visitors.length > 0)
+            .map((t) => t.visitors)
+            .reduce((acc, current) => {
+              current.forEach((ticket) => {
+                acc.push(ticket)
+              })
+              return acc
+            }, [])
+            .map((t) => ({ ticketId: t.ticketId }))
+          const _selectedTicketIds = new Set(
+            _visitorTicketIds.map((ticket) => ticket.ticketId)
+          )
+          const filteredTicketIds = tickets.filter(
+            (ticket) => !_selectedTicketIds.has(ticket.id)
+          )
+
           return {
             categories: [...new Set(categories)],
-            all: tickets,
+            filteredTicketIds,
           }
         },
       }
@@ -212,14 +229,14 @@ export const CreatePublicVisitorForm = (props: Props) => {
                   </FormControl>
                   <SelectContent>
                     {ticketStatus === "success" &&
-                      tickets.all
+                      tickets.filteredTicketIds
                         .filter(
                           (ticket) => ticket.category === selectedCategory
                         )
                         .map((ticket) => {
                           const ticketCategory = `${
                             ticket.category
-                          }-${ticket.id.slice(-8, -1)}`
+                          }-${ticket.id.slice(-8, ticket.id.length)}`
                           return (
                             <SelectItem
                               key={ticket.id}
