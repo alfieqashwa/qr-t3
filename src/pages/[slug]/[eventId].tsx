@@ -8,6 +8,7 @@ import { LoadingSpinner } from "~/components/loading"
 import { CreateNewPublicVisitor } from "~/components/visitors/visitor-list/create-new-public-visitor"
 import { cn } from "~/src/utils"
 import { api } from "~/src/utils/api"
+import { formattedPrice } from "~/src/utils/formattedPrice"
 
 const EventIdPage: NextPage = () => {
   const { query } = useRouter()
@@ -16,7 +17,29 @@ const EventIdPage: NextPage = () => {
 
   const { data: event, status } = api.event.getByIdPublic.useQuery(
     { id: eventId },
-    { enabled: !!eventId }
+    {
+      enabled: !!eventId,
+      select: (event) => {
+        const all = event
+        const _uniqueCombos = new Set()
+        const filteredTickets = event?.tickets.filter((t) => {
+          const _combo = JSON.stringify({
+            category: t.category,
+            price: t.price,
+          })
+          if (!_uniqueCombos.has(_combo)) {
+            _uniqueCombos.add(_combo)
+            return true
+          }
+          return false
+        })
+
+        return {
+          all,
+          filteredTickets,
+        }
+      },
+    }
   )
 
   if (status !== "success") return <LoadingSpinner />
@@ -28,28 +51,38 @@ const EventIdPage: NextPage = () => {
         pathname={`/${slug}`}
       />
       <div className="thom min-h-screen bg-slate-950 p-4 sm:p-2 lg:p-12">
-        <header className="space-y-3 text-center text-4xl font-bold">
-          <h1 className="uppercase text-amber-300">{slug}</h1>
-          <h2 className="capitalize">{event?.title}</h2>
-          <h2 className="capitalize">{event?.venue}</h2>
-          <h2 className="capitalize">
-            {format(event?.date as Date, "PPPP", { locale: id })}
+        <header className="space-y-3 text-center font-bold">
+          <h1 className="text-4xl uppercase text-amber-300">{slug}</h1>
+          <h2 className="text-4xl capitalize">{event.all?.title}</h2>
+          <h2 className="text-2xl capitalize">{event.all?.venue}</h2>
+          <h2 className="text-2xl capitalize">
+            {format(event.all?.date as Date, "PPPP", { locale: id })}
           </h2>
-          <pre>{JSON.stringify(event, null, 2)}</pre>
         </header>
         <main>
+          <ul className="mt-4 flex justify-center space-x-8">
+            {event.filteredTickets?.map((t) => (
+              <li className="text-2xl font-bold capitalize" key={t.category}>
+                <span>{t.category} :</span>{" "}
+                <span className="text-amber-300">
+                  {/* remove decimal numbers using regex instead of set 'minimumFractionDigits' within fn formattedPrice */}
+                  {formattedPrice.format(t.price).replace(/,\d+$/, "")}
+                </span>
+              </li>
+            ))}
+          </ul>
           <CreateNewPublicVisitor
-            eventOrganizerId={event?.eventOrganizerId as string}
-            eventId={event?.id as string}
+            eventOrganizerId={event.all?.eventOrganizerId as string}
+            eventId={event.all?.id as string}
           />
           <div className="relative mt-12 flex justify-center">
             {status === "success" && (
               <Image
                 src={
-                  event?.thumbnail ??
+                  event.all?.thumbnail ??
                   "https://images.unsplash.com/photo-1490300472339-79e4adc6be4a?w=300&dpr=2&q=80"
                 }
-                alt={event?.title as string}
+                alt={event.all?.title as string}
                 width={500}
                 height={500}
                 className={cn(

@@ -15,6 +15,7 @@ export const eventRouter = createTRPCRouter({
     .query(async ({ ctx, input: { id } }) => {
       return await ctx.prisma.event.findUnique({
         where: { id },
+        include: { tickets: { select: { category: true, price: true } } },
       })
     }),
   // Queries - Public Procedure
