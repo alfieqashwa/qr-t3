@@ -1,6 +1,7 @@
 import { Codesandbox } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { Copyright } from "../footer"
 
 export const LayoutEventOrganizer = ({
   children,
@@ -22,7 +23,8 @@ export const LayoutEventOrganizer = ({
           </Link>
         </nav>
       </header>
-      <main className="px-2 py-4 sm:px-4 lg:px-6">{children}</main>
+      <main className="px-2 pb-6 pt-4 sm:px-4 lg:px-6">{children}</main>
+      <Copyright />
     </div>
   )
 }

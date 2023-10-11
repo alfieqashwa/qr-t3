@@ -1,6 +1,7 @@
 import Head from "next/head"
 import { AuthShowcase } from "~/components/authed"
 import { HeadMetaData } from "~/components/head-metadata"
+import { Copyright } from "~/components/footer"
 
 const HomePage = () => {
   return (
@@ -19,6 +20,7 @@ const HomePage = () => {
           </div>
         </div>
       </main>
+      <Copyright />
     </>
   )
 }
