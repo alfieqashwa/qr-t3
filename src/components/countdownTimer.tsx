@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react"
+import { cn } from "../utils"
 
+type CountdownTimerProps = {
+  date: Date
+  className?: string
+}
 // Source: https://github.com/TomDoesTech/Countdown-Timer/blob/main/pages/index.tsx
-export const CountdownTimer = ({ date }: { date: Date }) => {
-  const [_partyTime, setPartyTime] = useState(false)
+export const CountdownTimer = ({ date, className }: CountdownTimerProps) => {
+  // const [_partyTime, setPartyTime] = useState(false)
   const [days, setDays] = useState(0)
   const [hours, setHours] = useState(0)
   const [minutes, setMinutes] = useState(0)
@@ -27,16 +32,21 @@ export const CountdownTimer = ({ date }: { date: Date }) => {
       const s = Math.floor((difference % (1000 * 60)) / 1000)
       setSeconds(s)
 
-      if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
-        setPartyTime(true)
-      }
+      //   if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
+      //     setPartyTime(true)
+      //   }
     }, 1000)
 
     return () => clearInterval(interval)
   }, [date])
 
   return (
-    <div className="flex items-center justify-center border border-primary-foreground py-2">
+    <div
+      className={cn(
+        "flex items-center justify-center p-2 text-base font-semibold",
+        className
+      )}
+    >
       <TimeCard time={days} label="Days" />
       <Divider />
       <TimeCard time={hours} label="Hours" />
@@ -52,7 +62,7 @@ const TimeCard = ({ time, label }: { time: number; label: string }) => {
   const formattedTime = time.toString().padStart(2, "0")
   const singularLabel = label.slice(0, -1)
   return (
-    <div className="space-x-1 text-sm font-bold">
+    <div className="space-x-1">
       <span className="text-amber-300">{formattedTime}</span>
       <span className="text-primary-foreground">
         {time === 1 ? singularLabel : label}

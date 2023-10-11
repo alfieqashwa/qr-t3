@@ -10,13 +10,16 @@ import {
   DialogTrigger,
 } from "~/ui/dialog"
 import { CreateTicketOrderForm } from "./create-ticket-order-form"
+import { cn } from "~/src/utils"
 
 export function CreateNewTicketOrder({
   eventOrganizerId,
   eventId,
+  className,
 }: {
   eventOrganizerId: string
   eventId: string
+  className?: string
 }) {
   const [open, setOpen] = useState(false)
   return (
@@ -25,7 +28,7 @@ export function CreateNewTicketOrder({
         <Button
           variant="outline"
           size="lg"
-          className="mx-auto mt-8 flex h-8 whitespace-nowrap"
+          className={cn("mx-auto flex h-8 whitespace-nowrap", className)}
         >
           <FilePlus2 size={26} className="mr-2 h-4 w-4" />
           Order Ticket

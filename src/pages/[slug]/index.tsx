@@ -5,6 +5,7 @@ import { LoadingSpinner } from "~/components/loading"
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area"
 import { EventArtwork } from "~/components/website/event-artwork"
 import { prisma } from "~/server/db"
+import { LayoutEventOrganizer } from "~/src/components/layout-event-organizer"
 import { api } from "~/utils/api"
 
 type Props = { eventOrganizerId: string; slug: string }
@@ -24,7 +25,7 @@ const SlugPage = ({ eventOrganizerId, slug }: Props) => {
         metaDescription={`QR-Code Event Organizer - ${slug.toUpperCase()} Application`}
         pathname={`/${pathname}`}
       />
-      <div className="min-h-screen bg-slate-950 p-4 sm:p-2 lg:p-12">
+      <LayoutEventOrganizer>
         <header className="space-y-3 text-center text-4xl font-bold">
           <h1 className="uppercase text-amber-300">{slug}</h1>
           <h2 className="capitalize">Official Website</h2>
@@ -49,7 +50,7 @@ const SlugPage = ({ eventOrganizerId, slug }: Props) => {
             </ScrollArea>
           </div>
         </main>
-      </div>
+      </LayoutEventOrganizer>
     </>
   )
 }
