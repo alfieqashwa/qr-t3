@@ -41,7 +41,7 @@ export const CreateTicketOrderForm = (props: Props) => {
       toast({
         title: "Succeed!",
         variant: "default",
-        description: "The ticket order has been succeed.",
+        description: "Your ticket has been successfully ordered.",
       })
       await utils.ticket.getAllByEventIdPublic.invalidate()
       await utils.visitor.getAll.invalidate()
