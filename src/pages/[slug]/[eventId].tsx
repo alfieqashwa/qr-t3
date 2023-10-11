@@ -5,7 +5,8 @@ import Image from "next/image"
 import { useRouter } from "next/router"
 import { HeadMetaData } from "~/components/head-metadata"
 import { LoadingSpinner } from "~/components/loading"
-import { CreateNewPublicVisitor } from "~/components/visitors/visitor-list/create-new-public-visitor"
+import { CreateNewTicketOrder } from "~/src/components/official"
+import { DEFAULT_EVENT_THUMBNAIL } from "~/src/constants/default"
 import { cn } from "~/src/utils"
 import { api } from "~/src/utils/api"
 import { formattedPrice } from "~/src/utils/formattedPrice"
@@ -71,17 +72,14 @@ const EventIdPage: NextPage = () => {
               </li>
             ))}
           </ul>
-          <CreateNewPublicVisitor
+          <CreateNewTicketOrder
             eventOrganizerId={event.all?.eventOrganizerId as string}
             eventId={event.all?.id as string}
           />
           <div className="relative mt-12 flex justify-center">
             {status === "success" && (
               <Image
-                src={
-                  event.all?.thumbnail ??
-                  "https://images.unsplash.com/photo-1490300472339-79e4adc6be4a?w=300&dpr=2&q=80"
-                }
+                src={event.all?.thumbnail ?? DEFAULT_EVENT_THUMBNAIL}
                 alt={event.all?.title as string}
                 width={500}
                 height={500}

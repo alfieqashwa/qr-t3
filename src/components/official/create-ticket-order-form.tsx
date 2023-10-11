@@ -33,7 +33,7 @@ type Props = {
   eventId: string
 }
 
-export const CreatePublicVisitorForm = (props: Props) => {
+export const CreateTicketOrderForm = (props: Props) => {
   const utils = api.useContext()
 
   const { mutate, isLoading } = api.visitor.createPublic.useMutation({
@@ -41,7 +41,7 @@ export const CreatePublicVisitorForm = (props: Props) => {
       toast({
         title: "Succeed!",
         variant: "default",
-        description: "Your form has been created.",
+        description: "The ticket order has been succeed.",
       })
       await utils.ticket.getAllByEventIdPublic.invalidate()
       await utils.visitor.getAll.invalidate()
@@ -230,7 +230,9 @@ export const CreatePublicVisitorForm = (props: Props) => {
         <div className="grid grid-cols-6 items-center gap-x-4">
           <FormLabel className="text-right">Price</FormLabel>
           <div className="text-right text-sm font-medium text-amber-300">
-            {!!selectedPrice ? formattedPrice.format(selectedPrice) : ""}
+            {!!selectedPrice
+              ? formattedPrice.format(selectedPrice).replace(/,\d+$/, "")
+              : ""}
           </div>
         </div>
         <FormField
@@ -284,7 +286,7 @@ export const CreatePublicVisitorForm = (props: Props) => {
             </Button>
           ) : (
             <Button type="submit" size="sm">
-              Purchase Ticket
+              Order Ticket
             </Button>
           )}
         </div>

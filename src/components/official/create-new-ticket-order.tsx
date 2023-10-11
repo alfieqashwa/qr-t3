@@ -9,9 +9,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/ui/dialog"
-import { CreatePublicVisitorForm } from "./create-public-visitor-form"
+import { CreateTicketOrderForm } from "./create-ticket-order-form"
 
-export function CreateNewPublicVisitor({
+export function CreateNewTicketOrder({
   eventOrganizerId,
   eventId,
 }: {
@@ -28,17 +28,17 @@ export function CreateNewPublicVisitor({
           className="mx-auto mt-8 flex h-8 whitespace-nowrap"
         >
           <FilePlus2 size={26} className="mr-2 h-4 w-4" />
-          Purchase Ticket
+          Order Ticket
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Purchase Ticket</DialogTitle>
           <DialogDescription>
-            Fill the form here. Click Purchase Ticket when you&apos;re done.
+            Fill the form here. Click Order Ticket when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <CreatePublicVisitorForm
+        <CreateTicketOrderForm
           setOpen={setOpen}
           eventOrganizerId={eventOrganizerId}
           eventId={eventId}

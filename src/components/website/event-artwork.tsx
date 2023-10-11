@@ -1,8 +1,8 @@
 import { format } from "date-fns"
 import { id } from "date-fns/locale"
 import Image from "next/image"
-import Link from "next/link"
 import { CountdownTimer } from "~/components/countdownTimer"
+import { DEFAULT_EVENT_THUMBNAIL } from "~/src/constants/default"
 import { cn } from "~/src/utils"
 import { type RouterOutputs } from "~/utils/api"
 
@@ -25,10 +25,7 @@ export function EventArtwork({
     <div className={cn("space-y-3", className)} {...props}>
       <div className="overflow-hidden rounded-md">
         <Image
-          src={
-            event.thumbnail ??
-            "https://images.unsplash.com/photo-1490300472339-79e4adc6be4a?w=300&dpr=2&q=80"
-          }
+          src={event.thumbnail ?? DEFAULT_EVENT_THUMBNAIL}
           alt={event.title}
           width={width}
           height={height}
