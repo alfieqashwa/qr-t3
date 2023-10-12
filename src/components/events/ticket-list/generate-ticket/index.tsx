@@ -137,8 +137,8 @@ export function GenerateTicket(): JSX.Element {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" size="sm" className="whitespace-nowrap">
-          <FilePlus2 size={26} className="mr-2 h-4 w-4" />
+        <Button variant="outline" size="sm" className="ml-2 whitespace-nowrap">
+          <FilePlus2 className="mr-2 h-4 w-4" />
           <span className="whitespace-nowrap">Generate Ticket</span>
         </Button>
       </SheetTrigger>

@@ -35,8 +35,8 @@ export function EventTableToolbar<TData>({
   })) as Options[]
 
   return (
-    <div className="flex flex-col space-y-1 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
-      <div className="flex flex-col items-start space-y-1 sm:flex-1 sm:flex-row sm:items-center sm:space-x-2 sm:space-y-0">
+    <div className="flex items-start justify-between">
+      <div className="flex flex-col items-start space-y-1 md:flex-1 md:flex-row md:items-center md:space-x-2 md:space-y-0">
         <Input
           placeholder="Filter events..."
           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
@@ -63,7 +63,8 @@ export function EventTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <span className="flex items-center space-x-6">
+      <div className="flex flex-col space-y-1 md:flex-row-reverse md:space-x-2 md:space-y-0">
+        <DataTableViewOptions table={table} />
         <AdminOnly>
           {!table.getFilteredSelectedRowModel().rows.length ? (
             <CreateNewEvent />
@@ -71,8 +72,7 @@ export function EventTableToolbar<TData>({
             <DeleteEventList table={table} />
           )}
         </AdminOnly>
-        <DataTableViewOptions table={table} />
-      </span>
+      </div>
     </div>
   )
 }
