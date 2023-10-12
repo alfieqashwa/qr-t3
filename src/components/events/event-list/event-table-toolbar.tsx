@@ -1,6 +1,7 @@
 import type { Table } from "@tanstack/react-table"
 import type { LucideIcon } from "lucide-react"
 import { MapPin, X } from "lucide-react"
+import { AdminOnly } from "~/components/authed"
 import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-filter"
 import { DataTableViewOptions } from "~/components/table/data-table-view-options"
 import { Button } from "~/ui/button"
@@ -8,7 +9,6 @@ import { Input } from "~/ui/input"
 import { api } from "~/utils/api"
 import { CreateNewEvent } from "./create-new-event"
 import { DeleteEventList } from "./delete-event-list"
-import { AdminOnly } from "../../authed"
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -63,14 +63,14 @@ export function EventTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <div className="flex flex-col space-y-1 md:flex-row-reverse md:space-x-2 md:space-y-0">
-        <DataTableViewOptions table={table} />
+      <div className="flex flex-col space-y-1 md:flex-row-reverse md:space-y-0">
         <AdminOnly>
           {!table.getFilteredSelectedRowModel().rows.length ? (
             <CreateNewEvent />
           ) : (
             <DeleteEventList table={table} />
           )}
+          <DataTableViewOptions table={table} />
         </AdminOnly>
       </div>
     </div>

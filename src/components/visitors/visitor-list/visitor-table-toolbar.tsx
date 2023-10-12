@@ -52,8 +52,8 @@ export function VisitorTableToolbar<TData>({
   }) as Options[]
 
   return (
-    <div className="flex flex-col items-start space-y-1 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
-      <div className="flex flex-1 flex-col items-start space-x-0 space-y-1 sm:flex-row sm:items-center sm:space-x-2 sm:space-y-0">
+    <div className="flex items-start justify-between">
+      <div className="flex flex-col items-start space-y-1 md:flex-1 md:flex-row md:items-center md:space-x-2 md:space-y-0">
         <Input
           placeholder="Filter visitor..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -88,7 +88,7 @@ export function VisitorTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <span className="flex items-center space-x-4">
+      <div className="flex flex-col space-y-1 md:flex-row-reverse md:space-x-2 md:space-y-0">
         <EditorOnly>
           {!table.getFilteredSelectedRowModel().rows.length ? (
             !!ticketCount && <CreateNewVisitor />
@@ -97,7 +97,7 @@ export function VisitorTableToolbar<TData>({
           )}
         </EditorOnly>
         <DataTableViewOptions table={table} />
-      </span>
+      </div>
     </div>
   )
 }

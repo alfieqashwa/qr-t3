@@ -19,13 +19,13 @@ export function CreateNewVisitor() {
         <Button
           variant="outline"
           size="sm"
-          className="ml-auto flex h-8 whitespace-nowrap"
+          className="ml-2 flex h-8 whitespace-nowrap"
         >
-          <FilePlus2 size={26} className="mr-2 h-4 w-4" />
+          <FilePlus2 className="mr-2 h-4 w-4" />
           Create Visitor
         </Button>
       </SheetTrigger>
-      <SheetContent position="right" size="sm">
+      <SheetContent position="right" size="content">
         <SheetHeader>
           <SheetTitle>Add New Visitor</SheetTitle>
           <SheetDescription>
