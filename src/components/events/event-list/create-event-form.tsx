@@ -22,6 +22,7 @@ import {
 } from "~/ui/form"
 import { Input } from "~/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "~/ui/popover"
+import { SheetFooter } from "~/ui/sheet"
 import { ToastAction } from "~/ui/toast"
 import { useToast } from "~/ui/use-toast"
 import { api } from "~/utils/api"
@@ -139,7 +140,7 @@ export function CreateEventForm(props: Props) {
                     <Button
                       variant="outline"
                       className={cn(
-                        "w-[320px] pl-3 text-left font-normal",
+                        "pl-3 text-left font-normal",
                         !field.value && "text-muted-foreground"
                       )}
                     >
@@ -188,16 +189,27 @@ export function CreateEventForm(props: Props) {
             </FormItem>
           )}
         />
-        {createEvent.isLoading ? (
-          <Button disabled size="sm">
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Please wait
+        <SheetFooter className="absolute bottom-8 left-0 right-0 px-6">
+          <Button
+            className="mt-2 sm:mt-0"
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => props.setOpen(false)}
+          >
+            Cancel
           </Button>
-        ) : (
-          <Button type="submit" size="sm">
-            Create Event
-          </Button>
-        )}
+          {createEvent.isLoading ? (
+            <Button disabled size="sm">
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Please wait
+            </Button>
+          ) : (
+            <Button type="submit" size="sm">
+              Create Event
+            </Button>
+          )}
+        </SheetFooter>
       </form>
     </Form>
   )

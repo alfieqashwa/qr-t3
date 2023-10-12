@@ -143,7 +143,7 @@ export function GenerateTicket(): JSX.Element {
         </Button>
       </SheetTrigger>
 
-      <SheetContent position="right" size="sm">
+      <SheetContent position="right" size="content">
         <SheetHeader>
           <SheetTitle>Generate New Ticket</SheetTitle>
           <SheetDescription>
@@ -211,11 +211,11 @@ export function GenerateTicket(): JSX.Element {
               )}
             </div>
           </div>
-          <SheetFooter>
+          <SheetFooter className="absolute bottom-8 left-0 right-0 px-6">
             <Button
-              className="flex flex-row items-center justify-end space-x-2"
+              className="mt-2 sm:mt-0"
               type="button"
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={() => setOpen(false)}
             >

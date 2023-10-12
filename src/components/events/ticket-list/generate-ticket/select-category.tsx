@@ -15,8 +15,8 @@ type Props = {
 export function SelectCategory({ categories, disabled }: Props): JSX.Element {
   return (
     <Select name="category-selected" disabled={disabled}>
-      <SelectTrigger className="w-1/2 uppercase">
-        <SelectValue placeholder="or select a category" className="lowercase" />
+      <SelectTrigger className="uppercase">
+        <SelectValue placeholder="or select a category" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup className="space-y-2">
