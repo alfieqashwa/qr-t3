@@ -28,7 +28,7 @@ export function UserTableToolbar<TData>({
   /**
    *
    * Follow the sequence below, otherwise this bug will occured:
-   * Bugs: uncaught-invariant-violation-rendered-more-hooks-than-during-the-previous-rende
+   * Bugs: uncaught-invariant-violation-rendered-more-hooks-than-during-the-previous-render
    *
    * STEPS:
    * 1. Call all the required Apis
@@ -59,8 +59,8 @@ export function UserTableToolbar<TData>({
   // === ENDS Step 2. Then Map the variables ===
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex flex-1 items-center space-x-2">
+    <div className="flex items-start justify-between">
+      <div className="flex flex-col items-start space-y-1 md:flex-1 md:flex-row md:items-center md:space-x-2 md:space-y-0">
         <Input
           placeholder="Filter email..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
@@ -94,9 +94,10 @@ export function UserTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <span className="flex items-center space-x-4">
+
+      <div className="flex flex-col space-y-1 md:flex-row-reverse md:space-y-0">
         <DataTableViewOptions table={table} />
-      </span>
+      </div>
     </div>
   )
 }

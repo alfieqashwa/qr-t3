@@ -5,6 +5,7 @@ import { toast } from "~/ui/use-toast"
 import { api } from "~/utils/api"
 import { FormCard } from "./form-card"
 
+// TODO: Styling
 export const InputCardList = () => {
   const utils = api.useContext()
 
@@ -151,8 +152,8 @@ export const InputCardList = () => {
   }
 
   return (
-    <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
-      <section className="mb-20 grid grid-cols-2 gap-12">
+    <div className="py-4">
+      <section className="mb-20 grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
         <FormCard
           handleSubmit={handleUserSubmit}
           label="USER ID"
@@ -200,7 +201,11 @@ export const InputCardList = () => {
           {getAllAccount.status === "loading" && <LoadingSpinner />}
           {getAllAccount.status === "error" && <p>An Error occured</p>}
           {getAllAccount.status === "success" && (
-            <pre>{JSON.stringify(getAllAccount.data, null, 4)}</pre>
+            <div>
+              <pre>
+                <code>{JSON.stringify(getAllAccount.data, null, 4)}</code>
+              </pre>
+            </div>
           )}
         </div>
         <div className="mt-8">
@@ -209,7 +214,15 @@ export const InputCardList = () => {
           </h2>
           {status === "loading" && <LoadingSpinner />}
           {status === "error" && <p>An Error occured</p>}
-          {status === "success" && <pre>{JSON.stringify(data, null, 4)}</pre>}
+          <div>
+            <pre>
+              <code>
+                {status === "success" && (
+                  <pre>{JSON.stringify(data, null, 4)}</pre>
+                )}
+              </code>
+            </pre>
+          </div>
         </div>
       </section>
     </div>

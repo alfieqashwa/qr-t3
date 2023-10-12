@@ -15,7 +15,6 @@ const DewaPage: NextPage = () => {
   return (
     <Layout title={title}>
       <HeaderTitle title={title} />
-
       <Tabs defaultValue="user-info" className="mt-4">
         <TabsList className="mb-3">
           <TabsTrigger className="text-xs lg:text-sm" value="user-info">
