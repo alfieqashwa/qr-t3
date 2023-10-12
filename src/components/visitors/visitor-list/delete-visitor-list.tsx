@@ -68,10 +68,12 @@ export function DeleteVisitorList<TData>({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="destructive" size="sm">
-          <span className="whitespace-nowrap">
-            Delete Selected ({table.getFilteredSelectedRowModel().rows.length})
-          </span>
+        <Button
+          variant="destructive"
+          size="sm"
+          className="ml-2 h-8 whitespace-nowrap"
+        >
+          Delete Selected ({table.getFilteredSelectedRowModel().rows.length})
         </Button>
       </DialogTrigger>
 
