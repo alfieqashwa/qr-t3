@@ -47,7 +47,7 @@ export function EOInfo() {
               <Field label="ID" value={eo.id} />
             </div>
             <div className="flex justify-end space-x-4">
-              <UpdateEventOrganizerDialog currentEO={eo} />
+              <UpdateEventOrganizerDialog eo={eo} />
               <DeleteEventOrganizerDialog id={eo.id} />
             </div>
           </AdminOnly>
