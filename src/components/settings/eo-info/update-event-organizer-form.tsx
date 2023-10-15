@@ -123,6 +123,15 @@ export const UpdateEventOrganizerFrom = ({
     }
   )
 
+  /*
+    disabled-button validation!
+    to avoid not-matching between provinceId-regencyId-districtId-villageId records into database
+  */
+
+  const villageId = villages.data?.find(
+    (v) => v.name.toLowerCase() === form.watch("village")
+  )?.id as string
+
   function onSubmit(values: UpdateEventOrganizerSchema) {
     const {
       name,
@@ -148,6 +157,12 @@ export const UpdateEventOrganizerFrom = ({
       postalCode,
     })
   }
+
+  /*
+    disabled-button validation!
+    to avoid unmatching between provinceId -> regencyId -> districtId -> villageId records into database
+  */
+  const disabled = regencyId == null || districtId == null || villageId == null
 
   return (
     <Form {...form}>
@@ -354,10 +369,10 @@ export const UpdateEventOrganizerFrom = ({
                     >
                       {!!field.value &&
                       districts.status === "success" &&
-                      districts.data?.find(
+                      districts.data.find(
                         (d) => d.name.toLowerCase() === field.value
                       ) ? (
-                        districts.data?.find(
+                        districts.data.find(
                           (d) => d.name.toLowerCase() === field.value
                         )?.name
                       ) : (
@@ -446,25 +461,27 @@ export const UpdateEventOrganizerFrom = ({
                       {villages.status === "success" &&
                         villages.data
                           ?.sort((a, b) => a.name.localeCompare(b.name))
-                          .map((v) => (
-                            <CommandItem
-                              value={v.name}
-                              key={v.id}
-                              onSelect={() => {
-                                form.setValue("village", v.name.toLowerCase())
-                              }}
-                            >
-                              <Check
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  v.name === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                              {v.name}
-                            </CommandItem>
-                          ))}
+                          .map((v) => {
+                            return (
+                              <CommandItem
+                                value={v.name}
+                                key={v.id}
+                                onSelect={() => {
+                                  form.setValue("village", v.name.toLowerCase())
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    v.name === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                {v.name}
+                              </CommandItem>
+                            )
+                          })}
                     </CommandGroup>
                   </Command>
                 </PopoverContent>
@@ -499,7 +516,7 @@ export const UpdateEventOrganizerFrom = ({
               Please wait
             </Button>
           ) : (
-            <Button type="submit" size="sm">
+            <Button disabled={disabled} type="submit" size="sm">
               Save changes
             </Button>
           )}
