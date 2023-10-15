@@ -31,15 +31,15 @@ import { ScrollArea } from "~/ui/scroll-area"
 import { ToastAction } from "~/ui/toast"
 import { toast } from "~/ui/use-toast"
 
-type UpdateEventOrganizerFromProps = {
+type UpdateEventOrganizerFormProps = {
   eo: RouterOutputs["eo"]["read"]
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const UpdateEventOrganizerFrom = ({
+export const UpdateEventOrganizerForm = ({
   eo,
   setOpen,
-}: UpdateEventOrganizerFromProps) => {
+}: UpdateEventOrganizerFormProps) => {
   const utils = api.useContext()
 
   const { mutate, isLoading } = api.eo.updateAdminRole.useMutation({
@@ -181,7 +181,7 @@ export const UpdateEventOrganizerFrom = ({
           control={form.control}
           name="name"
           render={({ field }) => (
-            <FormItem className="grid grid-cols-6 items-center gap-x-4">
+            <FormItem className="grid grid-cols-4 items-center gap-x-4">
               <FormLabel className="mt-2 text-right">Name</FormLabel>
               <FormControl>
                 <Input {...field} className="col-span-3 w-[240px] capitalize" />
@@ -194,7 +194,7 @@ export const UpdateEventOrganizerFrom = ({
           control={form.control}
           name="phone"
           render={({ field }) => (
-            <FormItem className="grid grid-cols-6 items-center gap-x-4">
+            <FormItem className="grid grid-cols-4 items-center gap-x-4">
               <FormLabel className="mt-2 text-right">Phone</FormLabel>
               <FormControl>
                 <Input {...field} className="col-span-3 w-[240px] capitalize" />
@@ -207,7 +207,7 @@ export const UpdateEventOrganizerFrom = ({
           control={form.control}
           name="street"
           render={({ field }) => (
-            <FormItem className="grid grid-cols-6 items-center gap-x-4">
+            <FormItem className="grid grid-cols-4 items-center gap-x-4">
               <FormLabel className="mt-2 text-right">Street</FormLabel>
               <FormControl>
                 <Input {...field} className="col-span-3 w-[240px] capitalize" />
@@ -215,14 +215,14 @@ export const UpdateEventOrganizerFrom = ({
             </FormItem>
           )}
         />
-        <CardDescription className="mt-2">Select Address</CardDescription>
+        <CardDescription className="mt-4">Select Address</CardDescription>
         {/* Province */}
         <FormField
           control={form.control}
           name="province"
           render={({ field }) => (
-            <FormItem className="grid grid-cols-6 items-center gap-x-4">
-              <FormLabel>Province</FormLabel>
+            <FormItem className="grid grid-cols-4 items-center gap-x-4">
+              <FormLabel className="ml-auto">Province</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -291,8 +291,8 @@ export const UpdateEventOrganizerFrom = ({
           control={form.control}
           name="regency"
           render={({ field }) => (
-            <FormItem className="grid grid-cols-6 items-center gap-x-4">
-              <FormLabel>Regency</FormLabel>
+            <FormItem className="grid grid-cols-4 items-center gap-x-4">
+              <FormLabel className="ml-auto">Regency</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -360,8 +360,8 @@ export const UpdateEventOrganizerFrom = ({
           control={form.control}
           name="district"
           render={({ field }) => (
-            <FormItem className="grid grid-cols-6 items-center gap-x-4">
-              <FormLabel>District</FormLabel>
+            <FormItem className="grid grid-cols-4 items-center gap-x-4">
+              <FormLabel className="ml-auto">District</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -429,8 +429,8 @@ export const UpdateEventOrganizerFrom = ({
           control={form.control}
           name="village"
           render={({ field }) => (
-            <FormItem className="grid grid-cols-6 items-center gap-x-4">
-              <FormLabel>Village</FormLabel>
+            <FormItem className="grid grid-cols-4 items-center gap-x-4">
+              <FormLabel className="ml-auto">Village</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -499,8 +499,10 @@ export const UpdateEventOrganizerFrom = ({
           control={form.control}
           name="postalCode"
           render={({ field }) => (
-            <FormItem className="grid grid-cols-6 items-center gap-x-4">
-              <FormLabel className="mt-2 text-right">Title</FormLabel>
+            <FormItem className="grid grid-cols-4 items-center gap-x-4">
+              <FormLabel className="ml-auto mt-2 whitespace-nowrap text-right">
+                Postal Code
+              </FormLabel>
               <FormControl>
                 <Input {...field} className="col-span-3 w-[240px] capitalize" />
               </FormControl>

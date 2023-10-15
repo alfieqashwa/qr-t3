@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "~/ui/dialog"
 import type { RouterOutputs } from "~/utils/api"
-import { UpdateEventOrganizerFrom } from "./update-event-organizer-form"
+import { UpdateEventOrganizerForm } from "./update-event-organizer-form"
 
 export function UpdateEventOrganizerDialog({
   eo,
@@ -40,7 +40,7 @@ export function UpdateEventOrganizerDialog({
             you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <UpdateEventOrganizerFrom eo={eo} setOpen={setOpen} />
+        <UpdateEventOrganizerForm eo={eo} setOpen={setOpen} />
       </DialogContent>
     </Dialog>
   )
