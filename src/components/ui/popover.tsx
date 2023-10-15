@@ -8,12 +8,16 @@ import { cn } from "~/src/utils"
 const Popover = PopoverPrimitive.Root
 
 const PopoverTrigger = PopoverPrimitive.Trigger
-
+/**
+ * https://github.com/shadcn-ui/ui/issues/607#issuecomment-1610187963
+ * it fixed the on-scroll issue
+ */
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
 >(({ className, align = "center", sideOffset = 4, ...props }, ref) => (
-  <PopoverPrimitive.Portal>
+  // <PopoverPrimitive.Portal>
+  <>
     <PopoverPrimitive.Content
       ref={ref}
       align={align}
@@ -24,7 +28,8 @@ const PopoverContent = React.forwardRef<
       )}
       {...props}
     />
-  </PopoverPrimitive.Portal>
+  </>
+  // </PopoverPrimitive.Portal>
 ))
 PopoverContent.displayName = PopoverPrimitive.Content.displayName
 

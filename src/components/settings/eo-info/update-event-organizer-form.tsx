@@ -27,6 +27,7 @@ import {
 } from "~/ui/form"
 import { Input } from "~/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "~/ui/popover"
+import { ScrollArea } from "~/ui/scroll-area"
 import { ToastAction } from "~/ui/toast"
 import { toast } from "~/ui/use-toast"
 
@@ -255,26 +256,28 @@ export const UpdateEventOrganizerFrom = ({
                     <CommandInput placeholder="Search Province..." />
                     <CommandEmpty>No Province found.</CommandEmpty>
                     <CommandGroup>
-                      {provinces.status === "success" &&
-                        provinces.data?.map((p) => (
-                          <CommandItem
-                            value={p.name}
-                            key={p.id}
-                            onSelect={() => {
-                              form.setValue("province", p.name.toLowerCase())
-                            }}
-                          >
-                            <Check
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                p.name === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              )}
-                            />
-                            {p.name}
-                          </CommandItem>
-                        ))}
+                      <ScrollArea className="h-48">
+                        {provinces.status === "success" &&
+                          provinces.data?.map((p) => (
+                            <CommandItem
+                              value={p.name}
+                              key={p.id}
+                              onSelect={() => {
+                                form.setValue("province", p.name.toLowerCase())
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  p.name === field.value
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )}
+                              />
+                              {p.name}
+                            </CommandItem>
+                          ))}
+                      </ScrollArea>
                     </CommandGroup>
                   </Command>
                 </PopoverContent>
@@ -323,26 +326,28 @@ export const UpdateEventOrganizerFrom = ({
                     <CommandInput placeholder="Search Regency..." />
                     <CommandEmpty>No Regency found.</CommandEmpty>
                     <CommandGroup>
-                      {regencies.status === "success" &&
-                        regencies.data?.map((r) => (
-                          <CommandItem
-                            value={r.name}
-                            key={r.id}
-                            onSelect={() => {
-                              form.setValue("regency", r.name.toLowerCase())
-                            }}
-                          >
-                            <Check
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                r.name === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              )}
-                            />
-                            {r.name}
-                          </CommandItem>
-                        ))}
+                      <ScrollArea className="h-48">
+                        {regencies.status === "success" &&
+                          regencies.data?.map((r) => (
+                            <CommandItem
+                              value={r.name}
+                              key={r.id}
+                              onSelect={() => {
+                                form.setValue("regency", r.name.toLowerCase())
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  r.name === field.value
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )}
+                              />
+                              {r.name}
+                            </CommandItem>
+                          ))}
+                      </ScrollArea>
                     </CommandGroup>
                   </Command>
                 </PopoverContent>
@@ -390,26 +395,28 @@ export const UpdateEventOrganizerFrom = ({
                     <CommandInput placeholder="Search District..." />
                     <CommandEmpty>No District found.</CommandEmpty>
                     <CommandGroup>
-                      {districts.status === "success" &&
-                        districts.data?.map((d) => (
-                          <CommandItem
-                            value={d.name}
-                            key={d.id}
-                            onSelect={() => {
-                              form.setValue("district", d.name.toLowerCase())
-                            }}
-                          >
-                            <Check
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                d.name === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              )}
-                            />
-                            {d.name}
-                          </CommandItem>
-                        ))}
+                      <ScrollArea className="h-48">
+                        {districts.status === "success" &&
+                          districts.data?.map((d) => (
+                            <CommandItem
+                              value={d.name}
+                              key={d.id}
+                              onSelect={() => {
+                                form.setValue("district", d.name.toLowerCase())
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  d.name === field.value
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )}
+                              />
+                              {d.name}
+                            </CommandItem>
+                          ))}
+                      </ScrollArea>
                     </CommandGroup>
                   </Command>
                 </PopoverContent>
@@ -457,28 +464,30 @@ export const UpdateEventOrganizerFrom = ({
                     <CommandInput placeholder="Search Village..." />
                     <CommandEmpty>No Village found.</CommandEmpty>
                     <CommandGroup>
-                      {villages.status === "success" &&
-                        villages.data?.map((v) => {
-                          return (
-                            <CommandItem
-                              value={v.name}
-                              key={v.id}
-                              onSelect={() => {
-                                form.setValue("village", v.name.toLowerCase())
-                              }}
-                            >
-                              <Check
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  v.name === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                              {v.name}
-                            </CommandItem>
-                          )
-                        })}
+                      <ScrollArea className="h-48">
+                        {villages.status === "success" &&
+                          villages.data?.map((v) => {
+                            return (
+                              <CommandItem
+                                value={v.name}
+                                key={v.id}
+                                onSelect={() => {
+                                  form.setValue("village", v.name.toLowerCase())
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    v.name === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                {v.name}
+                              </CommandItem>
+                            )
+                          })}
+                      </ScrollArea>
                     </CommandGroup>
                   </Command>
                 </PopoverContent>
