@@ -95,7 +95,9 @@ export const UpdateEventOrganizerFrom = ({
     {
       enabled: !!provinceId,
       select: (regencies: Regency[]) =>
-        regencies.filter((r) => r.province_id === provinceId),
+        regencies
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .filter((r) => r.province_id === provinceId),
     }
   )
   const regencyId = regencies.data?.find(
@@ -107,7 +109,9 @@ export const UpdateEventOrganizerFrom = ({
     {
       enabled: !!regencyId,
       select: (districts: District[]) =>
-        districts.filter((d) => d.regency_id === regencyId),
+        districts
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .filter((d) => d.regency_id === regencyId),
     }
   )
   const districtId = districts.data?.find(
@@ -119,15 +123,16 @@ export const UpdateEventOrganizerFrom = ({
     {
       enabled: !!districtId,
       select: (villages: Village[]) =>
-        villages.filter((v) => v.district_id === districtId),
+        villages
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .filter((v) => v.district_id === districtId),
     }
   )
 
   /*
     disabled-button validation!
-    to avoid not-matching between provinceId-regencyId-districtId-villageId records into database
+    to avoid unmatching between regencyId -> villageId records into database
   */
-
   const villageId = villages.data?.find(
     (v) => v.name.toLowerCase() === form.watch("village")
   )?.id as string
@@ -145,7 +150,7 @@ export const UpdateEventOrganizerFrom = ({
     } = values
 
     // mutate
-    console.log({
+    mutate({
       id: eo?.id as string,
       name,
       phone,
@@ -251,27 +256,25 @@ export const UpdateEventOrganizerFrom = ({
                     <CommandEmpty>No Province found.</CommandEmpty>
                     <CommandGroup>
                       {provinces.status === "success" &&
-                        provinces.data
-                          ?.sort((a, b) => a.name.localeCompare(b.name))
-                          .map((p) => (
-                            <CommandItem
-                              value={p.name}
-                              key={p.id}
-                              onSelect={() => {
-                                form.setValue("province", p.name.toLowerCase())
-                              }}
-                            >
-                              <Check
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  p.name === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                              {p.name}
-                            </CommandItem>
-                          ))}
+                        provinces.data?.map((p) => (
+                          <CommandItem
+                            value={p.name}
+                            key={p.id}
+                            onSelect={() => {
+                              form.setValue("province", p.name.toLowerCase())
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                p.name === field.value
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                            {p.name}
+                          </CommandItem>
+                        ))}
                     </CommandGroup>
                   </Command>
                 </PopoverContent>
@@ -321,27 +324,25 @@ export const UpdateEventOrganizerFrom = ({
                     <CommandEmpty>No Regency found.</CommandEmpty>
                     <CommandGroup>
                       {regencies.status === "success" &&
-                        regencies.data
-                          ?.sort((a, b) => a.name.localeCompare(b.name))
-                          .map((r) => (
-                            <CommandItem
-                              value={r.name}
-                              key={r.id}
-                              onSelect={() => {
-                                form.setValue("regency", r.name.toLowerCase())
-                              }}
-                            >
-                              <Check
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  r.name === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                              {r.name}
-                            </CommandItem>
-                          ))}
+                        regencies.data?.map((r) => (
+                          <CommandItem
+                            value={r.name}
+                            key={r.id}
+                            onSelect={() => {
+                              form.setValue("regency", r.name.toLowerCase())
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                r.name === field.value
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                            {r.name}
+                          </CommandItem>
+                        ))}
                     </CommandGroup>
                   </Command>
                 </PopoverContent>
@@ -390,27 +391,25 @@ export const UpdateEventOrganizerFrom = ({
                     <CommandEmpty>No District found.</CommandEmpty>
                     <CommandGroup>
                       {districts.status === "success" &&
-                        districts.data
-                          ?.sort((a, b) => a.name.localeCompare(b.name))
-                          .map((d) => (
-                            <CommandItem
-                              value={d.name}
-                              key={d.id}
-                              onSelect={() => {
-                                form.setValue("district", d.name.toLowerCase())
-                              }}
-                            >
-                              <Check
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  d.name === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                              {d.name}
-                            </CommandItem>
-                          ))}
+                        districts.data?.map((d) => (
+                          <CommandItem
+                            value={d.name}
+                            key={d.id}
+                            onSelect={() => {
+                              form.setValue("district", d.name.toLowerCase())
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                d.name === field.value
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                            {d.name}
+                          </CommandItem>
+                        ))}
                     </CommandGroup>
                   </Command>
                 </PopoverContent>
@@ -459,29 +458,27 @@ export const UpdateEventOrganizerFrom = ({
                     <CommandEmpty>No Village found.</CommandEmpty>
                     <CommandGroup>
                       {villages.status === "success" &&
-                        villages.data
-                          ?.sort((a, b) => a.name.localeCompare(b.name))
-                          .map((v) => {
-                            return (
-                              <CommandItem
-                                value={v.name}
-                                key={v.id}
-                                onSelect={() => {
-                                  form.setValue("village", v.name.toLowerCase())
-                                }}
-                              >
-                                <Check
-                                  className={cn(
-                                    "mr-2 h-4 w-4",
-                                    v.name === field.value
-                                      ? "opacity-100"
-                                      : "opacity-0"
-                                  )}
-                                />
-                                {v.name}
-                              </CommandItem>
-                            )
-                          })}
+                        villages.data?.map((v) => {
+                          return (
+                            <CommandItem
+                              value={v.name}
+                              key={v.id}
+                              onSelect={() => {
+                                form.setValue("village", v.name.toLowerCase())
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  v.name === field.value
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )}
+                              />
+                              {v.name}
+                            </CommandItem>
+                          )
+                        })}
                     </CommandGroup>
                   </Command>
                 </PopoverContent>
