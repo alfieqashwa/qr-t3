@@ -153,7 +153,7 @@ export const CreateTicketOrderForm = (props: Props) => {
                   />
                 </FormControl>
               </div>
-              <FormMessage className="text-center" />
+              <FormMessage className="pl-20" />
             </FormItem>
           )}
         />
@@ -173,7 +173,7 @@ export const CreateTicketOrderForm = (props: Props) => {
                   />
                 </FormControl>
               </div>
-              <FormMessage className="text-center" />
+              <FormMessage className="pl-20" />
             </FormItem>
           )}
         />
@@ -193,7 +193,7 @@ export const CreateTicketOrderForm = (props: Props) => {
                   />
                 </FormControl>
               </div>
-              <FormMessage className="text-center" />
+              <FormMessage className="pl-20" />
             </FormItem>
           )}
         />
@@ -232,7 +232,7 @@ export const CreateTicketOrderForm = (props: Props) => {
                   </SelectContent>
                 </Select>
               </div>
-              <FormMessage className="text-center" />
+              <FormMessage className="pl-20" />
             </FormItem>
           )}
         />
@@ -317,7 +317,7 @@ export const CreateTicketOrderForm = (props: Props) => {
                   </PopoverContent>
                 </Popover>
               </div>
-              <FormMessage className="text-center" />
+              <FormMessage className="pl-20" />
             </FormItem>
           )}
         />
