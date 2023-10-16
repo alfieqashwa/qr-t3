@@ -98,6 +98,7 @@ model Event {
   thumbnail        String?
   date             DateTime
   venue            String
+  nonProfit        Boolean        @map("non-profit")
   eventOrganizer   EventOrganizer @relation(fields: [eventOrganizerId], references: [id], onDelete: Cascade)
   eventOrganizerId String         @map("event_organizer_id")
   // Event m2o -> Ticket
@@ -116,7 +117,7 @@ model Event {
 model Ticket {
   id       String @id @default(cuid())
   category String
-  price    Float
+  price    Float?
   status   Status @default(AVAILABLE)
 
   event   Event?  @relation(fields: [eventId], references: [id], onDelete: Cascade)
