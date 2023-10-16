@@ -1,21 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Check, ChevronsUpDown, Loader2 } from "lucide-react"
+import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import type { z } from "zod"
+import { CommandComboboxHookForm } from "~/components/combobox"
 import type { District, Province, Regency, Village } from "~/src/types/address"
 import { updateEventOrganizerSchema } from "~/src/types/schema"
-import { cn } from "~/src/utils"
 import { api, type RouterOutputs } from "~/src/utils/api"
 import { wait } from "~/src/utils/wait"
 import { Button } from "~/ui/button"
 import { CardDescription } from "~/ui/card"
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "~/ui/command"
 import { DialogFooter } from "~/ui/dialog"
 import {
   Form,
@@ -26,8 +19,6 @@ import {
   FormMessage,
 } from "~/ui/form"
 import { Input } from "~/ui/input"
-import { Popover, PopoverContent, PopoverTrigger } from "~/ui/popover"
-import { ScrollArea } from "~/ui/scroll-area"
 import { ToastAction } from "~/ui/toast"
 import { toast } from "~/ui/use-toast"
 
@@ -223,65 +214,13 @@ export const UpdateEventOrganizerForm = ({
           render={({ field }) => (
             <FormItem className="grid grid-cols-4 items-center gap-x-4">
               <FormLabel className="ml-auto">Province</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      className={cn(
-                        "mt-6 w-[240px] justify-between whitespace-nowrap pl-3 uppercase",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {!!field.value &&
-                      provinces.status === "success" &&
-                      provinces.data?.find(
-                        (p) => p.name.toLowerCase() === field.value
-                      ) ? (
-                        provinces.data?.find(
-                          (p) => p.name.toLowerCase() === field.value
-                        )?.name
-                      ) : (
-                        <span className="capitalize text-muted-foreground">
-                          Select Province...
-                        </span>
-                      )}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent align="end" className="p-0">
-                  <Command>
-                    <CommandInput placeholder="Search Province..." />
-                    <CommandEmpty>No Province found.</CommandEmpty>
-                    <CommandGroup>
-                      <ScrollArea className="h-48">
-                        {provinces.status === "success" &&
-                          provinces.data?.map((p) => (
-                            <CommandItem
-                              value={p.name}
-                              key={p.id}
-                              onSelect={() => {
-                                form.setValue("province", p.name.toLowerCase())
-                              }}
-                            >
-                              <Check
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  p.name === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                              {p.name}
-                            </CommandItem>
-                          ))}
-                      </ScrollArea>
-                    </CommandGroup>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+              <CommandComboboxHookForm
+                name="province"
+                value={field.value}
+                status={provinces.status}
+                datas={provinces.data}
+                form={form}
+              />
               <FormMessage />
             </FormItem>
           )}
@@ -293,65 +232,13 @@ export const UpdateEventOrganizerForm = ({
           render={({ field }) => (
             <FormItem className="grid grid-cols-4 items-center gap-x-4">
               <FormLabel className="ml-auto">Regency</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      className={cn(
-                        "mt-6 w-[240px] justify-between whitespace-nowrap pl-3 uppercase",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {!!field.value &&
-                      regencies.status === "success" &&
-                      regencies.data?.find(
-                        (r) => r.name.toLowerCase() === field.value
-                      ) ? (
-                        regencies.data?.find(
-                          (r) => r.name.toLowerCase() === field.value
-                        )?.name
-                      ) : (
-                        <span className="capitalize text-muted-foreground">
-                          Select Regency...
-                        </span>
-                      )}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent align="end" className="p-0">
-                  <Command>
-                    <CommandInput placeholder="Search Regency..." />
-                    <CommandEmpty>No Regency found.</CommandEmpty>
-                    <CommandGroup>
-                      <ScrollArea className="h-48">
-                        {regencies.status === "success" &&
-                          regencies.data?.map((r) => (
-                            <CommandItem
-                              value={r.name}
-                              key={r.id}
-                              onSelect={() => {
-                                form.setValue("regency", r.name.toLowerCase())
-                              }}
-                            >
-                              <Check
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  r.name === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                              {r.name}
-                            </CommandItem>
-                          ))}
-                      </ScrollArea>
-                    </CommandGroup>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+              <CommandComboboxHookForm
+                name="regency"
+                value={field.value}
+                status={regencies.status}
+                datas={regencies.data}
+                form={form}
+              />
             </FormItem>
           )}
         />
@@ -362,65 +249,13 @@ export const UpdateEventOrganizerForm = ({
           render={({ field }) => (
             <FormItem className="grid grid-cols-4 items-center gap-x-4">
               <FormLabel className="ml-auto">District</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      className={cn(
-                        "mt-6 w-[240px] justify-between whitespace-nowrap pl-3 uppercase",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {!!field.value &&
-                      districts.status === "success" &&
-                      districts.data.find(
-                        (d) => d.name.toLowerCase() === field.value
-                      ) ? (
-                        districts.data.find(
-                          (d) => d.name.toLowerCase() === field.value
-                        )?.name
-                      ) : (
-                        <span className="capitalize text-muted-foreground">
-                          Select District...
-                        </span>
-                      )}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent align="end" className="p-0">
-                  <Command>
-                    <CommandInput placeholder="Search District..." />
-                    <CommandEmpty>No District found.</CommandEmpty>
-                    <CommandGroup>
-                      <ScrollArea className="h-48">
-                        {districts.status === "success" &&
-                          districts.data?.map((d) => (
-                            <CommandItem
-                              value={d.name}
-                              key={d.id}
-                              onSelect={() => {
-                                form.setValue("district", d.name.toLowerCase())
-                              }}
-                            >
-                              <Check
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  d.name === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                              {d.name}
-                            </CommandItem>
-                          ))}
-                      </ScrollArea>
-                    </CommandGroup>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+              <CommandComboboxHookForm
+                name="district"
+                value={field.value}
+                status={districts.status}
+                datas={districts.data}
+                form={form}
+              />
             </FormItem>
           )}
         />
@@ -431,67 +266,13 @@ export const UpdateEventOrganizerForm = ({
           render={({ field }) => (
             <FormItem className="grid grid-cols-4 items-center gap-x-4">
               <FormLabel className="ml-auto">Village</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      className={cn(
-                        "mt-6 w-[240px] justify-between whitespace-nowrap pl-3 uppercase",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {!!field.value &&
-                      villages.status === "success" &&
-                      villages.data?.find(
-                        (v) => v.name.toLowerCase() === field.value
-                      ) ? (
-                        villages.data?.find(
-                          (v) => v.name.toLowerCase() === field.value
-                        )?.name
-                      ) : (
-                        <span className="capitalize text-muted-foreground">
-                          Select Village...
-                        </span>
-                      )}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent align="end" className="p-0">
-                  <Command>
-                    <CommandInput placeholder="Search Village..." />
-                    <CommandEmpty>No Village found.</CommandEmpty>
-                    <CommandGroup>
-                      <ScrollArea className="h-48">
-                        {villages.status === "success" &&
-                          villages.data?.map((v) => {
-                            return (
-                              <CommandItem
-                                value={v.name}
-                                key={v.id}
-                                onSelect={() => {
-                                  form.setValue("village", v.name.toLowerCase())
-                                }}
-                              >
-                                <Check
-                                  className={cn(
-                                    "mr-2 h-4 w-4",
-                                    v.name === field.value
-                                      ? "opacity-100"
-                                      : "opacity-0"
-                                  )}
-                                />
-                                {v.name}
-                              </CommandItem>
-                            )
-                          })}
-                      </ScrollArea>
-                    </CommandGroup>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+              <CommandComboboxHookForm
+                name="village"
+                value={field.value}
+                status={villages.status}
+                datas={villages.data}
+                form={form}
+              />
             </FormItem>
           )}
         />
