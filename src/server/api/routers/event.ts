@@ -72,12 +72,13 @@ export const eventRouter = createTRPCRouter({
   // Mutations - Admin Procedure
   createAdminRole: adminProcedure
     .input(createEventSchema)
-    .mutation(async ({ ctx, input: { title, venue, date } }) => {
+    .mutation(async ({ ctx, input: { title, venue, date, nonProfit } }) => {
       return await ctx.prisma.event.create({
         data: {
           title,
           venue,
           date,
+          nonProfit,
           eventOrganizerId: ctx.session.user.eventOrganizerId as string,
         },
       })

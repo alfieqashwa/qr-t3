@@ -85,7 +85,9 @@ const EventIdPage: NextPage = () => {
                   <span className="ml-auto">{t.category}:</span>
                   <span className="ml-2 text-amber-300">
                     {/* remove decimal numbers using regex instead of set 'minimumFractionDigits' within fn formattedPrice */}
-                    {formattedPrice.format(t.price).replace(/,\d+$/, "")}
+                    {formattedPrice
+                      .format(t.price as number)
+                      .replace(/,\d+$/, "")}
                   </span>
                 </li>
               ))}

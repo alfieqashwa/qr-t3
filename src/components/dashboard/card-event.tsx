@@ -41,13 +41,25 @@ export function CardEvent(props: CardEventProps) {
   const totalPrice = (category: string) => {
     let getTotal: number
     if (category === "") {
-      getTotal = tickets.reduce((total, ticket) => total + ticket.price, 0)
+      getTotal = tickets.reduce((total, ticket) => {
+        if (ticket.price !== null) {
+          return total + ticket.price
+        } else {
+          return total
+        }
+      }, 0)
       return formattedPrice.format(getTotal)
     }
 
     getTotal = tickets
       .filter((t) => t.category === category)
-      .reduce((total, ticket) => total + ticket.price, 0)
+      .reduce((total, ticket) => {
+        if (ticket.price !== null) {
+          return total + ticket.price
+        } else {
+          return total
+        }
+      }, 0)
     return formattedPrice.format(getTotal)
   }
 

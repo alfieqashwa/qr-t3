@@ -57,6 +57,7 @@ export const updateEventSchema = z.object({
       message: "Venue must be at least 5 characters.",
     })
     .max(25),
+  nonProfit: z.boolean(),
   date: z.date({
     required_error: "A date of event is required.",
   }),
@@ -79,7 +80,7 @@ export const generateTicketSchema = z.object({
       invalid_type_error: "Price must be a number",
     })
     .int()
-    .gt(0),
+    .gte(0),
   qty: z
     .number({
       required_error: "Qty is required",

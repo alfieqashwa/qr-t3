@@ -11,6 +11,7 @@ import { cn } from "~/src/utils"
 import { createEventSchema } from "~/types/schema"
 import { Button } from "~/ui/button"
 import { Calendar } from "~/ui/calendar"
+import { Checkbox } from "~/ui/checkbox"
 import {
   Form,
   FormControl,
@@ -75,8 +76,8 @@ export function CreateEventForm(props: Props) {
   }
 
   function onSubmit(values: z.infer<typeof createEventSchema>) {
-    const { title, venue, date } = values
-
+    const { title, venue, nonProfit, date } = values
+    //github.com/shadcn-ui/ui/issues/657#issuecomment-1633006421
     /**
      * Source: https://react-day-picker.js.org/guides/input-fields
      */
@@ -95,6 +96,7 @@ export function CreateEventForm(props: Props) {
     createEvent.mutate({
       title,
       venue,
+      nonProfit,
       date: newSelectedDate,
     })
   }
@@ -125,6 +127,25 @@ export function CreateEventForm(props: Props) {
                 <Input placeholder="venue" {...field} className="capitalize" />
               </FormControl>
               <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* non-ptovit */}
+        <FormField
+          control={form.control}
+          name="nonProfit"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  //? ISSUES -> https://github.com/shadcn-ui/ui/issues/657#issuecomment-1633006421
+                  onCheckedChange={() => field.onChange(!field.value)}
+                />
+              </FormControl>
+              <div className="space-y-1 leading-none">
+                <FormLabel>A Non Profit Event?</FormLabel>
+              </div>
             </FormItem>
           )}
         />
