@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Loader2 } from "lucide-react"
+import { Check, ChevronsUpDown, Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import type { z } from "zod"
 import { createPublicVisitorSchema } from "~/src/types/schema"
@@ -9,6 +9,13 @@ import { formattedPrice } from "~/src/utils/formattedPrice"
 import { wait } from "~/src/utils/wait"
 import { Button } from "~/ui/button"
 import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "~/ui/command"
+import {
   Form,
   FormControl,
   FormField,
@@ -17,6 +24,8 @@ import {
   FormMessage,
 } from "~/ui/form"
 import { Input } from "~/ui/input"
+import { Popover, PopoverContent, PopoverTrigger } from "~/ui/popover"
+import { ScrollArea } from "~/ui/scroll-area"
 import {
   Select,
   SelectContent,
@@ -242,37 +251,71 @@ export const CreateTicketOrderForm = (props: Props) => {
             <FormItem>
               <div className="grid grid-cols-6 items-center gap-x-4">
                 <FormLabel className="text-right">Ticket</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl className="col-span-3 w-[240px] uppercase">
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select an event" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {ticketStatus === "success" &&
-                      tickets.filteredTicketIds
-                        .filter(
-                          (ticket) => ticket.category === selectedCategory
-                        )
-                        .map((ticket) => {
-                          const ticketCategory = `${
-                            ticket.category
-                          }-${ticket.id.slice(-8, ticket.id.length)}`
-                          return (
-                            <SelectItem
-                              key={ticket.id}
-                              value={ticket.id}
-                              className="uppercase"
-                            >
-                              {ticketCategory}
-                            </SelectItem>
-                          )
-                        })}
-                  </SelectContent>
-                </Select>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        className={cn(
+                          "w-[240px] justify-between whitespace-nowrap pl-3 uppercase",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {!!field.value && ticketStatus === "success" ? (
+                          tickets.filteredTicketIds
+                            .find((ticket) => ticket.id === field.value)
+                            ?.id.slice(-8)
+                        ) : (
+                          <span className="capitalize text-muted-foreground">
+                            Select ticket...
+                          </span>
+                        )}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[200px] p-0">
+                    <Command>
+                      <CommandInput placeholder="Search ticket..." />
+                      <CommandEmpty>No ticket found.</CommandEmpty>
+                      <CommandGroup>
+                        <ScrollArea className="h-48">
+                          {ticketStatus === "success" &&
+                            tickets.filteredTicketIds
+                              .filter(
+                                (ticket) => ticket.category === selectedCategory
+                              )
+                              .map((ticket) => {
+                                const ticketCategory = `${
+                                  ticket.category
+                                }-${ticket.id.slice(-8, ticket.id.length)}`
+                                return (
+                                  <CommandItem
+                                    key={ticket.id}
+                                    value={ticket.id}
+                                    className="uppercase"
+                                    onSelect={() => {
+                                      form.setValue("ticketId", ticket.id)
+                                    }}
+                                  >
+                                    <Check
+                                      className={cn(
+                                        "mr-2 h-4 w-4",
+                                        ticket.id === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                    {ticketCategory}
+                                  </CommandItem>
+                                )
+                              })}
+                        </ScrollArea>
+                      </CommandGroup>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
               </div>
               <FormMessage className="text-center" />
             </FormItem>
