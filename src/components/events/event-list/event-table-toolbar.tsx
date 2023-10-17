@@ -1,6 +1,6 @@
 import type { Table } from "@tanstack/react-table"
 import type { LucideIcon } from "lucide-react"
-import { CheckCircle2, MapPin, X } from "lucide-react"
+import { CheckCircle2, DollarSign, MapPin, X } from "lucide-react"
 import { AdminOnly } from "~/components/authed"
 import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-filter"
 import { DataTableViewOptions } from "~/components/table/data-table-view-options"
@@ -27,20 +27,29 @@ export function EventTableToolbar<TData>({
     icon?: LucideIcon
   }
 
-  const { data, status } = api.event.eventData.useQuery()
+  const { data: events, status } = api.event.eventData.useQuery(undefined, {
+    select: (events) => {
+      const all = events
+      const _nonProfits = events.map((event) => event.nonProfit)
+      return {
+        all,
+        nonProfits: [...new Set(_nonProfits)],
+      }
+    },
+  })
 
-  const venues = data?.map((d) => ({
+  const venues = events?.all.map((d) => ({
     value: d.venue,
     label: d.venue,
     icon: MapPin,
   })) as Options[]
 
-  const nonProfits = data?.map((event) => {
-    const isNonProfit = event.nonProfit ? "Non Profit" : "Profit"
+  const nonProfits = events?.nonProfits?.map((isNonProfit) => {
+    const _isNonProfit = isNonProfit ? "Non Profit" : "Profit"
     return {
-      value: event.nonProfit,
-      label: isNonProfit,
-      icon: CheckCircle2,
+      value: isNonProfit,
+      label: _isNonProfit,
+      icon: isNonProfit ? CheckCircle2 : DollarSign,
     }
   }) as unknown as Options[] // boolean --> string
 
