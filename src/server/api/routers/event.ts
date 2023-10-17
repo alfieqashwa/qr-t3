@@ -32,8 +32,11 @@ export const eventRouter = createTRPCRouter({
     }),
 
   // Queries - Protected Procedure
-  count: protectedProcedure.query(
-    async ({ ctx }) => await ctx.prisma.event.count()
+  countProfitEvent: protectedProcedure.query(
+    async ({ ctx }) =>
+      await ctx.prisma.event.count({
+        where: { nonProfit: false },
+      })
   ),
   getAll: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.event.findMany({
@@ -44,7 +47,7 @@ export const eventRouter = createTRPCRouter({
   eventData: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.event.findMany({
       where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
-      select: { title: true, venue: true },
+      select: { title: true, venue: true, nonProfit: true },
     })
   }),
 

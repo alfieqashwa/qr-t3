@@ -1,17 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import type * as z from "zod"
-
 import { format } from "date-fns"
 import { id } from "date-fns/locale"
 import { CalendarIcon, Loader2 } from "lucide-react"
 import { useState } from "react"
 import type { SelectSingleEventHandler } from "react-day-picker"
+import { useForm } from "react-hook-form"
+import type * as z from "zod"
 import { cn } from "~/src/utils"
 import { createEventSchema } from "~/types/schema"
 import { Button } from "~/ui/button"
 import { Calendar } from "~/ui/calendar"
-import { Checkbox } from "~/ui/checkbox"
 import {
   Form,
   FormControl,
@@ -24,6 +22,7 @@ import {
 import { Input } from "~/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "~/ui/popover"
 import { SheetFooter } from "~/ui/sheet"
+import { Switch } from "~/ui/switch"
 import { ToastAction } from "~/ui/toast"
 import { useToast } from "~/ui/use-toast"
 import { api } from "~/utils/api"
@@ -44,7 +43,7 @@ export function CreateEventForm(props: Props) {
         variant: "default",
         description: "Your form has been created.",
       })
-      await utils.event.count.invalidate()
+      await utils.event.countProfitEvent.invalidate()
       await utils.event.getAll.invalidate()
       await utils.event.eventData.invalidate()
       await wait().then(() => props.setOpen(false))
@@ -130,25 +129,6 @@ export function CreateEventForm(props: Props) {
             </FormItem>
           )}
         />
-        {/* non-ptovit */}
-        <FormField
-          control={form.control}
-          name="nonProfit"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-              <div className="space-y-1 leading-none">
-                <FormLabel>A Non Profit Event?</FormLabel>
-              </div>
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  //? ISSUES -> https://github.com/shadcn-ui/ui/issues/657#issuecomment-1633006421
-                  onCheckedChange={() => field.onChange(!field.value)}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
         <FormField
           control={form.control}
           name="date"
@@ -207,6 +187,27 @@ export function CreateEventForm(props: Props) {
                 Your date of event is used to calculate the due date.
               </FormDescription>
               <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* non-provit */}
+        <FormField
+          control={form.control}
+          name="nonProfit"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
+              <div className="space-y-0.5">
+                <FormLabel>Non-Provit?</FormLabel>
+                <FormDescription>
+                  Non profit event e.g: wedding, party, etc
+                </FormDescription>
+              </div>
+              <FormControl>
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
             </FormItem>
           )}
         />

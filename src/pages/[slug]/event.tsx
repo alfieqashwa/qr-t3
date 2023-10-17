@@ -12,7 +12,8 @@ import { api } from "~/utils/api"
 
 const title = "Events" as const
 const EventPage: NextPage = (): JSX.Element => {
-  const { data: count, isLoading } = api.event.count.useQuery()
+  const { data: countProfitEvents, isLoading } =
+    api.event.countProfitEvent.useQuery()
 
   return (
     <Layout title={title}>
@@ -25,7 +26,7 @@ const EventPage: NextPage = (): JSX.Element => {
           <TabsTrigger
             className="text-xs lg:text-sm"
             value="ticket-list"
-            disabled={count === 0}
+            disabled={countProfitEvents === 0}
           >
             Ticket
           </TabsTrigger>

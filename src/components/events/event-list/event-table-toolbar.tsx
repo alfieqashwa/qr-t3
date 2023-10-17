@@ -1,6 +1,6 @@
 import type { Table } from "@tanstack/react-table"
 import type { LucideIcon } from "lucide-react"
-import { MapPin, X } from "lucide-react"
+import { CheckCircle2, MapPin, X } from "lucide-react"
 import { AdminOnly } from "~/components/authed"
 import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-filter"
 import { DataTableViewOptions } from "~/components/table/data-table-view-options"
@@ -28,11 +28,21 @@ export function EventTableToolbar<TData>({
   }
 
   const { data, status } = api.event.eventData.useQuery()
+
   const venues = data?.map((d) => ({
     value: d.venue,
     label: d.venue,
     icon: MapPin,
   })) as Options[]
+
+  const nonProfits = data?.map((event) => {
+    const isNonProfit = event.nonProfit ? "Non Profit" : "Profit"
+    return {
+      value: event.nonProfit,
+      label: isNonProfit,
+      icon: CheckCircle2,
+    }
+  }) as unknown as Options[] // boolean --> string
 
   return (
     <div className="flex items-start justify-between">
@@ -50,6 +60,13 @@ export function EventTableToolbar<TData>({
             column={table.getColumn("venue")}
             title="Venue"
             options={venues}
+          />
+        )}
+        {status === "success" && table.getColumn("nonProfit") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("nonProfit")}
+            title="Non Profit"
+            options={nonProfits}
           />
         )}
         {isFiltered && (

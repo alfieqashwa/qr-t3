@@ -47,7 +47,10 @@ export function GenerateTicket(): JSX.Element {
 
   const utils = api.useContext()
 
-  const { data: events } = api.event.getAll.useQuery()
+  const { data: events } = api.event.getAll.useQuery(undefined, {
+    // only renders the profit events
+    select: (data) => data.filter((d) => !d.nonProfit),
+  })
 
   const { mutate, isLoading, error } =
     api.ticket.generateEditorRole.useMutation({

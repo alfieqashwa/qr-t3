@@ -1,8 +1,9 @@
 import type { ColumnDef } from "@tanstack/react-table"
 import { format, formatDistance, subDays } from "date-fns"
 import { id } from "date-fns/locale"
-import { MapPin, Star } from "lucide-react"
+import { CheckCircle2, MapPin, Star } from "lucide-react"
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header"
+import { cn } from "~/src/utils"
 import { Badge } from "~/ui/badge"
 import { Checkbox } from "~/ui/checkbox"
 import type { RouterOutputs } from "~/utils/api"
@@ -77,6 +78,32 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
         </Badge>
       </div>
     ),
+  },
+  {
+    accessorKey: "nonProfit",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Non-Profit?" />
+    ),
+    cell: ({ row }) => {
+      const nonProfit = row.getValue("nonProfit")
+      console.log(`non-profit::: `, nonProfit)
+      return (
+        <div className="flex items-center">
+          <CheckCircle2
+            className={cn(
+              "mr-2 h-5 w-5",
+              nonProfit ? "text-amber-300" : "text-muted-foreground"
+            )}
+          />
+          <span className="whitespace-nowrap capitalize">
+            {nonProfit ? "Non Profit" : "Profit"}
+          </span>
+        </div>
+      )
+    },
+    filterFn: (row, id, value: string) => {
+      return value.includes(row.getValue(id))
+    },
   },
   {
     accessorKey: "createdAt",

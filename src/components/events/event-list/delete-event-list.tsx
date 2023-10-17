@@ -42,7 +42,7 @@ export function DeleteEventList<TData>({ table }: DeleteEventListProps<TData>) {
         variant: "default",
         description: "All selected events have been deleted.",
       })
-      await utils.event.count.invalidate()
+      await utils.event.countProfitEvent.invalidate()
       await utils.event.getAll.invalidate()
       table.resetRowSelection() // reset row selection after succeed
       /* auto-closed after succeed submit the dialog form */
