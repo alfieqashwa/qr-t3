@@ -6,7 +6,6 @@ import {
   createTRPCRouter,
   dewaProcedure,
   protectedProcedure,
-  publicProcedure,
 } from "../trpc"
 
 export const userRouter = createTRPCRouter({
@@ -45,6 +44,16 @@ export const userRouter = createTRPCRouter({
   }),
 
   // Mutations - Protected Procedure
+  updateRoleToAdmin: protectedProcedure
+    .input(z.object({ role: z.nativeEnum(Role) }))
+    .mutation(async ({ ctx, input: { role } }) => {
+      return await ctx.prisma.user.update({
+        where: { id: ctx.session.user.id },
+        data: {
+          role,
+        },
+      })
+    }),
   removeImageUpdate: protectedProcedure.mutation(async ({ ctx }) => {
     return await ctx.prisma.user.update({
       where: { id: ctx.session.user.id },
@@ -78,16 +87,6 @@ export const userRouter = createTRPCRouter({
           email,
           role,
           eventOrganizerId: ctx.session.user.eventOrganizerId,
-        },
-      })
-    }),
-  updateRoleAdminRole: adminProcedure
-    .input(z.object({ role: z.nativeEnum(Role) }))
-    .mutation(async ({ ctx, input: { role } }) => {
-      return await ctx.prisma.user.update({
-        where: { id: ctx.session.user.id },
-        data: {
-          role,
         },
       })
     }),

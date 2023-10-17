@@ -27,11 +27,8 @@ export function DeleteEventOrganizerDialog({ id }: Props) {
 
   const [open, setOpen] = useState(false)
 
-  const updateRoleBackAsUser = api.user.updateRoleAdminRole.useMutation()
   const { mutate, isLoading } = api.eo.deleteAdminRole.useMutation({
     async onSuccess() {
-      // update user role back as USER
-      await updateRoleBackAsUser.mutateAsync({ role: "USER" })
       toast({
         title: "Succeed!",
         variant: "default",
@@ -40,7 +37,7 @@ export function DeleteEventOrganizerDialog({ id }: Props) {
       await utils.eo.read.invalidate()
       /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(false))
-      await router.replace("/create-eo")
+      await router.push("/")
     },
     onError() {
       toast({

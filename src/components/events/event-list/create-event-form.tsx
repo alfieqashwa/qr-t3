@@ -136,6 +136,9 @@ export function CreateEventForm(props: Props) {
           name="nonProfit"
           render={({ field }) => (
             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+              <div className="space-y-1 leading-none">
+                <FormLabel>A Non Profit Event?</FormLabel>
+              </div>
               <FormControl>
                 <Checkbox
                   checked={field.value}
@@ -143,9 +146,6 @@ export function CreateEventForm(props: Props) {
                   onCheckedChange={() => field.onChange(!field.value)}
                 />
               </FormControl>
-              <div className="space-y-1 leading-none">
-                <FormLabel>A Non Profit Event?</FormLabel>
-              </div>
             </FormItem>
           )}
         />

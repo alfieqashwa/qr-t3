@@ -70,8 +70,8 @@ export function EventTableToolbar<TData>({
           ) : (
             <DeleteEventList table={table} />
           )}
-          <DataTableViewOptions table={table} />
         </AdminOnly>
+        <DataTableViewOptions table={table} />
       </div>
     </div>
   )

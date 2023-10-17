@@ -11,8 +11,8 @@ export function AdminOnly({ children }: Props): JSX.Element | null {
 
   if (session.status !== "authenticated") return null
   if (
-    session.data.user.role === Role.DEWA ||
-    session.data.user.role === Role.ADMIN
+    session.data?.user.role === Role.DEWA ||
+    session.data?.user.role === Role.ADMIN
   ) {
     return <>{children}</>
   }
