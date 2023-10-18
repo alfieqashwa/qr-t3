@@ -19,7 +19,7 @@ Add more libs.
 - [x] Create Drawer
 - [x] Create Event Organizer Form (Admin Access):
   - [x] Redirect pages into `/create-eo` if user doesn't have eoID
-  - [x] Redirect nto `/dashboard` page if user has eoID
+  - [x] Redirect to `/dashboard` page if user has eoID
   - [x] Delete new user from DB if signed-out before fill createEO form
   - [x] Error handling
   - [x] Success handling
@@ -55,12 +55,8 @@ Add more libs.
   - [x] Settings
 - [x] Store Addresses [PROVINCES, REGENCIES, DISTRICTS, VILLAGES] into database using prisma db seed
 - [x] Image Uploader
-
   - [x] Upload and remove user avatar
-  - [ ] Add tooltip whenever user hovering the user avatar
-
 - [x] Setup Event Page
-
   - [x] Configure Event CRUD
     - [x] Setup Table
     - [x] Setup Search
@@ -78,18 +74,14 @@ Add more libs.
   - [x] Dark / Light mode
     - [x] Setup toggle dark mode
     - [x] Setup colors (light && dark)
-
 - [x] Setup Visitor Page (name, phone, isCheckIn, checkInDate, event, tickets)
-
   - [x] Configure Visitor CRUD
   - [x] Setup Table
   - [x] Setup Search
   - [x] Setup Filter
   - [x] Setup Pagination
   - [x] Delete Selected // All
-
 - [x] Setup QRCode
-
   - [x] Create QRCode Generator
   - [x] Create QRCode Svg & Canvas option list
   - [x] Download Button for QRCode Svg & Canvas
@@ -97,31 +89,21 @@ Add more libs.
   - [x] Create Dynamic Page based on QRCode Source Link
   - [x] Operator Access Level Configuration
   - [x] QRCode Scanner Configuration
-
 - [x] Deploy on Production (Testing)
-
   - [x] Deploy DB on Planet Scale (main & dev)
   - [x] Deploy Web on Vercel
-
 - [x] Testing QRCode
-
   - [x] Add Check-[In/Out] Toggle Button
   - [x] Testing Operator Access Level
   - [x] Testing Scanning QRCode on mobile-view
   - [x] Configure Check-In Date
   - [x] Configure Check-Out Date
   - [x] Setup Event Start & End Time
-  - [ ] Config Clock Countdown
-
-- [ ] Setup Dashboard Page
-
-  - [ ] Setup Charts
+  - [x] Config Clock Countdown
+- [x] Setup Dashboard Page
   - [x] Setup Event Organizer Card
   - [x] Setup Omzet Filter
-
 - [x] Setup SuperAdmin Page
-
-  - [ ] Setup Charts
   - [x] Setup User Table
   - [x] Setup User Search
   - [x] Setup Filter
@@ -129,27 +111,28 @@ Add more libs.
   - [x] Copy User ID
   - [x] Copy Event Organizer ID
   - [x] Setup Mutation Form:
-
     - [x] Delete User
     - [x] Delete Event Organizer
     - [x] Delete All Event Organizers
-
 - [x] Setup DB on Planet Scale
-
   - [x] Setup DEV and MAIN DB
-
 - [x] Deploy on Vercel
 - [x] Configure Vercel Analytics
 - [x] OpenGraph.dev meta for index page and dynamic home page
-
-## Upgrade Version
-
 - [x] Setup dynamic Public Page for each Event Organizer
-- [ ] Create Home Website
+- [x] Create Home Website
 - [x] Visitor / User Configuration
   - [x] Setup dynamic Public event Page based on EventID (info and image)
   - [x] Create Public Form so anyone can order the ticket
-  - [ ] Online Payment Transaction (QRIS)
+
+## Upgrade Version
+
+- [x] Split events to provit & non-provit
+- [ ] Create Login Page
+- [ ] Create Index Page
+- [ ] Add tooltip whenever user hovering the user avatar
+- [ ] Setup Charts
+- [ ] Online Payment Transaction (QRIS)
 
 ## Future Planning for DayDreamer
 
