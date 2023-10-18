@@ -20,26 +20,34 @@ import { SelectCategory } from "./select-category"
 import { SelectEvent } from "./select-event"
 
 export function GenerateSeat(): JSX.Element {
-  const tickets = api.ticket.getAll.useQuery({ isProfit: false })
+  const seats = api.ticket.getAll.useQuery(
+    { isProfit: false },
+    {
+      select: (seats) => {
+        const categories = [...new Set(seats.map((seat) => seat.category))]
+        return {
+          all: seats,
+          categories,
+        }
+      },
+    }
+  )
 
   const [open, setOpen] = useState(false)
   const [categoryInput, setCategoryInput] = useState<string>("")
   const [disabled, setDisabled] = useState(false)
 
-  // remove duplicates array
-  const categories = [...new Set(tickets.data?.map((t) => t.category))]
-
   useEffect(() => {
-    if (tickets.status !== "success") return
+    if (seats.status !== "success") return
     if (
       categoryInput.length > 0 || // whenever user has not input any
-      tickets.data.length === 0 // if there's no any tickets has been created yet
+      seats.data.all.length === 0 // if there's no any tickets has been created yet
     ) {
       setDisabled(true)
     } else {
       setDisabled(false)
     }
-  }, [categoryInput.length, tickets.data?.length, tickets.status])
+  }, [categoryInput.length, seats.data?.all.length, seats.status])
 
   const utils = api.useContext()
 
@@ -83,7 +91,7 @@ export function GenerateSeat(): JSX.Element {
     const eventId = formData.get("eventId") as string
 
     // if user input the existed category, then show the error toast with clear messages.
-    const alreadyExists = categories?.includes(categoryInput)
+    const alreadyExists = seats.data?.categories?.includes(categoryInput)
     if (alreadyExists) {
       // and then set the input value back to default
       setCategoryInput("")
@@ -151,7 +159,10 @@ export function GenerateSeat(): JSX.Element {
                 {error?.data?.zodError?.fieldErrors.category}
               </span>
             )}
-            <SelectCategory categories={categories} disabled={disabled} />
+            <SelectCategory
+              categories={seats.data?.categories as string[]}
+              disabled={disabled}
+            />
             {/* Qty */}
             <div className="flex flex-col space-y-1.5 pt-4">
               <Label htmlFor="title">Qty</Label>

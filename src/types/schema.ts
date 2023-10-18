@@ -96,9 +96,6 @@ export const generateTicketSchema = z.object({
     .cuid(),
 })
 
-// SEATS
-export const generateSeatSchema = generateTicketSchema.omit({ price: true })
-
 // VISITORS
 const visitorSchema = z.object({
   eventOrganizerId: z.string().cuid(),

@@ -1,6 +1,6 @@
 import { Status } from "@prisma/client"
 import { z } from "zod"
-import { generateSeatSchema, generateTicketSchema } from "~/src/types/schema"
+import { generateTicketSchema } from "~/src/types/schema"
 import {
   createTRPCRouter,
   editorProcedure,
@@ -93,7 +93,7 @@ export const ticketRouter = createTRPCRouter({
       })
     }),
   generateSeatEditorRole: editorProcedure
-    .input(generateSeatSchema)
+    .input(generateTicketSchema.omit({ price: true }))
     .mutation(async ({ ctx, input: { qty, category, eventId } }) => {
       const eventOrganizerId = ctx.session.user.eventOrganizerId as string
       function generateTickets() {
