@@ -1,7 +1,7 @@
 import type { GetServerSideProps } from "next"
 import { type NextPage } from "next"
 import { getServerSession } from "next-auth/next"
-import { EventList, TicketList } from "~/components/events"
+import { EventList, SeatList, TicketList } from "~/components/events"
 import { HeaderTitle } from "~/components/header-title"
 import { Layout } from "~/components/layout"
 import { LoadingSpinner } from "~/components/loading"
@@ -11,32 +11,45 @@ import { prisma } from "~/server/db"
 import { api } from "~/utils/api"
 
 const title = "Events" as const
-const EventPage: NextPage = (): JSX.Element => {
-  const { data: countProfitEvents, isLoading } =
-    api.event.countProfitEvent.useQuery()
+const EventPage: NextPage = () => {
+  const countProfitEvents = api.event.countProfitEvent.useQuery()
+  const countNonProfitEvents = api.event.countNonProfitEvent.useQuery()
 
   return (
     <Layout title={title}>
       <HeaderTitle title={title} />
       <Tabs defaultValue="event-list" className="mt-4">
         <TabsList className="mb-3">
-          <TabsTrigger className="text-xs lg:text-sm" value="event-list">
-            Event
-          </TabsTrigger>
+          <TabsTrigger value="event-list">Event</TabsTrigger>
           <TabsTrigger
-            className="text-xs lg:text-sm"
             value="ticket-list"
-            disabled={countProfitEvents === 0}
+            disabled={countProfitEvents.data === 0}
           >
             Ticket
           </TabsTrigger>
+          <TabsTrigger
+            value="seat-list"
+            disabled={countNonProfitEvents.data === 0}
+          >
+            Seat
+          </TabsTrigger>
         </TabsList>
-        {isLoading && <LoadingSpinner />}
         <TabsContent value="event-list">
           <EventList />
         </TabsContent>
         <TabsContent value="ticket-list">
-          <TicketList />
+          {countProfitEvents.status === "loading" ? (
+            <LoadingSpinner />
+          ) : (
+            <TicketList />
+          )}
+        </TabsContent>
+        <TabsContent value="seat-list">
+          {countNonProfitEvents.status === "loading" ? (
+            <LoadingSpinner />
+          ) : (
+            <SeatList />
+          )}
         </TabsContent>
       </Tabs>
     </Layout>

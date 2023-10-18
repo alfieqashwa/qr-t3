@@ -4,7 +4,7 @@ import { columnsTicket } from "./columnsTicket"
 import { TicketTable } from "./ticket-table"
 
 export const TicketList = (): JSX.Element => {
-  const tickets = api.ticket.getAll.useQuery()
+  const tickets = api.ticket.getAllProfit.useQuery()
   if (tickets.status !== "success") return <LoadingSpinner />
   return (
     <div className="py-4">
