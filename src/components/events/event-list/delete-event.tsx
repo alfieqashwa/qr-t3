@@ -34,6 +34,7 @@ export function DeleteEvent({ id, title, open, setOpen }: Props) {
         description: "Your Team has been deleted.",
       })
       await utils.event.countProfitEvent.invalidate()
+      await utils.event.countNonProfitEvent.invalidate()
       await utils.event.getAll.invalidate()
       /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(!open))
