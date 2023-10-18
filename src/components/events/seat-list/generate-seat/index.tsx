@@ -21,7 +21,7 @@ import { SelectCategory } from "./select-category"
 import { SelectEvent } from "./select-event"
 
 export function GenerateSeat(): JSX.Element {
-  const tickets = api.ticket.getAll.useQuery()
+  const tickets = api.ticket.getAllNonProfit.useQuery()
 
   const [open, setOpen] = useState(false)
   const [inputPrice, setInputPrice] = useState("")
@@ -60,7 +60,7 @@ export function GenerateSeat(): JSX.Element {
           variant: "default",
           description: "Your ticket(s) has been created.",
         })
-        await utils.ticket.getAll.invalidate()
+        await utils.ticket.getAllNonProfit.invalidate()
         await utils.ticket.categories.invalidate()
         setCategoryInput("")
         setInputPrice("")

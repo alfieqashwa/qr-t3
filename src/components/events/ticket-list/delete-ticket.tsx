@@ -35,7 +35,7 @@ export function DeleteTicket({ id, status, open, setOpen }: Props) {
         variant: "default",
         description: "Your ticket has been deleted.",
       })
-      await utils.ticket.getAll.invalidate()
+      await utils.ticket.getAllProfit.invalidate()
       /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(!open))
     },

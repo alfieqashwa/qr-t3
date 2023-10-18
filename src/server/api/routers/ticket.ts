@@ -32,19 +32,6 @@ export const ticketRouter = createTRPCRouter({
       select: { category: true },
     })
   }),
-  getAll: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.ticket.findMany({
-      where: {
-        eventOrganizerId: ctx.session.user.eventOrganizerId as string,
-      },
-      include: {
-        event: {
-          select: { title: true },
-        },
-      },
-      orderBy: { event: { date: "asc" } },
-    })
-  }),
   getAllProfit: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.ticket.findMany({
       where: {

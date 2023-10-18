@@ -28,7 +28,9 @@ export function DeleteSeatList<TData>({ table }: DeleteEventListProps<TData>) {
 
   const selectedRows = table
     .getFilteredSelectedRowModel()
-    .rows.map((row) => row.original) as RouterOutputs["ticket"]["getAll"]
+    .rows.map(
+      (row) => row.original
+    ) as RouterOutputs["ticket"]["getAllNonProfit"]
 
   const ids = selectedRows.map((row) => ({
     id: row.id,
@@ -48,7 +50,7 @@ export function DeleteSeatList<TData>({ table }: DeleteEventListProps<TData>) {
         description: "All selected tickets have been deleted.",
       })
       await utils.ticket.count.invalidate()
-      await utils.ticket.getAll.invalidate()
+      await utils.ticket.getAllNonProfit.invalidate()
       table.resetRowSelection() // reset row selection after succeed
       /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(false))
