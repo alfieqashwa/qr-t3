@@ -8,9 +8,7 @@ import type { RouterOutputs } from "~/utils/api"
 import { statuses } from "./data"
 import { RowSeatActions } from "./row-seat-actions"
 
-export const columnsSeat: ColumnDef<
-  RouterOutputs["ticket"]["getAllNonProfit"][0]
->[] = [
+export const columnsSeat: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
   {
     id: "select",
     header: ({ table }) => (

@@ -49,21 +49,26 @@ export function TicketTableToolbar<TData>({
     },
   })
 
-  const categories = api.ticket.categories.useQuery(undefined, {
-    select: (cats) => {
-      const options: Options[] = [...new Set(cats.map((c) => c.category))].map(
-        (category) => ({
+  const profitCategories = api.ticket.categories.useQuery(
+    {
+      isProfit: true,
+    },
+    {
+      select: (cats) => {
+        const options: Options[] = [
+          ...new Set(cats.map((c) => c.category)),
+        ].map((category) => ({
           value: category,
           label: category,
           icon: Tags,
-        })
-      )
+        }))
 
-      return {
-        options,
-      }
-    },
-  })
+        return {
+          options,
+        }
+      },
+    }
+  )
 
   return (
     <div className="flex items-start justify-between">
@@ -90,13 +95,14 @@ export function TicketTableToolbar<TData>({
             options={statuses}
           />
         )}
-        {categories.status === "success" && table.getColumn("category") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("category")}
-            title="Category"
-            options={categories.data.options}
-          />
-        )}
+        {profitCategories.status === "success" &&
+          table.getColumn("category") && (
+            <DataTableFacetedFilter
+              column={table.getColumn("category")}
+              title="Category"
+              options={profitCategories.data.options}
+            />
+          )}
         {isFiltered && (
           <Button
             variant="ghost"

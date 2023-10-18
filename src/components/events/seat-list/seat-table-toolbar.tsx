@@ -49,21 +49,24 @@ export function SeatTableToolbar<TData>({
     },
   })
 
-  const categories = api.ticket.categories.useQuery(undefined, {
-    select: (cats) => {
-      const options: Options[] = [...new Set(cats.map((c) => c.category))].map(
-        (category) => ({
+  const nonProfitCategories = api.ticket.categories.useQuery(
+    { isProfit: false },
+    {
+      select: (cats) => {
+        const options: Options[] = [
+          ...new Set(cats.map((c) => c.category)),
+        ].map((category) => ({
           value: category,
           label: category,
           icon: Tags,
-        })
-      )
+        }))
 
-      return {
-        options,
-      }
-    },
-  })
+        return {
+          options,
+        }
+      },
+    }
+  )
 
   return (
     <div className="flex items-start justify-between">
@@ -90,13 +93,14 @@ export function SeatTableToolbar<TData>({
             options={statuses}
           />
         )}
-        {categories.status === "success" && table.getColumn("category") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("category")}
-            title="Category"
-            options={categories.data.options}
-          />
-        )}
+        {nonProfitCategories.status === "success" &&
+          table.getColumn("category") && (
+            <DataTableFacetedFilter
+              column={table.getColumn("category")}
+              title="Category"
+              options={nonProfitCategories.data.options}
+            />
+          )}
         {isFiltered && (
           <Button
             variant="ghost"

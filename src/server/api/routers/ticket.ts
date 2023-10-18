@@ -1,6 +1,6 @@
 import { Status } from "@prisma/client"
 import { z } from "zod"
-import { generateTicketSchema } from "~/src/types/schema"
+import { generateSeatSchema, generateTicketSchema } from "~/src/types/schema"
 import {
   createTRPCRouter,
   editorProcedure,
@@ -26,40 +26,32 @@ export const ticketRouter = createTRPCRouter({
   count: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.ticket.count()
   }),
-  categories: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.ticket.findMany({
-      where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
-      select: { category: true },
-    })
-  }),
-  getAllProfit: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.ticket.findMany({
-      where: {
-        eventOrganizerId: ctx.session.user.eventOrganizerId as string,
-        event: { profit: true },
-      },
-      include: {
-        event: {
-          select: { title: true },
+  categories: protectedProcedure
+    .input(z.object({ isProfit: z.boolean() }))
+    .query(async ({ ctx, input: { isProfit } }) => {
+      return await ctx.prisma.ticket.findMany({
+        where: {
+          eventOrganizerId: ctx.session.user.eventOrganizerId as string,
+          event: { profit: isProfit },
         },
-      },
-      orderBy: { event: { date: "asc" } },
-    })
-  }),
-  getAllNonProfit: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.ticket.findMany({
-      where: {
-        eventOrganizerId: ctx.session.user.eventOrganizerId as string,
-        event: { profit: false },
-      },
-      include: {
-        event: {
-          select: { title: true },
+      })
+    }),
+  getAll: protectedProcedure
+    .input(z.object({ isProfit: z.boolean() }))
+    .query(async ({ ctx, input: { isProfit } }) => {
+      return await ctx.prisma.ticket.findMany({
+        where: {
+          eventOrganizerId: ctx.session.user.eventOrganizerId as string,
+          event: { profit: isProfit },
         },
-      },
-      orderBy: { event: { date: "asc" } },
-    })
-  }),
+        include: {
+          event: {
+            select: { title: true },
+          },
+        },
+        orderBy: { event: { date: "asc" } },
+      })
+    }),
   getAllByEventId: protectedProcedure
     .input(z.object({ eventId: z.string().cuid() }))
     .query(async ({ ctx, input: { eventId } }) => {
@@ -83,13 +75,29 @@ export const ticketRouter = createTRPCRouter({
     }),
 
   // Mutations - Editor Procedure
-  generateEditorRole: editorProcedure
+  generateTicketEditorRole: editorProcedure
     .input(generateTicketSchema)
     .mutation(async ({ ctx, input: { qty, price, category, eventId } }) => {
       const eventOrganizerId = ctx.session.user.eventOrganizerId as string
       function generateTickets() {
         return Array.from({ length: qty }, () => ({
           price,
+          category,
+          eventId,
+          eventOrganizerId,
+        }))
+      }
+      const generatedTickets = generateTickets()
+      return await ctx.prisma.ticket.createMany({
+        data: generatedTickets,
+      })
+    }),
+  generateSeatEditorRole: editorProcedure
+    .input(generateSeatSchema)
+    .mutation(async ({ ctx, input: { qty, category, eventId } }) => {
+      const eventOrganizerId = ctx.session.user.eventOrganizerId as string
+      function generateTickets() {
+        return Array.from({ length: qty }, () => ({
           category,
           eventId,
           eventOrganizerId,

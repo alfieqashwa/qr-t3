@@ -15,23 +15,19 @@ import {
 import { ToastAction } from "~/ui/toast"
 import { toast } from "~/ui/use-toast"
 import { api } from "~/utils/api"
-import { formattedInputPriceValue } from "~/utils/formattedPrice"
 import { wait } from "~/utils/wait"
 import { SelectCategory } from "./select-category"
 import { SelectEvent } from "./select-event"
 
 export function GenerateSeat(): JSX.Element {
-  const tickets = api.ticket.getAllNonProfit.useQuery()
+  const tickets = api.ticket.getAll.useQuery({ isProfit: false })
 
   const [open, setOpen] = useState(false)
-  const [inputPrice, setInputPrice] = useState("")
   const [categoryInput, setCategoryInput] = useState<string>("")
   const [disabled, setDisabled] = useState(false)
 
   // remove duplicates array
-  const _categories = tickets.data?.map((t) => t.category)
-  const categories = [...new Set(_categories)]
-  // console.log({ categories });
+  const categories = [...new Set(tickets.data?.map((t) => t.category))]
 
   useEffect(() => {
     if (tickets.status !== "success") return
@@ -48,22 +44,21 @@ export function GenerateSeat(): JSX.Element {
   const utils = api.useContext()
 
   const { data: events } = api.event.getAll.useQuery(undefined, {
-    // only renders the profit events
-    select: (data) => data.filter((d) => !!d.profit),
+    // only renders the non-profit events
+    select: (data) => data.filter((d) => !d.profit),
   })
 
   const { mutate, isLoading, error } =
-    api.ticket.generateEditorRole.useMutation({
+    api.ticket.generateSeatEditorRole.useMutation({
       async onSuccess() {
         toast({
           title: "Succeed!",
           variant: "default",
-          description: "Your ticket(s) has been created.",
+          description: "Your seat(s) has been created.",
         })
-        await utils.ticket.getAllNonProfit.invalidate()
+        await utils.ticket.getAll.invalidate()
         await utils.ticket.categories.invalidate()
         setCategoryInput("")
-        setInputPrice("")
         await wait().then(() => setOpen(false))
       },
 
@@ -107,32 +102,10 @@ export function GenerateSeat(): JSX.Element {
     } else {
       category = categorySelected
     }
-    // convert price -> float
-    const price = parseFloat(inputPrice.toString().replace(/,/g, ""))
-    const hasNotEqualPrice = tickets.data?.some(
-      (t) =>
-        t.eventId === eventId && t.category === category && t.price !== price
-    )
-
-    // Validate an error whenever the same event and category has different price from the existing one.
-    if (hasNotEqualPrice) {
-      setCategoryInput("")
-      //  show the error toast with clear message!
-      return toast({
-        variant: "destructive",
-        title: "Your input different price with the existing price.",
-        description:
-          "Your input different price with the existing price. Don't do that! Please set the price consistently.",
-        action: (
-          <ToastAction altText="Try again">Change the Price!</ToastAction>
-        ),
-      })
-    }
 
     mutate({
       qty: +qty,
       category,
-      price,
       eventId,
     })
   }
@@ -179,27 +152,6 @@ export function GenerateSeat(): JSX.Element {
               </span>
             )}
             <SelectCategory categories={categories} disabled={disabled} />
-            {/* Price */}
-            <div className="flex flex-col space-y-1.5 pt-4">
-              <Label htmlFor="price">Price</Label>
-              <Input
-                id="price"
-                name="price"
-                type="text"
-                className="capitalize"
-                placeholder="Sale price..."
-                value={formattedInputPriceValue(inputPrice)}
-                // onChange={(e) => setPrice(e.target.value.replace(/\D/, ""))}
-                onChange={(e) =>
-                  setInputPrice(e.target.value.replace(/\D/g, ""))
-                }
-              />
-              {error?.data?.zodError?.fieldErrors.price && (
-                <span className="text-xs text-destructive">
-                  {error?.data?.zodError?.fieldErrors.price}
-                </span>
-              )}
-            </div>
             {/* Qty */}
             <div className="flex flex-col space-y-1.5 pt-4">
               <Label htmlFor="title">Qty</Label>

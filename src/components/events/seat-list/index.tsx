@@ -4,7 +4,9 @@ import { columnsSeat } from "./columnsSeat"
 import { SeatTable } from "./seat-table"
 
 export const SeatList = (): JSX.Element => {
-  const seats = api.ticket.getAllNonProfit.useQuery()
+  const seats = api.ticket.getAll.useQuery({
+    isProfit: false,
+  })
 
   if (seats.status !== "success") return <LoadingSpinner />
 

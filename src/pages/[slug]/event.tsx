@@ -12,8 +12,8 @@ import { api } from "~/utils/api"
 
 const title = "Events" as const
 const EventPage: NextPage = () => {
-  const countProfitEvents = api.event.countProfitEvent.useQuery()
-  const countNonProfitEvents = api.event.countNonProfitEvent.useQuery()
+  const countProfitEvents = api.event.count.useQuery({ isProfit: true })
+  const countNonProfitEvents = api.event.count.useQuery({ isProfit: false })
 
   return (
     <Layout title={title}>

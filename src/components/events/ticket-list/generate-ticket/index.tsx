@@ -21,7 +21,9 @@ import { SelectCategory } from "./select-category"
 import { SelectEvent } from "./select-event"
 
 export function GenerateTicket(): JSX.Element {
-  const tickets = api.ticket.getAllProfit.useQuery()
+  const tickets = api.ticket.getAll.useQuery({
+    isProfit: true,
+  })
 
   const [open, setOpen] = useState(false)
   const [inputPrice, setInputPrice] = useState("")
@@ -53,14 +55,14 @@ export function GenerateTicket(): JSX.Element {
   })
 
   const { mutate, isLoading, error } =
-    api.ticket.generateEditorRole.useMutation({
+    api.ticket.generateTicketEditorRole.useMutation({
       async onSuccess() {
         toast({
           title: "Succeed!",
           variant: "default",
           description: "Your ticket(s) has been created.",
         })
-        await utils.ticket.getAllProfit.invalidate()
+        await utils.ticket.getAll.invalidate()
         await utils.ticket.categories.invalidate()
         setCategoryInput("")
         setInputPrice("")
