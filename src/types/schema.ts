@@ -80,7 +80,7 @@ export const generateTicketSchema = z.object({
       invalid_type_error: "Price must be a number",
     })
     .int()
-    .gte(0),
+    .gte(10000),
   qty: z
     .number({
       required_error: "Qty is required",
