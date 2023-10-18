@@ -14,6 +14,12 @@ interface DataTableToolbarProps<TData> {
   table: Table<TData>
 }
 
+type Options = {
+  label: string
+  value: string
+  icon?: LucideIcon
+}
+
 export function EventTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
@@ -21,21 +27,15 @@ export function EventTableToolbar<TData>({
     table.getPreFilteredRowModel().rows.length >
     table.getFilteredRowModel().rows.length
 
-  type Options = {
-    label: string
-    value: string
-    icon?: LucideIcon
-  }
-
   const { data: events, status } = api.event.eventData.useQuery(undefined, {
     select: (events) => {
-      const venues = [...new Set(events.map((event) => event.venue))].map(
-        (venue) => ({
-          value: venue,
-          label: venue,
-          icon: MapPin,
-        })
-      ) as Options[]
+      const venues: Options[] = [
+        ...new Set(events.map((event) => event.venue)),
+      ].map((venue) => ({
+        value: venue,
+        label: venue,
+        icon: MapPin,
+      }))
 
       const profits = [
         ...new Set(events.map((event) => event.profit as boolean)),

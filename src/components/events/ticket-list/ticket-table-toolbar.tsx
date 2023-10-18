@@ -1,5 +1,3 @@
-"use client"
-
 import type { Table } from "@tanstack/react-table"
 import type { LucideIcon } from "lucide-react"
 import { Calendar, Tags, X } from "lucide-react"
@@ -17,6 +15,12 @@ interface DataTableToolbarProps<TData> {
   table: Table<TData>
 }
 
+type Options = {
+  label: string
+  value: string
+  icon?: LucideIcon
+}
+
 export function TicketTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
@@ -24,30 +28,37 @@ export function TicketTableToolbar<TData>({
     table.getPreFilteredRowModel().rows.length >
     table.getFilteredRowModel().rows.length
 
-  type Options = {
-    label: string
-    value: string
-    icon?: LucideIcon
-  }
+  const categories = api.ticket.categories.useQuery(undefined, {
+    select: (cats) => {
+      const options: Options[] = [...new Set(cats.map((c) => c.category))].map(
+        (category) => ({
+          value: category,
+          label: category,
+          icon: Tags,
+        })
+      )
 
-  const categoryQuery = api.ticket.categories.useQuery(undefined, {
-    select: (data) => {
-      const categories = data.map((d) => d.category)
-      return [...new Set(categories)]
+      return {
+        options,
+      }
     },
   })
-  const categories = categoryQuery.data?.map((cat) => ({
-    value: cat,
-    label: cat,
-    icon: Tags,
-  })) as Options[]
 
-  const eventQuery = api.event.eventData.useQuery()
-  const eventTitles = eventQuery.data?.map((d) => ({
-    value: d.title,
-    label: d.title,
-    icon: Calendar,
-  })) as Options[]
+  const events = api.event.eventData.useQuery(undefined, {
+    select: (events) => {
+      const options: Options[] = [
+        ...new Set(events.map((event) => event.title)),
+      ].map((title) => ({
+        value: title,
+        label: title,
+        icon: Calendar,
+      }))
+
+      return {
+        options,
+      }
+    },
+  })
 
   return (
     <div className="flex items-start justify-between">
@@ -60,11 +71,11 @@ export function TicketTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn("event") && (
+        {events.status === "success" && table.getColumn("event") && (
           <DataTableFacetedFilter
             column={table.getColumn("event")}
             title="Event"
-            options={eventTitles}
+            options={events.data.options}
           />
         )}
         {table.getColumn("status") && (
@@ -74,11 +85,11 @@ export function TicketTableToolbar<TData>({
             options={statuses}
           />
         )}
-        {table.getColumn("category") && (
+        {categories.status === "success" && table.getColumn("category") && (
           <DataTableFacetedFilter
             column={table.getColumn("category")}
             title="Category"
-            options={categories}
+            options={categories.data.options}
           />
         )}
         {isFiltered && (
