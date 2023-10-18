@@ -29,29 +29,28 @@ export function EventTableToolbar<TData>({
 
   const { data: events, status } = api.event.eventData.useQuery(undefined, {
     select: (events) => {
-      const all = events
-      const _nonProfits = events.map((event) => event.nonProfit)
+      const venues = [...new Set(events.map((event) => event.venue))].map(
+        (venue) => ({
+          value: venue,
+          label: venue,
+          icon: MapPin,
+        })
+      ) as Options[]
+
+      const profits = [
+        ...new Set(events.map((event) => event.profit as boolean)),
+      ].map((isProfit) => ({
+        value: isProfit,
+        label: isProfit ? "Profit" : "Non Profit",
+        icon: isProfit ? DollarSign : CheckCircle2,
+      })) as unknown as Options[]
+
       return {
-        all,
-        nonProfits: [...new Set(_nonProfits)],
+        venues,
+        profits,
       }
     },
   })
-
-  const venues = events?.all.map((d) => ({
-    value: d.venue,
-    label: d.venue,
-    icon: MapPin,
-  })) as Options[]
-
-  const nonProfits = events?.nonProfits?.map((isNonProfit) => {
-    const _isNonProfit = isNonProfit ? "Non Profit" : "Profit"
-    return {
-      value: isNonProfit,
-      label: _isNonProfit,
-      icon: isNonProfit ? CheckCircle2 : DollarSign,
-    }
-  }) as unknown as Options[] // boolean --> string
 
   return (
     <div className="flex items-start justify-between">
@@ -68,14 +67,14 @@ export function EventTableToolbar<TData>({
           <DataTableFacetedFilter
             column={table.getColumn("venue")}
             title="Venue"
-            options={venues}
+            options={events.venues}
           />
         )}
-        {status === "success" && table.getColumn("nonProfit") && (
+        {status === "success" && table.getColumn("profit") && (
           <DataTableFacetedFilter
-            column={table.getColumn("nonProfit")}
-            title="Non Profit"
-            options={nonProfits}
+            column={table.getColumn("profit")}
+            title="Profit"
+            options={events.profits}
           />
         )}
         {isFiltered && (
