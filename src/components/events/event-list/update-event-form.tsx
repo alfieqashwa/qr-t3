@@ -9,10 +9,17 @@ import type { z } from "zod"
 import { updateEventSchema } from "~/types/schema"
 import { Button } from "~/ui/button"
 import { Calendar } from "~/ui/calendar"
-import { Checkbox } from "~/ui/checkbox"
-import { Form, FormControl, FormField, FormItem, FormLabel } from "~/ui/form"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "~/ui/form"
 import { Input } from "~/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "~/ui/popover"
+import { Switch } from "~/ui/switch"
 import { ToastAction } from "~/ui/toast"
 import { toast } from "~/ui/use-toast"
 import type { RouterOutputs } from "~/utils/api"
@@ -59,7 +66,7 @@ export const UpdateEventForm = ({
   const defaultValues: UpdateEventSchema = {
     id: event?.id as string,
     title: event?.title as string,
-    nonProfit: event?.nonProfit as boolean,
+    profit: event?.profit as boolean,
     date: event?.date as Date,
     venue: event?.venue as string,
   }
@@ -88,7 +95,7 @@ export const UpdateEventForm = ({
   }
 
   function onSubmit(values: UpdateEventSchema) {
-    const { id, title, nonProfit, date, venue } = values
+    const { id, title, profit, date, venue } = values
 
     /**
      * Source: https://react-day-picker.js.org/guides/input-fields
@@ -109,7 +116,7 @@ export const UpdateEventForm = ({
       id,
       title,
       venue,
-      nonProfit,
+      profit,
       date: newSelectedDate,
     })
   }
@@ -146,25 +153,6 @@ export const UpdateEventForm = ({
             </FormItem>
           )}
         />
-        {/* non-ptovit */}
-        <FormField
-          control={form.control}
-          name="nonProfit"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  //? ISSUES -> https://github.com/shadcn-ui/ui/issues/657#issuecomment-1633006421
-                  onCheckedChange={() => field.onChange(!field.value)}
-                />
-              </FormControl>
-              <div className="space-y-1 leading-none">
-                <FormLabel>A Non Profit Event?</FormLabel>
-              </div>
-            </FormItem>
-          )}
-        />
         {/* Date */}
         <FormField
           control={form.control}
@@ -185,7 +173,8 @@ export const UpdateEventForm = ({
                       {field.value ? (
                         <p>
                           <span>
-                            {format(field.value, "PPPP", { locale: id })}
+                            {!!field.value &&
+                              format(field.value, "PPPP", { locale: id })}
                           </span>
                           <span className="px-1">Pukul</span>
                           <span>{timeValue}</span>
@@ -220,6 +209,29 @@ export const UpdateEventForm = ({
                   />
                 </PopoverContent>
               </Popover>
+            </FormItem>
+          )}
+        />
+        {/* // TODOS: disabled this field if the ticket has already been created */}
+        {/* provit */}
+        <FormField
+          control={form.control}
+          name="profit"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
+              <div className="space-y-0.5">
+                <FormLabel>Provit?</FormLabel>
+                <FormDescription>
+                  <p>Switch to left if this a non-profit event.</p>
+                  <p>e.g: wedding, party, etc</p>
+                </FormDescription>
+              </div>
+              <FormControl>
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
             </FormItem>
           )}
         />

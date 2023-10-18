@@ -49,7 +49,7 @@ export function GenerateTicket(): JSX.Element {
 
   const { data: events } = api.event.getAll.useQuery(undefined, {
     // only renders the profit events
-    select: (data) => data.filter((d) => !d.nonProfit),
+    select: (data) => data.filter((d) => !d.profit),
   })
 
   const { mutate, isLoading, error } =

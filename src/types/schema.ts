@@ -57,7 +57,7 @@ export const updateEventSchema = z.object({
       message: "Venue must be at least 5 characters.",
     })
     .max(25),
-  nonProfit: z.boolean().optional(),
+  profit: z.boolean().optional(),
   date: z.date({
     required_error: "A date of event is required.",
   }),

@@ -35,7 +35,7 @@ export const eventRouter = createTRPCRouter({
   countProfitEvent: protectedProcedure.query(
     async ({ ctx }) =>
       await ctx.prisma.event.count({
-        where: { nonProfit: false },
+        where: { profit: false },
       })
   ),
   getAll: protectedProcedure.query(async ({ ctx }) => {
@@ -47,7 +47,7 @@ export const eventRouter = createTRPCRouter({
   eventData: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.event.findMany({
       where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
-      select: { title: true, venue: true, nonProfit: true },
+      select: { title: true, venue: true, profit: true },
     })
   }),
 
@@ -75,13 +75,13 @@ export const eventRouter = createTRPCRouter({
   // Mutations - Admin Procedure
   createAdminRole: adminProcedure
     .input(createEventSchema)
-    .mutation(async ({ ctx, input: { title, venue, date, nonProfit } }) => {
+    .mutation(async ({ ctx, input: { title, venue, date, profit } }) => {
       return await ctx.prisma.event.create({
         data: {
           title,
           venue,
           date,
-          nonProfit,
+          profit: profit as boolean,
           eventOrganizerId: ctx.session.user.eventOrganizerId as string,
         },
       })

@@ -64,6 +64,7 @@ export function CreateEventForm(props: Props) {
       title: "",
       venue: "",
       date: new Date(),
+      profit: true,
     },
   })
 
@@ -75,7 +76,7 @@ export function CreateEventForm(props: Props) {
   }
 
   function onSubmit(values: z.infer<typeof createEventSchema>) {
-    const { title, venue, nonProfit, date } = values
+    const { title, venue, profit, date } = values
     //github.com/shadcn-ui/ui/issues/657#issuecomment-1633006421
     /**
      * Source: https://react-day-picker.js.org/guides/input-fields
@@ -95,7 +96,7 @@ export function CreateEventForm(props: Props) {
     createEvent.mutate({
       title,
       venue,
-      nonProfit,
+      profit,
       date: newSelectedDate,
     })
   }
@@ -173,7 +174,7 @@ export function CreateEventForm(props: Props) {
                       <div className="mt-4 text-sm">
                         <p className="font-bold">Pick a time:</p>
                         <Input
-                          className="mt-1 text-primary-foreground"
+                          className="mt-1"
                           type="time"
                           value={timeValue}
                           onChange={handleTimeChange}
@@ -190,16 +191,17 @@ export function CreateEventForm(props: Props) {
             </FormItem>
           )}
         />
-        {/* non-provit */}
+        {/* provit */}
         <FormField
           control={form.control}
-          name="nonProfit"
+          name="profit"
           render={({ field }) => (
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
               <div className="space-y-0.5">
-                <FormLabel>Non-Provit?</FormLabel>
+                <FormLabel>Provit?</FormLabel>
                 <FormDescription>
-                  Non profit event e.g: wedding, party, etc
+                  <p>Switch to left if this a non-profit event.</p>
+                  <p>e.g: wedding, party, etc</p>
                 </FormDescription>
               </div>
               <FormControl>

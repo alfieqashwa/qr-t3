@@ -79,24 +79,23 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
     ),
   },
   {
-    accessorKey: "nonProfit",
+    accessorKey: "profit",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Non-Profit?" />
+      <DataTableColumnHeader column={column} title="Profit?" />
     ),
     cell: ({ row }) => {
-      const nonProfit = row.getValue("nonProfit")
-      console.log(`non-profit::: `, nonProfit)
+      const profit = row.getValue("profit")
       return (
         <div className="flex items-center">
-          {nonProfit ? (
-            <>
-              <CheckCircle2 className="mr-2 h-[18px] w-[18px] text-amber-300" />
-              <span className="whitespace-nowrap capitalize">Non Profit</span>
-            </>
-          ) : (
+          {profit ? (
             <>
               <DollarSign className="mr-2 h-[18px] w-[18px] text-amber-300" />
               <span className="whitespace-nowrap capitalize">Profit</span>
+            </>
+          ) : (
+            <>
+              <CheckCircle2 className="mr-2 h-[18px] w-[18px] text-amber-300" />
+              <span className="whitespace-nowrap capitalize">Non Profit</span>
             </>
           )}
         </div>
