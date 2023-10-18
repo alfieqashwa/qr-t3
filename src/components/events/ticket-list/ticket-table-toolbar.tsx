@@ -28,6 +28,27 @@ export function TicketTableToolbar<TData>({
     table.getPreFilteredRowModel().rows.length >
     table.getFilteredRowModel().rows.length
 
+  const events = api.event.eventData.useQuery(undefined, {
+    select: (events) => {
+      const options: Options[] = [
+        ...new Set(
+          events
+            // only render profit events only
+            .filter((profitEventOnly) => !!profitEventOnly.profit)
+            .map((profit) => profit.title)
+        ),
+      ].map((title) => ({
+        value: title,
+        label: title,
+        icon: Calendar,
+      }))
+
+      return {
+        options,
+      }
+    },
+  })
+
   const categories = api.ticket.categories.useQuery(undefined, {
     select: (cats) => {
       const options: Options[] = [...new Set(cats.map((c) => c.category))].map(
@@ -37,22 +58,6 @@ export function TicketTableToolbar<TData>({
           icon: Tags,
         })
       )
-
-      return {
-        options,
-      }
-    },
-  })
-
-  const events = api.event.eventData.useQuery(undefined, {
-    select: (events) => {
-      const options: Options[] = [
-        ...new Set(events.map((event) => event.title)),
-      ].map((title) => ({
-        value: title,
-        label: title,
-        icon: Calendar,
-      }))
 
       return {
         options,

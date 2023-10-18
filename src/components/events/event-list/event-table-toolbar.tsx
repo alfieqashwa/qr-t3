@@ -37,13 +37,13 @@ export function EventTableToolbar<TData>({
         icon: MapPin,
       }))
 
-      const profits = [
-        ...new Set(events.map((event) => event.profit as boolean)),
-      ].map((isProfit) => ({
-        value: isProfit,
-        label: isProfit ? "Profit" : "Non Profit",
-        icon: isProfit ? DollarSign : CheckCircle2,
-      })) as unknown as Options[]
+      const profits = [...new Set(events.map((event) => event.profit))].map(
+        (isProfit) => ({
+          value: isProfit,
+          label: isProfit ? "Profit" : "Non Profit",
+          icon: isProfit ? DollarSign : CheckCircle2,
+        })
+      ) as unknown as Options[]
 
       return {
         venues,
