@@ -88,10 +88,7 @@
     @apply z-50 outline outline-1 outline-sky-300;
   }
   /* fix border on build */
-  .border {
-    @apply border-border;
-  }
-  .border-b {
+  * {
     @apply border-border;
   }
 }
