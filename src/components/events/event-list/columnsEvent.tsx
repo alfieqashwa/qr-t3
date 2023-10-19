@@ -89,12 +89,12 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
         <div className="flex items-center">
           {profit ? (
             <>
-              <DollarSign className="mr-2 h-[18px] w-[18px] text-amber-300" />
+              <DollarSign className="mr-2 h-[18px] w-[18px] text-muted-foreground" />
               <span className="whitespace-nowrap capitalize">Profit</span>
             </>
           ) : (
             <>
-              <CheckCircle2 className="mr-2 h-[18px] w-[18px] text-amber-300" />
+              <CheckCircle2 className="mr-2 h-[18px] w-[18px] text-muted-foreground" />
               <span className="whitespace-nowrap capitalize">Non Profit</span>
             </>
           )}
