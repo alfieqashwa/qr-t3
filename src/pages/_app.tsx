@@ -1,6 +1,6 @@
-import { Analytics } from '@vercel/analytics/react';
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import "@uploadthing/react/styles.css" // <-- must before "~/styles/gloals.css"
+import { Analytics } from "@vercel/analytics/react"
 import { type Session } from "next-auth"
 import { SessionProvider } from "next-auth/react"
 import { ThemeProvider } from "next-themes"
