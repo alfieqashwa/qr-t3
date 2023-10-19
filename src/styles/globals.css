@@ -63,6 +63,17 @@
 }
 
 @layer utilities {
+  /* fix border on build until found better solution */
+  .border {
+    @apply border-border;
+  }
+  .border-b {
+    @apply border-border;
+  }
+  .border-l {
+    @apply border-border;
+  }
+
   .step {
     counter-increment: step;
   }
@@ -86,9 +97,5 @@
   }
   .kurt {
     @apply z-50 outline outline-1 outline-sky-300;
-  }
-  /* fix border on build */
-  * {
-    @apply border-border;
   }
 }
