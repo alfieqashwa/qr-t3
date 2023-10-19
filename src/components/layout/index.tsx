@@ -24,7 +24,7 @@ export const Layout = ({ title, children }: LayoutProps) => {
         <main
           className={cn(
             "px-2 pb-6 pt-24 transition-all duration-500 ease-in-out sm:px-6",
-            toggle ? "lg:ml-64" : "lg:ml-32"
+            toggle ? "lg:ml-60" : "lg:ml-28"
           )}
         >
           {children}

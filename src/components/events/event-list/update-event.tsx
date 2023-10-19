@@ -28,7 +28,7 @@ export function UpdateEvent({ id, title, open, setOpen }: Props) {
         Edit
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-1/2">
+      <DialogContent className="bg-card">
         <DialogHeader>
           <DialogTitle>Update Event</DialogTitle>
           <DialogDescription asChild>

@@ -18,7 +18,10 @@ const EventPage: NextPage = () => {
   return (
     <Layout title={title}>
       <HeaderTitle title={title} />
-      <Tabs defaultValue="event-list" className="mt-4">
+      <Tabs
+        defaultValue="event-list"
+        className="mt-4 rounded-lg border bg-card p-6 shadow-lg"
+      >
         <TabsList className="mb-3">
           <TabsTrigger value="event-list">Event</TabsTrigger>
           <TabsTrigger
