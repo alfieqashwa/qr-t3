@@ -25,7 +25,7 @@ export function CreateNewVisitor() {
           Create Visitor
         </Button>
       </SheetTrigger>
-      <SheetContent position="right" size="content">
+      <SheetContent>
         <SheetHeader>
           <SheetTitle>Add New Visitor</SheetTitle>
           <SheetDescription>

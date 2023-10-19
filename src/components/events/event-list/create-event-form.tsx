@@ -200,8 +200,8 @@ export function CreateEventForm(props: Props) {
               <div className="space-y-0.5">
                 <FormLabel>Provit?</FormLabel>
                 <FormDescription>
-                  <p>Switch to left if this a non-profit event.</p>
-                  <p>e.g: wedding, party, etc</p>
+                  <span>Switch to left if this a non-profit event.</span>
+                  <span>e.g: wedding, party, etc</span>
                 </FormDescription>
               </div>
               <FormControl>

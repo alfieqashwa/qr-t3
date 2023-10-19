@@ -25,7 +25,7 @@ export function CreateNewEvent() {
           Create Event
         </Button>
       </SheetTrigger>
-      <SheetContent position="right" size="content">
+      <SheetContent className="bg-card">
         <SheetHeader>
           <SheetTitle>Add New Event</SheetTitle>
           <SheetDescription>

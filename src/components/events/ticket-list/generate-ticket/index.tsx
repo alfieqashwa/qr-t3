@@ -152,7 +152,7 @@ export function GenerateTicket(): JSX.Element {
         </Button>
       </SheetTrigger>
 
-      <SheetContent position="right" size="content">
+      <SheetContent>
         <SheetHeader>
           <SheetTitle>Generate New Ticket</SheetTitle>
           <SheetDescription>

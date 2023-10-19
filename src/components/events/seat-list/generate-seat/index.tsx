@@ -131,7 +131,7 @@ export function GenerateSeat(): JSX.Element {
         </Button>
       </SheetTrigger>
 
-      <SheetContent position="right" size="content">
+      <SheetContent>
         <SheetHeader>
           <SheetTitle>Generate New Seat</SheetTitle>
           <SheetDescription>
