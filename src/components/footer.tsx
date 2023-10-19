@@ -1,7 +1,7 @@
 import { Heart, Copyright as CopyrightIcon } from "lucide-react"
 
 export const Copyright = () => (
-  <footer className="fixed bottom-0 z-40 w-full border-t-2 border-slate-600 bg-slate-950 py-1 shadow">
+  <footer className="fixed bottom-0 z-40 w-full border-t-2 border-slate-800 bg-background py-1 shadow">
     <div className="flex h-6 items-center justify-center text-xs font-medium text-slate-300">
       <CopyrightIcon size={16} />
       <p className="pl-1">{new Date().getFullYear()} Made with</p>

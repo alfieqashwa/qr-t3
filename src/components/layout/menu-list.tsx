@@ -19,8 +19,8 @@ export const MenuList = (): JSX.Element => {
         <li
           className={`rounded-xl border-b border-r border-slate-700 ${
             pathname === `/[slug]/${link.path}`
-              ? "bg-muted text-amber-300"
-              : "bg-background"
+              ? "bg-card text-primary"
+              : "bg-background text-primary-foreground"
           }`}
           key={link.path}
         >

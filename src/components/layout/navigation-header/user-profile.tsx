@@ -36,7 +36,7 @@ const CustomLink = ({ link, pathname }: CustomLinkProps) => {
         className={`group capitalize hover:cursor-pointer
                     ${
                       pathname === `/[slug]/${link.path}`
-                        ? "bg-secondary text-amber-300"
+                        ? "bg-card text-primary"
                         : ""
                     }`}
       >
@@ -44,7 +44,7 @@ const CustomLink = ({ link, pathname }: CustomLinkProps) => {
         <MenubarShortcut
           className={`transition duration-300 ease-in-out ${
             pathname === `/[slug]/${link.path}`
-              ? "text-amber-300"
+              ? "text-primary"
               : "text-foreground"
           }`}
         >

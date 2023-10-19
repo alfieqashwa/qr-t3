@@ -1,9 +1,9 @@
-import { Bell, Codesandbox, SidebarClose, SidebarOpen } from "lucide-react"
+import { ArrowBigLeft, ArrowBigRight, Bell, Codesandbox } from "lucide-react"
+import { cn } from "~/src/utils"
 import { api } from "~/src/utils/api"
 import useToggleStore from "~/store/useToggle"
-import { UserAvatar } from "./user-avatar"
 import { ThemeToggle } from "./theme-toggle"
-import { cn } from "~/src/utils"
+import { UserAvatar } from "./user-avatar"
 
 export const NavigationHeader = () => {
   const { toggle, handleToggle } = useToggleStore()
@@ -13,7 +13,7 @@ export const NavigationHeader = () => {
   const userImageUpdate = me?.imageUpdate
 
   return (
-    <nav className="fixed z-50 flex h-20 w-full justify-between border-b border-slate-700 max-w-[120rem] bg-background">
+    <nav className="fixed z-50 flex h-20 w-full max-w-[120rem] justify-between border-b-2 border-slate-800 bg-background">
       <section className="z-40 flex h-16 items-center justify-end space-x-8 pl-6">
         <div className="flex w-full items-center justify-around">
           <Codesandbox size={36} className="animate-spin" />
@@ -21,11 +21,11 @@ export const NavigationHeader = () => {
         <button
           className={cn(
             "hidden rounded-full p-2.5 transition-transform duration-300 ease-in-out lg:block",
-            toggle && "text-amber-300 transition-colors"
+            toggle && "text-primary transition-colors"
           )}
           onClick={handleToggle}
         >
-          {toggle ? <SidebarClose /> : <SidebarOpen />}
+          {!toggle ? <ArrowBigRight /> : <ArrowBigLeft />}
         </button>
       </section>
       <section className="flex w-full items-center justify-end space-x-4 px-4 lg:px-8">

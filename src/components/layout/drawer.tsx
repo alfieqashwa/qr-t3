@@ -12,7 +12,7 @@ export const Drawer = (): JSX.Element => {
       animate={toggle ? "open" : "close"}
       variants={asideVariant}
       layout
-      className="fixed z-40 hidden min-h-screen border-r border-slate-700 pt-28 lg:block"
+      className="fixed z-40 hidden min-h-screen border-r-2 border-slate-800 pt-28 lg:block"
     >
       <MenuList />
     </motion.aside>
