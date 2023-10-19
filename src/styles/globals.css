@@ -5,16 +5,6 @@
 @tailwind utilities;
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
-}
-
-@layer base {
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
@@ -59,14 +49,14 @@
     --input: 240 3.7% 15.9%;
     --ring: 346.8 77.2% 49.8%;
   }
-}
 
-@layer components {
-  .thom {
-    @apply z-50 outline outline-1 outline-pink-200;
+  * {
+    @apply border-border;
   }
-  .kurt {
-    @apply z-50 outline outline-1 outline-sky-300;
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
@@ -85,5 +75,14 @@
 @media (max-width: 640px) {
   .container {
     @apply px-4;
+  }
+}
+
+@layer components {
+  .thom {
+    @apply z-50 outline outline-1 outline-pink-200;
+  }
+  .kurt {
+    @apply z-50 outline outline-1 outline-sky-300;
   }
 }
