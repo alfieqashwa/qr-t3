@@ -1,4 +1,4 @@
-iimport type { GetServerSideProps } from "next"
+import type { GetServerSideProps } from "next"
 import { type NextPage } from "next"
 import { getServerSession } from "next-auth/next"
 import { EventList, SeatList, TicketList } from "~/components/events"
@@ -18,10 +18,7 @@ const EventPage: NextPage = () => {
   return (
     <Layout title={title}>
       <HeaderTitle title={title} />
-      <Tabs
-        defaultValue="event-list"
-        className="mt-4"
-      >
+      <Tabs defaultValue="event-list" className="mt-4">
         <TabsList className="mb-3">
           <TabsTrigger value="event-list">Event</TabsTrigger>
           <TabsTrigger
