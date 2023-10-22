@@ -128,6 +128,7 @@ Add more libs.
 ## Upgrade Version
 
 - [x] Split events to provit & non-provit
+- [x] Restricted updating is_profit field if the event is already created the ticket or seat
 - [ ] Create Login Page
 - [ ] Create Index Page
 - [ ] Add tooltip whenever user hovering the user avatar
