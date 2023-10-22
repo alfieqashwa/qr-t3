@@ -2,7 +2,6 @@ import type { GetServerSideProps } from "next"
 import { type NextPage } from "next"
 import { getServerSession } from "next-auth/next"
 import { EventList, SeatList, TicketList } from "~/components/events"
-import { HeaderTitle } from "~/components/header-title"
 import { Layout } from "~/components/layout"
 import { LoadingSpinner } from "~/components/loading"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
@@ -17,7 +16,6 @@ const EventPage: NextPage = () => {
 
   return (
     <Layout title={title}>
-      <HeaderTitle title={title} />
       <Tabs defaultValue="event-list" className="mt-4">
         <TabsList className="mb-3">
           <TabsTrigger value="event-list">Event</TabsTrigger>

@@ -4,7 +4,6 @@ import { type NextPage } from "next"
 import { getServerSession } from "next-auth/next"
 import { InputCardList } from "~/components/dewa/input-card-list"
 import { Userlist } from "~/components/dewa/user-list"
-import { HeaderTitle } from "~/components/header-title"
 import { Layout } from "~/components/layout"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
 import { authOptions } from "~/server/auth"
@@ -14,7 +13,6 @@ const title = "Dewa"
 const DewaPage: NextPage = () => {
   return (
     <Layout title={title}>
-      <HeaderTitle title={title} />
       <Tabs defaultValue="user-info" className="mt-4">
         <TabsList className="mb-3">
           <TabsTrigger className="text-xs lg:text-sm" value="user-info">

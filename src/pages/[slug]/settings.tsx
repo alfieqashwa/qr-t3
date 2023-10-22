@@ -2,7 +2,6 @@ import type { GetServerSideProps } from "next"
 import { type NextPage } from "next"
 import { getServerSession } from "next-auth/next"
 import { AdminOnly } from "~/components/authed"
-import { HeaderTitle } from "~/components/header-title"
 import { Layout } from "~/components/layout"
 import { EOInfo, ProfileInfo, TeamList } from "~/components/settings"
 import { authOptions } from "~/server/auth"
@@ -14,7 +13,6 @@ const title = "Settings" as const
 const SettingsPage: NextPage = () => {
   return (
     <Layout title={title}>
-      <HeaderTitle title={title} />
       <Tabs defaultValue="profile" className="mt-4">
         <TabsList className="mb-3">
           <TabsTrigger className="text-xs lg:text-sm" value="profile">

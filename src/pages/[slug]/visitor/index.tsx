@@ -1,7 +1,6 @@
 import type { GetServerSideProps } from "next"
 import { type NextPage } from "next"
 import { getServerSession } from "next-auth/next"
-import { HeaderTitle } from "~/components/header-title"
 import { Layout } from "~/components/layout"
 import { VisitorList } from "~/components/visitors"
 import { authOptions } from "~/server/auth"
@@ -12,7 +11,6 @@ const title = "Visitors" as const
 const VisitorPage: NextPage = (): JSX.Element => {
   return (
     <Layout title={title}>
-      <HeaderTitle title={title} />
       <Tabs defaultValue="visitor-list" className="mt-4">
         <TabsList className="mb-3">
           <TabsTrigger className="text-xs lg:text-sm" value="visitor-list">
