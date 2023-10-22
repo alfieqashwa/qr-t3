@@ -221,16 +221,28 @@ export const UpdateEventForm = ({
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
               <div className="space-y-0.5">
                 <FormLabel>Provit?</FormLabel>
-                <FormDescription>
-                  <span>Switch to left if this a non-profit event.</span>
-                  <span>e.g: wedding, party, etc</span>
-                </FormDescription>
+                {event && event?.tickets.length > 0 ? (
+                  <FormDescription>
+                    <span>
+                      Cannot update because this event has already created the
+                      tickets
+                    </span>
+                  </FormDescription>
+                ) : (
+                  <FormDescription>
+                    <span>Switch to left if this a non-profit event.</span>
+                    <span>e.g: wedding, party, etc</span>
+                  </FormDescription>
+                )}
               </div>
               <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
+                {event && (
+                  <Switch
+                    disabled={event?.tickets.length > 0}
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                )}
               </FormControl>
             </FormItem>
           )}
