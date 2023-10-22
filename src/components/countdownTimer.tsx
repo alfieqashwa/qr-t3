@@ -7,7 +7,7 @@ type CountdownTimerProps = {
 }
 // Source: https://github.com/TomDoesTech/Countdown-Timer/blob/main/pages/index.tsx
 export const CountdownTimer = ({ date, className }: CountdownTimerProps) => {
-  // const [_partyTime, setPartyTime] = useState(false)
+  const [partyTime, setPartyTime] = useState(false)
   const [days, setDays] = useState(0)
   const [hours, setHours] = useState(0)
   const [minutes, setMinutes] = useState(0)
@@ -32,29 +32,33 @@ export const CountdownTimer = ({ date, className }: CountdownTimerProps) => {
       const s = Math.floor((difference % (1000 * 60)) / 1000)
       setSeconds(s)
 
-      //   if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
-      //     setPartyTime(true)
-      //   }
+      if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
+        setPartyTime(true)
+      }
     }, 1000)
 
     return () => clearInterval(interval)
   }, [date])
 
   return (
-    <div
-      className={cn(
-        "flex items-center justify-center p-2 text-base font-semibold",
-        className
+    <>
+      {!partyTime && (
+        <div
+          className={cn(
+            "flex items-center justify-center p-2 text-base font-semibold",
+            className
+          )}
+        >
+          <TimeCard time={days} label="Days" />
+          <Divider />
+          <TimeCard time={hours} label="Hours" />
+          <Divider />
+          <TimeCard time={minutes} label="Mins" />
+          <Divider />
+          <TimeCard time={seconds} label="Secs" />
+        </div>
       )}
-    >
-      <TimeCard time={days} label="Days" />
-      <Divider />
-      <TimeCard time={hours} label="Hours" />
-      <Divider />
-      <TimeCard time={minutes} label="Mins" />
-      <Divider />
-      <TimeCard time={seconds} label="Secs" />
-    </div>
+    </>
   )
 }
 
