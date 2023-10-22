@@ -17,7 +17,7 @@ export function ProfileInfo(): JSX.Element {
   const slug = router.query.slug as string
 
   const { data: profile, isLoading } = api.user.me.useQuery()
-  const utils = api.useContext()
+  const utils = api.useUtils()
   const { mutate, error } = api.user.updateImageProfile.useMutation({
     async onSuccess() {
       toast({

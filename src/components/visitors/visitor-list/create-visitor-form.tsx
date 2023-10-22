@@ -32,7 +32,7 @@ type Props = {
 }
 
 export const CreateVisitorForm = (props: Props) => {
-  const utils = api.useContext()
+  const utils = api.useUtils()
 
   const { mutate, isLoading } = api.visitor.createEditorRole.useMutation({
     async onSuccess() {

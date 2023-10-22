@@ -43,7 +43,7 @@ type Props = {
 }
 
 export const CreateTicketOrderForm = (props: Props) => {
-  const utils = api.useContext()
+  const utils = api.useUtils()
 
   const { mutate, isLoading } = api.visitor.createPublic.useMutation({
     async onSuccess() {

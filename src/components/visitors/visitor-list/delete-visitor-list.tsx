@@ -23,7 +23,7 @@ interface DeleteVisitorListProps<TData> {
 export function DeleteVisitorList<TData>({
   table,
 }: DeleteVisitorListProps<TData>) {
-  const utils = api.useContext()
+  const utils = api.useUtils()
   const { toast } = useToast()
 
   const [open, setOpen] = useState(false)

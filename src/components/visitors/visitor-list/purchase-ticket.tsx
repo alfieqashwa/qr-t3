@@ -42,7 +42,7 @@ type Props = {
 export function PurchaseTicket({ id, ticketStatus }: Props) {
   const [open, setOpen] = useState(false)
 
-  const utils = api.useContext()
+  const utils = api.useUtils()
 
   const { mutate, isLoading } = api.ticket.updateStatusEditorRole.useMutation({
     async onSuccess() {

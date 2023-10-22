@@ -47,7 +47,7 @@ export function GenerateTicket(): JSX.Element {
     }
   }, [categoryInput.length, tickets.data?.length, tickets.status])
 
-  const utils = api.useContext()
+  const utils = api.useUtils()
 
   const { data: events } = api.event.getAll.useQuery(undefined, {
     // only renders the profit events

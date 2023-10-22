@@ -21,7 +21,7 @@ type TicketInfoProps = {
 }
 export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
   const router = useRouter()
-  const utils = api.useContext()
+  const utils = api.useUtils()
   const { mutate, isLoading } = api.visitor.toggleCheckOperatorRole.useMutation(
     {
       async onSuccess() {

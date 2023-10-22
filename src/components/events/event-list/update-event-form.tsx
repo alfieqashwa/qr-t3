@@ -38,7 +38,7 @@ export const UpdateEventForm = ({
   open,
   setOpen,
 }: Props): JSX.Element => {
-  const utils = api.useContext()
+  const utils = api.useUtils()
 
   const { mutate, isLoading } = api.event.updateAdminRole.useMutation({
     async onSuccess() {

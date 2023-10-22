@@ -35,7 +35,7 @@ type Props = {
 
 export function CreateTeamForm(props: Props) {
   const session = useSession()
-  const utils = api.useContext()
+  const utils = api.useUtils()
   const { toast } = useToast()
 
   const createTeam = api.user.createAdminRole.useMutation({

@@ -23,7 +23,7 @@ interface DeleteEventListProps<TData> {
 export function DeleteTicketList<TData>({
   table,
 }: DeleteEventListProps<TData>) {
-  const utils = api.useContext()
+  const utils = api.useUtils()
   const { toast } = useToast()
 
   const [open, setOpen] = useState(false)

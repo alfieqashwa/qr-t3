@@ -22,7 +22,7 @@ type Props = {
 }
 
 export function DeleteEvent({ id, title, open, setOpen }: Props) {
-  const utils = api.useContext()
+  const utils = api.useUtils()
   const { toast } = useToast()
 
   const { mutate, isLoading } = api.event.deleteAdminRole.useMutation({

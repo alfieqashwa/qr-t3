@@ -23,7 +23,7 @@ type Props = {
 }
 
 export function UpdateTeam({ id, currentRole, username }: Props) {
-  const utils = api.useContext()
+  const utils = api.useUtils()
   const { toast } = useToast()
 
   const [open, setOpen] = useState(false)

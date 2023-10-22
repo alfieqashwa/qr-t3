@@ -33,7 +33,7 @@ type Props = {
 }
 
 export function CreateEventForm(props: Props) {
-  const utils = api.useContext()
+  const utils = api.useUtils()
   const { toast } = useToast()
 
   const createEvent = api.event.createAdminRole.useMutation({

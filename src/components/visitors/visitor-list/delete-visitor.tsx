@@ -21,7 +21,7 @@ type Props = {
 }
 
 export function DeleteVisitor({ id, title, setOpen }: Props) {
-  const utils = api.useContext()
+  const utils = api.useUtils()
   const { toast } = useToast()
 
   const { mutate, isLoading } = api.visitor.deleteEditorRole.useMutation({

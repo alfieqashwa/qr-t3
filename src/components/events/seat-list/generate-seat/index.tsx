@@ -49,7 +49,7 @@ export function GenerateSeat(): JSX.Element {
     }
   }, [categoryInput.length, seats.data?.all.length, seats.status])
 
-  const utils = api.useContext()
+  const utils = api.useUtils()
 
   const { data: events } = api.event.getAll.useQuery(undefined, {
     // only renders the non-profit events

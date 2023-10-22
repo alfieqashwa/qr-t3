@@ -7,7 +7,7 @@ import { FormCard } from "./form-card"
 
 // TODO: Styling
 export const InputCardList = () => {
-  const utils = api.useContext()
+  const utils = api.useUtils()
 
   // QUERIES
   const { data, status } = api.eo.getAllDewaRole.useQuery()

@@ -21,7 +21,7 @@ type Props = {
 }
 
 export function DeleteTeam({ id, email }: Props) {
-  const utils = api.useContext()
+  const utils = api.useUtils()
   const { toast } = useToast()
 
   const [open, setOpen] = useState(false)

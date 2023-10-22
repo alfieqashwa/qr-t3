@@ -26,7 +26,7 @@ export function ProfileImage({ profile }: ProfileImageProps): JSX.Element {
   const { image, name, imageUpdate } = profile as User
   const [open, setOpen] = useState(false)
 
-  const utils = api.useContext()
+  const utils = api.useUtils()
   const { toast } = useToast()
 
   const { mutate, isLoading } = api.user.removeImageUpdate.useMutation({

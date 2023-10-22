@@ -31,7 +31,7 @@ export const UpdateEventOrganizerForm = ({
   eo,
   setOpen,
 }: UpdateEventOrganizerFormProps) => {
-  const utils = api.useContext()
+  const utils = api.useUtils()
 
   const { mutate, isLoading } = api.eo.updateAdminRole.useMutation({
     async onSuccess() {

@@ -25,7 +25,7 @@ type Props = {
 }
 
 export const UpdateVisitorForm = ({ visitor, setOpen }: Props): JSX.Element => {
-  const utils = api.useContext()
+  const utils = api.useUtils()
 
   const { mutate, isLoading } = api.visitor.updateEditorRole.useMutation({
     async onSuccess() {

@@ -22,7 +22,7 @@ type Props = {
 
 export function DeleteEventOrganizerDialog({ id }: Props) {
   const router = useRouter()
-  const utils = api.useContext()
+  const utils = api.useUtils()
   const { toast } = useToast()
 
   const [open, setOpen] = useState(false)

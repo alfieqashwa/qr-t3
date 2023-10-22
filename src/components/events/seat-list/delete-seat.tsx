@@ -24,7 +24,7 @@ type Props = {
 }
 
 export function DeleteSeat({ id, status, open, setOpen }: Props) {
-  const utils = api.useContext()
+  const utils = api.useUtils()
   const { toast } = useToast()
 
   const { mutate, isLoading } = api.ticket.deleteEditorRole.useMutation({
