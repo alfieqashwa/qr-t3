@@ -131,7 +131,7 @@ export function GenerateSeat(): JSX.Element {
         </Button>
       </SheetTrigger>
 
-      <SheetContent>
+      <SheetContent className="bg-card">
         <SheetHeader>
           <SheetTitle>Generate New Seat</SheetTitle>
           <SheetDescription>

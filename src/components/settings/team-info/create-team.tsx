@@ -25,7 +25,7 @@ export function CreateTeam() {
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="sm:max-w-1/2">
+      <SheetContent className="bg-card">
         <SheetHeader>
           <SheetTitle>Create New Team</SheetTitle>
           <SheetDescription>

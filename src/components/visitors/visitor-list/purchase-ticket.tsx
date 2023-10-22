@@ -97,7 +97,7 @@ export function PurchaseTicket({ id, ticketStatus }: Props) {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-1/2">
+      <DialogContent className="bg-card">
         <DialogHeader>
           <DialogTitle>Purchase Ticket</DialogTitle>
           <DialogDescription asChild>

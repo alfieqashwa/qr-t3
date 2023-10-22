@@ -25,7 +25,7 @@ export function CreateNewVisitor() {
           Create Visitor
         </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="bg-card">
         <SheetHeader>
           <SheetTitle>Add New Visitor</SheetTitle>
           <SheetDescription>

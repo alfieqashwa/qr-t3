@@ -145,12 +145,7 @@ export const CreateVisitorForm = (props: Props) => {
             <FormItem>
               <FormLabel>Phone</FormLabel>
               <FormControl>
-                <Input
-                  type="number"
-                  placeholder="phone"
-                  {...field}
-                  className="capitalize"
-                />
+                <Input type="number" placeholder="phone" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -163,12 +158,7 @@ export const CreateVisitorForm = (props: Props) => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input
-                  type="email"
-                  placeholder="email"
-                  {...field}
-                  className="capitalize"
-                />
+                <Input type="email" placeholder="email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

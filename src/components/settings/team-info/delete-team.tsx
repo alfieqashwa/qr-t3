@@ -64,7 +64,7 @@ export function DeleteTeam({ id, email }: Props) {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-1/2">
+      <DialogContent className="bg-card">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>Are You Sure?</DialogTitle>

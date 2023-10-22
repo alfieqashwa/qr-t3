@@ -61,7 +61,7 @@ export function DeleteVisitor({ id, title, setOpen }: Props) {
         Delete
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-1/2">
+      <DialogContent className="bg-card">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>Are You Sure?</DialogTitle>

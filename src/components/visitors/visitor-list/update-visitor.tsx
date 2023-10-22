@@ -29,7 +29,7 @@ export function UpdateVisitor({ id, title, setOpen }: Props) {
         Edit
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-1/2">
+      <DialogContent className="bg-card">
         <DialogHeader>
           <DialogTitle>Update Visitor</DialogTitle>
           <DialogDescription asChild>
