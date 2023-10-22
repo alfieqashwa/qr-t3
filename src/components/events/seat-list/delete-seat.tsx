@@ -61,11 +61,11 @@ export function DeleteSeat({ id, status, open, setOpen }: Props) {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="w-full justify-start rounded-sm border-none px-2 py-0 text-sm font-normal outline-none transition-colors focus:bg-accent focus:text-accent-foreground"
+          className="group w-full justify-start rounded-sm border-none px-2 py-0 text-sm font-normal outline-none transition-colors focus:bg-accent focus:text-accent-foreground"
           disabled={status !== "AVAILABLE"}
         >
-          <Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-          Delete
+          <Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70 group-hover:text-primary" />
+          <span className="goup-hover:text-primary">Delete</span>
         </Button>
       </DialogTrigger>
 

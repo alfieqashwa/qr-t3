@@ -60,7 +60,7 @@ export function DeleteEvent({ id, title, open, setOpen }: Props) {
     <Dialog>
       <DialogTrigger className="group flex w-full items-center">
         <Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70 group-hover:text-primary" />
-        Delete
+        <span className="group-hover:text-primary">Delete</span>
       </DialogTrigger>
 
       <DialogContent className="bg-card">
