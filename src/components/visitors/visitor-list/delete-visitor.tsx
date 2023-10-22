@@ -56,9 +56,9 @@ export function DeleteVisitor({ id, title, setOpen }: Props) {
 
   return (
     <Dialog>
-      <DialogTrigger className="flex w-full items-center">
-        <Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-        Delete
+      <DialogTrigger className="group flex w-full items-center">
+        <Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70 group-hover:text-primary" />
+        <span className="group-hover:text-primary">Delete</span>
       </DialogTrigger>
 
       <DialogContent className="bg-card">
@@ -69,7 +69,7 @@ export function DeleteVisitor({ id, title, setOpen }: Props) {
               <p>
                 You can&apos;t undo this changes. Click delete when you&apos;re
                 sure to delete visitor
-                <span className="px-1.5 font-medium uppercase text-amber-300">
+                <span className="px-1.5 font-medium uppercase text-primary">
                   {title}.
                 </span>
               </p>

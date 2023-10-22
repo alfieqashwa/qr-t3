@@ -76,7 +76,7 @@ export function UpdateRole({ id, currentRole, username }: Props) {
           <DialogDescription asChild>
             <p>
               Edit
-              <span className="px-1.5 font-medium uppercase text-amber-300">
+              <span className="px-1.5 font-medium uppercase text-primary">
                 {username}
               </span>
               role here. Click Update when you&apos;re done.

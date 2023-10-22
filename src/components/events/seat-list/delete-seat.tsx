@@ -77,7 +77,7 @@ export function DeleteSeat({ id, status, open, setOpen }: Props) {
               <p className="">
                 You can&apos;t undo this changes. Click delete when you&apos;re
                 sure to delete ticket
-                <span className="px-1.5 font-medium uppercase text-amber-300">
+                <span className="px-1.5 font-medium uppercase text-primary">
                   {id}
                 </span>
               </p>

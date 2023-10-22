@@ -40,9 +40,9 @@ export function RowVisitorActions(props: DataTableRowActionsProps) {
           {ticketStatus === "SOLD" && (
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(id)}
-              className="hover:cursor-pointer"
+              className="group hover:cursor-pointer"
             >
-              <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+              <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70 group-hover:text-primary" />
               Copy ID
             </DropdownMenuItem>
           )}

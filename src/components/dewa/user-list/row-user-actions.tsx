@@ -31,10 +31,10 @@ export function RowUserActions(props: DataTableRowActionsProps) {
       <DropdownMenuContent align="end" className="w-[160px]">
         <DropdownMenuItem
           onClick={() => navigator.clipboard.writeText(userId)}
-          className="hover:cursor-pointer"
+          className="group hover:cursor-pointer"
         >
-          <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-          Copy User ID
+          <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70 group-hover:text-primary" />
+          <span className="group-hover:text-primary">Copy User ID</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         {!!eventOrganizerId && (

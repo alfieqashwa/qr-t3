@@ -71,7 +71,7 @@ export function DeleteEvent({ id, title, open, setOpen }: Props) {
               <p>
                 You can&apos;t undo this changes. Click delete when you&apos;re
                 sure to delete event
-                <span className="px-1.5 font-medium uppercase text-amber-300">
+                <span className="px-1.5 font-medium uppercase text-primary">
                   {title}.
                 </span>
               </p>

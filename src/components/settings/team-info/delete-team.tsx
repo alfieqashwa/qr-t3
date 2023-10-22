@@ -72,9 +72,7 @@ export function DeleteTeam({ id, email }: Props) {
               <p>
                 You can&apos;t undo this changes. Click delete when you&apos;re
                 sure to delete
-                <span className="px-1.5 font-medium text-amber-300">
-                  {email}
-                </span>
+                <span className="px-1.5 font-medium text-primary">{email}</span>
                 from your Team.
               </p>
             </DialogDescription>
