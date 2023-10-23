@@ -396,7 +396,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const destination =
       session.user.role === "OPERATOR"
         ? `/${slug}/scanner` // If user has EventOrganizerId and user role as an OPERATOR, then enter this page.
-        : `/${slug}/dashboard`
+        : `/${slug}/event`
 
     return {
       redirect: {
