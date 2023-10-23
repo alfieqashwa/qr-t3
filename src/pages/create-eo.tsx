@@ -1,10 +1,12 @@
+import { zodResolver } from "@hookform/resolvers/zod"
 import { Role } from "@prisma/client"
 import { Loader2 } from "lucide-react"
 import type { GetServerSideProps, NextPage } from "next"
 import { getServerSession } from "next-auth"
 import { signOut, useSession } from "next-auth/react"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useForm } from "react-hook-form"
+import type { z } from "zod"
 import { CommandCombobox } from "~/components/combobox"
 import {
   Card,
@@ -19,17 +21,24 @@ import type { District, Province, Regency, Village } from "~/types/address"
 import { Button } from "~/ui/button"
 import { DialogFooter } from "~/ui/dialog"
 import { Input } from "~/ui/input"
-import { Label } from "~/ui/label"
 import { ToastAction } from "~/ui/toast"
-import { useToast } from "~/ui/use-toast"
+import { toast } from "~/ui/use-toast"
 import { api } from "~/utils/api"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../components/ui/form"
+import { createEventOrganizerSchema } from "../types/schema"
 
 const CreateEOPage: NextPage = (): JSX.Element => {
   const [session, router] = [useSession(), useRouter()]
-  const { toast } = useToast()
 
   const updateUserRoleAsAdmin = api.user.updateRoleToAdmin.useMutation()
-  const { mutate, isLoading, error } = api.eo.create.useMutation({
+  const { mutate, isLoading } = api.eo.create.useMutation({
     async onSuccess(_data, variables) {
       const { name } = variables
       // update user role as ADMIN
@@ -51,77 +60,93 @@ const CreateEOPage: NextPage = (): JSX.Element => {
     },
   })
 
-  const [provinceValue, setProvinceValue] = useState<string>("")
-  const [regencyValue, setRegencyValue] = useState<string>("")
-  const [districtValue, setDistrictValue] = useState<string>("")
-  const [villageValue, setVillageValue] = useState<string>("")
+  type CreateEventOrganizerSchema = z.infer<typeof createEventOrganizerSchema>
 
-  const provincesQuery = api.address.provinces.useQuery(undefined, {
+  const defaultValues: CreateEventOrganizerSchema = {
+    name: "",
+    phone: "",
+    street: "",
+    province: "",
+    regency: "",
+    district: "",
+    village: "",
+    postalCode: "",
+  }
+
+  const form = useForm<CreateEventOrganizerSchema>({
+    resolver: zodResolver(createEventOrganizerSchema),
+    defaultValues,
+    mode: "onChange",
+  })
+
+  const provinces = api.address.provinces.useQuery(undefined, {
     select: (provinces: Province[]) =>
       provinces.sort((a, b) => a.name.localeCompare(b.name)),
   })
-
-  // find selected province.id
-  const provinceId = provincesQuery?.data?.find(
-    (p) => p.name.toLowerCase() === provinceValue
+  //* find selected province.id
+  const provinceId = provinces.data?.find(
+    (p) => p.name.toLowerCase() === form.watch("province")
   )?.id as string
 
-  const regenciesQuery = api.address.regencies.useQuery(
+  const regencies = api.address.regencies.useQuery(
     { provinceId },
     {
-      enabled: !!provinceId && provinceValue !== "",
+      enabled: !!provinceId,
       select: (regencies: Regency[]) =>
         regencies
-          .filter((regency) => regency.province_id === provinceId)
-          .sort((a, b) => a.name.localeCompare(b.name)),
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .filter((r) => r.province_id === provinceId),
     }
   )
-
-  const regencyId = regenciesQuery?.data?.find(
-    (r) => r.name.toLowerCase() === regencyValue
+  const regencyId = regencies.data?.find(
+    (r) => r.name.toLowerCase() === form.watch("regency")
   )?.id as string
 
-  const districtsQuery = api.address.districts.useQuery(
+  const districts = api.address.districts.useQuery(
     { regencyId },
     {
-      enabled: !!regencyId && regencyValue !== "",
+      enabled: !!regencyId,
       select: (districts: District[]) =>
         districts
-          .filter((district) => district.regency_id === regencyId)
-          .sort((a, b) => a.name.localeCompare(b.name)),
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .filter((d) => d.regency_id === regencyId),
     }
   )
 
-  const districtId = districtsQuery?.data?.find(
-    (d) => d.name.toLowerCase() === districtValue
+  const districtId = districts.data?.find(
+    (d) => d.name.toLowerCase() === form.watch("district")
   )?.id as string
 
-  const villagesQuery = api.address.villages.useQuery(
+  const villages = api.address.villages.useQuery(
     { districtId },
     {
-      enabled: !!districtId && districtValue !== "",
+      enabled: !!districtId,
       select: (villages: Village[]) =>
-        villages.filter((village) => village.district_id === districtId),
+        villages.filter((v) => v.district_id === districtId),
     }
   )
 
-  const villageId = villagesQuery?.data?.find(
-    (v) => v.name.toLowerCase() === villageValue
-  )?.id
+  /*
+   * disabled-button validation!
+   * to avoid unmatching between regencyId -> villageId records into database
+   */
+  const villageId = villages.data?.find(
+    (v) => v.name.toLowerCase() === form.watch("village")
+  )?.id as string
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-    const name = formData.get("name")?.toString().toLowerCase() as string
-    const phone = formData.get("phone") as string
-    const province = provinceValue
-    const regency = regencyValue
-    const district = districtValue
-    const village = villageValue
-    const street = formData.get("street")?.toString()?.toLowerCase() as string
-    const postalCode = formData.get("postalCode") as string
+  function onSubmit(values: CreateEventOrganizerSchema) {
+    const {
+      name,
+      phone,
+      street,
+      province,
+      regency,
+      district,
+      village,
+      postalCode,
+    } = values
 
-    // call the mutate function with the form data
+    //? mutate
     mutate({
       name,
       phone,
@@ -134,6 +159,7 @@ const CreateEOPage: NextPage = (): JSX.Element => {
     })
   }
 
+  //? delete user if the user sign-out before submiting the form
   const deleteMeIfISignedOut = api.user.deleteMe.useMutation({
     onSuccess() {
       toast({
@@ -156,23 +182,22 @@ const CreateEOPage: NextPage = (): JSX.Element => {
     if (session.status !== "authenticated") return
     const id = session.data.user.id
 
-    // delete user from db & signed-out if not fill the form and submit
+    //? call the mutate delete-me-if-i-signed-out
     deleteMeIfISignedOut.mutate({
       id,
     })
     void signOut()
   }
 
-  const disabled =
-    provinceValue === "" ||
-    regencyValue === "" ||
-    districtValue === "" ||
-    villageValue === "" ||
-    villageId === null
+  /*
+   * disabled-button validation!
+   * to avoid unmatching between provinceId -> regencyId -> districtId -> villageId records into database
+   */
+  const disabled = regencyId == null || districtId == null || villageId == null
 
   return (
-    <div className="min-h-screen p-2 sm:p-8">
-      <Card className="mx-auto max-w-lg">
+    <div className="thom grid min-h-screen place-items-center bg-red-100">
+      <Card className="max-w-lg">
         <CardHeader>
           <CardTitle>Create New Event Organizer</CardTitle>
           <CardDescription>
@@ -180,130 +205,165 @@ const CreateEOPage: NextPage = (): JSX.Element => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit}>
-            <div className="grid w-full items-center gap-4">
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Name</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  name="name"
-                  placeholder="Event Organizer Name"
-                  className="capitalize"
-                />
-                {error?.data?.zodError?.fieldErrors.name && (
-                  <span className="text-xs text-destructive">
-                    {error?.data?.zodError?.fieldErrors.name}
-                  </span>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              {/* Name */}
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-5 items-center gap-x-4">
+                    <FormLabel className="text-right">Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        className="col-span-3 w-[240px] capitalize"
+                      />
+                    </FormControl>
+                  </FormItem>
                 )}
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="phone">Phone</Label>
-                <Input
-                  id="phone"
-                  type="text"
-                  name="phone"
-                  placeholder="Phone Number"
-                />
-                {error?.data?.zodError?.fieldErrors.phone && (
-                  <span className="text-xs text-destructive">
-                    {error?.data?.zodError?.fieldErrors.phone}
-                  </span>
+              />
+              {/* Phone */}
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-5 items-center gap-x-4">
+                    <FormLabel className="mt-2 text-right">Phone</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        className="col-span-3 w-[240px] capitalize"
+                      />
+                    </FormControl>
+                  </FormItem>
                 )}
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="street">Street</Label>
-                <Input
-                  id="street"
-                  type="text"
-                  name="street"
-                  placeholder="Street"
-                  className="capitalize"
-                />
-                {error?.data?.zodError?.fieldErrors.street && (
-                  <span className="text-xs text-destructive">
-                    {error?.data?.zodError?.fieldErrors.street}
-                  </span>
+              />
+              {/* Street */}
+              <FormField
+                control={form.control}
+                name="street"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-5 items-center gap-x-4">
+                    <FormLabel className="mt-2 text-right">Street</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        className="col-span-3 w-[240px] capitalize"
+                      />
+                    </FormControl>
+                  </FormItem>
                 )}
-              </div>
-              <CardDescription className="mt-2">Select Address</CardDescription>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Province</Label>
-                <CommandCombobox
-                  datas={provincesQuery.data}
-                  isLoading={provincesQuery.isLoading}
-                  value={provinceValue}
-                  setValue={setProvinceValue}
-                  placeholder="province"
-                />
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Regency</Label>
-                <CommandCombobox
-                  datas={regenciesQuery.data}
-                  isLoading={regenciesQuery.isLoading}
-                  value={regencyValue}
-                  setValue={setRegencyValue}
-                  placeholder="regency"
-                />
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="district">Distric</Label>
-                <CommandCombobox
-                  datas={districtsQuery.data}
-                  isLoading={districtsQuery.isLoading}
-                  value={districtValue}
-                  setValue={setDistrictValue}
-                  placeholder="district"
-                />
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="village">Village</Label>
-                <CommandCombobox
-                  datas={villagesQuery.data}
-                  isLoading={villagesQuery.isLoading}
-                  value={villageValue}
-                  setValue={setVillageValue}
-                  placeholder="village"
-                />
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="postalCode">Postal Code</Label>
-                <Input
-                  id="postalCode"
-                  type="text"
-                  name="postalCode"
-                  placeholder="Postal Code"
-                />
-                {error?.data?.zodError?.fieldErrors.postalCode && (
-                  <span className="text-xs text-destructive">
-                    {error?.data?.zodError?.fieldErrors.postalCode}
-                  </span>
+              />
+              <CardDescription className="mt-4">Select Address</CardDescription>
+              {/* Province */}
+              <FormField
+                control={form.control}
+                name="province"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-5 items-center gap-x-4">
+                    <FormLabel className="ml-auto">Province</FormLabel>
+                    <CommandCombobox
+                      name="province"
+                      value={field.value}
+                      status={provinces.status}
+                      datas={provinces.data}
+                      form={form}
+                    />
+                    <FormMessage />
+                  </FormItem>
                 )}
-              </div>
-              <DialogFooter className="mt-4">
+              />
+              {/* Regency */}
+              <FormField
+                control={form.control}
+                name="regency"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-5 items-center gap-x-4">
+                    <FormLabel className="ml-auto">Regency</FormLabel>
+                    <CommandCombobox
+                      name="regency"
+                      value={field.value}
+                      status={regencies.status}
+                      datas={regencies.data}
+                      form={form}
+                    />
+                  </FormItem>
+                )}
+              />
+              {/* District */}
+              <FormField
+                control={form.control}
+                name="district"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-5 items-center gap-x-4">
+                    <FormLabel className="ml-auto">District</FormLabel>
+                    <CommandCombobox
+                      name="district"
+                      value={field.value}
+                      status={districts.status}
+                      datas={districts.data}
+                      form={form}
+                    />
+                  </FormItem>
+                )}
+              />
+              {/* Village */}
+              <FormField
+                control={form.control}
+                name="village"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-5 items-center gap-x-4">
+                    <FormLabel className="ml-auto">Village</FormLabel>
+                    <CommandCombobox
+                      name="village"
+                      value={field.value}
+                      status={villages.status}
+                      datas={villages.data}
+                      form={form}
+                    />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="postalCode"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-5 items-center gap-x-4">
+                    <FormLabel className="ml-auto mt-2 whitespace-nowrap text-right">
+                      Postal Code
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        className="col-span-3 w-[240px] capitalize"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <DialogFooter className="mt-4 flex flex-row items-center justify-end space-x-2">
                 <Button
                   type="button"
-                  size="lg"
+                  size="sm"
                   variant="outline"
-                  className="mt-2 sm:mt-0"
                   onClick={deleteUser}
                 >
                   Sign Out
                 </Button>
                 {isLoading ? (
-                  <Button size="lg" disabled>
+                  <Button disabled size="sm">
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Please wait
                   </Button>
                 ) : (
-                  <Button type="submit" size="lg" disabled={disabled}>
+                  <Button disabled={disabled} type="submit" size="sm">
                     Submit
                   </Button>
                 )}
               </DialogFooter>
-            </div>
-          </form>
+            </form>
+          </Form>
         </CardContent>
       </Card>
     </div>
