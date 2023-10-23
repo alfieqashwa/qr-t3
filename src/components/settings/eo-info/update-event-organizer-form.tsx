@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import type { z } from "zod"
-import { CommandComboboxHookForm } from "~/components/combobox"
+import { CommandCombobox } from "~/components/combobox"
 import type { District, Province, Regency, Village } from "~/src/types/address"
 import { updateEventOrganizerSchema } from "~/src/types/schema"
 import { api, type RouterOutputs } from "~/src/utils/api"
@@ -122,9 +122,9 @@ export const UpdateEventOrganizerForm = ({
   )
 
   /*
-    disabled-button validation!
-    to avoid unmatching between regencyId -> villageId records into database
-  */
+   * disabled-button validation!
+   * to avoid unmatching between regencyId -> villageId records into database
+   */
   const villageId = villages.data?.find(
     (v) => v.name.toLowerCase() === form.watch("village")
   )?.id as string
@@ -141,7 +141,7 @@ export const UpdateEventOrganizerForm = ({
       postalCode,
     } = values
 
-    // mutate
+    //? mutate
     mutate({
       id: eo?.id as string,
       name,
@@ -156,9 +156,9 @@ export const UpdateEventOrganizerForm = ({
   }
 
   /*
-    disabled-button validation!
-    to avoid unmatching between provinceId -> regencyId -> districtId -> villageId records into database
-  */
+   * disabled-button validation!
+   * to avoid unmatching between provinceId -> regencyId -> districtId -> villageId records into database
+   */
   const disabled = regencyId == null || districtId == null || villageId == null
 
   return (
@@ -214,7 +214,7 @@ export const UpdateEventOrganizerForm = ({
           render={({ field }) => (
             <FormItem className="grid grid-cols-4 items-center gap-x-4">
               <FormLabel className="ml-auto">Province</FormLabel>
-              <CommandComboboxHookForm
+              <CommandCombobox
                 name="province"
                 value={field.value}
                 status={provinces.status}
@@ -232,7 +232,7 @@ export const UpdateEventOrganizerForm = ({
           render={({ field }) => (
             <FormItem className="grid grid-cols-4 items-center gap-x-4">
               <FormLabel className="ml-auto">Regency</FormLabel>
-              <CommandComboboxHookForm
+              <CommandCombobox
                 name="regency"
                 value={field.value}
                 status={regencies.status}
@@ -249,7 +249,7 @@ export const UpdateEventOrganizerForm = ({
           render={({ field }) => (
             <FormItem className="grid grid-cols-4 items-center gap-x-4">
               <FormLabel className="ml-auto">District</FormLabel>
-              <CommandComboboxHookForm
+              <CommandCombobox
                 name="district"
                 value={field.value}
                 status={districts.status}
@@ -266,7 +266,7 @@ export const UpdateEventOrganizerForm = ({
           render={({ field }) => (
             <FormItem className="grid grid-cols-4 items-center gap-x-4">
               <FormLabel className="ml-auto">Village</FormLabel>
-              <CommandComboboxHookForm
+              <CommandCombobox
                 name="village"
                 value={field.value}
                 status={villages.status}
