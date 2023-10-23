@@ -35,7 +35,10 @@ export const eventRouter = createTRPCRouter({
   count: protectedProcedure.input(z.object({ isProfit: z.boolean() })).query(
     async ({ ctx, input: { isProfit } }) =>
       await ctx.prisma.event.count({
-        where: { profit: isProfit },
+        where: {
+          eventOrganizerId: ctx.session.user.eventOrganizerId as string,
+          profit: isProfit,
+        },
       })
   ),
   getAll: protectedProcedure.query(async ({ ctx }) => {
