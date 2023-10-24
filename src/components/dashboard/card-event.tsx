@@ -64,14 +64,15 @@ export function CardEvent(props: CardEventProps) {
   }
 
   function totalTicket(category: string) {
-    if (category === "") {
+    if (category === "all") {
       return tickets.length
+    } else {
     }
     return tickets.filter((l) => l.category === category).length
   }
 
   function totalVisitor(category: string) {
-    if (category === "") {
+    if (category === "all") {
       return visitors.length
     }
     return visitors.filter((v) => v.ticket.category === category).length
@@ -118,7 +119,7 @@ export function CardEvent(props: CardEventProps) {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent position="popper">
-                  <SelectItem className="uppercase" value="">
+                  <SelectItem className="uppercase" value="all">
                     All
                   </SelectItem>
                   {categoryList.map((category) => (
