@@ -76,6 +76,7 @@ export function ProfileImage({ profile }: ProfileImageProps): JSX.Element {
             src={profileImage}
             alt={name as string}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" //? https://nextjs.org/docs/pages/api-reference/components/image#sizes
             priority
             className="rounded-full ring-4 ring-amber-300 ring-offset-2 ring-offset-slate-100"
           />

@@ -81,7 +81,13 @@ export const UserProfile = ({ image }: { image: string }) => {
     <Menubar className="h-12 w-12 items-center justify-center rounded-full border-2 border-foreground/50 p-0 transition-colors duration-300 ease-in-out hover:border-foreground/75">
       <MenubarMenu>
         <MenubarTrigger className="relative h-10 w-10 rounded-full px-0 py-0 hover:cursor-pointer">
-          <Image src={image} alt="User Avatar" fill className="rounded-full" />
+          <Image
+            src={image}
+            alt="User Avatar"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" //? https://nextjs.org/docs/pages/api-reference/components/image#sizes
+            className="rounded-full"
+          />
         </MenubarTrigger>
         <MenubarContent className="mr-2 mt-3.5 w-52">
           {destkopViewLink}
