@@ -1,4 +1,4 @@
-import { Loader2, User } from "lucide-react"
+import { Loader2, User as UserIcon } from "lucide-react"
 import { UserProfile } from "./user-profile"
 
 type UserAvatarProps = {
@@ -6,20 +6,21 @@ type UserAvatarProps = {
   userImageUpdate?: string | null
   userImage?: string | null
 }
+
 export const UserAvatar = ({
   isLoading,
   userImage,
   userImageUpdate,
-}: UserAvatarProps) => (
-  <>
-    {isLoading ? (
-      <Loader2 size={24} className="animate-spin" />
-    ) : !!userImageUpdate ? (
-      <UserProfile image={userImageUpdate} />
-    ) : !!userImage ? (
-      <UserProfile image={userImage} />
+}: UserAvatarProps): JSX.Element => {
+  if (isLoading) return <Loader2 className="animate-spin" />
+
+  const image = !!userImageUpdate ? userImageUpdate : (userImage as string)
+  const userAvatar =
+    !userImageUpdate && !userImage ? (
+      <UserIcon />
     ) : (
-      <User />
-    )}
-  </>
-)
+      <UserProfile image={image} />
+    )
+
+  return <>{userAvatar}</>
+}
