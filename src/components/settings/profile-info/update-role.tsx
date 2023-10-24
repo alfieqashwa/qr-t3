@@ -23,6 +23,7 @@ type Props = {
 }
 
 export function UpdateRole({ id, currentRole, username }: Props) {
+  const router = useRouter()
   const utils = api.useUtils()
   const { toast } = useToast()
 
@@ -39,6 +40,7 @@ export function UpdateRole({ id, currentRole, username }: Props) {
         await utils.user.me.invalidate()
         /* auto-closed after succeed submit the dialog form */
         await wait().then(() => setOpen(false))
+        router.reload()
       },
       onError() {
         toast({
@@ -48,7 +50,7 @@ export function UpdateRole({ id, currentRole, username }: Props) {
           action: <ToastAction altText="Try again">Try again</ToastAction>,
         })
       },
-    }
+    },
   )
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -129,6 +131,7 @@ import {
   SelectValue,
 } from "~/components/ui/select"
 import { wait } from "~/src/utils/wait"
+import { useRouter } from "next/router"
 
 export function SelectRole({ role }: { role: Role }) {
   return (
