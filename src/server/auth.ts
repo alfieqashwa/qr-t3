@@ -98,6 +98,12 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      **/
   ],
+  theme: {
+    colorScheme: "auto", // "auto" | "dark" | "light"
+    brandColor: "", // Hex color code
+    logo: "https://raw.githubusercontent.com/alfieqashwa/celloworld/master/content/assets/logo.png", // Absolute URL to image
+    buttonText: "", // Hex color code
+  },
 }
 
 /**
