@@ -13,7 +13,7 @@ type LayoutProps = { title: string; children: ReactNode }
 export const Layout = ({ title, children }: LayoutProps) => {
   const { toggle } = useToggleStore()
 
-  const titleHeader = `${title} | QR Ticket Concert`
+  const titleHeader = `${title} | Event Organizer App`
 
   return (
     <SlugContextProvider>

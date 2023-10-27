@@ -1,6 +1,7 @@
 import { signIn, signOut, useSession } from "next-auth/react"
 import Link from "next/link"
 import { api } from "~/src/utils/api"
+import { Button } from "~/ui/button"
 
 export const AuthShowcase = (): JSX.Element => {
   const { data: session } = useSession()
@@ -13,21 +14,22 @@ export const AuthShowcase = (): JSX.Element => {
       select: (eo) => ({
         slug: eo?.name.replace(/\s+/g, "-"),
       }),
-    }
+    },
   )
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
-      <p className="text-center text-2xl text-white">
+      <p className="text-center text-2xl text-primary">
         {session && (
           <span className="text-sm lg:text-base">
             Logged in as {session.user?.name}
           </span>
         )}
       </p>
-      <section className="space-x-4 lg:space-x-8">
-        <button
-          className="rounded-full bg-slate-700 px-8 py-3 text-sm font-semibold text-white no-underline transition hover:bg-white/20 lg:px-10 lg:text-base"
+      <section className="space-x-4">
+        <Button
+          size="lg"
+          variant="secondary"
           onClick={
             session
               ? () => void signOut()
@@ -35,10 +37,10 @@ export const AuthShowcase = (): JSX.Element => {
           }
         >
           {session ? "Sign out" : "Sign in"}
-        </button>
+        </Button>
         {session && status === "success" && (
           <Link
-            className="rounded-full bg-white/10 px-8 py-3 text-sm font-semibold text-white no-underline transition duration-300 ease-in-out hover:bg-white/20 active:bg-white/25 lg:px-10 lg:text-base"
+            className="inline-flex h-11 items-center justify-center rounded-md bg-secondary px-8 text-secondary-foreground outline-none hover:bg-secondary/80 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
             href={`/${data?.slug as string}/dashboard`}
           >
             Dashboard
