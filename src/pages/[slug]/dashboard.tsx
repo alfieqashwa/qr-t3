@@ -16,12 +16,13 @@ const DashboardPage: NextPage = () => {
       <div className="mt-4 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3 xl:gap-8">
         {status === "success" &&
           data.map((event) => {
-            const { id, title, venue, date, tickets, visitors } = event
+            const { id, title, venue, date, profit, tickets, visitors } = event
             return (
               <CardEvent
                 title={title}
                 venue={venue}
                 date={date}
+                profit={profit}
                 tickets={tickets}
                 visitors={visitors}
                 key={id}

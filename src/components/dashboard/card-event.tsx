@@ -25,13 +25,14 @@ type CardEventProps = {
   title: string
   thumbnail?: string | null
   date: Date
+  profit: boolean
   venue: string
   tickets: Ticket[]
   visitors: VisitorProps[]
 }
 
 export function CardEvent(props: CardEventProps) {
-  const { title, venue, date, tickets, visitors } = props
+  const { title, venue, date, profit, tickets, visitors } = props
 
   const formattedDate = format(date, "PPPP", { locale: id })
   const categoryList = [...new Set(tickets.map((t) => t.category))]
@@ -81,31 +82,33 @@ export function CardEvent(props: CardEventProps) {
   return (
     <Card>
       <CardHeader>
-        <div>
-          <CardTitle className="uppercase">{title}</CardTitle>
-        </div>
-        <div className="flex justify-between">
-          <CardDescription className="font-bold capitalize">
-            {formattedDate}
-          </CardDescription>
-          <CardDescription className="font-bold capitalize">
-            {venue}
-          </CardDescription>
+        <div className="flex items-start justify-between">
+          <div>
+            <CardTitle className="capitalize">{title}</CardTitle>
+            <div className="mt-2 font-bold capitalize">
+              <CardDescription>Date: {formattedDate}</CardDescription>
+              <CardDescription>Venue: {venue}</CardDescription>
+            </div>
+          </div>
+          <div className="text-right">
+            {profit ? (
+              <>
+                <CardDescription>Total Omzet</CardDescription>
+                <CardTitle className="text-xl">{totalPrice(value)}</CardTitle>
+              </>
+            ) : (
+              <CardDescription className="text-primary">
+                Non-Profit Event
+              </CardDescription>
+            )}
+            <CardDescription className="mt-1">Total Ticket</CardDescription>
+            <CardTitle className="text-xl">{totalTicket(value)}</CardTitle>
+            <CardDescription className="mt-1">Total Visitor</CardDescription>
+            <CardTitle className="text-xl">{totalVisitor(value)}</CardTitle>
+          </div>
         </div>
       </CardHeader>
       <CardContent>
-        <CardDescription className="space-x-1 space-y-0.5 text-end font-medium">
-          <span>Omzet:</span>
-          <span className="text-amber-300">{totalPrice(value)}</span>
-        </CardDescription>
-        <CardDescription className="space-x-1 space-y-0.5 text-end font-medium">
-          <span>Total Ticket:</span>
-          <span className="text-amber-300">{totalTicket(value)}</span>
-        </CardDescription>
-        <CardDescription className="space-x-1 space-y-0.5 text-end font-medium">
-          <span>Total Visitor:</span>
-          <span className="text-amber-300">{totalVisitor(value)}</span>
-        </CardDescription>
         <div className="mt-4 grid w-full items-center gap-4">
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="category" className="sr-only">
