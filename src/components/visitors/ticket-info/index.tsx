@@ -1,6 +1,7 @@
 import { format } from "date-fns"
 import { id } from "date-fns/locale"
 import { useRouter } from "next/router"
+import { CountdownTimer } from "~/components/countdownTimer"
 import {
   Card,
   CardContent,
@@ -40,7 +41,7 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
           action: <ToastAction altText="Try again">Try again</ToastAction>,
         })
       },
-    }
+    },
   )
 
   const handleCheckIn = (visitorId: string) =>
@@ -120,15 +121,22 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
                     <span>Email: </span>
                     <span className="text-amber-300">{v.email}</span>
                   </li>
-                  {!isTodaysEventYet ? (
+                  {!isTodaysEventYet ? ( //! TODOS: remove exclamation-mark when production is ready!
                     <div>
                       <div className="mt-4 text-center text-xl font-bold">
                         <p>Today is not the Event Date</p>
+                        <div className="m-2 text-xs text-primary">
+                          <p>Button Check-In & Check-Out should be disabled</p>
+                          <p>
+                            But for the testing development purpose, we enabled
+                            them.
+                          </p>
+                        </div>
+                        {ticket.event?.date && (
+                          <CountdownTimer date={ticket.event?.date} />
+                        )}
                         <p className="text-base text-rose-400">
                           TODOS: Setup Start & End Event Time
-                        </p>
-                        <p className="text-base text-rose-400">
-                          TODOS: Countdown Clock
                         </p>
                       </div>
                       <li className="mt-8 flex items-center justify-center space-x-6">
@@ -181,11 +189,11 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
                   ) : (
                     <div className="mt-4 text-center text-xl font-bold">
                       <p>Today is not the Event Date</p>
+                      {ticket.event?.date && (
+                        <CountdownTimer date={ticket.event?.date} />
+                      )}
                       <p className="text-base text-rose-400">
                         TODOS: Setup Start & End Event Time
-                      </p>
-                      <p className="text-base text-rose-400">
-                        TODOS: Countdown Clock
                       </p>
                     </div>
                   )}
