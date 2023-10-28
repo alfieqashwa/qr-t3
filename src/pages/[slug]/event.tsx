@@ -7,6 +7,12 @@ import { LoadingSpinner } from "~/components/loading"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
 import { authOptions } from "~/server/auth"
 import { prisma } from "~/server/db"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "~/ui/tooltip"
 import { api } from "~/utils/api"
 
 const title = "Events" as const
@@ -19,18 +25,38 @@ const EventPage: NextPage = () => {
       <Tabs defaultValue="event-list" className="mt-4">
         <TabsList className="mb-3">
           <TabsTrigger value="event-list">Event</TabsTrigger>
-          <TabsTrigger
-            value="ticket-list"
-            disabled={countProfitEvents.data === 0}
-          >
-            Ticket
-          </TabsTrigger>
-          <TabsTrigger
-            value="seat-list"
-            disabled={countNonProfitEvents.data === 0}
-          >
-            Seat
-          </TabsTrigger>
+
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <TabsTrigger
+                  value="ticket-list"
+                  disabled={countProfitEvents.data === 0}
+                >
+                  Ticket
+                </TabsTrigger>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Provit Event</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <TabsTrigger
+                  value="seat-list"
+                  disabled={countNonProfitEvents.data === 0}
+                >
+                  Seat
+                </TabsTrigger>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Non-provit Event</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </TabsList>
         <TabsContent value="event-list">
           <EventList />
