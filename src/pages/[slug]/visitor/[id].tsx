@@ -14,7 +14,7 @@ const VisitorByIdPage: NextPage = (): JSX.Element => {
   const { data: ticket, status: ticketStatus } =
     api.ticket.getAllByIdOperatorRole.useQuery(
       { ticketId },
-      { enabled: !!ticketId }
+      { enabled: !!ticketId },
     )
 
   if (ticketStatus !== "success") return <LoadingSpinner />
@@ -62,14 +62,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         },
       }
     }
-
-    if (session.user.role === "OPERATOR")
-      return {
-        redirect: {
-          destination: `/${slug}/scanner`, // If user has EventOrganizerId and user role as an OPERATOR, then enter this page.
-          permanent: false,
-        },
-      }
   }
 
   return {
