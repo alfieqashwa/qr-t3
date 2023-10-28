@@ -131,7 +131,7 @@ Add more libs.
 - [x] Restricted updating is_profit field if the event is already created the ticket or seat
 - [x] Create Custom Login Page (Logo)
 - [ ] Create Index Page
-- [ ] Add tooltip whenever user hovering the user avatar
+- [x] Add tooltip whenever user hovering the user avatar
 - [ ] Configure Check-In & Check-Out Buttons
 - [ ] Setup Charts
 - [ ] Online Payment Transaction (QRIS)
