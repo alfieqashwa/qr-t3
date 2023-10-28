@@ -30,6 +30,7 @@ export const AuthShowcase = (): JSX.Element => {
         <Button
           size="lg"
           variant="secondary"
+          className="text-base font-normal"
           onClick={
             session
               ? () => void signOut()
