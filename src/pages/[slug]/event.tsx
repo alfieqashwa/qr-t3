@@ -28,14 +28,13 @@ const EventPage: NextPage = () => {
 
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger>
-                <TabsTrigger
-                  value="ticket-list"
-                  disabled={countProfitEvents.data === 0}
-                >
-                  Ticket
-                </TabsTrigger>
-              </TooltipTrigger>
+              <TabsTrigger
+                asChild
+                value="ticket-list"
+                disabled={countProfitEvents.data === 0}
+              >
+                <TooltipTrigger>Ticket</TooltipTrigger>
+              </TabsTrigger>
               <TooltipContent>
                 <p>Provit Event</p>
               </TooltipContent>
@@ -44,14 +43,13 @@ const EventPage: NextPage = () => {
 
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger>
-                <TabsTrigger
-                  value="seat-list"
-                  disabled={countNonProfitEvents.data === 0}
-                >
-                  Seat
-                </TabsTrigger>
-              </TooltipTrigger>
+              <TabsTrigger
+                asChild
+                value="seat-list"
+                disabled={countNonProfitEvents.data === 0}
+              >
+                <TooltipTrigger>Seat</TooltipTrigger>
+              </TabsTrigger>
               <TooltipContent>
                 <p>Non-provit Event</p>
               </TooltipContent>

@@ -26,16 +26,18 @@ export const NavigationHeader = () => {
         </div>
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger>
-              <button
-                className={cn(
-                  "hidden rounded-full p-2.5 transition-transform duration-300 ease-in-out lg:block",
-                  toggle && "text-primary transition-colors",
-                )}
-                onClick={handleToggle}
-              >
-                {!toggle ? <ArrowBigRight /> : <ArrowBigLeft />}
-              </button>
+            {/*
+             * FIX BUGS: add asChild
+             * src: https://nextjs.org/docs/messages/react-hydration-error
+             */}
+            <TooltipTrigger
+              className={cn(
+                "hidden rounded-full p-2.5 transition-transform duration-300 ease-in-out lg:block",
+                toggle && "text-primary transition-colors",
+              )}
+              onClick={handleToggle}
+            >
+              {!toggle ? <ArrowBigRight /> : <ArrowBigLeft />}
             </TooltipTrigger>
             <TooltipContent>
               <p>{!toggle ? "Expand" : "Shrink"}</p>
