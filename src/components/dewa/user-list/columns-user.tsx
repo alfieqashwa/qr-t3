@@ -134,11 +134,16 @@ export const columnsUser: ColumnDef<RouterOutputs["user"]["getAllUsers"][0]>[] =
       id: "actions",
       cell: ({ row }) => {
         const {
-          original: { id, eventOrganizerId },
+          original: { id, eventOrganizerId, email, role },
         } = row
         return (
           <div className="relative">
-            <RowUserActions userId={id} eventOrganizerId={eventOrganizerId} />
+            <RowUserActions
+              userId={id}
+              eventOrganizerId={eventOrganizerId}
+              email={email}
+              role={role}
+            />
           </div>
         )
       },
