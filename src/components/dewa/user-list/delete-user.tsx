@@ -1,5 +1,4 @@
 import { Loader2, Trash } from "lucide-react"
-import { useState } from "react"
 import {
   Dialog,
   DialogContent,
@@ -18,13 +17,12 @@ import { wait } from "~/utils/wait"
 type Props = {
   id: string
   email: string
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export function DeleteUser({ id, email }: Props) {
+export function DeleteUser({ id, email, ...props }: Props) {
   const utils = api.useUtils()
   const { toast } = useToast()
-
-  const [open, setOpen] = useState(false)
 
   const { mutate, isLoading } = api.user.deleteAdminRole.useMutation({
     async onSuccess() {
@@ -36,7 +34,7 @@ export function DeleteUser({ id, email }: Props) {
       })
       await utils.user.getAllUsers.invalidate()
       /* auto-closed after succeed submit the dialog form */
-      await wait().then(() => setOpen(false))
+      await wait().then(() => props.setOpen(false))
     },
     onError() {
       toast({
@@ -57,7 +55,7 @@ export function DeleteUser({ id, email }: Props) {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog>
       <DialogTrigger className="group flex w-full items-center">
         <Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70 group-hover:text-primary" />
         <span className="group-hover:text-primary">Delete</span>
@@ -80,7 +78,7 @@ export function DeleteUser({ id, email }: Props) {
               type="button"
               variant="ghost"
               size="sm"
-              onClick={() => setOpen(false)}
+              onClick={() => props.setOpen(false)}
             >
               Cancel
             </Button>

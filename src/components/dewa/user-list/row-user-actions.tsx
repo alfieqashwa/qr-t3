@@ -52,7 +52,7 @@ export function RowUserActions(props: DataTableRowActionsProps) {
         )}
         {role !== "DEWA" && (
           <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-            <DeleteUser id={userId} email={email} />
+            <DeleteUser id={userId} email={email} setOpen={setOpen} />
           </DropdownMenuItem>
         )}
       </DropdownMenuContent>
