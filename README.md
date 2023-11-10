@@ -129,6 +129,7 @@ Add more libs.
 
 - [x] Split events to provit & non-provit
 - [x] Restricted updating is_profit field if the event is already created the ticket or seat
+- [x] Create isProfit toggle
 - [x] Create Custom Login Page (Logo)
 - [ ] Create Index Page
 - [x] Add tooltip whenever user hovering the user avatar
