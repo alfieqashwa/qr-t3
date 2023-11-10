@@ -40,6 +40,15 @@ export const columnsSeat: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
     cell: ({ row }) => <div className="w-auto">{row.getValue("id")}</div>,
   },
   {
+    accessorKey: "ticketNumber",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Seat No" />
+    ),
+    cell: ({ row }) => (
+      <div className="w-auto">{row.getValue("ticketNumber")}</div>
+    ),
+  },
+  {
     accessorKey: "price",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="price" />
@@ -97,7 +106,7 @@ export const columnsSeat: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
     ),
     cell: ({ row }) => {
       const status = statuses.find(
-        (status) => status.value === row.getValue("status")
+        (status) => status.value === row.getValue("status"),
       )
 
       if (!status) {

@@ -62,6 +62,11 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
         <CardDescription className="md:text-lg">
           Ticket ID: {ticket?.id}
         </CardDescription>
+        {ticket?.ticketNumber && (
+          <CardDescription className="md:text-lg">
+            Ticket No: {ticket?.ticketNumber}
+          </CardDescription>
+        )}
       </CardHeader>
 
       <CardContent className="rounded-xl border-2 py-6 shadow-xl">
