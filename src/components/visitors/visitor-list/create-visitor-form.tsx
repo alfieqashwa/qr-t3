@@ -1,11 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
+import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 import type { z } from "zod"
 import { createVisitorSchema } from "~/src/types/schema"
 import { cn } from "~/src/utils"
-import { api } from "~/src/utils/api"
-import { wait } from "~/src/utils/wait"
 import { Button } from "~/ui/button"
 import {
   Form,
@@ -16,6 +15,7 @@ import {
   FormMessage,
 } from "~/ui/form"
 import { Input } from "~/ui/input"
+import { Label } from "~/ui/label"
 import {
   Select,
   SelectContent,
@@ -24,8 +24,11 @@ import {
   SelectValue,
 } from "~/ui/select"
 import { SheetFooter } from "~/ui/sheet"
+import { Switch } from "~/ui/switch"
 import { ToastAction } from "~/ui/toast"
 import { toast } from "~/ui/use-toast"
+import { api } from "~/utils/api"
+import { wait } from "~/utils/wait"
 
 type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -70,12 +73,25 @@ export const CreateVisitorForm = (props: Props) => {
   const selectedEventId = form.watch("eventId")
   const selectedCategory = form.watch("category")
 
+  const [isProfit, setIsProfit] = useState(true)
+
   const events = api.event.getAll.useQuery(undefined, {
     select: (events) =>
-      events.map(({ id, title }) => ({
-        id,
-        title,
-      })),
+      isProfit
+        ? events
+            .filter((f) => f.profit)
+            .map(({ id, title, profit }) => ({
+              id,
+              title,
+              profit,
+            }))
+        : events
+            .filter((f) => !f.profit)
+            .map(({ id, title, profit }) => ({
+              id,
+              title,
+              profit,
+            })),
   })
 
   const { data: tickets, status: ticketStatus } =
@@ -96,10 +112,10 @@ export const CreateVisitorForm = (props: Props) => {
             }, [])
             .map((t) => ({ ticketId: t.ticketId }))
           const _selectedTicketIds = new Set(
-            _visitorTicketIds.map((t) => t.ticketId)
+            _visitorTicketIds.map((t) => t.ticketId),
           )
           const filteredTicketIds = tickets.filter(
-            (t) => !_selectedTicketIds.has(t.id)
+            (t) => !_selectedTicketIds.has(t.id),
           )
 
           return {
@@ -107,7 +123,7 @@ export const CreateVisitorForm = (props: Props) => {
             filteredTicketIds,
           }
         },
-      }
+      },
     )
 
   function onSubmit(values: CreateVisitorSchema) {
@@ -169,6 +185,7 @@ export const CreateVisitorForm = (props: Props) => {
           name="eventId"
           render={({ field }) => (
             <FormItem>
+              <ToggleProfit isProfit={isProfit} setIsProfit={setIsProfit} />
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl className="capitalize">
                   <SelectTrigger>
@@ -183,7 +200,10 @@ export const CreateVisitorForm = (props: Props) => {
                         key={event.id}
                         className="capitalize"
                       >
-                        {event.title}
+                        <span className="pr-1">{event.title}</span>
+                        <span className="lowercase text-amber-300">
+                          {!!event.profit ? "(profit)" : "(non-profit)"}
+                        </span>
                       </SelectItem>
                     ))}
                 </SelectContent>
@@ -201,7 +221,7 @@ export const CreateVisitorForm = (props: Props) => {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl className={cn("", field.value && "uppercase")}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select an Event" />
+                    <SelectValue placeholder="Select Category" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -230,7 +250,7 @@ export const CreateVisitorForm = (props: Props) => {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl className="col-span-3 w-[240px] uppercase">
                   <SelectTrigger>
-                    <SelectValue placeholder="Select an event" />
+                    <SelectValue placeholder="Select ticket" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -283,3 +303,17 @@ export const CreateVisitorForm = (props: Props) => {
     </Form>
   )
 }
+
+type TogglePRofitProps = {
+  isProfit: boolean
+  setIsProfit: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const ToggleProfit = ({ isProfit, setIsProfit }: TogglePRofitProps) => (
+  <div className="flex items-center space-x-2">
+    <Switch id="is-profit" checked={isProfit} onCheckedChange={setIsProfit} />
+    <Label htmlFor="is-profit" className="text-xs text-amber-300">
+      {isProfit ? "Profit Mode" : "Non-Profit Mode"}
+    </Label>
+  </div>
+)
