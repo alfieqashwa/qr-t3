@@ -23,13 +23,15 @@ type TicketInfoProps = {
 export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
   const router = useRouter()
   const utils = api.useUtils()
-  const { mutate, isLoading } = api.visitor.toggleCheckOperatorRole.useMutation(
-    {
+  const { mutate, isLoading, variables } =
+    api.visitor.toggleCheckOperatorRole.useMutation({
       async onSuccess() {
         toast({
           title: "Succeed!",
           variant: "default",
-          description: "Check has been updated.",
+          description: `The check-${
+            variables?.isCheckIn ? "in" : "out"
+          } has been successfully updated.`,
         })
         await utils.ticket.getAllByIdOperatorRole.invalidate()
       },
@@ -41,8 +43,7 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
           action: <ToastAction altText="Try again">Try again</ToastAction>,
         })
       },
-    },
-  )
+    })
 
   const handleCheckIn = (visitorId: string) =>
     mutate({ id: visitorId, isCheckIn: true, checkInDate: new Date() })
@@ -124,8 +125,7 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
                       <div className="m-2 text-xs text-primary">
                         <p>Button Check-In & Check-Out should be disabled</p>
                         <p>
-                          But for the testing development purpose, we enabled
-                          them.
+                          But for testing development purpose, we enabled them.
                         </p>
                       </div>
                       {ticket.event?.date && (

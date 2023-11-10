@@ -40,11 +40,11 @@ export const GenerateQRCode = ({
       select: (data) => ({
         slug: data?.name.replace(/\s+/g, "-"),
       }),
-    }
+    },
   )
 
   const onSVGButtonClick = () => {
-    const node = document.getElementById("QRCode")
+    const node = document.getElementById("download-qrcode")
     if (node == null) return
 
     const svgData = new XMLSerializer().serializeToString(node)
@@ -72,11 +72,11 @@ export const GenerateQRCode = ({
       </DialogTrigger>
 
       {status === "success" && (
-        <DialogContent className="min-w-full pl-32">
+        <DialogContent className="">
           <DialogHeader>
-            <DialogTitle>Generate QR Code</DialogTitle>
+            <DialogTitle className="mx-auto">Generate QR Code</DialogTitle>
             <DialogDescription asChild>
-              <>
+              <div className="mx-auto p-4">
                 <p>
                   Click
                   <span className="px-1.5 font-medium text-amber-300">
@@ -84,14 +84,21 @@ export const GenerateQRCode = ({
                   </span>
                   button to download QR Code.
                 </p>
-                <div className="w-full">
-                  <SvgQRCode
-                    id="QRCode"
-                    value={`/${data.slug as string}/visitor/${id}`}
-                    size={512}
-                  />
-                </div>
-              </>
+                <SvgQRCode
+                  id="QRCode"
+                  value={`/${data.slug as string}/visitor/${id}`}
+                  size={256}
+                />
+                {/* SvgQRCode for download (based on id): the difference is the size */}
+                <SvgQRCode
+                  id="download-qrcode"
+                  value={`/${data.slug as string}/visitor/${id}`}
+                  size={512}
+                  widthLogo={36}
+                  heightLogo={36}
+                  className="hidden"
+                />
+              </div>
             </DialogDescription>
           </DialogHeader>
 
