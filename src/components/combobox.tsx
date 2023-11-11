@@ -26,6 +26,7 @@ type CommandComboboxProps<TValue extends FieldValues> = {
   status: "error" | "success" | "loading"
   datas?: Data[]
   form: UseFormReturn<TValue, unknown, undefined>
+  className?: string
 }
 
 export const CommandCombobox = <TValue extends FieldValues>({
@@ -34,6 +35,7 @@ export const CommandCombobox = <TValue extends FieldValues>({
   status,
   datas,
   form,
+  className,
 }: CommandComboboxProps<TValue>) => {
   const [open, setOpen] = useState(false)
 
@@ -46,7 +48,8 @@ export const CommandCombobox = <TValue extends FieldValues>({
             role="combobox"
             className={cn(
               "mt-6 w-[240px] justify-between whitespace-nowrap pl-3 uppercase",
-              !value && "text-muted-foreground"
+              !value && "text-muted-foreground",
+              className,
             )}
           >
             {!!value &&
@@ -76,7 +79,7 @@ export const CommandCombobox = <TValue extends FieldValues>({
                     onSelect={() => {
                       form.setValue(
                         name as Path<TValue>,
-                        p.name.toLowerCase() as PathValue<TValue, Path<TValue>>
+                        p.name.toLowerCase() as PathValue<TValue, Path<TValue>>,
                       )
                       setOpen(false)
                     }}
@@ -84,7 +87,7 @@ export const CommandCombobox = <TValue extends FieldValues>({
                     <Check
                       className={cn(
                         "mr-2 h-4 w-4",
-                        p.name === value ? "opacity-100" : "opacity-0"
+                        p.name === value ? "opacity-100" : "opacity-0",
                       )}
                     />
                     {p.name}

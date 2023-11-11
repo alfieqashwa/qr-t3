@@ -29,7 +29,7 @@ export function CreateNewEvent() {
         <SheetHeader>
           <SheetTitle>Add New Event</SheetTitle>
           <SheetDescription>
-            Create new event here. Click Add Event when you&apos;re done.
+            Click Add Event when you&apos;re done.
           </SheetDescription>
         </SheetHeader>
         <CreateEventForm setOpen={setOpen} />

@@ -85,7 +85,7 @@ const CreateEOPage: NextPage = (): JSX.Element => {
   })
   //* find selected province.id
   const provinceId = provinces.data?.find(
-    (p) => p.name.toLowerCase() === form.watch("province")
+    (p) => p.name.toLowerCase() === form.watch("province"),
   )?.id as string
 
   const regencies = api.address.regencies.useQuery(
@@ -96,10 +96,10 @@ const CreateEOPage: NextPage = (): JSX.Element => {
         regencies
           .sort((a, b) => a.name.localeCompare(b.name))
           .filter((r) => r.province_id === provinceId),
-    }
+    },
   )
   const regencyId = regencies.data?.find(
-    (r) => r.name.toLowerCase() === form.watch("regency")
+    (r) => r.name.toLowerCase() === form.watch("regency"),
   )?.id as string
 
   const districts = api.address.districts.useQuery(
@@ -110,11 +110,11 @@ const CreateEOPage: NextPage = (): JSX.Element => {
         districts
           .sort((a, b) => a.name.localeCompare(b.name))
           .filter((d) => d.regency_id === regencyId),
-    }
+    },
   )
 
   const districtId = districts.data?.find(
-    (d) => d.name.toLowerCase() === form.watch("district")
+    (d) => d.name.toLowerCase() === form.watch("district"),
   )?.id as string
 
   const villages = api.address.villages.useQuery(
@@ -123,7 +123,7 @@ const CreateEOPage: NextPage = (): JSX.Element => {
       enabled: !!districtId,
       select: (villages: Village[]) =>
         villages.filter((v) => v.district_id === districtId),
-    }
+    },
   )
 
   /*
@@ -131,7 +131,7 @@ const CreateEOPage: NextPage = (): JSX.Element => {
    * to avoid unmatching between regencyId -> villageId records into database
    */
   const villageId = villages.data?.find(
-    (v) => v.name.toLowerCase() === form.watch("village")
+    (v) => v.name.toLowerCase() === form.watch("village"),
   )?.id as string
 
   function onSubmit(values: CreateEventOrganizerSchema) {
@@ -196,10 +196,12 @@ const CreateEOPage: NextPage = (): JSX.Element => {
   const disabled = regencyId == null || districtId == null || villageId == null
 
   return (
-    <div className="thom grid min-h-screen place-items-center bg-red-100">
+    <div className="grid min-h-screen place-items-center">
       <Card className="max-w-lg">
         <CardHeader>
-          <CardTitle>Create New Event Organizer</CardTitle>
+          <CardTitle className="text-xl sm:text-2xl">
+            Create New Event Organizer
+          </CardTitle>
           <CardDescription>
             Deploy new Event Organizer in one-click.
           </CardDescription>
@@ -212,12 +214,12 @@ const CreateEOPage: NextPage = (): JSX.Element => {
                 control={form.control}
                 name="name"
                 render={({ field }) => (
-                  <FormItem className="grid grid-cols-5 items-center gap-x-4">
-                    <FormLabel className="text-right">Name</FormLabel>
+                  <FormItem className="grid grid-cols-1 items-center gap-x-4 sm:grid-cols-5">
+                    <FormLabel className="sm:text-right">Name</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
-                        className="col-span-3 w-[240px] capitalize"
+                        className="w-[280px] capitalize sm:col-span-3"
                       />
                     </FormControl>
                   </FormItem>
@@ -228,12 +230,12 @@ const CreateEOPage: NextPage = (): JSX.Element => {
                 control={form.control}
                 name="phone"
                 render={({ field }) => (
-                  <FormItem className="grid grid-cols-5 items-center gap-x-4">
-                    <FormLabel className="mt-2 text-right">Phone</FormLabel>
+                  <FormItem className="mt-3 grid grid-cols-1 items-center gap-x-4 sm:mt-1 sm:grid-cols-5">
+                    <FormLabel className="sm:text-right">Phone</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
-                        className="col-span-3 w-[240px] capitalize"
+                        className="w-[280px] capitalize sm:col-span-3"
                       />
                     </FormControl>
                   </FormItem>
@@ -244,12 +246,12 @@ const CreateEOPage: NextPage = (): JSX.Element => {
                 control={form.control}
                 name="street"
                 render={({ field }) => (
-                  <FormItem className="grid grid-cols-5 items-center gap-x-4">
-                    <FormLabel className="mt-2 text-right">Street</FormLabel>
+                  <FormItem className="mt-3 grid grid-cols-1 items-center gap-x-4 sm:mt-1 sm:grid-cols-5">
+                    <FormLabel className="sm:text-right">Street</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
-                        className="col-span-3 w-[240px] capitalize"
+                        className="w-[280px] capitalize sm:col-span-3"
                       />
                     </FormControl>
                   </FormItem>
@@ -261,9 +263,10 @@ const CreateEOPage: NextPage = (): JSX.Element => {
                 control={form.control}
                 name="province"
                 render={({ field }) => (
-                  <FormItem className="grid grid-cols-5 items-center gap-x-4">
-                    <FormLabel className="ml-auto">Province</FormLabel>
+                  <FormItem className="mt-3 grid grid-cols-1 items-center gap-x-4 sm:mt-1 sm:grid-cols-5">
+                    <FormLabel className="sm:text-right">Province</FormLabel>
                     <CommandCombobox
+                      className="w-[280px]"
                       name="province"
                       value={field.value}
                       status={provinces.status}
@@ -279,9 +282,10 @@ const CreateEOPage: NextPage = (): JSX.Element => {
                 control={form.control}
                 name="regency"
                 render={({ field }) => (
-                  <FormItem className="grid grid-cols-5 items-center gap-x-4">
-                    <FormLabel className="ml-auto">Regency</FormLabel>
+                  <FormItem className="mt-3 grid grid-cols-1 items-center gap-x-4 sm:mt-1 sm:grid-cols-5">
+                    <FormLabel className="sm:text-right">Regency</FormLabel>
                     <CommandCombobox
+                      className="w-[280px]"
                       name="regency"
                       value={field.value}
                       status={regencies.status}
@@ -296,9 +300,10 @@ const CreateEOPage: NextPage = (): JSX.Element => {
                 control={form.control}
                 name="district"
                 render={({ field }) => (
-                  <FormItem className="grid grid-cols-5 items-center gap-x-4">
-                    <FormLabel className="ml-auto">District</FormLabel>
+                  <FormItem className="mt-3 grid grid-cols-1 items-center gap-x-4 sm:mt-1 sm:grid-cols-5">
+                    <FormLabel className="sm:text-right">District</FormLabel>
                     <CommandCombobox
+                      className="w-[280px]"
                       name="district"
                       value={field.value}
                       status={districts.status}
@@ -313,9 +318,10 @@ const CreateEOPage: NextPage = (): JSX.Element => {
                 control={form.control}
                 name="village"
                 render={({ field }) => (
-                  <FormItem className="grid grid-cols-5 items-center gap-x-4">
-                    <FormLabel className="ml-auto">Village</FormLabel>
+                  <FormItem className="mt-3 grid grid-cols-1 items-center gap-x-4 sm:mt-1 sm:grid-cols-5">
+                    <FormLabel className="sm:text-right">Village</FormLabel>
                     <CommandCombobox
+                      className="w-[280px]"
                       name="village"
                       value={field.value}
                       status={villages.status}
@@ -329,14 +335,14 @@ const CreateEOPage: NextPage = (): JSX.Element => {
                 control={form.control}
                 name="postalCode"
                 render={({ field }) => (
-                  <FormItem className="grid grid-cols-5 items-center gap-x-4">
-                    <FormLabel className="ml-auto mt-2 whitespace-nowrap text-right">
+                  <FormItem className="mt-3 grid grid-cols-1 items-center gap-x-4 sm:mt-1 sm:grid-cols-5">
+                    <FormLabel className="whitespace-nowrap sm:text-right">
                       Postal Code
                     </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
-                        className="col-span-3 w-[240px] capitalize"
+                        className="w-[280px] capitalize sm:col-span-3"
                       />
                     </FormControl>
                   </FormItem>
@@ -373,42 +379,42 @@ const CreateEOPage: NextPage = (): JSX.Element => {
 export default CreateEOPage
 
 // If No Authenticated, then redirect to Home Page. Else, enter this page.
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await getServerSession(ctx.req, ctx.res, authOptions)
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+//   const session = await getServerSession(ctx.req, ctx.res, authOptions)
 
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    }
-  }
+//   if (!session) {
+//     return {
+//       redirect: {
+//         destination: "/",
+//         permanent: false,
+//       },
+//     }
+//   }
 
-  if (session && session.user.eventOrganizerId) {
-    const getEoNameBySessionId = await prisma.eventOrganizer.findUnique({
-      where: { id: session.user.eventOrganizerId },
-      select: { name: true },
-    })
+//   if (session && session.user.eventOrganizerId) {
+//     const getEoNameBySessionId = await prisma.eventOrganizer.findUnique({
+//       where: { id: session.user.eventOrganizerId },
+//       select: { name: true },
+//     })
 
-    const slug = getEoNameBySessionId?.name.replace(/\s+/g, "-") as string
+//     const slug = getEoNameBySessionId?.name.replace(/\s+/g, "-") as string
 
-    const destination =
-      session.user.role === "OPERATOR"
-        ? `/${slug}/scanner` // If user has EventOrganizerId and user role as an OPERATOR, then enter this page.
-        : `/${slug}/event`
+//     const destination =
+//       session.user.role === "OPERATOR"
+//         ? `/${slug}/scanner` // If user has EventOrganizerId and user role as an OPERATOR, then enter this page.
+//         : `/${slug}/event`
 
-    return {
-      redirect: {
-        destination,
-        permanent: false,
-      },
-    }
-  }
+//     return {
+//       redirect: {
+//         destination,
+//         permanent: false,
+//       },
+//     }
+//   }
 
-  return {
-    props: {
-      session,
-    },
-  }
-}
+//   return {
+//     props: {
+//       session,
+//     },
+//   }
+// }

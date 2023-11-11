@@ -198,7 +198,9 @@ export function CreateEventForm(props: Props) {
           render={({ field }) => (
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
               <div className="space-y-0.5">
-                <FormLabel>Provit?</FormLabel>
+                <FormLabel className="text-amber-300">
+                  {field.value ? "Provit" : "Non-provit"}
+                </FormLabel>
                 <FormDescription className="space-x-1">
                   <span>Switch to left to create a non-profit event.</span>
                   <span>e.g: wedding, party, etc</span>
