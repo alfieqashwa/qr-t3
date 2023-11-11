@@ -222,6 +222,7 @@ const CreateEOPage: NextPage = (): JSX.Element => {
                         className="w-[280px] capitalize sm:col-span-3"
                       />
                     </FormControl>
+                    <FormMessage className="sm:col-span-5 sm:text-center" />
                   </FormItem>
                 )}
               />
@@ -238,6 +239,7 @@ const CreateEOPage: NextPage = (): JSX.Element => {
                         className="w-[280px] capitalize sm:col-span-3"
                       />
                     </FormControl>
+                    <FormMessage className="sm:col-span-5 sm:text-center" />
                   </FormItem>
                 )}
               />
@@ -254,6 +256,7 @@ const CreateEOPage: NextPage = (): JSX.Element => {
                         className="w-[280px] capitalize sm:col-span-3"
                       />
                     </FormControl>
+                    <FormMessage className="sm:col-span-5 sm:text-center" />
                   </FormItem>
                 )}
               />
@@ -273,7 +276,6 @@ const CreateEOPage: NextPage = (): JSX.Element => {
                       datas={provinces.data}
                       form={form}
                     />
-                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -345,16 +347,12 @@ const CreateEOPage: NextPage = (): JSX.Element => {
                         className="w-[280px] capitalize sm:col-span-3"
                       />
                     </FormControl>
+                    <FormMessage className="sm:col-span-5 sm:text-center" />
                   </FormItem>
                 )}
               />
               <DialogFooter className="mt-4 flex flex-row items-center justify-end space-x-2">
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="outline"
-                  onClick={deleteUser}
-                >
+                <Button type="button" variant="outline" onClick={deleteUser}>
                   Sign Out
                 </Button>
                 {isLoading ? (
