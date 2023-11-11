@@ -62,7 +62,7 @@ export const CreateVisitorForm = (props: Props) => {
     resolver: zodResolver(createVisitorSchema),
     defaultValues: {
       name: "",
-      phone: 0,
+      phone: "",
       email: "",
       eventId: "",
       ticketId: "",

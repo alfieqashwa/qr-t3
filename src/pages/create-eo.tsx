@@ -64,13 +64,13 @@ const CreateEOPage: NextPage = (): JSX.Element => {
 
   const defaultValues: CreateEventOrganizerSchema = {
     name: "",
-    phone: 0,
+    phone: "",
     street: "",
     province: "",
     regency: "",
     district: "",
     village: "",
-    postalCode: 0,
+    postalCode: "",
   }
 
   const form = useForm<CreateEventOrganizerSchema>({

@@ -53,7 +53,7 @@ export const UpdateVisitorForm = ({ visitor, setOpen }: Props): JSX.Element => {
   const defaultValues: UpdateVisitorSchema = {
     id: visitor?.id as string,
     name: visitor?.name as string,
-    phone: visitor?.phone as number,
+    phone: visitor?.phone as string,
     email: visitor?.email as string,
   }
 

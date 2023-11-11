@@ -59,13 +59,13 @@ export const UpdateEventOrganizerForm = ({
   const defaultValues: UpdateEventOrganizerSchema = {
     id: eo?.id as string,
     name: eo?.name as string,
-    phone: eo?.phone as number,
+    phone: eo?.phone as string,
     street: eo?.street as string,
     province: eo?.province as string,
     regency: eo?.regency as string,
     district: eo?.district as string,
     village: eo?.village as string,
-    postalCode: eo?.postalCode as number,
+    postalCode: eo?.postalCode as string,
   }
 
   const form = useForm<UpdateEventOrganizerSchema>({

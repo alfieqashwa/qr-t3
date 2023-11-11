@@ -105,7 +105,7 @@ export const CreateTicketOrderForm = (props: Props) => {
       eventId: props.eventId,
       eventOrganizerId: props.eventOrganizerId,
       name: "",
-      phone: 0,
+      phone: "",
       email: "",
       ticketId: "",
     },
