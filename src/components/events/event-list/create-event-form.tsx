@@ -90,7 +90,7 @@ export function CreateEventForm(props: Props) {
       date.getMonth(),
       date.getDate(),
       hours,
-      minutes
+      minutes,
     )
 
     createEvent.mutate({
@@ -143,7 +143,7 @@ export function CreateEventForm(props: Props) {
                       variant="outline"
                       className={cn(
                         "pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
+                        !field.value && "text-muted-foreground",
                       )}
                     >
                       {field.value ? (
@@ -199,8 +199,8 @@ export function CreateEventForm(props: Props) {
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
               <div className="space-y-0.5">
                 <FormLabel>Provit?</FormLabel>
-                <FormDescription>
-                  <span>Switch to left if this a non-profit event.</span>
+                <FormDescription className="space-x-1">
+                  <span>Switch to left to create a non-profit event.</span>
                   <span>e.g: wedding, party, etc</span>
                 </FormDescription>
               </div>
