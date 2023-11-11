@@ -72,13 +72,13 @@ model VerificationToken {
 model EventOrganizer {
   id         String    @id @default(cuid())
   name       String    @unique()
-  phone      String
+  phone      Int
   province   String
   regency    String
   district   String
   village    String
   street     String
-  postalCode String    @map("postal_code")
+  postalCode Int       @map("postal_code")
   // EventOrg many2one -> User 
   users      User[]
   // EventOrg many2one -> Event 
@@ -139,7 +139,7 @@ model Ticket {
 model Visitor {
   id           String    @id @default(cuid())
   name         String
-  phone        String
+  phone        Int
   email        String?   @unique
   isCheckIn    Boolean   @default(false) @map("is_check_in")
   checkInDate  DateTime? @map("check_in_date")

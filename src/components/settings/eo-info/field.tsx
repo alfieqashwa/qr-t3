@@ -1,6 +1,6 @@
 type FieldProps = {
   label: string
-  value: string | null
+  value: string | number | null
 }
 
 export function Field(props: FieldProps) {

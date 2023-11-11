@@ -84,10 +84,10 @@ export const CreateTicketOrderForm = (props: Props) => {
             }, [])
             .map((t) => ({ ticketId: t.ticketId }))
           const _selectedTicketIds = new Set(
-            _visitorTicketIds.map((ticket) => ticket.ticketId)
+            _visitorTicketIds.map((ticket) => ticket.ticketId),
           )
           const filteredTicketIds = tickets.filter(
-            (ticket) => !_selectedTicketIds.has(ticket.id)
+            (ticket) => !_selectedTicketIds.has(ticket.id),
           )
 
           return {
@@ -95,7 +95,7 @@ export const CreateTicketOrderForm = (props: Props) => {
             filteredTicketIds,
           }
         },
-      }
+      },
     )
 
   type CreatePublicVisitorSchema = z.infer<typeof createPublicVisitorSchema>
@@ -105,7 +105,7 @@ export const CreateTicketOrderForm = (props: Props) => {
       eventId: props.eventId,
       eventOrganizerId: props.eventOrganizerId,
       name: "",
-      phone: "",
+      phone: 0,
       email: "",
       ticketId: "",
     },
@@ -118,7 +118,7 @@ export const CreateTicketOrderForm = (props: Props) => {
     ...new Set(
       tickets?.filteredTicketIds
         .filter((f) => f.category === selectedCategory)
-        .map((t) => t.price)
+        .map((t) => t.price),
     ),
   ]?.[0]
 
@@ -211,7 +211,7 @@ export const CreateTicketOrderForm = (props: Props) => {
                   <FormControl
                     className={cn(
                       "col-span-3 w-[240px]",
-                      field.value && "uppercase"
+                      field.value && "uppercase",
                     )}
                   >
                     <SelectTrigger>
@@ -259,7 +259,7 @@ export const CreateTicketOrderForm = (props: Props) => {
                         role="combobox"
                         className={cn(
                           "w-[240px] justify-between whitespace-nowrap pl-3 uppercase",
-                          !field.value && "text-muted-foreground"
+                          !field.value && "text-muted-foreground",
                         )}
                       >
                         {!!field.value && ticketStatus === "success" ? (
@@ -284,7 +284,8 @@ export const CreateTicketOrderForm = (props: Props) => {
                           {ticketStatus === "success" &&
                             tickets.filteredTicketIds
                               .filter(
-                                (ticket) => ticket.category === selectedCategory
+                                (ticket) =>
+                                  ticket.category === selectedCategory,
                               )
                               .map((ticket) => {
                                 const ticketCategory = `${
@@ -304,7 +305,7 @@ export const CreateTicketOrderForm = (props: Props) => {
                                         "mr-2 h-4 w-4",
                                         ticket.id === field.value
                                           ? "opacity-100"
-                                          : "opacity-0"
+                                          : "opacity-0",
                                       )}
                                     />
                                     {ticketCategory}

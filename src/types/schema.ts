@@ -12,13 +12,7 @@ export const updateEventOrganizerSchema = z
       })
       .min(3)
       .max(25),
-    phone: z
-      .string({
-        required_error: "Phone is required",
-        invalid_type_error: "Phone must be a string",
-      })
-      .min(7)
-      .max(12),
+    phone: z.coerce.number().int().positive().min(80_000_000_00),
     province: z.string(),
     regency: z.string(),
     district: z.string(),
@@ -29,12 +23,7 @@ export const updateEventOrganizerSchema = z
         invalid_type_error: "Must be a string",
       })
       .min(10),
-    postalCode: z
-      .string({
-        required_error: "Required",
-        invalid_type_error: "Must be a string",
-      })
-      .length(5),
+    postalCode: z.coerce.number().int().positive().min(10_000),
   })
   .required()
 
@@ -106,13 +95,7 @@ const visitorSchema = z.object({
       message: "Name must be at least 3 characters.",
     })
     .max(25),
-  phone: z
-    .string({
-      required_error: "Phone is required",
-      invalid_type_error: "Phone must be a string",
-    })
-    .min(7)
-    .max(12),
+  phone: z.coerce.number().int().positive().min(80_000_000_00),
   email: z.optional(z.string().email()),
   eventId: z
     .string({

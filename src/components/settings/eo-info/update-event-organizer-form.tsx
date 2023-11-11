@@ -59,13 +59,13 @@ export const UpdateEventOrganizerForm = ({
   const defaultValues: UpdateEventOrganizerSchema = {
     id: eo?.id as string,
     name: eo?.name as string,
-    phone: eo?.phone as string,
+    phone: eo?.phone as number,
     street: eo?.street as string,
     province: eo?.province as string,
     regency: eo?.regency as string,
     district: eo?.district as string,
     village: eo?.village as string,
-    postalCode: eo?.postalCode as string,
+    postalCode: eo?.postalCode as number,
   }
 
   const form = useForm<UpdateEventOrganizerSchema>({
@@ -79,7 +79,7 @@ export const UpdateEventOrganizerForm = ({
       provinces.sort((a, b) => a.name.localeCompare(b.name)),
   })
   const provinceId = provinces.data?.find(
-    (p) => p.name.toLowerCase() === form.watch("province")
+    (p) => p.name.toLowerCase() === form.watch("province"),
   )?.id as string
 
   const regencies = api.address.regencies.useQuery(
@@ -90,10 +90,10 @@ export const UpdateEventOrganizerForm = ({
         regencies
           .sort((a, b) => a.name.localeCompare(b.name))
           .filter((r) => r.province_id === provinceId),
-    }
+    },
   )
   const regencyId = regencies.data?.find(
-    (r) => r.name.toLowerCase() === form.watch("regency")
+    (r) => r.name.toLowerCase() === form.watch("regency"),
   )?.id as string
 
   const districts = api.address.districts.useQuery(
@@ -104,10 +104,10 @@ export const UpdateEventOrganizerForm = ({
         districts
           .sort((a, b) => a.name.localeCompare(b.name))
           .filter((d) => d.regency_id === regencyId),
-    }
+    },
   )
   const districtId = districts.data?.find(
-    (d) => d.name.toLowerCase() === form.watch("district")
+    (d) => d.name.toLowerCase() === form.watch("district"),
   )?.id as string
 
   const villages = api.address.villages.useQuery(
@@ -118,7 +118,7 @@ export const UpdateEventOrganizerForm = ({
         villages
           .sort((a, b) => a.name.localeCompare(b.name))
           .filter((v) => v.district_id === districtId),
-    }
+    },
   )
 
   /*
@@ -126,7 +126,7 @@ export const UpdateEventOrganizerForm = ({
    * to avoid unmatching between regencyId -> villageId records into database
    */
   const villageId = villages.data?.find(
-    (v) => v.name.toLowerCase() === form.watch("village")
+    (v) => v.name.toLowerCase() === form.watch("village"),
   )?.id as string
 
   function onSubmit(values: UpdateEventOrganizerSchema) {

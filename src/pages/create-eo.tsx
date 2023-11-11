@@ -20,10 +20,6 @@ import { prisma } from "~/server/db"
 import type { District, Province, Regency, Village } from "~/types/address"
 import { Button } from "~/ui/button"
 import { DialogFooter } from "~/ui/dialog"
-import { Input } from "~/ui/input"
-import { ToastAction } from "~/ui/toast"
-import { toast } from "~/ui/use-toast"
-import { api } from "~/utils/api"
 import {
   Form,
   FormControl,
@@ -31,7 +27,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../components/ui/form"
+} from "~/ui/form"
+import { Input } from "~/ui/input"
+import { ToastAction } from "~/ui/toast"
+import { toast } from "~/ui/use-toast"
+import { api } from "~/utils/api"
 import { createEventOrganizerSchema } from "../types/schema"
 
 const CreateEOPage: NextPage = (): JSX.Element => {
@@ -64,13 +64,13 @@ const CreateEOPage: NextPage = (): JSX.Element => {
 
   const defaultValues: CreateEventOrganizerSchema = {
     name: "",
-    phone: "",
+    phone: 0,
     street: "",
     province: "",
     regency: "",
     district: "",
     village: "",
-    postalCode: "",
+    postalCode: 0,
   }
 
   const form = useForm<CreateEventOrganizerSchema>({
@@ -377,42 +377,42 @@ const CreateEOPage: NextPage = (): JSX.Element => {
 export default CreateEOPage
 
 // If No Authenticated, then redirect to Home Page. Else, enter this page.
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
-//   const session = await getServerSession(ctx.req, ctx.res, authOptions)
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getServerSession(ctx.req, ctx.res, authOptions)
 
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: "/",
-//         permanent: false,
-//       },
-//     }
-//   }
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    }
+  }
 
-//   if (session && session.user.eventOrganizerId) {
-//     const getEoNameBySessionId = await prisma.eventOrganizer.findUnique({
-//       where: { id: session.user.eventOrganizerId },
-//       select: { name: true },
-//     })
+  if (session && session.user.eventOrganizerId) {
+    const getEoNameBySessionId = await prisma.eventOrganizer.findUnique({
+      where: { id: session.user.eventOrganizerId },
+      select: { name: true },
+    })
 
-//     const slug = getEoNameBySessionId?.name.replace(/\s+/g, "-") as string
+    const slug = getEoNameBySessionId?.name.replace(/\s+/g, "-") as string
 
-//     const destination =
-//       session.user.role === "OPERATOR"
-//         ? `/${slug}/scanner` // If user has EventOrganizerId and user role as an OPERATOR, then enter this page.
-//         : `/${slug}/event`
+    const destination =
+      session.user.role === "OPERATOR"
+        ? `/${slug}/scanner` // If user has EventOrganizerId and user role as an OPERATOR, then enter this page.
+        : `/${slug}/event`
 
-//     return {
-//       redirect: {
-//         destination,
-//         permanent: false,
-//       },
-//     }
-//   }
+    return {
+      redirect: {
+        destination,
+        permanent: false,
+      },
+    }
+  }
 
-//   return {
-//     props: {
-//       session,
-//     },
-//   }
-// }
+  return {
+    props: {
+      session,
+    },
+  }
+}
