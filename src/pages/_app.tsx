@@ -1,5 +1,6 @@
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
-import "@uploadthing/react/styles.css" // <-- must before "~/styles/gloals.css"
+import "@uploadthing/react/styles.css" // <-- must before "~/styles/globals.css"
+import "react-phone-number-input/style.css"
 import { Analytics } from "@vercel/analytics/react"
 import { type Session } from "next-auth"
 import { SessionProvider } from "next-auth/react"

@@ -33,6 +33,7 @@ import { ToastAction } from "~/ui/toast"
 import { toast } from "~/ui/use-toast"
 import { api } from "~/utils/api"
 import { createEventOrganizerSchema } from "../types/schema"
+import PhoneInput from "react-phone-number-input"
 
 const CreateEOPage: NextPage = (): JSX.Element => {
   const [session, router] = [useSession(), useRouter()]
@@ -231,12 +232,13 @@ const CreateEOPage: NextPage = (): JSX.Element => {
                 control={form.control}
                 name="phone"
                 render={({ field }) => (
-                  <FormItem className="mt-3 grid grid-cols-1 items-center gap-x-4 sm:mt-1 sm:grid-cols-5">
+                  <FormItem className="mt-3 grid grid-cols-1 items-center gap-x-4 capitalize sm:col-span-3 sm:mt-1 sm:grid-cols-5">
                     <FormLabel className="sm:text-right">Phone</FormLabel>
                     <FormControl>
-                      <Input
-                        {...field}
-                        className="w-[280px] capitalize sm:col-span-3"
+                      <PhoneInput
+                        value={field.value}
+                        onChange={field.onChange}
+                        className="flex h-10 w-[280px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                       />
                     </FormControl>
                     <FormMessage className="sm:col-span-5 sm:text-center" />

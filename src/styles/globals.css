@@ -49,7 +49,27 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 346.8 77.2% 49.8%;
+
+	--PhoneInputCountryFlag-aspectRatio: 1.5;
+	--PhoneInputCountryFlag-height: 1.3em;
   }
+}
+
+/* * Modified PhoneInput from react-phone-number-input */
+.PhoneInputInput {
+  height: 100%;
+  background-color: var(--background);
+  margin-left: 4px;
+}
+.PhoneInputInput:focus {
+  outline: 2px solid #E11D48; /* var(--primary) */
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.PhoneInputCountryIcon {
+	width: calc(var(--PhoneInputCountryFlag-height) * var(--PhoneInputCountryFlag-aspectRatio));
+	height: var(--PhoneInputCountryFlag-height);
 }
 
 @layer base {
