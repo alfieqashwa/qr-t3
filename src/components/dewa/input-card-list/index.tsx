@@ -164,7 +164,7 @@ export const InputCardList = () => {
         <FormCard
           handleSubmit={handleEOSubmit}
           label="EO ID"
-          inputName="oeId"
+          inputName="eoId"
           placeholder="Input EO ID"
           buttonText="Delete EO"
         />
