@@ -16,6 +16,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "~/ui/form"
 import { Input } from "~/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "~/ui/popover"
@@ -48,6 +49,7 @@ export const UpdateEventForm = ({
         description: "Your new team has been updated.",
       })
       await utils.event.getAll.invalidate()
+      await utils.event.count.invalidate()
       /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(!open))
     },
@@ -109,7 +111,7 @@ export const UpdateEventForm = ({
       date.getMonth(),
       date.getDate(),
       hours,
-      minutes
+      minutes,
     )
 
     mutate({
@@ -132,11 +134,15 @@ export const UpdateEventForm = ({
           control={form.control}
           name="title"
           render={({ field }) => (
-            <FormItem className="grid grid-cols-6 items-center gap-x-4">
-              <FormLabel className="mt-2 text-right">Title</FormLabel>
+            <FormItem className="grid grid-cols-1 items-center gap-x-4 sm:grid-cols-6">
+              <FormLabel className="mt-2 sm:text-right">Title</FormLabel>
               <FormControl>
-                <Input {...field} className="col-span-3 w-[240px] capitalize" />
+                <Input
+                  {...field}
+                  className="w-[280px] capitalize sm:col-span-3"
+                />
               </FormControl>
+              <FormMessage className="sm:col-span-5 sm:text-center" />
             </FormItem>
           )}
         />
@@ -145,11 +151,15 @@ export const UpdateEventForm = ({
           control={form.control}
           name="venue"
           render={({ field }) => (
-            <FormItem className="grid grid-cols-6 items-center gap-x-4">
-              <FormLabel className="mt-2 text-right">Venue</FormLabel>
+            <FormItem className="grid grid-cols-1 items-center gap-x-4 sm:grid-cols-6">
+              <FormLabel className="mt-2 sm:text-right">Venue</FormLabel>
               <FormControl>
-                <Input {...field} className="col-span-3 w-[240px] capitalize" />
+                <Input
+                  {...field}
+                  className="w-[280px] capitalize sm:col-span-3"
+                />
               </FormControl>
+              <FormMessage className="sm:col-span-5 sm:text-center" />
             </FormItem>
           )}
         />
@@ -167,7 +177,7 @@ export const UpdateEventForm = ({
                       variant={"outline"}
                       className={cn(
                         "w-[320px] pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
+                        !field.value && "text-muted-foreground",
                       )}
                     >
                       {field.value ? (
@@ -220,18 +230,18 @@ export const UpdateEventForm = ({
           render={({ field }) => (
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
               <div className="space-y-0.5">
-                <FormLabel>Provit?</FormLabel>
+                <FormLabel className="text-amber-300">
+                  {field.value ? "Provit" : "Non-provit"}
+                </FormLabel>
                 {event && event?.tickets.length > 0 ? (
                   <FormDescription>
-                    <span>
-                      Cannot update because this event has already created the
-                      tickets
-                    </span>
+                    Cannot update because this event has already created the
+                    tickets
                   </FormDescription>
                 ) : (
                   <FormDescription>
-                    <span>Switch to left if this a non-profit event.</span>
-                    <span>e.g: wedding, party, etc</span>
+                    Switch to left to create a non-profit event (e.g: wedding,
+                    party, etc).
                   </FormDescription>
                 )}
               </div>
@@ -241,6 +251,7 @@ export const UpdateEventForm = ({
                     disabled={event?.tickets.length > 0}
                     checked={field.value}
                     onCheckedChange={field.onChange}
+                    className="ml-8"
                   />
                 )}
               </FormControl>

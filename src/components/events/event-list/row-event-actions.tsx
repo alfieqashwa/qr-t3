@@ -41,7 +41,10 @@ export function RowEventActions(props: DataTableRowActionsProps) {
         </DropdownMenuItem>
         <AdminOnly>
           <DropdownMenuSeparator />
+          {/* // ! I remove UpdateEvent from DropdownMenuITem because there's a bug whenever the cursor hovering the Select Date */}
+          {/* <DropdownMenuItem onSelect={(e) => e.preventDefault()}> */}
           <UpdateEvent id={id} title={title} open={open} setOpen={setOpen} />
+          {/* </DropdownMenuItem> */}
           <DropdownMenuSeparator />
           <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
             <DeleteEvent id={id} title={title} open={open} setOpen={setOpen} />

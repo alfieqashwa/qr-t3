@@ -42,8 +42,8 @@ export const updateEventSchema = z.object({
     .max(25),
   venue: z
     .string()
-    .min(5, {
-      message: "Venue must be at least 5 characters.",
+    .min(3, {
+      message: "Venue must be at least 3 characters.",
     })
     .max(25),
   profit: z.boolean().optional(),

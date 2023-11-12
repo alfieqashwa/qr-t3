@@ -39,7 +39,7 @@ export const eventRouter = createTRPCRouter({
           eventOrganizerId: ctx.session.user.eventOrganizerId as string,
           profit: isProfit,
         },
-      })
+      }),
   ),
   getAll: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.event.findMany({
@@ -97,10 +97,10 @@ export const eventRouter = createTRPCRouter({
     }),
   updateAdminRole: adminProcedure
     .input(updateEventSchema)
-    .mutation(async ({ ctx, input: { id, title, venue, date } }) => {
+    .mutation(async ({ ctx, input: { id, title, venue, date, profit } }) => {
       return await ctx.prisma.event.update({
         where: { id },
-        data: { title, venue, date },
+        data: { title, venue, date, profit },
       })
     }),
   deleteAdminRole: adminProcedure

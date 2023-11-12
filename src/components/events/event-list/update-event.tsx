@@ -23,7 +23,7 @@ export function UpdateEvent({ id, title, open, setOpen }: Props) {
 
   return (
     <Dialog>
-      <DialogTrigger className="group relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:cursor-pointer hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+      <DialogTrigger className="group flex w-full items-center py-1 pl-2">
         <Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70 group-hover:text-primary" />
         <span className="group-hover:text-primary">Edit</span>
       </DialogTrigger>
@@ -37,7 +37,7 @@ export function UpdateEvent({ id, title, open, setOpen }: Props) {
               <span className="px-1.5 font-medium uppercase text-primary">
                 {title}
               </span>
-              of your event here. Click Update when you&apos;re done.
+              event here. Click Update when you&apos;re done.
             </p>
           </DialogDescription>
         </DialogHeader>
