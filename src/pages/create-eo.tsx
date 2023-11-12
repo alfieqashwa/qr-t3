@@ -49,7 +49,7 @@ const CreateEOPage: NextPage = (): JSX.Element => {
         variant: "default",
         description: "Your form has been created.",
       })
-      await router.push(`/${name.replace(/\s+/g, "-")}/dashboard`)
+      await router.push(`/${name.replace(/\s+/g, "-")}/event`)
     },
     onError() {
       toast({
