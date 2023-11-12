@@ -2,17 +2,24 @@ import { Codesandbox } from "lucide-react"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { api } from "~/src/utils/api"
+import { Copyright } from "~/components/footer"
 import { Button } from "~/ui/button"
-import { Copyright } from "../footer"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "~/ui/tooltip"
+import { api } from "~/utils/api"
 
 export const LayoutEventOrganizer = ({
   children,
 }: {
   children: React.ReactNode
 }) => {
-  const [router, session] = [useRouter(), useSession()]
-  const slug = router.query.slug as string
+  const [{ query }, session] = [useRouter(), useSession()]
+  const slug = query.slug as string
+
   const nameBySessionId = api.eo.nameBySessionId.useQuery(
     {
       id: session.data?.user.eventOrganizerId as string,
@@ -28,19 +35,22 @@ export const LayoutEventOrganizer = ({
   return (
     <div className="min-h-screen bg-slate-950">
       <header className="h-14">
-        <nav className="flex items-center space-x-6">
-          <Link
-            href={`/${slug}`}
-            className="flex shrink-0 items-center pl-6 pt-4"
-          >
-            <Codesandbox size={36} className="animate-spin" />
-          </Link>
+        <nav className="flex items-center justify-between pl-6 pr-4 pt-3.5  lg:pr-8">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Link href={`/${slug}`} className="">
+                  <Codesandbox size={36} className="animate-spin" />
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Home</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           {session.status === "authenticated" &&
             nameBySessionId.status === "success" && (
-              <Link
-                href={`/${nameBySessionId.data.slug}/dashboard`}
-                className="pt-1"
-              >
+              <Link href={`/${nameBySessionId.data.slug}/dashboard`}>
                 <Button size="sm" variant="outline">
                   Go to Dashboard
                 </Button>
