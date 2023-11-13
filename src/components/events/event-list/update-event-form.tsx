@@ -46,7 +46,7 @@ export const UpdateEventForm = ({
       toast({
         title: "Succeed!",
         variant: "default",
-        description: "Your new team has been updated.",
+        description: "Your form has been updated.",
       })
       await utils.event.getAll.invalidate()
       await utils.event.count.invalidate()
