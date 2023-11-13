@@ -1,6 +1,6 @@
 import { Status } from "@prisma/client"
 import { z } from "zod"
-import { generateTicketSchema } from "~/src/types/schema"
+import { generateSeatSchema, generateTicketSchema } from "~/src/types/schema"
 import {
   createTRPCRouter,
   editorProcedure,
@@ -93,7 +93,7 @@ export const ticketRouter = createTRPCRouter({
       })
     }),
   generateSeatEditorRole: editorProcedure
-    .input(generateTicketSchema.omit({ price: true }))
+    .input(generateSeatSchema)
     .mutation(async ({ ctx, input: { qty, category, eventId } }) => {
       const eventOrganizerId = ctx.session.user.eventOrganizerId as string
       function generateTickets() {
@@ -113,7 +113,7 @@ export const ticketRouter = createTRPCRouter({
       z.object({
         id: z.string().cuid(),
         status: z.nativeEnum(Status),
-      })
+      }),
     )
     .mutation(async ({ ctx, input: { id, status } }) => {
       return await ctx.prisma.ticket.update({
