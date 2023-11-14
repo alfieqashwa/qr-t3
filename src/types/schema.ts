@@ -63,7 +63,7 @@ export const generateTicketSchema = z.object({
     })
     .min(3, { message: "Category must contain at least 3 characters" })
     .max(15),
-  price: z
+  price: z.coerce
     .number({
       required_error: "Price is required",
       invalid_type_error: "Price must be a number",
@@ -84,6 +84,22 @@ export const generateTicketSchema = z.object({
     })
     .cuid({ message: "invalid Event" }),
 })
+export const extendGenerateTicketSchema = generateTicketSchema
+  .omit({ category: true, price: true })
+  .extend({
+    categorySelect: z.string({
+      required_error: "Category is required",
+      invalid_type_error: "Category must be a string",
+    }),
+    categoryInput: z.string({
+      required_error: "Category is required",
+      invalid_type_error: "Category must be a string",
+    }),
+    price: z.string({
+      required_error: "Price is required",
+      invalid_type_error: "Price must be a string",
+    }),
+  })
 
 export const generateSeatSchema = generateTicketSchema.omit({ price: true })
 export const extendGenerateSeatSchema = generateTicketSchema
