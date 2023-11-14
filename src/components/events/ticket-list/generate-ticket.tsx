@@ -118,12 +118,14 @@ export function GenerateTicket(): JSX.Element {
     })
   }
 
-  const selectCateg = form.watch("categorySelect")
-  const inputCateg = form.watch("categoryInput")
+  const watchEventId = form.watch("eventId")
+  const watchSelectCateg = form.watch("categorySelect")
+  const watchInputCateg = form.watch("categoryInput")
 
   const disabled =
-    (!selectCateg || selectCateg === "create-new") &&
-    (inputCateg.length < 3 || inputCateg.length > 15)
+    !watchEventId ||
+    ((!watchSelectCateg || watchSelectCateg === "create-new") &&
+      (watchInputCateg.length < 3 || watchInputCateg.length > 15))
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -200,7 +202,7 @@ export function GenerateTicket(): JSX.Element {
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
-                    disabled={!!inputCateg}
+                    disabled={!watchEventId || !!watchInputCateg}
                   >
                     <FormControl className="uppercase">
                       <SelectTrigger>
@@ -238,7 +240,11 @@ export function GenerateTicket(): JSX.Element {
                   <FormControl>
                     <Input
                       {...field}
-                      disabled={!!selectCateg && selectCateg !== "create-new"}
+                      disabled={
+                        !watchEventId ||
+                        (!!watchSelectCateg &&
+                          watchSelectCateg !== "create-new")
+                      }
                       placeholder="create a new one..."
                       className="uppercase"
                     />
