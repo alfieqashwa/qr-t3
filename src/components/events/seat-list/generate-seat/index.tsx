@@ -116,9 +116,8 @@ export function GenerateSeat(): JSX.Element {
   const inputCateg = form.watch("categoryInput")
 
   const disabled =
-    !selectCateg ||
-    (selectCateg === "create-new" && inputCateg.length < 3) ||
-    inputCateg.length > 15
+    (!selectCateg || selectCateg === "create-new") &&
+    (inputCateg.length < 3 || inputCateg.length > 15)
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -231,9 +230,10 @@ export function GenerateSeat(): JSX.Element {
                   <FormDescription>Or create a new one...</FormDescription>
                   <FormControl>
                     <Input
-                      placeholder="create a new one..."
                       {...field}
                       disabled={!!selectCateg && selectCateg !== "create-new"}
+                      placeholder="create a new one..."
+                      className="uppercase"
                     />
                   </FormControl>
                 </FormItem>
