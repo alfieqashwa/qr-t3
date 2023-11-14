@@ -39,29 +39,30 @@ export const columnsSeat: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
     ),
     cell: ({ row }) => <div className="w-auto">{row.getValue("id")}</div>,
   },
-  {
-    accessorKey: "ticketNumber",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Seat No" />
-    ),
-    cell: ({ row }) => (
-      <div className="w-auto">{row.getValue("ticketNumber")}</div>
-    ),
-  },
-  {
-    accessorKey: "price",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="price" />
-    ),
-    cell: ({ row }) => {
-      const price = row.getValue("price")
-      const formatPrice = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-      }).format(Number(price))
-      return <div className="w-[80px]">{formatPrice}</div>
-    },
-  },
+  // ! It's not too necessary for now
+  // {
+  //   accessorKey: "ticketNumber",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Seat No" />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <div className="w-auto">{row.getValue("ticketNumber")}</div>
+  //   ),
+  // },
+  // {
+  //   accessorKey: "price",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="price" />
+  //   ),
+  //   cell: ({ row }) => {
+  //     const price = row.getValue("price")
+  //     const formatPrice = new Intl.NumberFormat("id-ID", {
+  //       style: "currency",
+  //       currency: "IDR",
+  //     }).format(Number(price))
+  //     return <div className="w-[80px]">{formatPrice}</div>
+  //   },
+  // },
   {
     accessorKey: "category",
     header: ({ column }) => (
