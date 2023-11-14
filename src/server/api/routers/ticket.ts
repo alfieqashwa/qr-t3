@@ -96,16 +96,12 @@ export const ticketRouter = createTRPCRouter({
     .input(generateSeatSchema)
     .mutation(async ({ ctx, input: { qty, category, eventId } }) => {
       const eventOrganizerId = ctx.session.user.eventOrganizerId as string
-      function generateTickets() {
-        return Array.from({ length: qty }, () => ({
+      return await ctx.prisma.ticket.createMany({
+        data: Array.from({ length: qty }, () => ({
           category,
           eventId,
           eventOrganizerId,
-        }))
-      }
-      const generatedTickets = generateTickets()
-      return await ctx.prisma.ticket.createMany({
-        data: generatedTickets,
+        })),
       })
     }),
   updateStatusEditorRole: editorProcedure
