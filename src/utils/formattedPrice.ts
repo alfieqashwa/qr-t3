@@ -6,7 +6,7 @@ export function formattedInputPriceValue(input: string | number) {
       .replace(/,/g, "")
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   }
-  return input.replace(/,/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  return input?.replace(/[^0-9]/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",") // [^0-9] <-- only disallow user to input non-numeric character.
 }
 
 export const formattedPrice = new Intl.NumberFormat("id-ID", {

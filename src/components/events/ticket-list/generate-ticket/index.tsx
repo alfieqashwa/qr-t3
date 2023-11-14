@@ -1,8 +1,29 @@
+import { zodResolver } from "@hookform/resolvers/zod"
 import { FilePlus2, Loader2 } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import type { z } from "zod"
+import { formattedInputPriceValue } from "~/src/utils/formattedPrice"
+import { extendGenerateTicketSchema } from "~/types/schema"
 import { Button } from "~/ui/button"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/ui/form"
 import { Input } from "~/ui/input"
-import { Label } from "~/ui/label"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/ui/select"
 import {
   Sheet,
   SheetContent,
@@ -15,47 +36,35 @@ import {
 import { ToastAction } from "~/ui/toast"
 import { toast } from "~/ui/use-toast"
 import { api } from "~/utils/api"
-import { formattedInputPriceValue } from "~/utils/formattedPrice"
 import { wait } from "~/utils/wait"
-import { SelectCategory } from "./select-category"
-import { SelectEvent } from "./select-event"
 
 export function GenerateTicket(): JSX.Element {
-  const tickets = api.ticket.getAll.useQuery({
-    isProfit: true,
-  })
-
   const [open, setOpen] = useState(false)
-  const [inputPrice, setInputPrice] = useState("")
-  const [categoryInput, setCategoryInput] = useState<string>("")
-  const [disabled, setDisabled] = useState(false)
-
-  // remove duplicates array
-  const _categories = tickets.data?.map((t) => t.category)
-  const categories = [...new Set(_categories)]
-  // console.log({ categories });
-
-  useEffect(() => {
-    if (tickets.status !== "success") return
-    if (
-      categoryInput.length > 0 || // whenever user has not input any
-      tickets.data.length === 0 // if there's no any tickets has been created yet
-    ) {
-      setDisabled(true)
-    } else {
-      setDisabled(false)
-    }
-  }, [categoryInput.length, tickets.data?.length, tickets.status])
 
   const utils = api.useUtils()
 
-  const { data: events } = api.event.getAll.useQuery(undefined, {
+  const { data: events, status } = api.event.getAll.useQuery(undefined, {
     // only renders the profit events
-    select: (data) => data.filter((d) => !!d.profit),
+    select: (data) => data.filter((d) => d.profit),
   })
 
-  const { mutate, isLoading, error } =
-    api.ticket.generateTicketEditorRole.useMutation({
+  const tickets = api.ticket.getAll.useQuery(
+    { isProfit: true },
+    {
+      select: (tickets) => {
+        const categories = [
+          ...new Set(tickets.map((ticket) => ticket.category)),
+        ]
+        return {
+          all: tickets,
+          categories,
+        }
+      },
+    },
+  )
+
+  const { mutate, isLoading } = api.ticket.generateTicketEditorRole.useMutation(
+    {
       async onSuccess() {
         toast({
           title: "Succeed!",
@@ -64,9 +73,8 @@ export function GenerateTicket(): JSX.Element {
         })
         await utils.ticket.getAll.invalidate()
         await utils.ticket.categories.invalidate()
-        setCategoryInput("")
-        setInputPrice("")
         await wait().then(() => setOpen(false))
+        form.reset()
       },
 
       onError() {
@@ -77,67 +85,45 @@ export function GenerateTicket(): JSX.Element {
           action: <ToastAction altText="Try again">Try again</ToastAction>,
         })
       },
-    })
+    },
+  )
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-    const qty = formData.get("qty")?.toString()?.toLowerCase() as string
-    const categorySelected = formData
-      .get("category-selected")
-      ?.toString()
-      ?.toLowerCase() as string
-    const eventId = formData.get("eventId") as string
+  // 1. Define form.
+  const form = useForm<z.infer<typeof extendGenerateTicketSchema>>({
+    resolver: zodResolver(extendGenerateTicketSchema),
+    defaultValues: {
+      eventId: "",
+      categorySelect: "",
+      categoryInput: "",
+      qty: 0,
+    },
+  })
 
-    // if user input the existed category, then show the error toast with clear messages.
-    const alreadyExists = categories?.includes(categoryInput)
-    if (alreadyExists) {
-      // and then set the input value back to default
-      setCategoryInput("")
-      return toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description:
-          "The category is already exists. Please use the select input instead.",
-        action: <ToastAction altText="Try again">Try again</ToastAction>,
-      })
-    }
+  // 2. Define a submit handler.
+  function onSubmit(value: z.infer<typeof extendGenerateTicketSchema>) {
+    const { eventId, categorySelect, categoryInput, price, qty } = value
 
     let category: string
-    if (disabled) {
-      category = categoryInput
+    if (!categorySelect || categorySelect === "create-new") {
+      category = categoryInput.toLowerCase()
     } else {
-      category = categorySelected
-    }
-    // convert price -> float
-    const price = parseFloat(inputPrice.toString().replace(/,/g, ""))
-    const hasNotEqualPrice = tickets.data?.some(
-      (t) =>
-        t.eventId === eventId && t.category === category && t.price !== price
-    )
-
-    // Validate an error whenever the same event and category has different price from the existing one.
-    if (hasNotEqualPrice) {
-      setCategoryInput("")
-      //  show the error toast with clear message!
-      return toast({
-        variant: "destructive",
-        title: "Your input different price with the existing price.",
-        description:
-          "Your input different price with the existing price. Don't do that! Please set the price consistently.",
-        action: (
-          <ToastAction altText="Try again">Change the Price!</ToastAction>
-        ),
-      })
+      category = categorySelect.toLowerCase()
     }
 
     mutate({
-      qty: +qty,
-      category,
-      price,
       eventId,
+      category,
+      price: parseFloat(price.replace(/,/g, "")),
+      qty,
     })
   }
+
+  const selectCateg = form.watch("categorySelect")
+  const inputCateg = form.watch("categoryInput")
+
+  const disabled =
+    (!selectCateg || selectCateg === "create-new") &&
+    (inputCateg.length < 3 || inputCateg.length > 15)
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -160,88 +146,162 @@ export function GenerateTicket(): JSX.Element {
             done.
           </SheetDescription>
         </SheetHeader>
-        <form onSubmit={handleSubmit} className="grid gap-4 py-4">
-          {/* Select Event ID */}
-          <div className="flex flex-col space-y-2 pt-4">
-            <Label htmlFor="category-input">Event</Label>
-            {!!events && <SelectEvent events={events} />}
-          </div>
-          {/* Category */}
-          <div className="flex flex-col space-y-1.5 pt-4">
-            <Label htmlFor="category-input">Category</Label>
-            <Input
-              type="text"
-              value={categoryInput}
-              onChange={(e) => setCategoryInput(e.target.value)}
-              placeholder="create new one..."
-              className="uppercase placeholder:lowercase"
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="grid gap-4 py-4"
+          >
+            {/* Select Event ID */}
+            <FormField
+              control={form.control}
+              name="eventId"
+              render={({ field }) => (
+                <FormItem className="pt-4">
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormLabel>Event</FormLabel>
+                    <FormControl>
+                      <SelectTrigger className="w-[240px] uppercase">
+                        <SelectValue
+                          placeholder="Select an event"
+                          className="capitalize"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectGroup>
+                        {status === "success" &&
+                          events.map((event) => (
+                            <SelectItem
+                              value={event.id}
+                              className="capitalize"
+                              key={event.id}
+                            >
+                              {event.title}
+                            </SelectItem>
+                          ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            {error?.data?.zodError?.fieldErrors.category && (
-              <span className="text-xs text-destructive">
-                {error?.data?.zodError?.fieldErrors.category}
-              </span>
-            )}
-            <SelectCategory categories={categories} disabled={disabled} />
+            {/* CategorySelect */}
+            <FormField
+              control={form.control}
+              name="categorySelect"
+              render={({ field }) => (
+                <FormItem className="pt-4">
+                  <FormLabel>Category</FormLabel>
+                  <FormDescription>Select category...</FormDescription>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    disabled={!!inputCateg}
+                  >
+                    <FormControl className="uppercase">
+                      <SelectTrigger>
+                        <SelectValue placeholder="select category" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="create-new" className="uppercase">
+                          OR Create New
+                        </SelectItem>
+                        {tickets.status === "success" &&
+                          tickets.data.categories.map((cat, i) => (
+                            <SelectItem
+                              key={i}
+                              value={cat}
+                              className="uppercase"
+                            >
+                              {cat}
+                            </SelectItem>
+                          ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+            {/* CategoryInput */}
+            <FormField
+              control={form.control}
+              name="categoryInput"
+              render={({ field }) => (
+                <FormItem>
+                  <FormDescription>Or create a new one...</FormDescription>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      disabled={!!selectCateg && selectCateg !== "create-new"}
+                      placeholder="create a new one..."
+                      className="uppercase"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
             {/* Price */}
-            <div className="flex flex-col space-y-1.5 pt-4">
-              <Label htmlFor="price">Price</Label>
-              <Input
-                id="price"
-                name="price"
-                type="text"
-                className="capitalize"
-                placeholder="Sale price..."
-                value={formattedInputPriceValue(inputPrice)}
-                // onChange={(e) => setPrice(e.target.value.replace(/\D/, ""))}
-                onChange={(e) =>
-                  setInputPrice(e.target.value.replace(/\D/g, ""))
-                }
-              />
-              {error?.data?.zodError?.fieldErrors.price && (
-                <span className="text-xs text-destructive">
-                  {error?.data?.zodError?.fieldErrors.price}
-                </span>
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem className="pt-4">
+                  <FormLabel>Price</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Price..."
+                      name={field.name}
+                      value={formattedInputPriceValue(field.value)}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
               )}
-            </div>
+            />
             {/* Qty */}
-            <div className="flex flex-col space-y-1.5 pt-4">
-              <Label htmlFor="title">Qty</Label>
-              <Input
-                id="qty"
-                name="qty"
-                type="number"
-                className="capitalize placeholder:normal-case"
-                placeholder="How many ticket(s)..."
-              />
-              {error?.data?.zodError?.fieldErrors.qty && (
-                <span className="text-xs text-destructive">
-                  {error?.data?.zodError?.fieldErrors.qty}
-                </span>
+            <FormField
+              control={form.control}
+              name="qty"
+              render={({ field }) => (
+                <FormItem className="pt-4">
+                  <FormLabel>Qty</FormLabel>
+                  <FormControl>
+                    <Input placeholder="How many ticket(s)..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
               )}
-            </div>
-          </div>
-          <SheetFooter className="absolute bottom-8 left-0 right-0 px-6">
-            <Button
-              className="mt-2 sm:mt-0"
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => setOpen(false)}
-            >
-              Cancel
-            </Button>
-            {isLoading ? (
-              <Button disabled size="sm">
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Please wait
+            />
+            <SheetFooter className="absolute bottom-8 left-0 right-0 px-6">
+              <Button
+                className="mt-2 sm:mt-0"
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setOpen(false)}
+              >
+                Cancel
               </Button>
-            ) : (
-              <Button type="submit" size="sm">
-                Generate Ticket
-              </Button>
-            )}
-          </SheetFooter>
-        </form>
+              {isLoading ? (
+                <Button disabled size="sm">
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Please wait
+                </Button>
+              ) : (
+                <Button type="submit" disabled={disabled} size="sm">
+                  Generate Ticket
+                </Button>
+              )}
+            </SheetFooter>
+          </form>
+        </Form>
       </SheetContent>
     </Sheet>
   )
