@@ -101,7 +101,9 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
           <p>
             Status:{" "}
             <span className="font-bold uppercase text-amber-300">
-              {ticket?.status === "SOLD" && "Purchased"}
+              {ticket?.status === "BOOKED" && "Booked"}
+              {ticket?.status === "PURCHASED" && "Purchased"}
+              {ticket?.status === "REFUND" && "Refund"}
             </span>
           </p>
         </Wrapper>

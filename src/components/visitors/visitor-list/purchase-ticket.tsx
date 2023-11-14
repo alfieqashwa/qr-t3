@@ -124,19 +124,19 @@ export function PurchaseTicket({ id, ticketStatus }: Props) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {ticketStatus === "AVAILABLE" ? (
-                        <SelectItem value={Status.SOLD}>
-                          {Status.SOLD}
-                        </SelectItem>
-                      ) : (
+                      {ticketStatus !== "AVAILABLE" ? (
                         <SelectItem value={Status.AVAILABLE}>
                           {Status.AVAILABLE}
+                        </SelectItem>
+                      ) : (
+                        <SelectItem value={Status.BOOKED}>
+                          {Status.BOOKED}
                         </SelectItem>
                       )}
                     </SelectContent>
                   </Select>
                   <FormDescription>
-                    Select SOLD if the visitor has already purchased the ticket.
+                    Select BOOKED if the visitor has already booked the ticket.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

@@ -8,8 +8,13 @@ export const statuses = [
     icon: Circle,
   },
   {
-    value: Status.SOLD,
-    label: "Sold",
+    value: Status.BOOKED,
+    label: "Booked",
+    icon: CheckCircle2,
+  },
+  {
+    value: Status.PURCHASED,
+    label: "Purchased",
     icon: CheckCircle2,
   },
   {

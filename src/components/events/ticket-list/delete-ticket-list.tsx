@@ -36,9 +36,9 @@ export function DeleteTicketList<TData>({
     id: row.id,
   }))
 
-  // avoid to delete SOLD or REFUND ticket(s)
+  // avoid to delete BOOKED or PURCHASED or REFUND ticket(s)
   const hasSomeSoldTicket = selectedRows.some(
-    (row) => row.status !== "AVAILABLE"
+    (row) => row.status !== "AVAILABLE",
   )
 
   const { mutate, isLoading } = api.ticket.deleteSelected.useMutation({
@@ -73,7 +73,7 @@ export function DeleteTicketList<TData>({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
         description:
-          "There's at least one SOLD's ticket. Please unselect the SOLD ticket.",
+          "There's at least one BOOKED's or PURCHASED ticket. Please unselect them.",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
       })
     }

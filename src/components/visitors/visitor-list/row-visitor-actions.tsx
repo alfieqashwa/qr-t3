@@ -37,7 +37,7 @@ export function RowVisitorActions(props: DataTableRowActionsProps) {
       <DropdownMenuContent align="end" className="w-[160px]">
         <EditorOnly>
           {/* // TODO: download QR-Code */}
-          {ticketStatus === "SOLD" && (
+          {ticketStatus === "BOOKED" && (
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(id)}
               className="group hover:cursor-pointer"

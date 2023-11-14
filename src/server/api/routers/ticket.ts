@@ -117,14 +117,14 @@ export const ticketRouter = createTRPCRouter({
         data: { status },
       })
     }),
-  // Automatic change status to SOLD whenever the ticket get purchased by customer(s)
+  // Automatic change status to BOOKED whenever the ticket have already beend booked by customer(s)
   soldEditorRole: editorProcedure
     .input(z.object({ id: z.string().cuid() }))
     .mutation(async ({ ctx, input: { id } }) => {
       return await ctx.prisma.ticket.update({
         where: { id },
         data: {
-          status: Status.SOLD,
+          status: Status.BOOKED,
         },
       })
     }),
