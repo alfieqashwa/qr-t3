@@ -33,7 +33,7 @@ export function DeleteSeat({ id, status, open, setOpen }: Props) {
       toast({
         title: "Succeed!",
         variant: "default",
-        description: "Your ticket has been deleted.",
+        description: "Your seat has been deleted.",
       })
       await utils.ticket.getAll.invalidate()
       /* auto-closed after succeed submit the dialog form */
@@ -76,7 +76,7 @@ export function DeleteSeat({ id, status, open, setOpen }: Props) {
             <DialogDescription asChild>
               <p className="">
                 You can&apos;t undo this changes. Click delete when you&apos;re
-                sure to delete ticket
+                sure to delete seat
                 <span className="px-1.5 font-medium uppercase text-primary">
                   {id}
                 </span>

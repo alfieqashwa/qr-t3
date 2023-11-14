@@ -36,7 +36,7 @@ export function DeleteSeatList<TData>({ table }: DeleteEventListProps<TData>) {
 
   // avoid to delete SOLD or REFUND ticket(s)
   const hasSomeSoldTicket = selectedRows.some(
-    (row) => row.status !== "AVAILABLE"
+    (row) => row.status !== "AVAILABLE",
   )
 
   const { mutate, isLoading } = api.ticket.deleteSelected.useMutation({
@@ -45,7 +45,7 @@ export function DeleteSeatList<TData>({ table }: DeleteEventListProps<TData>) {
       toast({
         title: "Succeed!",
         variant: "default",
-        description: "All selected tickets have been deleted.",
+        description: "All selected seats have been deleted.",
       })
       await utils.ticket.count.invalidate()
       await utils.ticket.getAll.invalidate()
