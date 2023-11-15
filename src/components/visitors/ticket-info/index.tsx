@@ -71,7 +71,12 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
 
       <CardContent className="rounded-xl border-2 py-6 shadow-xl">
         <Wrapper title="Event">
-          <p className="uppercase text-amber-300">{ticket?.event?.title}</p>
+          <p className="uppercase text-amber-300">
+            {ticket?.event?.title}
+            <span className="px-1 lowercase">
+              {ticket?.event?.profit ? "(profit)" : "(non-profit)"}
+            </span>
+          </p>
           <p>
             {ticket?.event?.date &&
               format(ticket.event.date, "PPPP", { locale: id })}
@@ -92,12 +97,14 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
             Category:{" "}
             <span className="uppercase text-amber-300">{ticket?.category}</span>
           </p>
-          <p>
-            Price:{" "}
-            <span className="text-amber-300">
-              {formattedPrice.format(ticket?.price as number)}
-            </span>
-          </p>
+          {ticket?.event?.profit && (
+            <p>
+              Price:{" "}
+              <span className="text-amber-300">
+                {formattedPrice.format(ticket?.price as number)}
+              </span>
+            </p>
+          )}
           <p>
             Status:{" "}
             <span className="font-bold uppercase text-amber-300">
