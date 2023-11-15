@@ -168,13 +168,24 @@ export const columnsVisitor: ColumnDef<
     ),
     cell: ({ row }) => {
       const isCheckIn = row.getValue("isCheckIn")
+
       return (
-        <div className="flex items-center">
-          <MapPin className="mr-2 h-4 w-4 text-muted-foreground" />
+        <div
+          className={cn(
+            `flex items-center`,
+            isCheckIn ? "text-emerald-300" : "text-primary",
+          )}
+        >
           {isCheckIn ? (
-            <span className="capitalize">check in</span>
+            <>
+              <UserCheck className="mr-2 h-4 w-4" />
+              <span className="capitalize">check in</span>
+            </>
           ) : (
-            <span className="capitalize">check out</span>
+            <>
+              <UserX className="mr-2 h-4 w-4" />
+              <span className="capitalize">check out</span>
+            </>
           )}
         </div>
       )
@@ -186,31 +197,62 @@ export const columnsVisitor: ColumnDef<
   {
     accessorKey: "checkInDate",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Check In Date" />
+      <DataTableColumnHeader column={column} title="Check In" />
     ),
     cell: ({ row }) => {
+      const checkInDate = row.getValue("checkInDate")
       return (
-        <div className="whitespace-nowrap">
-          {row.getValue("checkInDate") !== null ? (
-            format(row.getValue("checkInDate"), "PPPpp", { locale: id })
-          ) : (
-            <p className="text-center">-</p>
-          )}
+        <div className="flex items-center whitespace-nowrap">
+          <Clock
+            className={cn(
+              "mr-2 h-4 w-4 text-emerald-300",
+              checkInDate ?? "text-muted-foreground",
+            )}
+          />
+          <span>
+            {checkInDate !== null
+              ? format(checkInDate as Date, "PPPpp", { locale: id })
+              : "-"}
+          </span>
         </div>
       )
     },
   },
-  // {
-  //   accessorKey: "createdAt",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="CreatedAt" />
-  //   ),
-  //   cell: ({ row }) => (
-  //     <div className="whitespace-nowrap">
-  //       {format(row.getValue("createdAt"), "PPPpp", { locale: id })}
-  //     </div>
-  //   ),
-  // },
+  {
+    accessorKey: "checkOutDate",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Check Out" />
+    ),
+    cell: ({ row }) => {
+      const checkOutDate = row.getValue("checkOutDate")
+      return (
+        <div className="flex items-center whitespace-nowrap">
+          <Clock
+            className={cn(
+              "mr-2 h-4 w-4 text-destructive",
+              checkOutDate ?? "text-muted-foreground",
+            )}
+          />
+          <span>
+            {checkOutDate !== null
+              ? format(checkOutDate as Date, "PPPpp", { locale: id })
+              : "-"}
+          </span>
+        </div>
+      )
+    },
+  },
+  {
+    accessorKey: "createdAt",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="CreatedAt" />
+    ),
+    cell: ({ row }) => (
+      <div className="whitespace-nowrap">
+        {format(row.getValue("createdAt"), "PPPpp", { locale: id })}
+      </div>
+    ),
+  },
   {
     accessorKey: "updatedAt",
     header: ({ column }) => (
