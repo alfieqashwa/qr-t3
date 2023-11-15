@@ -236,7 +236,7 @@ const CreateEOPage: NextPage = (): JSX.Element => {
                     <FormLabel className="sm:text-right">Phone</FormLabel>
                     <FormControl>
                       <PhoneInput
-                        value={field.value.replace(/[^0-9]/g, "")}
+                        value={field.value.replace(/[^0-9+]/g, "")} //! [^0-9+] <-- only allowed user to type numeric-characters and '+' symbol
                         onChange={field.onChange}
                         className="flex h-10 w-[280px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                       />
