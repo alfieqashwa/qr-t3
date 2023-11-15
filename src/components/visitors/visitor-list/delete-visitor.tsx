@@ -1,4 +1,6 @@
+import type { Status } from "@prisma/client"
 import { Loader2, Trash } from "lucide-react"
+import { cn } from "~/src/utils"
 import { Button } from "~/ui/button"
 import {
   Dialog,
@@ -17,10 +19,11 @@ import { wait } from "~/utils/wait"
 type Props = {
   id: string
   title: string
+  ticketStatus: Status
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export function DeleteVisitor({ id, title, setOpen }: Props) {
+export function DeleteVisitor({ id, title, ticketStatus, setOpen }: Props) {
   const utils = api.useUtils()
   const { toast } = useToast()
 
@@ -54,11 +57,30 @@ export function DeleteVisitor({ id, title, setOpen }: Props) {
     })
   }
 
+  // ! Avoid editor to delete a visitor where HAS NOT AVAILABLE ticketStatus
+  const disabled = ticketStatus !== "AVAILABLE"
+
   return (
     <Dialog>
-      <DialogTrigger className="group flex w-full items-center">
-        <Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70 group-hover:text-primary" />
-        <span className="group-hover:text-primary">Delete</span>
+      <DialogTrigger
+        disabled={disabled}
+        className="group flex w-full items-center disabled:cursor-not-allowed"
+      >
+        <Trash
+          className={cn(
+            "mr-2 h-3.5 w-3.5 text-muted-foreground/70 group-hover:text-primary",
+            disabled && "group-hover:text-muted-foreground/70",
+          )}
+        />
+        <span
+          className={cn(
+            "group-hover:text-primary",
+            disabled &&
+              "text-muted-foreground/70 group-hover:text-muted-foreground",
+          )}
+        >
+          Delete
+        </span>
       </DialogTrigger>
 
       <DialogContent className="bg-card">
@@ -90,7 +112,12 @@ export function DeleteVisitor({ id, title, setOpen }: Props) {
                 Please wait
               </Button>
             ) : (
-              <Button type="submit" variant="destructive" size="sm">
+              <Button
+                disabled={disabled}
+                type="submit"
+                variant="destructive"
+                size="sm"
+              >
                 Delete
               </Button>
             )}

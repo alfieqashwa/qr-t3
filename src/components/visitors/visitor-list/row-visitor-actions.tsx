@@ -36,23 +36,25 @@ export function RowVisitorActions(props: DataTableRowActionsProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
         <EditorOnly>
-          {/* // TODO: download QR-Code */}
-          {ticketStatus === "BOOKED" && (
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(id)}
-              className="group hover:cursor-pointer"
-            >
-              <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70 group-hover:text-primary" />
-              Copy ID
-            </DropdownMenuItem>
-          )}
+          <DropdownMenuItem
+            onClick={() => navigator.clipboard.writeText(id)}
+            className="group hover:cursor-pointer"
+          >
+            <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70 group-hover:text-primary" />
+            Copy ID
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
             <UpdateVisitor id={id} title={title} setOpen={setOpen} />
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-            <DeleteVisitor id={id} title={title} setOpen={setOpen} />
+            <DeleteVisitor
+              id={id}
+              title={title}
+              ticketStatus={ticketStatus}
+              setOpen={setOpen}
+            />
           </DropdownMenuItem>
         </EditorOnly>
       </DropdownMenuContent>
