@@ -47,7 +47,9 @@ export function RowVisitorActions(props: DataTableRowActionsProps) {
             </DropdownMenuItem>
           )}
           <DropdownMenuSeparator />
-          <UpdateVisitor id={id} title={title} setOpen={setOpen} />
+          <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+            <UpdateVisitor id={id} title={title} setOpen={setOpen} />
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
             <DeleteVisitor id={id} title={title} setOpen={setOpen} />
