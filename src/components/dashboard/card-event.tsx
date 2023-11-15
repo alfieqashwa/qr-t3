@@ -1,7 +1,7 @@
-import type { Ticket, Visitor } from "@prisma/client"
 import { format } from "date-fns"
 import { id } from "date-fns/locale"
 import { useState } from "react"
+import type { RouterOutputs } from "~/src/utils/api"
 import {
   Card,
   CardContent,
@@ -19,20 +19,12 @@ import {
 } from "~/ui/select"
 import { formattedPrice } from "~/utils/formattedPrice"
 
-type VisitorProps = Visitor & { ticket: Ticket }
-
 type CardEventProps = {
-  title: string
-  thumbnail?: string | null
-  date: Date
-  profit: boolean
-  venue: string
-  tickets: Ticket[]
-  visitors: VisitorProps[]
+  event: RouterOutputs["event"]["getAllEditorRole"][0]
 }
 
-export function CardEvent(props: CardEventProps) {
-  const { title, venue, date, profit, tickets, visitors } = props
+export function CardEvent({ event }: CardEventProps) {
+  const { title, venue, date, profit, tickets } = event
 
   const formattedDate = format(date, "PPPP", { locale: id })
   const categoryList = [...new Set(tickets.map((t) => t.category))]
@@ -72,13 +64,6 @@ export function CardEvent(props: CardEventProps) {
     return tickets.filter((l) => l.category === category).length
   }
 
-  function totalVisitor(category: string) {
-    if (category === "all") {
-      return visitors.length
-    }
-    return visitors.filter((v) => v.ticket.category === category).length
-  }
-
   return (
     <Card>
       <CardHeader>
@@ -103,8 +88,6 @@ export function CardEvent(props: CardEventProps) {
             )}
             <CardDescription className="mt-1">Total Ticket</CardDescription>
             <CardTitle className="text-xl">{totalTicket(value)}</CardTitle>
-            <CardDescription className="mt-1">Total Visitor</CardDescription>
-            <CardTitle className="text-xl">{totalVisitor(value)}</CardTitle>
           </div>
         </div>
       </CardHeader>
