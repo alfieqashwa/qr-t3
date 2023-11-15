@@ -113,6 +113,7 @@ export function DeleteVisitor({ id, title, ticketStatus, setOpen }: Props) {
               </Button>
             ) : (
               <Button
+                //! double validation
                 disabled={disabled}
                 type="submit"
                 variant="destructive"

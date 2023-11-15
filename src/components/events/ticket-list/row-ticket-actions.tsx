@@ -40,7 +40,14 @@ export function RowTicketActions({ id, status }: DataTableRowActionsProps) {
         </DropdownMenuItem>
         <EditorOnly>
           <DropdownMenuSeparator />
-          <DeleteTicket id={id} status={status} open={open} setOpen={setOpen} />
+          <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+            <DeleteTicket
+              id={id}
+              status={status}
+              open={open}
+              setOpen={setOpen}
+            />
+          </DropdownMenuItem>
         </EditorOnly>
       </DropdownMenuContent>
     </DropdownMenu>

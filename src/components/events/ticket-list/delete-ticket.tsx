@@ -1,6 +1,7 @@
 import type { Status } from "@prisma/client"
 import { Loader2, Trash } from "lucide-react"
 import type { SetStateAction } from "react"
+import { cn } from "~/src/utils"
 import { Button } from "~/ui/button"
 import {
   Dialog,
@@ -56,17 +57,29 @@ export function DeleteTicket({ id, status, open, setOpen }: Props) {
     })
   }
 
+  const disabled = status !== "AVAILABLE"
+
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          className="group w-full justify-start rounded-sm border-none px-2 py-0 text-sm font-normal outline-none transition-colors focus:bg-accent focus:text-accent-foreground"
-          disabled={status !== "AVAILABLE"}
+      <DialogTrigger
+        disabled={disabled}
+        className="group flex w-full items-center disabled:cursor-not-allowed"
+      >
+        <Trash
+          className={cn(
+            "mr-2 h-3.5 w-3.5 text-muted-foreground/70 group-hover:text-primary",
+            disabled && "group-hover:text-muted-foreground/70",
+          )}
+        />
+        <span
+          className={cn(
+            "group-hover:text-primary",
+            disabled &&
+              "text-muted-foreground/70 group-hover:text-muted-foreground",
+          )}
         >
-          <Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70 group-hover:text-primary" />
-          <span className="group-hover:text-primary">Delete</span>
-        </Button>
+          Delete
+        </span>
       </DialogTrigger>
 
       <DialogContent className="bg-card">
