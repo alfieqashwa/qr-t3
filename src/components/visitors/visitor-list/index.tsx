@@ -9,7 +9,6 @@ export function VisitorList(): JSX.Element {
   return (
     <div className="py-4">
       <VisitorTable data={visitors.data} columns={columnsVisitor} />
-      {/* <pre>{JSON.stringify(visitors.data, null, 2)}</pre> */}
     </div>
   )
 }
