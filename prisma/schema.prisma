@@ -114,31 +114,6 @@ model Event {
   @@map("events")
 }
 
-model Ticket {
-  id           String @id @default(cuid())
-  ticketNumber Int?   @map("ticket_number")
-  category     String
-  price        Float?
-  status       Status @default(AVAILABLE)
-
-  event   Event?  @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  eventId String? @map("event_id")
-
-  eventOrganizer   EventOrganizer? @relation(fields: [eventOrganizerId], references: [id], onDelete: Cascade)
-  eventOrganizerId String          @map("event_organizer_id")
-
-  visitor   Visitor? @relation(fields: [visitorId], references: [id], onDelete: Cascade)
-  visitorId String?  @map("visitor_id")
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@index([eventOrganizerId])
-  @@index([eventId])
-  @@index([visitorId])
-  @@map("tickets")
-}
-
 model Visitor {
   id           String    @id @default(cuid())
   name         String
@@ -162,6 +137,31 @@ model Visitor {
   @@index([eventId])
   @@index([eventOrganizerId])
   @@map("visitors")
+}
+
+model Ticket {
+  id           String @id @default(cuid())
+  ticketNumber Int?   @map("ticket_number")
+  category     String
+  price        Float?
+  status       Status @default(AVAILABLE)
+
+  event   Event?  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId String? @map("event_id")
+
+  eventOrganizer   EventOrganizer? @relation(fields: [eventOrganizerId], references: [id], onDelete: Cascade)
+  eventOrganizerId String          @map("event_organizer_id")
+
+  visitor   Visitor? @relation(fields: [visitorId], references: [id], onDelete: Cascade)
+  visitorId String?  @map("visitor_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([eventOrganizerId])
+  @@index([eventId])
+  @@index([visitorId])
+  @@map("tickets")
 }
 
 enum Role {

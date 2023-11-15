@@ -18,7 +18,7 @@ export const visitorRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.visitor.findMany({
       where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
-      include: { event: true, ticket: true },
+      include: { event: true, tickets: true },
       orderBy: { updatedAt: "asc" },
     })
   }),
@@ -50,11 +50,11 @@ export const visitorRouter = createTRPCRouter({
             phone,
             email,
             eventId,
-            ticketId,
+            tickets: { connect: { id: ticketId } },
             eventOrganizerId,
           },
         })
-      }
+      },
     ),
   // Mutations - Operator Procedure
   toggleCheckOperatorRole: operatorProcedure
@@ -64,7 +64,7 @@ export const visitorRouter = createTRPCRouter({
         isCheckIn: z.boolean(),
         checkInDate: z.date().optional(),
         checkOutDate: z.date().optional(),
-      })
+      }),
     )
     .mutation(
       async ({ ctx, input: { id, isCheckIn, checkInDate, checkOutDate } }) => {
@@ -72,7 +72,7 @@ export const visitorRouter = createTRPCRouter({
           where: { id },
           data: { isCheckIn, checkInDate, checkOutDate },
         })
-      }
+      },
     ),
   // Mutations - Editor Procedure
   createEditorRole: editorProcedure
@@ -86,10 +86,10 @@ export const visitorRouter = createTRPCRouter({
             email,
             eventOrganizerId: ctx.session.user.eventOrganizerId as string,
             eventId,
-            ticketId,
+            tickets: { connect: { id: ticketId } },
           },
         })
-      }
+      },
     ),
   updateEditorRole: editorProcedure
     .input(updateVisitorSchema)
@@ -117,8 +117,8 @@ export const visitorRouter = createTRPCRouter({
       z.array(
         z.object({
           id: z.string().cuid(),
-        })
-      )
+        }),
+      ),
     )
     .mutation(async ({ ctx, input }) => {
       return await ctx.prisma.visitor.deleteMany({

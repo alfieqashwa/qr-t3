@@ -19,7 +19,6 @@ export const ticketRouter = createTRPCRouter({
           eventId,
           status: "AVAILABLE",
         },
-        include: { visitors: { select: { ticketId: true } } },
       })
     }),
   // Queries - Protected Procedure
@@ -60,7 +59,6 @@ export const ticketRouter = createTRPCRouter({
           eventId,
           eventOrganizerId: ctx.session.user.eventOrganizerId as string,
         },
-        include: { visitors: { select: { ticketId: true } } },
       })
     }),
 
@@ -70,7 +68,7 @@ export const ticketRouter = createTRPCRouter({
     .query(async ({ ctx, input: { ticketId } }) => {
       return await ctx.prisma.ticket.findUnique({
         where: { id: ticketId },
-        include: { visitors: true, event: true, eventOrganizer: true },
+        include: { visitor: true, event: true, eventOrganizer: true },
       })
     }),
 
