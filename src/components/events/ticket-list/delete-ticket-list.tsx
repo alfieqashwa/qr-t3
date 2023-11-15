@@ -1,6 +1,7 @@
 import type { Table } from "@tanstack/react-table"
 import { Loader2 } from "lucide-react"
 import { useState } from "react"
+import { cn } from "~/src/utils"
 import { Button } from "~/ui/button"
 import {
   Dialog,
@@ -37,7 +38,7 @@ export function DeleteTicketList<TData>({
   }))
 
   // avoid to delete BOOKED or PURCHASED or REFUND ticket(s)
-  const hasSomeSoldTicket = selectedRows.some(
+  const hasBesidesAnyAvailableTicket = selectedRows.some(
     (row) => row.status !== "AVAILABLE",
   )
 
@@ -67,7 +68,7 @@ export function DeleteTicketList<TData>({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (hasSomeSoldTicket) {
+    if (hasBesidesAnyAvailableTicket) {
       // and then set the input value back to default
       return toast({
         variant: "destructive",
@@ -96,12 +97,26 @@ export function DeleteTicketList<TData>({
       <DialogContent className="bg-card">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Are You Sure?</DialogTitle>
+            <DialogTitle
+              className={cn(
+                "",
+                hasBesidesAnyAvailableTicket && "font-semibold text-amber-300",
+              )}
+            >
+              {hasBesidesAnyAvailableTicket ? "WARNING!" : "Are You Sure?"}
+            </DialogTitle>
             <DialogDescription asChild>
-              <p>
-                You can&apos;t undo this changes. Click delete when you&apos;re
-                sure to delete the selected ticket(s).
-              </p>
+              {hasBesidesAnyAvailableTicket ? (
+                <p>
+                  Delete won&apos;t work because there&apos;re at least one a
+                  NON AVAILABLE status ticket in selected visitor(s).
+                </p>
+              ) : (
+                <p>
+                  You can&apos;t undo this changes. Click delete when
+                  you&apos;re sure to delete the selected visitor(s).
+                </p>
+              )}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="mt-4 flex flex-row items-center justify-end space-x-2">
