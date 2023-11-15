@@ -40,7 +40,7 @@ type Props = {
   ticketStatus: Status
 }
 
-export function PurchaseTicket({ id, ticketStatus }: Props) {
+export function TriggerTicketStatus({ id, ticketStatus }: Props) {
   const [open, setOpen] = useState(false)
 
   const utils = api.useUtils()

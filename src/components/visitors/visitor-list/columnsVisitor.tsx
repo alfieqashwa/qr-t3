@@ -13,11 +13,11 @@ import {
 } from "lucide-react"
 import { GenerateQRCode } from "~/components/qrcode"
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header"
+import { cn } from "~/src/utils"
 import { Checkbox } from "~/ui/checkbox"
 import type { RouterOutputs } from "~/utils/api"
-import { PurchaseTicket } from "./purchase-ticket"
 import { RowVisitorActions } from "./row-visitor-actions"
-import { cn } from "~/src/utils"
+import { TriggerTicketStatus } from "./trigger-ticket-status"
 
 export const columnsVisitor: ColumnDef<
   RouterOutputs["visitor"]["getAll"][0]
@@ -158,7 +158,7 @@ export const columnsVisitor: ColumnDef<
           ticket: { id, status: ticketStatus },
         },
       } = row
-      return <PurchaseTicket id={id} ticketStatus={ticketStatus} />
+      return <TriggerTicketStatus id={id} ticketStatus={ticketStatus} />
     },
   },
   {
