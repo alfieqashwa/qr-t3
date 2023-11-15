@@ -1,13 +1,23 @@
 import type { ColumnDef } from "@tanstack/react-table"
 import { format, formatDistance, subDays } from "date-fns"
 import { id } from "date-fns/locale"
-import { MapPin, Star } from "lucide-react"
+import {
+  Calendar,
+  Clock,
+  Mail,
+  Phone,
+  Tags,
+  User,
+  UserCheck,
+  UserX,
+} from "lucide-react"
 import { GenerateQRCode } from "~/components/qrcode"
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header"
 import { Checkbox } from "~/ui/checkbox"
 import type { RouterOutputs } from "~/utils/api"
 import { PurchaseTicket } from "./purchase-ticket"
 import { RowVisitorActions } from "./row-visitor-actions"
+import { cn } from "~/src/utils"
 
 export const columnsVisitor: ColumnDef<
   RouterOutputs["visitor"]["getAll"][0]
@@ -62,7 +72,7 @@ export const columnsVisitor: ColumnDef<
     ),
     cell: ({ row }) => (
       <div className="flex items-center">
-        <Star className="mr-2 h-4 w-4 text-muted-foreground" />
+        <User className="mr-2 h-4 w-4 text-muted-foreground" />
         <span className="whitespace-nowrap capitalize">
           {row.getValue("name")}
         </span>
@@ -77,7 +87,7 @@ export const columnsVisitor: ColumnDef<
     cell: ({ row }) => {
       return (
         <div className="flex items-center">
-          <MapPin className="mr-2 h-4 w-4 text-muted-foreground" />
+          <Phone className="mr-2 h-4 w-4 text-muted-foreground" />
           <span className="uppercase">{row.getValue("phone")}</span>
         </div>
       )
@@ -91,7 +101,7 @@ export const columnsVisitor: ColumnDef<
     cell: ({ row }) => {
       return (
         <div className="flex items-center">
-          <MapPin className="mr-2 h-4 w-4 text-muted-foreground" />
+          <Mail className="mr-2 h-4 w-4 text-muted-foreground" />
           <span>{row.getValue("email")}</span>
         </div>
       )
@@ -107,6 +117,7 @@ export const columnsVisitor: ColumnDef<
       const eventTitle = row.getValue("event")
       return (
         <div className="flex items-center">
+          <Calendar className="mr-2 h-4 w-4 text-muted-foreground" />
           <span className="whitespace-nowrap font-medium capitalize">
             {eventTitle as string}
           </span>
@@ -127,6 +138,7 @@ export const columnsVisitor: ColumnDef<
       const ticketCategory = row.getValue("ticketCategory")
       return (
         <div className="flex items-center">
+          <Tags className="mr-2 h-4 w-4 text-muted-foreground" />
           <span className="whitespace-nowrap font-medium uppercase">
             {ticketCategory as string}
           </span>
@@ -211,7 +223,7 @@ export const columnsVisitor: ColumnDef<
         {
           addSuffix: true,
           locale: id,
-        }
+        },
       )
       return <div className="whitespace-nowrap">{date}</div>
     },
