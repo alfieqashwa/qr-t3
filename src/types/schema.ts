@@ -120,12 +120,21 @@ const visitorSchema = z.object({
   eventOrganizerId: z.string().cuid(),
   id: z.string().cuid(),
   name: z
-    .string()
-    .min(3, {
-      message: "Name must be at least 3 characters.",
+    .string({
+      required_error: "Name is required",
+      invalid_type_error: "Name must be a string",
     })
-    .max(25),
-  phone: z.string().min(12).max(14),
+    .min(3, {
+      message: "Name must be at least 3 character(s)",
+    })
+    .max(25, { message: "Name must contain at most 25 character(s)" }),
+  phone: z
+    .string({
+      required_error: "Phone is required",
+      invalid_type_error: "Phone must be a string",
+    })
+    .min(12, { message: "Phone must contain at least 12 character(s)" })
+    .max(14, { message: "Phone must contain at most 14 character(s)" }),
   email: z.optional(z.string().email()),
   eventId: z
     .string({
