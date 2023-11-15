@@ -4,6 +4,7 @@ import { Loader2 } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { cn } from "~/src/utils"
 import { wait } from "~/src/utils/wait"
 import { Button } from "~/ui/button"
 import {
@@ -91,7 +92,13 @@ export function PurchaseTicket({ id, ticketStatus }: Props) {
       <DialogTrigger asChild>
         <Button
           size="sm"
-          variant={ticketStatus === "AVAILABLE" ? "secondary" : "default"}
+          variant="secondary"
+          className={cn(
+            "",
+            ticketStatus === "BOOKED" && "animate-pulse bg-amber-700",
+            ticketStatus === "PURCHASED" && "bg-emerald-700",
+            ticketStatus === "REFUND" && "bg-destructive",
+          )}
         >
           {ticketStatus}
         </Button>
