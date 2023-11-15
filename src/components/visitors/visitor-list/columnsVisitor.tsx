@@ -155,10 +155,16 @@ export const columnsVisitor: ColumnDef<
     cell: ({ row }) => {
       const {
         original: {
-          ticket: { id, status: ticketStatus },
+          ticket: { id, status: ticketStatus, price },
         },
       } = row
-      return <TriggerTicketStatus id={id} ticketStatus={ticketStatus} />
+      return (
+        <TriggerTicketStatus
+          id={id}
+          ticketStatus={ticketStatus}
+          price={price}
+        />
+      )
     },
   },
   {

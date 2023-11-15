@@ -38,9 +38,10 @@ import { api } from "~/utils/api"
 type Props = {
   id: string
   ticketStatus: Status
+  price: number | null
 }
 
-export function TriggerTicketStatus({ id, ticketStatus }: Props) {
+export function TriggerTicketStatus({ id, ticketStatus, price }: Props) {
   const [open, setOpen] = useState(false)
 
   const utils = api.useUtils()
@@ -95,7 +96,7 @@ export function TriggerTicketStatus({ id, ticketStatus }: Props) {
           variant="secondary"
           className={cn(
             "",
-            ticketStatus === "BOOKED" && "animate-pulse bg-amber-700",
+            ticketStatus === "BOOKED" && "bg-amber-700",
             ticketStatus === "PURCHASED" && "bg-emerald-700",
             ticketStatus === "REFUND" && "bg-destructive",
           )}
@@ -131,14 +132,25 @@ export function TriggerTicketStatus({ id, ticketStatus }: Props) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {ticketStatus !== "AVAILABLE" ? (
-                        <SelectItem value={Status.AVAILABLE}>
-                          {Status.AVAILABLE}
-                        </SelectItem>
-                      ) : (
-                        <SelectItem value={Status.BOOKED}>
-                          {Status.BOOKED}
-                        </SelectItem>
+                      <SelectItem value={Status.AVAILABLE}>
+                        {Status.AVAILABLE}
+                      </SelectItem>
+                      <SelectItem value={Status.BOOKED}>
+                        {Status.BOOKED}
+                      </SelectItem>
+                      {/*
+                       // ! alternative way to differenciate a non-profit events
+                       // ! because they always have price as null
+                       */}
+                      {!!price && (
+                        <>
+                          <SelectItem value={Status.PURCHASED}>
+                            {Status.PURCHASED}
+                          </SelectItem>
+                          <SelectItem value={Status.REFUND}>
+                            {Status.REFUND}
+                          </SelectItem>
+                        </>
                       )}
                     </SelectContent>
                   </Select>
