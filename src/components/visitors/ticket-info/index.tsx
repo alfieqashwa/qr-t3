@@ -85,11 +85,11 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
             <span>Venue: </span>
             <span className="capitalize">{ticket?.event?.venue}</span>
           </p>
-          <p>
+          {/* <p>
             <span className="uppercase text-amber-300">
               {ticket?.eventOrganizer?.name}
             </span>
-          </p>
+          </p> */}
         </Wrapper>
 
         <Wrapper title="Ticket Info" className="mt-2">

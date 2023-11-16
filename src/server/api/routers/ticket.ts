@@ -30,7 +30,6 @@ export const ticketRouter = createTRPCRouter({
     .query(async ({ ctx, input: { isProfit } }) => {
       return await ctx.prisma.ticket.findMany({
         where: {
-          eventOrganizerId: ctx.session.user.eventOrganizerId as string,
           event: { profit: isProfit },
         },
       })
@@ -40,7 +39,6 @@ export const ticketRouter = createTRPCRouter({
     .query(async ({ ctx, input: { isProfit } }) => {
       return await ctx.prisma.ticket.findMany({
         where: {
-          eventOrganizerId: ctx.session.user.eventOrganizerId as string,
           event: { profit: isProfit },
         },
         include: {
@@ -58,7 +56,6 @@ export const ticketRouter = createTRPCRouter({
       return await ctx.prisma.ticket.findMany({
         where: {
           eventId,
-          eventOrganizerId: ctx.session.user.eventOrganizerId as string,
         },
       })
     }),
@@ -69,7 +66,7 @@ export const ticketRouter = createTRPCRouter({
     .query(async ({ ctx, input: { ticketId } }) => {
       return await ctx.prisma.ticket.findUnique({
         where: { id: ticketId },
-        include: { visitor: true, event: true, eventOrganizer: true },
+        include: { visitor: true, event: true },
       })
     }),
 
