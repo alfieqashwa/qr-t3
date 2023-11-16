@@ -117,7 +117,6 @@ export const extendGenerateSeatSchema = generateTicketSchema
 
 // VISITORS
 const visitorSchema = z.object({
-  eventOrganizerId: z.string().cuid(),
   id: z.string().cuid(),
   name: z
     .string({
@@ -151,7 +150,6 @@ export const createPublicVisitorSchema = visitorSchema.omit({
 })
 export const createVisitorSchema = visitorSchema.omit({
   id: true,
-  eventOrganizerId: true,
 })
 
 export const updateVisitorSchema = visitorSchema.pick({

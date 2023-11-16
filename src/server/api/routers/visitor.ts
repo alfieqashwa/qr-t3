@@ -17,7 +17,6 @@ export const visitorRouter = createTRPCRouter({
   // Queries - Protected Procedure
   getAll: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.visitor.findMany({
-      where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
       orderBy: { updatedAt: "asc" },
       include: { ticket: true },
     })
@@ -31,7 +30,6 @@ export const visitorRouter = createTRPCRouter({
     }),
   isCheckIn: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.visitor.findMany({
-      where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
       select: { isCheckIn: true },
     })
   }),
@@ -39,22 +37,16 @@ export const visitorRouter = createTRPCRouter({
   // Mutations - Public Procedure
   createPublic: publicProcedure
     .input(createPublicVisitorSchema)
-    .mutation(
-      async ({
-        ctx,
-        input: { name, phone, email, ticketId, eventOrganizerId },
-      }) => {
-        return await ctx.prisma.visitor.create({
-          data: {
-            name,
-            phone,
-            email,
-            ticketId,
-            eventOrganizerId,
-          },
-        })
-      },
-    ),
+    .mutation(async ({ ctx, input: { name, phone, email, ticketId } }) => {
+      return await ctx.prisma.visitor.create({
+        data: {
+          name,
+          phone,
+          email,
+          ticketId,
+        },
+      })
+    }),
   // Mutations - Operator Procedure
   toggleCheckOperatorRole: operatorProcedure
     .input(
@@ -82,7 +74,6 @@ export const visitorRouter = createTRPCRouter({
           name,
           phone,
           email,
-          eventOrganizerId: ctx.session.user.eventOrganizerId as string,
           ticketId,
         },
       })
