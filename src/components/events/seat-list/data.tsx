@@ -1,5 +1,5 @@
 import { Status } from "@prisma/client"
-import { CheckCircle2, Circle, XCircle } from "lucide-react"
+import { CheckCircle2, Circle, CircleDollarSign, XCircle } from "lucide-react"
 
 export const statuses = [
   {
@@ -15,7 +15,7 @@ export const statuses = [
   {
     value: Status.PURCHASED,
     label: "Purchased",
-    icon: CheckCircle2,
+    icon: CircleDollarSign,
   },
   {
     value: Status.REFUND,

@@ -2,6 +2,7 @@ import type { Status } from "@prisma/client"
 import type { ColumnDef } from "@tanstack/react-table"
 import { Calendar, Mail, Tags, User } from "lucide-react"
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header"
+import { cn } from "~/src/utils"
 import { Badge } from "~/ui/badge"
 import { Checkbox } from "~/ui/checkbox"
 import type { RouterOutputs } from "~/utils/api"
@@ -98,10 +99,27 @@ export const columnsSeat: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
         return null
       }
 
+      const booked = status.value === "BOOKED" && "text-amber-500"
+      const purchased = status.value === "PURCHASED" && "text-emerald-500"
+      const refund = status.value === "REFUND" && "text-destructive"
       return (
-        <div className="flex w-[100px] items-center">
+        <div
+          className={cn(
+            "flex w-[100px] items-center",
+            booked,
+            purchased,
+            refund,
+          )}
+        >
           {status.icon && (
-            <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
+            <status.icon
+              className={cn(
+                "mr-2 h-4 w-4 text-muted-foreground",
+                booked,
+                purchased,
+                refund,
+              )}
+            />
           )}
           <span className="uppercase">{status.label}</span>
         </div>
