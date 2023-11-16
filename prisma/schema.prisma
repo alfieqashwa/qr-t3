@@ -70,21 +70,20 @@ model VerificationToken {
 }
 
 model EventOrganizer {
-  id         String    @id @default(cuid())
-  name       String    @unique()
+  id         String   @id @default(cuid())
+  name       String   @unique()
   phone      String
   province   String
   regency    String
   district   String
   village    String
   street     String
-  postalCode String    @map("postal_code")
+  postalCode String   @map("postal_code")
   // EventOrg many2one -> User 
   users      User[]
   // EventOrg many2one -> Event 
   events     Event[]
   tickets    Ticket[]
-  visitors   Visitor[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -146,14 +145,10 @@ model Visitor {
   ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
   ticketId String @unique @map("ticket_id") // relation scalar field (used in the `@relation` attribute above)
 
-  eventOrganizer   EventOrganizer? @relation(fields: [eventOrganizerId], references: [id], onDelete: Cascade)
-  eventOrganizerId String          @map("event_organizer_id")
-
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@index([ticketId])
-  @@index([eventOrganizerId])
   @@map("visitors")
 }
 
