@@ -42,7 +42,7 @@ const EventIdPage: NextPage = () => {
           filteredTickets,
         }
       },
-    }
+    },
   )
 
   if (status !== "success") return <LoadingSpinner />
@@ -97,7 +97,6 @@ const EventIdPage: NextPage = () => {
               className="mt-4 text-2xl"
             />
             <CreateNewTicketOrder
-              eventOrganizerId={event.all?.eventOrganizerId as string}
               eventId={event.all?.id as string}
               className="mt-2"
             />
@@ -111,7 +110,7 @@ const EventIdPage: NextPage = () => {
                 width={420}
                 height={420}
                 className={cn(
-                  "aspect-square h-auto w-auto object-cover transition-all hover:scale-105 lg:aspect-[3/4]"
+                  "aspect-square h-auto w-auto object-cover transition-all hover:scale-105 lg:aspect-[3/4]",
                   //   aspectRatio === "portrait" ? "aspect-[3/4]" : "aspect-square"
                 )}
               />

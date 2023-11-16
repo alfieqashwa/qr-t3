@@ -13,10 +13,8 @@ import { CreateTicketOrderForm } from "./create-ticket-order-form"
 import { cn } from "~/src/utils"
 
 export function CreateNewTicketOrder({
-  eventOrganizerId,
   className,
 }: {
-  eventOrganizerId: string
   eventId: string
   className?: string
 }) {
@@ -40,10 +38,7 @@ export function CreateNewTicketOrder({
             Fill the form here. Click Order Ticket when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <CreateTicketOrderForm
-          setOpen={setOpen}
-          eventOrganizerId={eventOrganizerId}
-        />
+        <CreateTicketOrderForm setOpen={setOpen} />
       </DialogContent>
     </Dialog>
   )

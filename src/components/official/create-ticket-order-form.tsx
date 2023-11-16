@@ -36,12 +36,13 @@ import {
 import { ToastAction } from "~/ui/toast"
 import { toast } from "~/ui/use-toast"
 
-type Props = {
+type CreateTicketOrderFormProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  eventOrganizerId: string
 }
 
-export const CreateTicketOrderForm = (props: Props) => {
+export const CreateTicketOrderForm = ({
+  setOpen,
+}: CreateTicketOrderFormProps) => {
   const utils = api.useUtils()
 
   const { mutate, isLoading } = api.visitor.createPublic.useMutation({
@@ -53,7 +54,7 @@ export const CreateTicketOrderForm = (props: Props) => {
       })
       await utils.ticket.getAllByEventIdPublic.invalidate()
       await utils.visitor.getAll.invalidate()
-      await wait().then(() => props.setOpen(false))
+      await wait().then(() => setOpen(false))
     },
     onError() {
       toast({
@@ -101,7 +102,6 @@ export const CreateTicketOrderForm = (props: Props) => {
   const form = useForm<CreatePublicVisitorSchema>({
     resolver: zodResolver(createPublicVisitorSchema),
     defaultValues: {
-      eventOrganizerId: props.eventOrganizerId,
       name: "",
       phone: "",
       email: "",
@@ -128,7 +128,6 @@ export const CreateTicketOrderForm = (props: Props) => {
       phone,
       email,
       ticketId,
-      eventOrganizerId: props.eventOrganizerId,
     })
   }
 
