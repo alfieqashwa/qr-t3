@@ -66,37 +66,37 @@ export const CreateTicketOrderForm = (props: Props) => {
     },
   })
 
-  const { data: tickets, status: ticketStatus } =
-    api.ticket.getAllByEventIdPublic.useQuery(
-      { eventId: props.eventId },
-      {
-        enabled: !!props.eventId,
-        select: (tickets) => {
-          const categories = tickets.map((ticket) => ticket.category)
-          const _visitorTicketIds = tickets
-            .filter((t) => t.visitors.length > 0)
-            .map((t) => t.visitors)
-            .reduce((acc, current) => {
-              current.forEach((ticket) => {
-                acc.push(ticket)
-              })
-              return acc
-            }, [])
-            .map((t) => ({ ticketId: t.ticketId }))
-          const _selectedTicketIds = new Set(
-            _visitorTicketIds.map((ticket) => ticket.ticketId),
-          )
-          const filteredTicketIds = tickets.filter(
-            (ticket) => !_selectedTicketIds.has(ticket.id),
-          )
+  // const { data: tickets, status: ticketStatus } =
+  //   api.ticket.getAllByEventIdPublic.useQuery(
+  //     { eventId: props.eventId },
+  //     {
+  //       enabled: !!props.eventId,
+  //       select: (tickets) => {
+  //         const categories = tickets.map((ticket) => ticket.category)
+  //         const _visitorTicketIds = tickets
+  //           .filter((t) => t.visitors.length > 0)
+  //           .map((t) => t.visitors)
+  //           .reduce((acc, current) => {
+  //             current.forEach((ticket) => {
+  //               acc.push(ticket)
+  //             })
+  //             return acc
+  //           }, [])
+  //           .map((t) => ({ ticketId: t.ticketId }))
+  //         const _selectedTicketIds = new Set(
+  //           _visitorTicketIds.map((ticket) => ticket.ticketId),
+  //         )
+  //         const filteredTicketIds = tickets.filter(
+  //           (ticket) => !_selectedTicketIds.has(ticket.id),
+  //         )
 
-          return {
-            categories: [...new Set(categories)],
-            filteredTicketIds,
-          }
-        },
-      },
-    )
+  //         return {
+  //           categories: [...new Set(categories)],
+  //           filteredTicketIds,
+  //         }
+  //       },
+  //     },
+  //   )
 
   type CreatePublicVisitorSchema = z.infer<typeof createPublicVisitorSchema>
   const form = useForm<CreatePublicVisitorSchema>({
@@ -111,16 +111,16 @@ export const CreateTicketOrderForm = (props: Props) => {
     },
   })
 
-  const selectedCategory = form.watch("category")
+  // const selectedCategory = form.watch("category")
 
   // select the price based on selectedCategory
-  const selectedPrice = [
-    ...new Set(
-      tickets?.filteredTicketIds
-        .filter((f) => f.category === selectedCategory)
-        .map((t) => t.price),
-    ),
-  ]?.[0]
+  // const selectedPrice = [
+  //   ...new Set(
+  //     tickets?.filteredTicketIds
+  //       .filter((f) => f.category === selectedCategory)
+  //       .map((t) => t.price),
+  //   ),
+  // ]?.[0]
 
   function onSubmit(values: CreatePublicVisitorSchema) {
     const { name, phone, email, ticketId } = values
@@ -197,7 +197,7 @@ export const CreateTicketOrderForm = (props: Props) => {
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="category"
           render={({ field }) => (
@@ -243,8 +243,8 @@ export const CreateTicketOrderForm = (props: Props) => {
               ? formattedPrice.format(selectedPrice).replace(/,\d+$/, "")
               : ""}
           </div>
-        </div>
-        <FormField
+        </div> */}
+        {/* <FormField
           control={form.control}
           name="ticketId"
           render={({ field }) => (
@@ -321,7 +321,7 @@ export const CreateTicketOrderForm = (props: Props) => {
               <FormMessage className="pl-20" />
             </FormItem>
           )}
-        />
+        /> */}
         <div className="mt-8">
           {isLoading ? (
             <Button disabled size="sm">

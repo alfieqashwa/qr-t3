@@ -71,8 +71,8 @@ export const CreateVisitorForm = (props: Props) => {
   })
 
   //! no-need to use useEffect
-  const selectedEventId = form.watch("eventId")
-  const selectedCategory = form.watch("category")
+  // const selectedEventId = form.watch("eventId")
+  // const selectedCategory = form.watch("category")
 
   const [isProfit, setIsProfit] = useState(true)
 
@@ -95,37 +95,37 @@ export const CreateVisitorForm = (props: Props) => {
             })),
   })
 
-  const { data: tickets, status: ticketStatus } =
-    api.ticket.getAllByEventId.useQuery(
-      { eventId: selectedEventId },
-      {
-        enabled: !!selectedEventId,
-        select: (tickets) => {
-          const categories = tickets.map((ticket) => ticket.category)
-          const _visitorTicketIds = tickets
-            .filter((t) => t.visitors.length > 0)
-            .map((t) => t.visitors)
-            .reduce((acc, current) => {
-              current.forEach((ticket) => {
-                acc.push(ticket)
-              })
-              return acc
-            }, [])
-            .map((t) => ({ ticketId: t.ticketId }))
-          const _selectedTicketIds = new Set(
-            _visitorTicketIds.map((t) => t.ticketId),
-          )
-          const filteredTicketIds = tickets.filter(
-            (t) => !_selectedTicketIds.has(t.id),
-          )
+  // const { data: tickets, status: ticketStatus } =
+  //   api.ticket.getAllByEventId.useQuery(
+  //     { eventId: selectedEventId },
+  //     {
+  //       enabled: !!selectedEventId,
+  //       select: (tickets) => {
+  //         const categories = tickets.map((ticket) => ticket.category)
+  //         const _visitorTicketIds = tickets
+  //           .filter((t) => t.visitors.length > 0)
+  //           .map((t) => t.visitors)
+  //           .reduce((acc, current) => {
+  //             current.forEach((ticket) => {
+  //               acc.push(ticket)
+  //             })
+  //             return acc
+  //           }, [])
+  //           .map((t) => ({ ticketId: t.ticketId }))
+  //         const _selectedTicketIds = new Set(
+  //           _visitorTicketIds.map((t) => t.ticketId),
+  //         )
+  //         const filteredTicketIds = tickets.filter(
+  //           (t) => !_selectedTicketIds.has(t.id),
+  //         )
 
-          return {
-            categories: [...new Set(categories)],
-            filteredTicketIds,
-          }
-        },
-      },
-    )
+  //         return {
+  //           categories: [...new Set(categories)],
+  //           filteredTicketIds,
+  //         }
+  //       },
+  //     },
+  //   )
 
   function onSubmit(values: CreateVisitorSchema) {
     const { name, phone, email, eventId, ticketId } = values
@@ -218,7 +218,7 @@ export const CreateVisitorForm = (props: Props) => {
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="category"
           render={({ field }) => (
@@ -246,8 +246,8 @@ export const CreateVisitorForm = (props: Props) => {
               <FormMessage />
             </FormItem>
           )}
-        />
-        <FormField
+        /> */}
+        {/* <FormField
           control={form.control}
           name="ticketId"
           render={({ field }) => (
@@ -282,7 +282,7 @@ export const CreateVisitorForm = (props: Props) => {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
 
         <SheetFooter className="absolute bottom-8 left-0 right-0 px-6">
           <Button

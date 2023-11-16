@@ -45,11 +45,11 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
       },
     })
 
-  const handleCheckIn = (visitorId: string) =>
-    mutate({ id: visitorId, isCheckIn: true, checkInDate: new Date() })
+  // const handleCheckIn = (visitorId: string) =>
+  //   mutate({ id: visitorId, isCheckIn: true, checkInDate: new Date() })
 
-  const handleCheckOut = (visitorId: string) =>
-    mutate({ id: visitorId, isCheckIn: false, checkOutDate: new Date() })
+  // const handleCheckOut = (visitorId: string) =>
+  //   mutate({ id: visitorId, isCheckIn: false, checkOutDate: new Date() })
 
   const isTodaysEventYet =
     ticket?.event?.date &&
@@ -116,7 +116,7 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
         </Wrapper>
 
         <Wrapper title="Visitor" className="mt-2">
-          {ticket?.visitors
+          {/* {ticket?.visitors
             .filter((t) => t.ticketId === ticketId)
             .map((v) => (
               <ul key={v.id} className="flex flex-col items-center">
@@ -150,7 +150,6 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
                       </p>
                     </div>
                     <li className="mt-8 flex items-center justify-center space-x-6">
-                      {/* //? STARTS CHECK-IN */}
                       <Button
                         disabled={isLoading || v.isCheckIn}
                         size="lg"
@@ -160,9 +159,6 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
                       >
                         <span className="whitespace-nowrap">Check In</span>
                       </Button>
-                      {/* //? ENDS CHECK-IN */}
-
-                      {/* //? STARTS CHECK-OUT */}
                       <Button
                         disabled={isLoading || !v.isCheckIn}
                         size="lg"
@@ -172,7 +168,6 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
                       >
                         <span className="whitespace-nowrap">Check Out</span>
                       </Button>
-                      {/* //? ENDS CHECK-OUT */}
                     </li>
 
                     <li className="mt-4 text-center">
@@ -206,7 +201,7 @@ export const TicketInfo = ({ ticket, ticketId }: TicketInfoProps) => {
                   </div>
                 )}
               </ul>
-            ))}
+            ))} */}
 
           <Button
             variant="secondary"

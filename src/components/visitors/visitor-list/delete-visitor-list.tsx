@@ -1,15 +1,15 @@
 import type { Table } from "@tanstack/react-table"
 import { Loader2 } from "lucide-react"
 import { useState } from "react"
-import { cn } from "~/src/utils"
+// import { cn } from "~/src/utils"
 import { Button } from "~/ui/button"
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
+  // DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
+  // DialogTitle,
   DialogTrigger,
 } from "~/ui/dialog"
 import { ToastAction } from "~/ui/toast"
@@ -38,9 +38,9 @@ export function DeleteVisitorList<TData>({
   }))
 
   // avoid to delete visitors who have any BOOKED or PURCHASED or REFUND ticket(s)
-  const hasBesidesAnyAvailableTicket = selectedRows.some(
-    (row) => row.ticket.status !== "AVAILABLE",
-  )
+  // const hasBesidesAnyAvailableTicket = selectedRows.some(
+  //   (row) => row.ticket.status !== "AVAILABLE",
+  // )
 
   const { mutate, isLoading } = api.visitor.deleteSelectedAdminRole.useMutation(
     {
@@ -68,16 +68,16 @@ export function DeleteVisitorList<TData>({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (hasBesidesAnyAvailableTicket) {
-      // and then set the input value back to default
-      return toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description:
-          "There're at least one BOOKED's or PURCHASED ticket. Please unselect them.",
-        action: <ToastAction altText="Try again">Try again</ToastAction>,
-      })
-    }
+    // if (hasBesidesAnyAvailableTicket) {
+    //   // and then set the input value back to default
+    //   return toast({
+    //     variant: "destructive",
+    //     title: "Uh oh! Something went wrong.",
+    //     description:
+    //       "There're at least one BOOKED's or PURCHASED ticket. Please unselect them.",
+    //     action: <ToastAction altText="Try again">Try again</ToastAction>,
+    //   })
+    // }
 
     mutate(ids)
   }
@@ -97,7 +97,7 @@ export function DeleteVisitorList<TData>({
       <DialogContent className="bg-card">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle
+            {/* <DialogTitle
               className={cn(
                 "",
                 hasBesidesAnyAvailableTicket && "font-semibold text-amber-300",
@@ -117,7 +117,7 @@ export function DeleteVisitorList<TData>({
                   you&apos;re sure to delete the selected visitor(s).
                 </p>
               )}
-            </DialogDescription>
+            </DialogDescription> */}
           </DialogHeader>
           <DialogFooter className="mt-4 flex flex-row items-center justify-end space-x-2">
             <Button
