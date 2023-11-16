@@ -47,6 +47,7 @@ export const ticketRouter = createTRPCRouter({
           event: {
             select: { title: true },
           },
+          visitor: { select: { name: true, email: true } },
         },
         orderBy: { event: { date: "asc" } },
       })

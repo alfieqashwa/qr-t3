@@ -1,6 +1,6 @@
 import type { Status } from "@prisma/client"
 import type { ColumnDef } from "@tanstack/react-table"
-import { Calendar, Tags } from "lucide-react"
+import { Calendar, Mail, Tags, User } from "lucide-react"
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header"
 import { Badge } from "~/ui/badge"
 import { Checkbox } from "~/ui/checkbox"
@@ -109,6 +109,40 @@ export const columnsSeat: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
     },
     filterFn: (row, id, value: Status) => {
       return value.includes(row.getValue(id))
+    },
+  },
+  {
+    accessorKey: "visitorName",
+    accessorFn: (row) => row.visitor?.name,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Visitor Name" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center">
+          <User className="mr-2 h-4 w-4 text-muted-foreground" />
+          <span className="whitespace-nowrap font-medium capitalize">
+            {row.getValue("visitorName")}
+          </span>
+        </div>
+      )
+    },
+  },
+  {
+    accessorKey: "visitorEmail",
+    accessorFn: (row) => row.visitor?.email,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Visitor Email" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center">
+          <Mail className="mr-2 h-4 w-4 text-muted-foreground" />
+          <span className="whitespace-nowrap font-medium text-amber-300">
+            {row.getValue("visitorEmail")}
+          </span>
+        </div>
+      )
     },
   },
   {
