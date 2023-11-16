@@ -18,7 +18,6 @@ export const visitorRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.visitor.findMany({
       where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
-      include: { event: true },
       orderBy: { updatedAt: "asc" },
     })
   }),
@@ -42,15 +41,14 @@ export const visitorRouter = createTRPCRouter({
     .mutation(
       async ({
         ctx,
-        input: { name, phone, email, eventId, ticketId, eventOrganizerId },
+        input: { name, phone, email, ticketId, eventOrganizerId },
       }) => {
         return await ctx.prisma.visitor.create({
           data: {
             name,
             phone,
             email,
-            eventId,
-            tickets: { connect: { id: ticketId } },
+            ticketId,
             eventOrganizerId,
           },
         })
@@ -77,20 +75,17 @@ export const visitorRouter = createTRPCRouter({
   // Mutations - Editor Procedure
   createEditorRole: editorProcedure
     .input(createVisitorSchema)
-    .mutation(
-      async ({ ctx, input: { name, phone, email, eventId, ticketId } }) => {
-        return await ctx.prisma.visitor.create({
-          data: {
-            name,
-            phone,
-            email,
-            eventOrganizerId: ctx.session.user.eventOrganizerId as string,
-            eventId,
-            tickets: { connect: { id: ticketId } },
-          },
-        })
-      },
-    ),
+    .mutation(async ({ ctx, input: { name, phone, email, ticketId } }) => {
+      return await ctx.prisma.visitor.create({
+        data: {
+          name,
+          phone,
+          email,
+          eventOrganizerId: ctx.session.user.eventOrganizerId as string,
+          ticketId,
+        },
+      })
+    }),
   updateEditorRole: editorProcedure
     .input(updateVisitorSchema)
     .mutation(async ({ ctx, input: { id, name, phone, email } }) => {

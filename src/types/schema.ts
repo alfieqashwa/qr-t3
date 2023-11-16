@@ -136,14 +136,6 @@ const visitorSchema = z.object({
     .min(12, { message: "Phone must contain at least 12 character(s)" })
     .max(14, { message: "Phone must contain at most 14 character(s)" }),
   email: z.optional(z.string().email()),
-  eventId: z
-    .string({
-      required_error: "Event is required",
-      invalid_type_error: "Event must be a string",
-    })
-    .cuid({
-      message: "Event is required",
-    }),
   category: z.string().optional(),
   ticketId: z
     .string({
