@@ -62,13 +62,13 @@ export function VisitorTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn("event") && (
+        {/* {table.getColumn("event") && (
           <DataTableFacetedFilter
             column={table.getColumn("event")}
             title="Event"
             options={eventTitles}
           />
-        )}
+        )} */}
         {ischeckInQuery.status === "success" &&
           table.getColumn("isCheckIn") && (
             <DataTableFacetedFilter

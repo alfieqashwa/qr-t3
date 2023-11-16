@@ -4,11 +4,14 @@ import { columnsVisitor } from "./columnsVisitor"
 import { VisitorTable } from "./visitor-table"
 
 export function VisitorList(): JSX.Element {
-  const visitors = api.visitor.getAll.useQuery()
-  if (visitors.status !== "success") return <LoadingSpinner />
+  const { data: visitors, status } = api.visitor.getAll.useQuery()
+  if (status === "loading") return <LoadingSpinner />
+  console.log({ visitors })
   return (
     <div className="py-4">
-      <VisitorTable data={visitors.data} columns={columnsVisitor} />
+      {status === "success" && (
+        <VisitorTable data={visitors} columns={columnsVisitor} />
+      )}
     </div>
   )
 }
