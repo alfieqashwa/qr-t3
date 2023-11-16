@@ -14,7 +14,6 @@ import { cn } from "~/src/utils"
 
 export function CreateNewTicketOrder({
   eventOrganizerId,
-  eventId,
   className,
 }: {
   eventOrganizerId: string
@@ -44,7 +43,6 @@ export function CreateNewTicketOrder({
         <CreateTicketOrderForm
           setOpen={setOpen}
           eventOrganizerId={eventOrganizerId}
-          eventId={eventId}
         />
       </DialogContent>
     </Dialog>

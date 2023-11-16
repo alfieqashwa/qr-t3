@@ -4,7 +4,7 @@ import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 import type { z } from "zod"
 import { createVisitorSchema } from "~/src/types/schema"
-import { cn } from "~/src/utils"
+// import { cn } from "~/src/utils"
 import { Button } from "~/ui/button"
 import {
   Form,
@@ -65,7 +65,6 @@ export const CreateVisitorForm = (props: Props) => {
       name: "",
       phone: "",
       email: "",
-      eventId: "",
       ticketId: "",
     },
   })
@@ -74,26 +73,26 @@ export const CreateVisitorForm = (props: Props) => {
   // const selectedEventId = form.watch("eventId")
   // const selectedCategory = form.watch("category")
 
-  const [isProfit, setIsProfit] = useState(true)
+  // const [isProfit, setIsProfit] = useState(true)
 
-  const events = api.event.getAll.useQuery(undefined, {
-    select: (events) =>
-      isProfit
-        ? events
-            .filter((f) => f.profit)
-            .map(({ id, title, profit }) => ({
-              id,
-              title,
-              profit,
-            }))
-        : events
-            .filter((f) => !f.profit)
-            .map(({ id, title, profit }) => ({
-              id,
-              title,
-              profit,
-            })),
-  })
+  // const events = api.event.getAll.useQuery(undefined, {
+  //   select: (events) =>
+  //     isProfit
+  //       ? events
+  //           .filter((f) => f.profit)
+  //           .map(({ id, title, profit }) => ({
+  //             id,
+  //             title,
+  //             profit,
+  //           }))
+  //       : events
+  //           .filter((f) => !f.profit)
+  //           .map(({ id, title, profit }) => ({
+  //             id,
+  //             title,
+  //             profit,
+  //           })),
+  // })
 
   // const { data: tickets, status: ticketStatus } =
   //   api.ticket.getAllByEventId.useQuery(
@@ -128,13 +127,12 @@ export const CreateVisitorForm = (props: Props) => {
   //   )
 
   function onSubmit(values: CreateVisitorSchema) {
-    const { name, phone, email, eventId, ticketId } = values
+    const { name, phone, email, ticketId } = values
 
     mutate({
       name,
       phone,
       email,
-      eventId,
       ticketId,
     })
   }
@@ -182,38 +180,6 @@ export const CreateVisitorForm = (props: Props) => {
               <FormControl>
                 <Input type="email" placeholder="email" {...field} />
               </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="eventId"
-          render={({ field }) => (
-            <FormItem>
-              <ToggleProfit isProfit={isProfit} setIsProfit={setIsProfit} />
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl className="capitalize">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select an event" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {events.status === "success" &&
-                    events.data.map((event) => (
-                      <SelectItem
-                        value={event.id}
-                        key={event.id}
-                        className="capitalize"
-                      >
-                        <span className="pr-1">{event.title}</span>
-                        <span className="lowercase text-amber-300">
-                          {!!event.profit ? "(profit)" : "(non-profit)"}
-                        </span>
-                      </SelectItem>
-                    ))}
-                </SelectContent>
-              </Select>
               <FormMessage />
             </FormItem>
           )}
@@ -310,16 +276,16 @@ export const CreateVisitorForm = (props: Props) => {
   )
 }
 
-type TogglePRofitProps = {
-  isProfit: boolean
-  setIsProfit: React.Dispatch<React.SetStateAction<boolean>>
-}
+// type TogglePRofitProps = {
+//   isProfit: boolean
+//   setIsProfit: React.Dispatch<React.SetStateAction<boolean>>
+// }
 
-const ToggleProfit = ({ isProfit, setIsProfit }: TogglePRofitProps) => (
-  <div className="flex items-center space-x-2">
-    <Switch id="is-profit" checked={isProfit} onCheckedChange={setIsProfit} />
-    <Label htmlFor="is-profit" className="text-xs text-amber-300">
-      {isProfit ? "Profit Mode" : "Non-Profit Mode"}
-    </Label>
-  </div>
-)
+// const ToggleProfit = ({ isProfit, setIsProfit }: TogglePRofitProps) => (
+//   <div className="flex items-center space-x-2">
+//     <Switch id="is-profit" checked={isProfit} onCheckedChange={setIsProfit} />
+//     <Label htmlFor="is-profit" className="text-xs text-amber-300">
+//       {isProfit ? "Profit Mode" : "Non-Profit Mode"}
+//     </Label>
+//   </div>
+// )

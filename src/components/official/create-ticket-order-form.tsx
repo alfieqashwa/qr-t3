@@ -39,7 +39,6 @@ import { toast } from "~/ui/use-toast"
 type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
   eventOrganizerId: string
-  eventId: string
 }
 
 export const CreateTicketOrderForm = (props: Props) => {
@@ -102,7 +101,6 @@ export const CreateTicketOrderForm = (props: Props) => {
   const form = useForm<CreatePublicVisitorSchema>({
     resolver: zodResolver(createPublicVisitorSchema),
     defaultValues: {
-      eventId: props.eventId,
       eventOrganizerId: props.eventOrganizerId,
       name: "",
       phone: "",
@@ -129,7 +127,6 @@ export const CreateTicketOrderForm = (props: Props) => {
       name,
       phone,
       email,
-      eventId: props.eventId,
       ticketId,
       eventOrganizerId: props.eventOrganizerId,
     })

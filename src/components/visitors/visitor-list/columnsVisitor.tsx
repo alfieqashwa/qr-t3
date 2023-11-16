@@ -2,7 +2,7 @@ import type { ColumnDef } from "@tanstack/react-table"
 import { format, formatDistance, subDays } from "date-fns"
 import { id } from "date-fns/locale"
 import {
-  Calendar,
+  // Calendar,
   Clock,
   Mail,
   Phone,
@@ -105,27 +105,6 @@ export const columnsVisitor: ColumnDef<
           <span>{row.getValue("email")}</span>
         </div>
       )
-    },
-  },
-  {
-    accessorKey: "event",
-    accessorFn: (row) => row.event.title,
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Event" />
-    ),
-    cell: ({ row }) => {
-      const eventTitle = row.getValue("event")
-      return (
-        <div className="flex items-center">
-          <Calendar className="mr-2 h-4 w-4 text-muted-foreground" />
-          <span className="whitespace-nowrap font-medium capitalize">
-            {eventTitle as string}
-          </span>
-        </div>
-      )
-    },
-    filterFn: (row, id, value: string) => {
-      return value.includes(row.getValue(id))
     },
   },
   // {
