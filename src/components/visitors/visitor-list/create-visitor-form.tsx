@@ -1,13 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod"
+import { ScrollArea } from "@radix-ui/react-scroll-area"
 import { Loader2 } from "lucide-react"
 import React, { useState } from "react"
 import { useForm } from "react-hook-form"
+import PhoneInput from "react-phone-number-input"
 import type { z } from "zod"
 import {
   createVisitorSchema,
-  extendVisitorFormSchema,
+  type extendVisitorFormSchema,
 } from "~/src/types/schema"
-// import { cn } from "~/src/utils"
+import { cn } from "~/src/utils"
 import { Button } from "~/ui/button"
 import {
   Form,
@@ -32,14 +34,12 @@ import { ToastAction } from "~/ui/toast"
 import { toast } from "~/ui/use-toast"
 import { api } from "~/utils/api"
 import { wait } from "~/utils/wait"
-import PhoneInput from "react-phone-number-input"
-import { cn } from "~/src/utils"
 
-type Props = {
+export const CreateVisitorForm = ({
+  setOpen,
+}: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-export const CreateVisitorForm = (props: Props) => {
+}) => {
   const utils = api.useUtils()
 
   const { mutate, isLoading } = api.visitor.createEditorRole.useMutation({
@@ -50,7 +50,7 @@ export const CreateVisitorForm = (props: Props) => {
         description: "Your form has been created.",
       })
       await utils.visitor.getAll.invalidate()
-      await wait().then(() => props.setOpen(false))
+      await wait().then(() => setOpen(false))
     },
     onError() {
       toast({
@@ -99,37 +99,26 @@ export const CreateVisitorForm = (props: Props) => {
             })),
   })
 
-  // const { data: tickets, status: ticketStatus } =
-  //   api.ticket.getAllByEventId.useQuery(
-  //     { eventId: selectedEventId },
-  //     {
-  //       enabled: !!selectedEventId,
-  //       select: (tickets) => {
-  //         const categories = tickets.map((ticket) => ticket.category)
-  //         const _visitorTicketIds = tickets
-  //           .filter((t) => t.visitors.length > 0)
-  //           .map((t) => t.visitors)
-  //           .reduce((acc, current) => {
-  //             current.forEach((ticket) => {
-  //               acc.push(ticket)
-  //             })
-  //             return acc
-  //           }, [])
-  //           .map((t) => ({ ticketId: t.ticketId }))
-  //         const _selectedTicketIds = new Set(
-  //           _visitorTicketIds.map((t) => t.ticketId),
-  //         )
-  //         const filteredTicketIds = tickets.filter(
-  //           (t) => !_selectedTicketIds.has(t.id),
-  //         )
-
-  //         return {
-  //           categories: [...new Set(categories)],
-  //           filteredTicketIds,
-  //         }
-  //       },
-  //     },
-  //   )
+  const tickets = api.ticket.getAllByEventId.useQuery(
+    { eventId: selectedEventId },
+    {
+      enabled: !!selectedEventId,
+      select: (tickets) => {
+        const categories = tickets.map((t) => t.category)
+        /**
+         * filtered only AVAILABlE tickets
+         * & by selected category
+         */
+        const filteredTickets = tickets.filter(
+          (t) => t.status === "AVAILABLE" && t.category === selectedCategory,
+        )
+        return {
+          categories: [...new Set(categories)],
+          filteredTickets,
+        }
+      },
+    },
+  )
 
   function onSubmit(values: CreateVisitorSchema) {
     const { name, phone, email, ticketId } = values
@@ -183,7 +172,7 @@ export const CreateVisitorForm = (props: Props) => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="email" {...field} />
+                <Input type="email" placeholder="Email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -221,7 +210,7 @@ export const CreateVisitorForm = (props: Props) => {
             </FormItem>
           )}
         />
-        {/* <FormField
+        <FormField
           control={form.control}
           name="category"
           render={({ field }) => (
@@ -234,11 +223,11 @@ export const CreateVisitorForm = (props: Props) => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {ticketStatus === "success" &&
-                    tickets.categories.map((category) => (
+                  {tickets.status === "success" &&
+                    tickets.data.categories.map((category, i) => (
                       <SelectItem
                         value={category}
-                        key={category}
+                        key={i}
                         className="uppercase"
                       >
                         {category}
@@ -249,8 +238,8 @@ export const CreateVisitorForm = (props: Props) => {
               <FormMessage />
             </FormItem>
           )}
-        /> */}
-        {/* <FormField
+        />
+        <FormField
           control={form.control}
           name="ticketId"
           render={({ field }) => (
@@ -263,10 +252,9 @@ export const CreateVisitorForm = (props: Props) => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {ticketStatus === "success" &&
-                    tickets.filteredTicketIds
-                      .filter((ticket) => ticket.category === selectedCategory)
-                      .map((ticket) => {
+                  <ScrollArea className="h-56">
+                    {tickets.status === "success" &&
+                      tickets.data.filteredTickets.map((ticket) => {
                         const ticketCategory = `${
                           ticket.category
                         }-${ticket.id.slice(-8, -1)}`
@@ -280,12 +268,13 @@ export const CreateVisitorForm = (props: Props) => {
                           </SelectItem>
                         )
                       })}
+                  </ScrollArea>
                 </SelectContent>
               </Select>
               <FormMessage />
             </FormItem>
           )}
-        /> */}
+        />
 
         <SheetFooter className="absolute bottom-8 left-0 right-0 px-6">
           <Button
@@ -293,7 +282,7 @@ export const CreateVisitorForm = (props: Props) => {
             type="button"
             variant="outline"
             size="sm"
-            onClick={() => props.setOpen(false)}
+            onClick={() => setOpen(false)}
           >
             Cancel
           </Button>

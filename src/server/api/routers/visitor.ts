@@ -69,7 +69,7 @@ export const visitorRouter = createTRPCRouter({
   createEditorRole: editorProcedure
     .input(createVisitorSchema)
     .mutation(async ({ ctx, input: { name, phone, email, ticketId } }) => {
-      return await ctx.prisma.visitor.create({
+      const createTicket = await ctx.prisma.visitor.create({
         data: {
           name,
           phone,
@@ -77,6 +77,11 @@ export const visitorRouter = createTRPCRouter({
           ticketId,
         },
       })
+      const updateStatus = await ctx.prisma.ticket.update({
+        where: { id: ticketId },
+        data: { status: "BOOKED" },
+      })
+      return { createTicket, updateStatus }
     }),
   updateEditorRole: editorProcedure
     .input(updateVisitorSchema)

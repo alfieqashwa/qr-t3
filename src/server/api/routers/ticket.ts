@@ -57,6 +57,7 @@ export const ticketRouter = createTRPCRouter({
         where: {
           eventId,
         },
+        orderBy: { id: "asc" },
       })
     }),
 
