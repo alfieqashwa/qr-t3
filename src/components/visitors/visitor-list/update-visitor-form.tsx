@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
+import PhoneInput from "react-phone-number-input"
 import type { z } from "zod"
 import { updateVisitorSchema } from "~/src/types/schema"
 import { Button } from "~/ui/button"
@@ -109,11 +110,11 @@ export const UpdateVisitorForm = ({ visitor, setOpen }: Props): JSX.Element => {
               <div className="grid grid-cols-6 items-center gap-x-4">
                 <FormLabel className="text-right">Phone</FormLabel>
                 <FormControl>
-                  <Input
-                    type="number"
-                    placeholder="phone"
-                    {...field}
-                    className="col-span-3 w-[240px] capitalize"
+                  <PhoneInput
+                    defaultCountry="ID"
+                    value={field.value.replace(/[^0-9+]/g, "")} //! [^0-9+] <-- only allowed user to type numeric-characters and '+' symbol
+                    onChange={field.onChange}
+                    className="flex h-10 w-[280px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   />
                 </FormControl>
               </div>

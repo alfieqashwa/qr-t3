@@ -1,23 +1,14 @@
 import type { ColumnDef } from "@tanstack/react-table"
 import { format, formatDistance, subDays } from "date-fns"
 import { id } from "date-fns/locale"
-import {
-  // Calendar,
-  Clock,
-  Mail,
-  Phone,
-  // Tags,
-  User,
-  UserCheck,
-  UserX,
-} from "lucide-react"
-// import { GenerateQRCode } from "~/components/qrcode"
+import { Clock, Mail, Phone, Tags, User, UserCheck, UserX } from "lucide-react"
+import { GenerateQRCode } from "~/components/qrcode"
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header"
 import { cn } from "~/src/utils"
 import { Checkbox } from "~/ui/checkbox"
 import type { RouterOutputs } from "~/utils/api"
-// import { RowVisitorActions } from "./row-visitor-actions"
-// import { TriggerTicketStatus } from "./trigger-ticket-status"
+import { RowVisitorActions } from "./row-visitor-actions"
+import { TriggerTicketStatus } from "./trigger-ticket-status"
 
 export const columnsVisitor: ColumnDef<
   RouterOutputs["visitor"]["getAll"][0]
@@ -43,28 +34,28 @@ export const columnsVisitor: ColumnDef<
     enableSorting: false,
     enableHiding: false,
   },
-  // {
-  //   accessorKey: "qrCode",
-  //   accessorFn: (row) => row.ticket,
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="QR Code" />
-  //   ),
-  //   cell: ({ row }) => {
-  //     const {
-  //       original: {
-  //         ticket: { id, status: ticketStatus },
-  //         name,
-  //       },
-  //     } = row
-  //     return (
-  //       <GenerateQRCode
-  //         id={id}
-  //         name={name.replace(/ /g, "_")}
-  //         ticketStatus={ticketStatus}
-  //       />
-  //     )
-  //   },
-  // },
+  {
+    accessorKey: "qrCode",
+    accessorFn: (row) => row.ticket,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="QR Code" />
+    ),
+    cell: ({ row }) => {
+      const {
+        original: {
+          ticket: { id, status },
+          name,
+        },
+      } = row
+      return (
+        <GenerateQRCode
+          id={id}
+          name={name.replace(/ /g, "_")}
+          ticketStatus={status}
+        />
+      )
+    },
+  },
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -107,45 +98,39 @@ export const columnsVisitor: ColumnDef<
       )
     },
   },
-  // {
-  //   accessorKey: "ticketCategory",
-  //   accessorFn: (row) => row.ticket.category,
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Ticket Category" />
-  //   ),
-  //   cell: ({ row }) => {
-  //     const ticketCategory = row.getValue("ticketCategory")
-  //     return (
-  //       <div className="flex items-center">
-  //         <Tags className="mr-2 h-4 w-4 text-muted-foreground" />
-  //         <span className="whitespace-nowrap font-medium uppercase">
-  //           {ticketCategory as string}
-  //         </span>
-  //       </div>
-  //     )
-  //   },
-  // },
-  // {
-  //   accessorKey: "ticketStatus",
-  //   accessorFn: (row) => row.ticket,
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Ticket Status" />
-  //   ),
-  //   cell: ({ row }) => {
-  //     const {
-  //       original: {
-  //         ticket: { id, status: ticketStatus, price },
-  //       },
-  //     } = row
-  //     return (
-  //       <TriggerTicketStatus
-  //         id={id}
-  //         ticketStatus={ticketStatus}
-  //         price={price}
-  //       />
-  //     )
-  //   },
-  // },
+  {
+    accessorKey: "ticketCategory",
+    accessorFn: (row) => row.ticket.category,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Ticket Category" />
+    ),
+    cell: ({ row }) => {
+      const ticketCategory = row.getValue("ticketCategory")
+      return (
+        <div className="flex items-center">
+          <Tags className="mr-2 h-4 w-4 text-muted-foreground" />
+          <span className="whitespace-nowrap font-medium uppercase">
+            {ticketCategory as string}
+          </span>
+        </div>
+      )
+    },
+  },
+  {
+    accessorKey: "ticketStatus",
+    accessorFn: (row) => row.ticket.status,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Ticket Status" />
+    ),
+    cell: ({ row }) => {
+      const {
+        original: {
+          ticket: { id, status, price },
+        },
+      } = row
+      return <TriggerTicketStatus id={id} ticketStatus={status} price={price} />
+    },
+  },
   {
     accessorKey: "isCheckIn",
     header: ({ column }) => (
@@ -255,21 +240,21 @@ export const columnsVisitor: ColumnDef<
       return <div className="whitespace-nowrap">{date}</div>
     },
   },
-  // {
-  //   id: "actions",
-  //   cell: ({ row }) => {
-  //     const {
-  //       original: {
-  //         id,
-  //         name,
-  //         ticket: { status },
-  //       },
-  //     } = row
-  //     return (
-  //       <div className="relative">
-  //         <RowVisitorActions id={id} title={name} ticketStatus={status} />
-  //       </div>
-  //     )
-  //   },
-  // },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const {
+        original: {
+          id,
+          name,
+          ticket: { status },
+        },
+      } = row
+      return (
+        <div className="relative">
+          <RowVisitorActions id={id} title={name} ticketStatus={status} />
+        </div>
+      )
+    },
+  },
 ]

@@ -17,10 +17,7 @@ type Props = {
 }
 
 export function UpdateVisitor({ id, title, setOpen }: Props) {
-  const { data: visitor, status: visitorStatus } = api.visitor.getById.useQuery(
-    { id },
-    { enabled: !!id },
-  )
+  const visitor = api.visitor.getById.useQuery({ id }, { enabled: !!id })
 
   return (
     <Dialog>
@@ -42,8 +39,8 @@ export function UpdateVisitor({ id, title, setOpen }: Props) {
             </p>
           </DialogDescription>
         </DialogHeader>
-        {visitorStatus === "success" && !!visitor && (
-          <UpdateVisitorForm visitor={visitor} setOpen={setOpen} />
+        {visitor.status === "success" && !!visitor && (
+          <UpdateVisitorForm visitor={visitor.data} setOpen={setOpen} />
         )}
       </DialogContent>
     </Dialog>
