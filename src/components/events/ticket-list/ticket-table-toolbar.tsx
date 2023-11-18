@@ -4,12 +4,12 @@ import { Calendar, Tags, X } from "lucide-react"
 import { EditorOnly } from "~/components/authed"
 import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-filter"
 import { DataTableViewOptions } from "~/components/table/data-table-view-options"
+import { STATUS } from "~/constants/status"
 import { Button } from "~/ui/button"
 import { Input } from "~/ui/input"
 import { api } from "~/utils/api"
 import { DeleteTicketList } from "./delete-ticket-list"
 import { GenerateTicket } from "./generate-ticket"
-import { STATUS } from "~/constants/status"
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -28,47 +28,39 @@ export function TicketTableToolbar<TData>({
     table.getPreFilteredRowModel().rows.length >
     table.getFilteredRowModel().rows.length
 
-  const events = api.event.eventData.useQuery(undefined, {
-    select: (events) => {
-      const options: Options[] = [
-        ...new Set(
-          events
-            // only render profit events only
-            .filter((profitEventOnly) => !!profitEventOnly.profit)
-            .map((profit) => profit.title),
-        ),
-      ].map((title) => ({
-        value: title,
-        label: title,
-        icon: Calendar,
-      }))
-
-      return {
-        options,
-      }
-    },
-  })
-
-  const profitCategories = api.ticket.categories.useQuery(
+  const { data: eventOptions, status } = api.event.eventData.useQuery(
+    undefined,
     {
-      isProfit: true,
-    },
-    {
-      select: (cats) => {
-        const options: Options[] = [
-          ...new Set(cats.map((c) => c.category)),
-        ].map((category) => ({
-          value: category,
-          label: category,
-          icon: Tags,
+      select: (events): Options[] => {
+        return [
+          ...new Set(
+            events
+              // only render profit events only
+              .filter((profitEventOnly) => profitEventOnly.profit)
+              .map((profit) => profit.title),
+          ),
+        ].map((title) => ({
+          value: title,
+          label: title,
+          icon: Calendar,
         }))
-
-        return {
-          options,
-        }
       },
     },
   )
+
+  const { data: profitCategories, status: profitCategoriesStatus } =
+    api.ticket.categories.useQuery(
+      { isProfit: true },
+      {
+        select: (cats): Options[] => {
+          return [...new Set(cats.map((c) => c.category))].map((category) => ({
+            value: category,
+            label: category,
+            icon: Tags,
+          }))
+        },
+      },
+    )
 
   return (
     <div className="flex items-start justify-between">
@@ -81,11 +73,11 @@ export function TicketTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {events.status === "success" && table.getColumn("event") && (
+        {status === "success" && table.getColumn("event") && (
           <DataTableFacetedFilter
             column={table.getColumn("event")}
             title="Event"
-            options={events.data.options}
+            options={eventOptions}
           />
         )}
         {table.getColumn("status") && (
@@ -95,12 +87,12 @@ export function TicketTableToolbar<TData>({
             options={STATUS as unknown as Options[]}
           />
         )}
-        {profitCategories.status === "success" &&
+        {profitCategoriesStatus === "success" &&
           table.getColumn("category") && (
             <DataTableFacetedFilter
               column={table.getColumn("category")}
               title="Category"
-              options={profitCategories.data.options}
+              options={profitCategories}
             />
           )}
         {isFiltered && (

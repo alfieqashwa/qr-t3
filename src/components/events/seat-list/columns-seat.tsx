@@ -103,14 +103,7 @@ export const columnsSeat: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] = [
       const purchased = status.value === "PURCHASED" && "text-emerald-500"
       const refund = status.value === "REFUND" && "text-destructive"
       return (
-        <div
-          className={cn(
-            "flex w-[100px] items-center",
-            booked,
-            purchased,
-            refund,
-          )}
-        >
+        <div className={cn("flex items-center", booked, purchased, refund)}>
           {status.icon && (
             <status.icon
               className={cn(
