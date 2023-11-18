@@ -95,6 +95,7 @@ export function GenerateTicket(): JSX.Element {
       eventId: "",
       categorySelect: "",
       categoryInput: "",
+      price: "",
       qty: 0,
     },
   })
