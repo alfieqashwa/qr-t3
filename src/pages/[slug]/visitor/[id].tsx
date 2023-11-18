@@ -18,7 +18,7 @@ const VisitorByIdPage: NextPage = (): JSX.Element => {
     )
 
   if (ticketStatus !== "success") return <LoadingSpinner />
-  return <TicketInfo ticket={ticket} ticketId={ticketId} />
+  return <TicketInfo ticket={ticket} />
 }
 
 export default VisitorByIdPage

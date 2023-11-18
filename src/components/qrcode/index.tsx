@@ -89,7 +89,7 @@ export const GenerateQRCode = ({
                   value={`/${data.slug as string}/visitor/${id}`}
                   size={256}
                 />
-                {/* SvgQRCode for download (based on id): the difference is the size */}
+                {/* //! SvgQRCode for download (based on id): the difference is the size */}
                 <SvgQRCode
                   id="download-qrcode"
                   value={`/${data.slug as string}/visitor/${id}`}

@@ -67,7 +67,10 @@ export const ticketRouter = createTRPCRouter({
     .query(async ({ ctx, input: { ticketId } }) => {
       return await ctx.prisma.ticket.findUnique({
         where: { id: ticketId },
-        include: { visitor: true, event: true },
+        include: {
+          visitor: true,
+          event: { include: { eventOrganizer: { select: { name: true } } } },
+        },
       })
     }),
 
