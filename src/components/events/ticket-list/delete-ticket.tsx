@@ -111,7 +111,13 @@ export function DeleteTicket({ id, status, open, setOpen }: Props) {
                 Please wait
               </Button>
             ) : (
-              <Button type="submit" variant="destructive" size="sm">
+              <Button
+                //! double validation
+                disabled={disabled}
+                type="submit"
+                variant="destructive"
+                size="sm"
+              >
                 Delete
               </Button>
             )}

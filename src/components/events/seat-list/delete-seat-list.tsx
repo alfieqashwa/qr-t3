@@ -72,7 +72,7 @@ export function DeleteSeatList<TData>({ table }: DeleteEventListProps<TData>) {
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
         description:
-          "There's at least one BOOKED or PURCHASED's ticket. Please unselect them.",
+          "There's at least one BOOKED or PURCHASED's seat. Please unselect them.",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
       })
     }
@@ -107,7 +107,7 @@ export function DeleteSeatList<TData>({ table }: DeleteEventListProps<TData>) {
               {hasBesidesAnyAvailableTicket ? (
                 <p>
                   Delete won&apos;t work because there&apos;re at least one a
-                  NON AVAILABLE status ticket in selected visitor(s).
+                  NON AVAILABLE status seat in selected visitor(s).
                 </p>
               ) : (
                 <p>

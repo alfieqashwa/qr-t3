@@ -1,12 +1,10 @@
 import { LoadingSpinner } from "~/components/loading"
-import { api } from "~/src/utils/api"
+import { api } from "~/utils/api"
 import { columnsSeat } from "./columns-seat"
 import { SeatTable } from "./seat-table"
 
 export const SeatList = (): JSX.Element => {
-  const seats = api.ticket.getAll.useQuery({
-    isProfit: false,
-  })
+  const seats = api.ticket.getAll.useQuery({ isProfit: false })
 
   if (seats.status !== "success") return <LoadingSpinner />
 
