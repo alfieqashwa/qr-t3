@@ -26,7 +26,7 @@ export const ticketRouter = createTRPCRouter({
     return await ctx.prisma.ticket.count()
   }),
   categories: protectedProcedure
-    .input(z.object({ isProfit: z.boolean() }))
+    .input(z.object({ isProfit: z.boolean().optional() }))
     .query(async ({ ctx, input: { isProfit } }) => {
       return await ctx.prisma.ticket.findMany({
         where: {

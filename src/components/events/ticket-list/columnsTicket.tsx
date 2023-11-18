@@ -2,10 +2,10 @@ import type { Status } from "@prisma/client"
 import type { ColumnDef } from "@tanstack/react-table"
 import { Calendar, Mail, Tags, User } from "lucide-react"
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header"
+import { STATUS } from "~/constants/status"
 import { Badge } from "~/ui/badge"
 import { Checkbox } from "~/ui/checkbox"
 import type { RouterOutputs } from "~/utils/api"
-import { statuses } from "./data"
 import { RowTicketActions } from "./row-ticket-actions"
 
 export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
@@ -106,7 +106,7 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
         <DataTableColumnHeader column={column} title="Status" />
       ),
       cell: ({ row }) => {
-        const status = statuses.find(
+        const status = STATUS.find(
           (status) => status.value === row.getValue("status"),
         )
 

@@ -7,9 +7,9 @@ import { DataTableViewOptions } from "~/components/table/data-table-view-options
 import { Button } from "~/ui/button"
 import { Input } from "~/ui/input"
 import { api } from "~/utils/api"
-import { statuses } from "./data"
 import { DeleteTicketList } from "./delete-ticket-list"
 import { GenerateTicket } from "./generate-ticket"
+import { STATUS } from "~/constants/status"
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -35,7 +35,7 @@ export function TicketTableToolbar<TData>({
           events
             // only render profit events only
             .filter((profitEventOnly) => !!profitEventOnly.profit)
-            .map((profit) => profit.title)
+            .map((profit) => profit.title),
         ),
       ].map((title) => ({
         value: title,
@@ -67,7 +67,7 @@ export function TicketTableToolbar<TData>({
           options,
         }
       },
-    }
+    },
   )
 
   return (
@@ -92,7 +92,7 @@ export function TicketTableToolbar<TData>({
           <DataTableFacetedFilter
             column={table.getColumn("status")}
             title="Status"
-            options={statuses}
+            options={STATUS as unknown as Options[]}
           />
         )}
         {profitCategories.status === "success" &&

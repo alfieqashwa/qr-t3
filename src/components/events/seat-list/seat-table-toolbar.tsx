@@ -4,10 +4,10 @@ import { Calendar, Tags, X } from "lucide-react"
 import { EditorOnly } from "~/components/authed"
 import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-filter"
 import { DataTableViewOptions } from "~/components/table/data-table-view-options"
+import { STATUS } from "~/constants/status"
 import { Button } from "~/ui/button"
 import { Input } from "~/ui/input"
 import { api } from "~/utils/api"
-import { statuses } from "./data"
 import { DeleteSeatList } from "./delete-seat-list"
 import { GenerateSeat } from "./generate-seat"
 
@@ -35,7 +35,7 @@ export function SeatTableToolbar<TData>({
           events
             // only render non-profit events only
             .filter((profitEventOnly) => !profitEventOnly.profit)
-            .map((profit) => profit.title)
+            .map((profit) => profit.title),
         ),
       ].map((title) => ({
         value: title,
@@ -65,7 +65,7 @@ export function SeatTableToolbar<TData>({
           options,
         }
       },
-    }
+    },
   )
 
   return (
@@ -90,7 +90,7 @@ export function SeatTableToolbar<TData>({
           <DataTableFacetedFilter
             column={table.getColumn("status")}
             title="Status"
-            options={statuses}
+            options={STATUS as unknown as Options[]}
           />
         )}
         {nonProfitCategories.status === "success" &&

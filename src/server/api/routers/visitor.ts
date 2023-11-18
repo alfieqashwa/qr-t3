@@ -20,7 +20,13 @@ export const visitorRouter = createTRPCRouter({
       orderBy: { updatedAt: "asc" },
       include: {
         ticket: {
-          select: { id: true, category: true, status: true, price: true },
+          select: {
+            id: true,
+            category: true,
+            status: true,
+            price: true,
+            event: { select: { title: true } },
+          },
         },
       },
     })

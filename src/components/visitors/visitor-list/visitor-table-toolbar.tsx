@@ -4,6 +4,7 @@ import { Calendar, MapPin, X } from "lucide-react"
 import { EditorOnly } from "~/components/authed"
 import { DataTableFacetedFilter } from "~/components/table/data-table-faceted-filter"
 import { DataTableViewOptions } from "~/components/table/data-table-view-options"
+import { STATUS } from "~/constants/status"
 import { Button } from "~/ui/button"
 import { Input } from "~/ui/input"
 import { api } from "~/utils/api"
@@ -28,12 +29,19 @@ export function VisitorTableToolbar<TData>({
   }
 
   const { data: ticketCount } = api.ticket.count.useQuery()
-  const eventQuery = api.event.eventData.useQuery()
-  const eventTitles = eventQuery.data?.map((d) => ({
-    value: d.title,
-    label: d.title,
-    icon: Calendar,
-  })) as Options[]
+  const { data: events } = api.event.eventData.useQuery(undefined, {
+    select: (events) => {
+      const options: Options[] = [
+        ...new Set(events.map((event) => event.title)),
+      ].map((title) => ({
+        value: title,
+        label: title,
+        icon: Calendar,
+      }))
+
+      return { options }
+    },
+  })
 
   const ischeckInQuery = api.visitor.isCheckIn.useQuery(undefined, {
     select: (data) => {
@@ -62,13 +70,20 @@ export function VisitorTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {/* {table.getColumn("event") && (
+        {table.getColumn("ticketStatus") && (
           <DataTableFacetedFilter
-            column={table.getColumn("event")}
-            title="Event"
-            options={eventTitles}
+            column={table.getColumn("ticketStatus")}
+            title="Status"
+            options={STATUS as unknown as Options[]}
           />
-        )} */}
+        )}
+        {table.getColumn("eventTitle") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("eventTitle")}
+            title="Event"
+            options={events?.options as Options[]}
+          />
+        )}
         {ischeckInQuery.status === "success" &&
           table.getColumn("isCheckIn") && (
             <DataTableFacetedFilter

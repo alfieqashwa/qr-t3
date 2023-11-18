@@ -1,7 +1,16 @@
 import type { ColumnDef } from "@tanstack/react-table"
 import { format, formatDistance, subDays } from "date-fns"
 import { id } from "date-fns/locale"
-import { Clock, Mail, Phone, Tags, User, UserCheck, UserX } from "lucide-react"
+import {
+  Calendar,
+  Clock,
+  Mail,
+  Phone,
+  Tags,
+  User,
+  UserCheck,
+  UserX,
+} from "lucide-react"
 import { GenerateQRCode } from "~/components/qrcode"
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header"
 import { cn } from "~/src/utils"
@@ -9,6 +18,7 @@ import { Checkbox } from "~/ui/checkbox"
 import type { RouterOutputs } from "~/utils/api"
 import { RowVisitorActions } from "./row-visitor-actions"
 import { TriggerTicketStatus } from "./trigger-ticket-status"
+import type { Status } from "@prisma/client"
 
 export const columnsVisitor: ColumnDef<
   RouterOutputs["visitor"]["getAll"][0]
@@ -128,7 +138,31 @@ export const columnsVisitor: ColumnDef<
           ticket: { id, status, price },
         },
       } = row
+      if (!status) return null
       return <TriggerTicketStatus id={id} ticketStatus={status} price={price} />
+    },
+    filterFn: (row, id, value: Status) => {
+      return value.includes(row.getValue(id))
+    },
+  },
+  {
+    accessorKey: "eventTitle",
+    accessorFn: (row) => row.ticket.event?.title,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Event" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center">
+          <Calendar className="mr-2 h-4 w-4 text-muted-foreground" />
+          <span className="whitespace-nowrap font-medium uppercase">
+            {row.getValue("eventTitle")}
+          </span>
+        </div>
+      )
+    },
+    filterFn: (row, id, value: string) => {
+      return value.includes(row.getValue(id))
     },
   },
   {
