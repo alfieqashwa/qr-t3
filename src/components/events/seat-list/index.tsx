@@ -1,6 +1,6 @@
 import { LoadingSpinner } from "~/components/loading"
 import { api } from "~/src/utils/api"
-import { columnsSeat } from "./columnsSeat"
+import { columnsSeat } from "./columns-seat"
 import { SeatTable } from "./seat-table"
 
 export const SeatList = (): JSX.Element => {

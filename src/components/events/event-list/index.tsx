@@ -1,5 +1,5 @@
 import { api } from "~/src/utils/api"
-import { columnsEvent } from "./columnsEvent"
+import { columnsEvent } from "./columns-event"
 import { EventTable } from "./event-table"
 import { LoadingSpinner } from "~/components/loading"
 

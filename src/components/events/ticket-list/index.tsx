@@ -1,6 +1,6 @@
 import { LoadingSpinner } from "~/components/loading"
 import { api } from "~/utils/api"
-import { columnsTicket } from "./columnsTicket"
+import { columnsTicket } from "./columns-ticket"
 import { TicketTable } from "./ticket-table"
 
 export const TicketList = (): JSX.Element => {

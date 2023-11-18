@@ -1,6 +1,6 @@
 import { LoadingSpinner } from "~/components/loading"
 import { api } from "~/src/utils/api"
-import { columnsVisitor } from "./columnsVisitor"
+import { columnsVisitor } from "./columns-visitor"
 import { VisitorTable } from "./visitor-table"
 
 export function VisitorList(): JSX.Element {

@@ -1,6 +1,6 @@
 import { LoadingSpinner } from "~/components/loading"
 import { api } from "~/utils/api"
-import { columnsTeam } from "./columnsTeam"
+import { columnsTeam } from "./columns-team"
 import { TeamTable } from "./team-table"
 
 export function TeamList(): JSX.Element {
