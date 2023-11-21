@@ -16,7 +16,7 @@ export const eventRouter = createTRPCRouter({
       return await ctx.prisma.event.findUnique({
         where: { id },
         include: {
-          tickets: { select: { category: true, price: true } },
+          categories: true,
           eventOrganizer: { select: { name: true } },
         },
       })
@@ -83,17 +83,24 @@ export const eventRouter = createTRPCRouter({
   // Mutations - Admin Procedure
   createAdminRole: adminProcedure
     .input(createEventSchema)
-    .mutation(async ({ ctx, input: { title, venue, date, profit } }) => {
-      return await ctx.prisma.event.create({
-        data: {
-          title,
-          venue,
-          date,
-          profit: profit as boolean,
-          eventOrganizerId: ctx.session.user.eventOrganizerId as string,
-        },
-      })
-    }),
+    .mutation(
+      async ({ ctx, input: { title, venue, date, profit, categories } }) => {
+        return await ctx.prisma.event.create({
+          data: {
+            title,
+            venue,
+            date,
+            profit: profit as boolean,
+            categories: {
+              createMany: {
+                data: categories,
+              },
+            },
+            eventOrganizerId: ctx.session.user.eventOrganizerId as string,
+          },
+        })
+      },
+    ),
   updateAdminRole: adminProcedure
     .input(updateEventSchema)
     .mutation(async ({ ctx, input: { id, title, venue, date, profit } }) => {
