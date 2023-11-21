@@ -99,8 +99,12 @@ model Event {
   profit           Boolean        @default(true)
   eventOrganizer   EventOrganizer @relation(fields: [eventOrganizerId], references: [id], onDelete: Cascade)
   eventOrganizerId String         @map("event_organizer_id")
-  // Event m2o -> Ticket
-  tickets          Ticket[]
+
+  // Event n2m -> Category
+  categories Category[]
+
+  // Event n2m -> Ticket
+  tickets Ticket[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -109,12 +113,26 @@ model Event {
   @@map("events")
 }
 
+model Category {
+  id      String   @id @default(cuid())
+  name    String
+  price   Float    @default(0.0)
+  tickets Ticket[]
+  event   Event?   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId String?  @map("event_id")
+
+  @@unique([name, eventId])
+  @@index([eventId])
+  @@map("categories")
+}
+
 model Ticket {
   id           String @id @default(cuid())
   ticketNumber Int?   @map("ticket_number")
-  category     String
-  price        Float?
   status       Status @default(AVAILABLE)
+
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String?   @map("category_id")
 
   event   Event?  @relation(fields: [eventId], references: [id], onDelete: Cascade)
   eventId String? @map("event_id")
@@ -125,6 +143,7 @@ model Ticket {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@index([eventId])
+  @@index([categoryId])
   @@map("tickets")
 }
 
