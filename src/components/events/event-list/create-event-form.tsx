@@ -125,6 +125,10 @@ export function CreateEventForm(props: Props) {
     })
   }
 
+  const disabledNextBtn =
+    form.watch("title").length < 5 || form.watch("venue").length < 3
+  const disabledCreateBtn =
+    disabledNextBtn || form.watch("categories").some((c) => c.name === "")
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 py-4">
@@ -249,84 +253,7 @@ export function CreateEventForm(props: Props) {
                 </FormItem>
               )}
             />
-          </>
-        )}
-        {step === 2 && (
-          <ScrollArea className="-mx-4 max-h-[32rem] overflow-y-auto">
-            {fields.map((field, index) => (
-              <section className="space-y-4 px-4" key={field.id}>
-                <FormField
-                  control={form.control}
-                  name={`categories.${index}.name`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Category {index + 1}</FormLabel>
-                      <FormControl>
-                        <Input
-                          name={field.name}
-                          value={field.value.replace(/\s/g, "")}
-                          onChange={field.onChange}
-                          placeholder="category"
-                          className="uppercase placeholder:capitalize"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name={`categories.${index}.price`}
-                  render={({ field }) => (
-                    <FormItem
-                      className={cn("", {
-                        //! hide the price field if profit is false
-                        hidden: !form.watch("profit"),
-                      })}
-                    >
-                      <FormLabel>Price</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder={`price ${index + 1}`}
-                          name={field.name}
-                          value={formattedInputPriceValue(field.value)}
-                          onChange={field.onChange}
-                          className="capitalize"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <div className="flex items-center justify-end space-x-2">
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    className={cn("", {
-                      hidden: form.watch("categories").length > 5,
-                    })}
-                    onClick={() => append({ name: "", price: "" })}
-                  >
-                    Add More
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    size="sm"
-                    disabled={index === 0}
-                    onClick={() => remove(index)}
-                  >
-                    Remove
-                  </Button>
-                </div>
-                <Separator />
-              </section>
-            ))}
-          </ScrollArea>
-        )}
-        <SheetFooter className="absolute bottom-8 left-0 right-0 px-6">
-          {step === 1 && (
-            <>
+            <SheetFooter className="absolute bottom-8 left-0 right-0 px-6">
               <Button
                 type="button"
                 variant="outline"
@@ -337,19 +264,88 @@ export function CreateEventForm(props: Props) {
               <Button
                 type="button"
                 size="sm"
-                disabled={
-                  form.watch("title").length < 5 ||
-                  form.watch("venue").length < 3
-                }
+                disabled={disabledNextBtn}
                 onClick={() => setStep(2)}
               >
                 Next Step
               </Button>
-            </>
-          )}
-
-          {step === 2 && (
-            <>
+            </SheetFooter>
+          </>
+        )}
+        {step === 2 && (
+          <>
+            <ScrollArea className="-mx-4 max-h-[32rem] overflow-y-auto">
+              {fields.map((field, index) => (
+                <section className="space-y-4 px-4" key={field.id}>
+                  <FormField
+                    control={form.control}
+                    name={`categories.${index}.name`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Category {index + 1}</FormLabel>
+                        <FormControl>
+                          <Input
+                            name={field.name}
+                            value={field.value.replace(/\s/g, "")}
+                            onChange={field.onChange}
+                            placeholder="category"
+                            className="uppercase placeholder:capitalize"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name={`categories.${index}.price`}
+                    render={({ field }) => (
+                      <FormItem
+                        className={cn("", {
+                          //! hide the price field if profit is false
+                          hidden: !form.watch("profit"),
+                        })}
+                      >
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder={`price ${index + 1}`}
+                            name={field.name}
+                            value={formattedInputPriceValue(field.value)}
+                            onChange={field.onChange}
+                            className="capitalize"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <div className="flex items-center justify-end space-x-2">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      className={cn("", {
+                        hidden: form.watch("categories").length > 5,
+                      })}
+                      onClick={() => append({ name: "", price: "" })}
+                    >
+                      Add More
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      disabled={index === 0}
+                      onClick={() => remove(index)}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                  <Separator />
+                </section>
+              ))}
+            </ScrollArea>
+            <SheetFooter className="absolute bottom-8 left-0 right-0 px-6">
               <Button
                 type="button"
                 variant="outline"
@@ -363,13 +359,13 @@ export function CreateEventForm(props: Props) {
                   Please wait
                 </Button>
               ) : (
-                <Button type="submit" size="sm">
+                <Button disabled={disabledCreateBtn} type="submit" size="sm">
                   Create Event
                 </Button>
               )}
-            </>
-          )}
-        </SheetFooter>
+            </SheetFooter>
+          </>
+        )}
       </form>
     </Form>
   )
