@@ -32,6 +32,34 @@ export const createEventOrganizerSchema = updateEventOrganizerSchema.omit({
 })
 
 // EVENTS
+
+// default schema
+const categorySchema = z.object({
+  id: z.string().cuid(),
+  name: z
+    .string({
+      required_error: "Category is required",
+      invalid_type_error: "Category must be a string",
+    })
+    .min(3, { message: "Category must be at least 3 characters." })
+    .max(15, { message: "Category must contain at most 15 character(s)" }),
+  price: z.coerce.number({
+    required_error: "Price is required",
+    invalid_type_error: "Price must be a number",
+  }),
+})
+
+// for form validation
+export const categoryFormValidationSchema = categorySchema
+  .omit({ price: true })
+  .extend({
+    price: z.string({
+      required_error: "Price is required",
+      invalid_type_error: "Price must be a numeric-character",
+    }),
+  })
+
+// for event mutation API
 export const updateEventSchema = z.object({
   id: z.string().cuid(),
   title: z
@@ -50,46 +78,29 @@ export const updateEventSchema = z.object({
   date: z.date({
     required_error: "A date of event is required.",
   }),
+  categories: z.array(categorySchema),
 })
 
-export const createEventSchema = updateEventSchema.omit({ id: true }).extend({
-  categories: z.array(
-    z.object({
-      name: z
-        .string({
-          required_error: "Category is required",
-          invalid_type_error: "Category must be a string",
-        })
-        .min(3, { message: "Category must be at least 3 characters." })
-        .max(15, { message: "Category must contain at most 15 character(s)" }),
-      price: z.coerce.number({
-        required_error: "Price is required",
-        invalid_type_error: "Price must be a number",
-      }),
-    }),
-  ),
-})
+export const extendUpdateEventSchema = updateEventSchema
+  .omit({ categories: true })
+  .extend({
+    categories: z.array(categoryFormValidationSchema),
+  })
+
+// for event mutation API
+export const createEventSchema = updateEventSchema
+  .omit({
+    id: true,
+    categories: true,
+  })
+  .extend({
+    categories: z.array(categorySchema.omit({ id: true })),
+  })
 
 export const extendCreateEventSchema = updateEventSchema
-  .omit({ id: true })
+  .omit({ id: true, categories: true })
   .extend({
-    categories: z.array(
-      z.object({
-        name: z
-          .string({
-            required_error: "Category is required",
-            invalid_type_error: "Category must be a string",
-          })
-          .min(3, { message: "Category must be at least 3 characters." })
-          .max(15, {
-            message: "Category must contain at most 15 character(s)",
-          }),
-        price: z.string({
-          required_error: "Price is required",
-          invalid_type_error: "Price must be numeric-character",
-        }),
-      }),
-    ),
+    categories: z.array(categoryFormValidationSchema.omit({ id: true })),
   })
 
 // TICKETS

@@ -95,7 +95,7 @@ export function CreateEventForm(props: Props) {
 
     const initialPrice = 0.0 // -> non-profit condition
     const categories = _categories.map((c) => ({
-      name: c.name,
+      name: c.name.toLowerCase(),
       price:
         c.price === "" ? initialPrice : parseFloat(c.price.replace(/,/g, "")),
     }))
