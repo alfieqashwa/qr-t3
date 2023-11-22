@@ -6,11 +6,7 @@ import React, { useState } from "react"
 import type { SelectSingleEventHandler } from "react-day-picker"
 import { useFieldArray, useForm, type UseFormReturn } from "react-hook-form"
 import type { z } from "zod"
-import {
-  extendUpdateEventSchema,
-  type categoryFormValidationSchema,
-} from "~/src/types/schema"
-import { formattedInputPriceValue } from "~/src/utils/formattedPrice"
+import { extendUpdateEventSchema } from "~/types/schema"
 import { Button } from "~/ui/button"
 import { Calendar } from "~/ui/calendar"
 import {
@@ -31,6 +27,7 @@ import { ToastAction } from "~/ui/toast"
 import { toast } from "~/ui/use-toast"
 import type { RouterOutputs } from "~/utils/api"
 import { api } from "~/utils/api"
+import { formattedInputPriceValue } from "~/utils/formattedPrice"
 import { cn } from "~/utils/index"
 import { wait } from "~/utils/wait"
 
@@ -40,20 +37,21 @@ type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const UpdateEventForm = ({
-  event,
-  open,
-  setOpen,
-}: Props): JSX.Element => {
+export function UpdateEventForm({ event, open, setOpen }: Props): JSX.Element {
   const [step, setStep] = useState<1 | 2>(1)
 
   const utils = api.useUtils()
 
-  const { data: countTickets } = api.ticket.countByEventId.useQuery(
+  // Queries
+  const { data: hasTickets } = api.ticket.getAllByEventId.useQuery(
     { eventId: event?.id as string },
-    { enabled: !!event?.id },
+    {
+      enabled: !!event?.id,
+      select: (tickets) => tickets.length > 0,
+    },
   )
 
+  // Mutations
   const { mutate, isLoading } = api.event.updateAdminRole.useMutation({
     async onSuccess() {
       toast({
@@ -77,7 +75,13 @@ export const UpdateEventForm = ({
   })
 
   type UpdateEventSchema = z.infer<typeof extendUpdateEventSchema>
-  type CategorySchema = z.infer<typeof categoryFormValidationSchema>
+
+  const categories = event?.categories.map((c) => ({
+    id: c.id,
+    name: c.name,
+    price: c.price.toString(), // convert to String
+    eventId: c.eventId,
+  }))
 
   const form = useForm<UpdateEventSchema>({
     resolver: zodResolver(extendUpdateEventSchema),
@@ -87,7 +91,7 @@ export const UpdateEventForm = ({
       profit: event?.profit as boolean,
       date: event?.date as Date,
       venue: event?.venue as string,
-      categories: event?.categories as unknown as CategorySchema[],
+      categories,
     },
     mode: "onChange",
   })
@@ -161,7 +165,7 @@ export const UpdateEventForm = ({
             form={form}
             timeValue={timeValue}
             handleTimeChange={handleTimeChange}
-            hasTickets={countTickets}
+            hasTickets={hasTickets}
             setOpen={setOpen}
             setStep={setStep}
             disabledNextBtn={disabledNextBtn}
@@ -182,9 +186,9 @@ export const UpdateEventForm = ({
 
 type StepOneFormProps = {
   form: UseFormReturn<z.infer<typeof extendUpdateEventSchema>>
+  hasTickets: boolean | undefined
   timeValue: string
   handleTimeChange: React.ChangeEventHandler<HTMLInputElement>
-  hasTickets?: number
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
   setStep: React.Dispatch<React.SetStateAction<1 | 2>>
   disabledNextBtn: boolean
@@ -294,7 +298,6 @@ const StepOneForm = ({
           </FormItem>
         )}
       />
-      {/* // TODOS: disabled this field if the ticket has already been created */}
       {/* provit */}
       <FormField
         control={form.control}
@@ -305,7 +308,7 @@ const StepOneForm = ({
               <FormLabel className="text-amber-300">
                 {field.value ? "Provit" : "Non-provit"}
               </FormLabel>
-              {!!hasTickets ? (
+              {hasTickets ? (
                 <FormDescription>
                   Cannot update because this event has already created the
                   tickets
@@ -318,14 +321,12 @@ const StepOneForm = ({
               )}
             </div>
             <FormControl>
-              {event && (
-                <Switch
-                  disabled={!!hasTickets}
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                  className="ml-8"
-                />
-              )}
+              <Switch
+                disabled={hasTickets}
+                checked={field.value}
+                onCheckedChange={field.onChange}
+                className="ml-8"
+              />
             </FormControl>
           </FormItem>
         )}
