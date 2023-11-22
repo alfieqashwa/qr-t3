@@ -3,12 +3,11 @@ import { FilePlus2, Loader2 } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import type { z } from "zod"
-import { extendGenerateSeatSchema } from "~/src/types/schema"
+import { generateTicketSchema } from "~/types/schema"
 import { Button } from "~/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -42,78 +41,68 @@ export function GenerateSeat(): JSX.Element {
 
   const utils = api.useUtils()
 
-  const { data: events, status } = api.event.getAll.useQuery(undefined, {
-    // only renders the non-profit events
-    select: (data) => data.filter((d) => !d.profit),
-  })
-
   // Mutations
-  const { mutate, isLoading } = api.ticket.generateSeatEditorRole.useMutation({
-    async onSuccess() {
-      toast({
-        title: "Succeed!",
-        variant: "default",
-        description: "Your seat(s) has been created.",
-      })
-      await utils.ticket.getAll.invalidate()
-      await utils.ticket.categories.invalidate()
-      await wait().then(() => setOpen(false))
-      form.reset()
-    },
+  const { mutate, isLoading } = api.ticket.generateTicketEditorRole.useMutation(
+    {
+      async onSuccess() {
+        toast({
+          title: "Succeed!",
+          variant: "default",
+          description: "Your seat(s) has been created.",
+        })
+        await utils.ticket.getAll.invalidate()
+        await utils.category.options.invalidate()
+        await wait().then(() => setOpen(false))
+        form.reset()
+      },
 
-    onError() {
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your request.",
-        action: <ToastAction altText="Try again">Try again</ToastAction>,
-      })
+      onError() {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
+      },
     },
-  })
+  )
 
   // 1. Define form.
-  const form = useForm<z.infer<typeof extendGenerateSeatSchema>>({
-    resolver: zodResolver(extendGenerateSeatSchema),
+  const form = useForm<z.infer<typeof generateTicketSchema>>({
+    resolver: zodResolver(generateTicketSchema),
     defaultValues: {
       eventId: "",
-      categorySelect: "",
-      categoryInput: "",
+      categoryId: "",
       qty: 0,
     },
   })
 
   // Queries
+  const { data: events, status } = api.event.getAll.useQuery(undefined, {
+    // only renders non-profit events
+    select: (data) => data.filter((d) => !d.profit),
+  })
+
   const categories = api.category.getAllByEventId.useQuery(
     { eventId: form.watch("eventId") },
     { enabled: !!form.watch("eventId") },
   )
 
   // 2. Define a submit handler.
-  function onSubmit(value: z.infer<typeof extendGenerateSeatSchema>) {
-    const { eventId, categorySelect, categoryInput, qty } = value
-
-    let category: string
-    if (!categorySelect || categorySelect === "create-new") {
-      category = categoryInput.toLowerCase()
-    } else {
-      category = categorySelect.toLowerCase()
-    }
+  function onSubmit(value: z.infer<typeof generateTicketSchema>) {
+    const { eventId, categoryId, qty } = value
 
     mutate({
       eventId,
-      category,
+      categoryId,
       qty,
     })
   }
 
-  const watchEventId = form.watch("eventId")
-  const watchSelectCateg = form.watch("categorySelect")
-  const watchInputCateg = form.watch("categoryInput")
-
   const disabled =
-    !watchEventId ||
-    ((!watchSelectCateg || watchSelectCateg === "create-new") &&
-      (watchInputCateg.length < 3 || watchInputCateg.length > 15))
+    form.watch("eventId") === "" ||
+    form.watch("categoryId") === "" ||
+    form.watch("qty") < 10
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -152,9 +141,9 @@ export function GenerateSeat(): JSX.Element {
                   >
                     <FormLabel>Event</FormLabel>
                     <FormControl>
-                      <SelectTrigger className="w-[240px] uppercase">
+                      <SelectTrigger className="w-[240px] capitalize">
                         <SelectValue
-                          placeholder="Select an event"
+                          placeholder="Select event"
                           className="capitalize"
                         />
                       </SelectTrigger>
@@ -181,15 +170,13 @@ export function GenerateSeat(): JSX.Element {
             {/* CategorySelect */}
             <FormField
               control={form.control}
-              name="categorySelect"
+              name="categoryId"
               render={({ field }) => (
                 <FormItem className="pt-4">
                   <FormLabel>Category</FormLabel>
-                  <FormDescription>Select category...</FormDescription>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
-                    disabled={!watchEventId || !!watchInputCateg}
                   >
                     <FormControl className="uppercase">
                       <SelectTrigger>
@@ -198,9 +185,6 @@ export function GenerateSeat(): JSX.Element {
                     </FormControl>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectItem value="create-new" className="uppercase">
-                          OR Create New
-                        </SelectItem>
                         {categories.status === "success" &&
                           categories.data.map((c) => (
                             <SelectItem
@@ -214,28 +198,6 @@ export function GenerateSeat(): JSX.Element {
                       </SelectGroup>
                     </SelectContent>
                   </Select>
-                </FormItem>
-              )}
-            />
-            {/* CategoryInput */}
-            <FormField
-              control={form.control}
-              name="categoryInput"
-              render={({ field }) => (
-                <FormItem>
-                  <FormDescription>Or create a new one...</FormDescription>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled={
-                        !watchEventId ||
-                        (!!watchSelectCateg &&
-                          watchSelectCateg !== "create-new")
-                      }
-                      placeholder="create a new one..."
-                      className="uppercase"
-                    />
-                  </FormControl>
                 </FormItem>
               )}
             />

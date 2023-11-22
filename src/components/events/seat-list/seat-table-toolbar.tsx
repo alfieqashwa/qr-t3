@@ -28,39 +28,35 @@ export function SeatTableToolbar<TData>({
     table.getPreFilteredRowModel().rows.length >
     table.getFilteredRowModel().rows.length
 
-  const { data: eventOptions, status } = api.event.eventData.useQuery(
-    undefined,
+  const eventOptions = api.event.eventData.useQuery(undefined, {
+    select: (events): Options[] => {
+      return [
+        ...new Set(
+          events
+            // only render non-profit events only
+            .filter((profitEventOnly) => !profitEventOnly.profit)
+            .map((profit) => profit.title),
+        ),
+      ].map((title) => ({
+        value: title,
+        label: title,
+        icon: Calendar,
+      }))
+    },
+  })
+
+  const nonProfitCategoryOptions = api.category.options.useQuery(
+    { isProfit: false },
     {
-      select: (events): Options[] => {
-        return [
-          ...new Set(
-            events
-              // only render non-profit events only
-              .filter((profitEventOnly) => !profitEventOnly.profit)
-              .map((profit) => profit.title),
-          ),
-        ].map((title) => ({
-          value: title,
-          label: title,
-          icon: Calendar,
+      select: (cats): Options[] => {
+        return [...new Set(cats.map((c) => c.name))].map((category) => ({
+          label: category,
+          value: category,
+          icon: Tags,
         }))
       },
     },
   )
-
-  const { data: nonProfitCategories, status: nonProfitCategoriesStatus } =
-    api.ticket.categories.useQuery(
-      { isProfit: false },
-      {
-        select: (cats): Options[] => {
-          return [...new Set(cats.map((c) => c.category))].map((category) => ({
-            label: category,
-            value: category,
-            icon: Tags,
-          }))
-        },
-      },
-    )
 
   return (
     <div className="flex items-start justify-between">
@@ -73,11 +69,11 @@ export function SeatTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {status === "success" && table.getColumn("event") && (
+        {eventOptions.status === "success" && table.getColumn("event") && (
           <DataTableFacetedFilter
             column={table.getColumn("event")}
             title="Event"
-            options={eventOptions}
+            options={eventOptions.data}
           />
         )}
         {table.getColumn("status") && (
@@ -87,12 +83,12 @@ export function SeatTableToolbar<TData>({
             options={STATUS as unknown as Options[]}
           />
         )}
-        {nonProfitCategoriesStatus === "success" &&
+        {nonProfitCategoryOptions.status === "success" &&
           table.getColumn("category") && (
             <DataTableFacetedFilter
               column={table.getColumn("category")}
               title="Category"
-              options={nonProfitCategories}
+              options={nonProfitCategoryOptions.data}
             />
           )}
         {isFiltered && (
