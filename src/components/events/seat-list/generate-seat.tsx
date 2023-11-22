@@ -47,19 +47,7 @@ export function GenerateSeat(): JSX.Element {
     select: (data) => data.filter((d) => !d.profit),
   })
 
-  const seats = api.ticket.getAll.useQuery(
-    { isProfit: false },
-    {
-      select: (seats) => {
-        const categories = [...new Set(seats.map((seat) => seat.category))]
-        return {
-          all: seats,
-          categories,
-        }
-      },
-    },
-  )
-
+  // Mutations
   const { mutate, isLoading } = api.ticket.generateSeatEditorRole.useMutation({
     async onSuccess() {
       toast({
@@ -93,6 +81,12 @@ export function GenerateSeat(): JSX.Element {
       qty: 0,
     },
   })
+
+  // Queries
+  const categories = api.category.getAllByEventId.useQuery(
+    { eventId: form.watch("eventId") },
+    { enabled: !!form.watch("eventId") },
+  )
 
   // 2. Define a submit handler.
   function onSubmit(value: z.infer<typeof extendGenerateSeatSchema>) {
@@ -207,14 +201,14 @@ export function GenerateSeat(): JSX.Element {
                         <SelectItem value="create-new" className="uppercase">
                           OR Create New
                         </SelectItem>
-                        {seats.status === "success" &&
-                          seats.data.categories.map((cat, i) => (
+                        {categories.status === "success" &&
+                          categories.data.map((c) => (
                             <SelectItem
-                              key={i}
-                              value={cat}
+                              key={c.id}
+                              value={c.id}
                               className="uppercase"
                             >
-                              {cat}
+                              {c.name}
                             </SelectItem>
                           ))}
                       </SelectGroup>

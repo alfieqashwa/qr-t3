@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { createTRPCRouter, publicProcedure } from "../trpc"
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc"
 
 export const categoryRouter = createTRPCRouter({
   // Queries - Public Procedure
@@ -8,6 +8,13 @@ export const categoryRouter = createTRPCRouter({
     .query(async ({ ctx, input: { id } }) => {
       return await ctx.prisma.category.findFirst({
         where: { id },
+      })
+    }),
+  getAllByEventId: protectedProcedure
+    .input(z.object({ eventId: z.string().cuid() }))
+    .query(async ({ ctx, input: { eventId } }) => {
+      return await ctx.prisma.category.findMany({
+        where: { eventId },
       })
     }),
 })
