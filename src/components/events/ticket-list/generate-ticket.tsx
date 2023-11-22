@@ -3,8 +3,8 @@ import { FilePlus2, Loader2 } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import type { z } from "zod"
-import { formattedInputPriceValue } from "~/src/utils/formattedPrice"
-import { extendGenerateTicketSchema } from "~/types/schema"
+import { formattedPrice } from "~/src/utils/formattedPrice"
+import { generateTicketSchema } from "~/types/schema"
 import { Button } from "~/ui/button"
 import {
   Form,
@@ -43,26 +43,7 @@ export function GenerateTicket(): JSX.Element {
 
   const utils = api.useUtils()
 
-  const { data: events, status } = api.event.getAll.useQuery(undefined, {
-    // only renders the profit events
-    select: (data) => data.filter((d) => d.profit),
-  })
-
-  const tickets = api.ticket.getAll.useQuery(
-    { isProfit: true },
-    {
-      select: (tickets) => {
-        const categories = [
-          ...new Set(tickets.map((ticket) => ticket.category)),
-        ]
-        return {
-          all: tickets,
-          categories,
-        }
-      },
-    },
-  )
-
+  // Mutations
   const { mutate, isLoading } = api.ticket.generateTicketEditorRole.useMutation(
     {
       async onSuccess() {
@@ -72,7 +53,7 @@ export function GenerateTicket(): JSX.Element {
           description: "Your ticket(s) has been created.",
         })
         await utils.ticket.getAll.invalidate()
-        await utils.ticket.categories.invalidate()
+        await utils.category.options.invalidate()
         await wait().then(() => setOpen(false))
         form.reset()
       },
@@ -89,44 +70,46 @@ export function GenerateTicket(): JSX.Element {
   )
 
   // 1. Define form.
-  const form = useForm<z.infer<typeof extendGenerateTicketSchema>>({
-    resolver: zodResolver(extendGenerateTicketSchema),
+  const form = useForm<z.infer<typeof generateTicketSchema>>({
+    resolver: zodResolver(generateTicketSchema),
     defaultValues: {
       eventId: "",
-      categorySelect: "",
-      categoryInput: "",
-      price: "",
+      categoryId: "",
       qty: 0,
     },
   })
 
-  // 2. Define a submit handler.
-  function onSubmit(value: z.infer<typeof extendGenerateTicketSchema>) {
-    const { eventId, categorySelect, categoryInput, price, qty } = value
+  // Queries
+  const { data: events, status } = api.event.getAll.useQuery(undefined, {
+    // only renders profit events
+    select: (data) => data.filter((d) => d.profit),
+  })
 
-    let category: string
-    if (!categorySelect || categorySelect === "create-new") {
-      category = categoryInput.toLowerCase()
-    } else {
-      category = categorySelect.toLowerCase()
-    }
+  const categories = api.category.getAllByEventId.useQuery(
+    { eventId: form.watch("eventId") },
+    { enabled: !!form.watch("eventId") },
+  )
+
+  // 2. Define a submit handler.
+  function onSubmit(value: z.infer<typeof generateTicketSchema>) {
+    const { eventId, categoryId, qty } = value
 
     mutate({
       eventId,
-      category,
-      price: parseFloat(price.replace(/,/g, "")),
+      categoryId,
       qty,
     })
   }
 
-  const watchEventId = form.watch("eventId")
-  const watchSelectCateg = form.watch("categorySelect")
-  const watchInputCateg = form.watch("categoryInput")
+  const selectedCategoryPrice = formattedPrice.format(
+    categories.data?.find((c) => c.id === form.watch("categoryId"))
+      ?.price as number,
+  )
 
   const disabled =
-    !watchEventId ||
-    ((!watchSelectCateg || watchSelectCateg === "create-new") &&
-      (watchInputCateg.length < 3 || watchInputCateg.length > 15))
+    form.watch("eventId") === "" ||
+    form.watch("categoryId") === "" ||
+    form.watch("qty") < 10
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -168,7 +151,7 @@ export function GenerateTicket(): JSX.Element {
                     <FormControl>
                       <SelectTrigger className="w-[240px] uppercase">
                         <SelectValue
-                          placeholder="Select an event"
+                          placeholder="Select event"
                           className="capitalize"
                         />
                       </SelectTrigger>
@@ -195,15 +178,13 @@ export function GenerateTicket(): JSX.Element {
             {/* CategorySelect */}
             <FormField
               control={form.control}
-              name="categorySelect"
+              name="categoryId"
               render={({ field }) => (
                 <FormItem className="pt-4">
                   <FormLabel>Category</FormLabel>
-                  <FormDescription>Select category...</FormDescription>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
-                    disabled={!watchEventId || !!watchInputCateg}
                   >
                     <FormControl className="uppercase">
                       <SelectTrigger>
@@ -212,63 +193,25 @@ export function GenerateTicket(): JSX.Element {
                     </FormControl>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectItem value="create-new" className="uppercase">
-                          OR Create New
-                        </SelectItem>
-                        {tickets.status === "success" &&
-                          tickets.data.categories.map((cat, i) => (
+                        {categories.status === "success" &&
+                          categories.data.map((c) => (
                             <SelectItem
-                              key={i}
-                              value={cat}
+                              key={c.id}
+                              value={c.id}
                               className="uppercase"
                             >
-                              {cat}
+                              {c.name}
                             </SelectItem>
                           ))}
                       </SelectGroup>
                     </SelectContent>
                   </Select>
-                </FormItem>
-              )}
-            />
-            {/* CategoryInput */}
-            <FormField
-              control={form.control}
-              name="categoryInput"
-              render={({ field }) => (
-                <FormItem>
-                  <FormDescription>Or create a new one...</FormDescription>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled={
-                        !watchEventId ||
-                        (!!watchSelectCateg &&
-                          watchSelectCateg !== "create-new")
-                      }
-                      placeholder="create a new one..."
-                      className="uppercase"
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            {/* Price */}
-            <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem className="pt-4">
-                  <FormLabel>Price</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Price..."
-                      name={field.name}
-                      value={formattedInputPriceValue(field.value)}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
+                  <FormDescription className="pt-2 text-base font-semibold">
+                    Price:{" "}
+                    <span className="text-amber-300">
+                      {selectedCategoryPrice}
+                    </span>
+                  </FormDescription>
                 </FormItem>
               )}
             />

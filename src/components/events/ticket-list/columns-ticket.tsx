@@ -66,6 +66,7 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
     },
     {
       accessorKey: "category",
+      accessorFn: (row) => row.category?.name,
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Category" />
       ),
