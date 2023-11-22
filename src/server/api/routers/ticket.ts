@@ -1,6 +1,6 @@
 import { Status } from "@prisma/client"
 import { z } from "zod"
-import { generateSeatSchema, generateTicketSchema } from "~/src/types/schema"
+import { generateTicketSchema } from "~/src/types/schema"
 import {
   createTRPCRouter,
   editorProcedure,
@@ -25,15 +25,6 @@ export const ticketRouter = createTRPCRouter({
   count: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.ticket.count()
   }),
-  categories: protectedProcedure
-    .input(z.object({ isProfit: z.boolean().optional() }))
-    .query(async ({ ctx, input: { isProfit } }) => {
-      return await ctx.prisma.ticket.findMany({
-        where: {
-          event: { profit: isProfit },
-        },
-      })
-    }),
   getAll: protectedProcedure
     .input(z.object({ isProfit: z.boolean() }))
     .query(async ({ ctx, input: { isProfit } }) => {
@@ -42,9 +33,8 @@ export const ticketRouter = createTRPCRouter({
           event: { profit: isProfit },
         },
         include: {
-          event: {
-            select: { title: true },
-          },
+          event: { select: { title: true } },
+          category: { select: { name: true } },
           visitor: { select: { name: true, email: true } },
         },
         orderBy: { event: { date: "asc" } },
@@ -81,21 +71,10 @@ export const ticketRouter = createTRPCRouter({
   // Mutations - Editor Procedure
   generateTicketEditorRole: editorProcedure
     .input(generateTicketSchema)
-    .mutation(async ({ ctx, input: { qty, price, category, eventId } }) => {
+    .mutation(async ({ ctx, input: { qty, categoryId, eventId } }) => {
       return await ctx.prisma.ticket.createMany({
         data: Array.from({ length: qty }, () => ({
-          price,
-          category,
-          eventId,
-        })),
-      })
-    }),
-  generateSeatEditorRole: editorProcedure
-    .input(generateSeatSchema)
-    .mutation(async ({ ctx, input: { qty, category, eventId } }) => {
-      return await ctx.prisma.ticket.createMany({
-        data: Array.from({ length: qty }, () => ({
-          category,
+          categoryId,
           eventId,
         })),
       })

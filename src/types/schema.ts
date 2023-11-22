@@ -105,20 +105,18 @@ export const extendCreateEventSchema = updateEventSchema
 
 // TICKETS
 export const generateTicketSchema = z.object({
-  category: z
+  eventId: z
+    .string({
+      required_error: "Event is required",
+      invalid_type_error: "EventId must be a string",
+    })
+    .cuid({ message: "invalid Event" }),
+  categoryId: z
     .string({
       required_error: "Category is required",
       invalid_type_error: "Category must be a string",
     })
-    .min(3, { message: "Category must contain at least 3 characters" })
-    .max(15),
-  price: z.coerce
-    .number({
-      required_error: "Price is required",
-      invalid_type_error: "Price must be a number",
-    })
-    .int()
-    .gte(10000),
+    .cuid({ message: "Invalid Category" }),
   qty: z.coerce
     .number({
       required_error: "Qty is required",
@@ -126,43 +124,7 @@ export const generateTicketSchema = z.object({
     })
     .int()
     .gte(10, { message: "Qty must be greater than or equal to 10" }),
-  eventId: z
-    .string({
-      required_error: "Event is required",
-      invalid_type_error: "EventId must be a string",
-    })
-    .cuid({ message: "invalid Event" }),
 })
-export const extendGenerateTicketSchema = generateTicketSchema
-  .omit({ category: true, price: true })
-  .extend({
-    categorySelect: z.string({
-      required_error: "Category is required",
-      invalid_type_error: "Category must be a string",
-    }),
-    categoryInput: z.string({
-      required_error: "Category is required",
-      invalid_type_error: "Category must be a string",
-    }),
-    price: z.string({
-      required_error: "Price is required",
-      invalid_type_error: "Price must be a string",
-    }),
-  })
-
-export const generateSeatSchema = generateTicketSchema.omit({ price: true })
-export const extendGenerateSeatSchema = generateTicketSchema
-  .omit({ price: true, category: true })
-  .extend({
-    categorySelect: z.string({
-      required_error: "Category is required",
-      invalid_type_error: "Category must be a string",
-    }),
-    categoryInput: z.string({
-      required_error: "Category is required",
-      invalid_type_error: "Category must be a string",
-    }),
-  })
 
 // VISITORS
 const visitorSchema = z.object({

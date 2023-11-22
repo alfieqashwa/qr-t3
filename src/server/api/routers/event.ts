@@ -54,6 +54,7 @@ export const eventRouter = createTRPCRouter({
         title: true,
         venue: true,
         profit: true,
+        categories: { select: { name: true } },
         tickets: { select: { category: true } },
       },
     })

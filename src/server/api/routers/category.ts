@@ -17,4 +17,13 @@ export const categoryRouter = createTRPCRouter({
         where: { eventId },
       })
     }),
+  options: protectedProcedure
+    .input(z.object({ isProfit: z.boolean().optional() }))
+    .query(async ({ ctx, input: { isProfit } }) => {
+      return await ctx.prisma.category.findMany({
+        where: {
+          event: { profit: isProfit },
+        },
+      })
+    }),
 })
