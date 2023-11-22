@@ -1,5 +1,6 @@
 import { accountRouter } from "./routers/account"
 import { addressRouter } from "./routers/address"
+import { categoryRouter } from "./routers/category"
 import { eoRouter } from "./routers/eo"
 import { eventRouter } from "./routers/event"
 import { sessionRouter } from "./routers/session"
@@ -18,6 +19,7 @@ export const appRouter = createTRPCRouter({
   eo: eoRouter,
   address: addressRouter,
   event: eventRouter,
+  category: categoryRouter,
   ticket: ticketRouter,
   visitor: visitorRouter,
   account: accountRouter,
