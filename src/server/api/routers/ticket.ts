@@ -69,7 +69,11 @@ export const ticketRouter = createTRPCRouter({
         where: { id: ticketId },
         include: {
           visitor: true,
-          event: { include: { eventOrganizer: { select: { name: true } } } },
+          event: {
+            include: {
+              eventOrganizer: { select: { name: true } },
+            },
+          },
         },
       })
     }),

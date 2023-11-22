@@ -38,7 +38,7 @@ import { api } from "~/utils/api"
 type Props = {
   id: string
   ticketStatus: Status
-  price: number | null
+  price?: number
 }
 
 export function TriggerTicketStatus({ id, ticketStatus, price }: Props) {

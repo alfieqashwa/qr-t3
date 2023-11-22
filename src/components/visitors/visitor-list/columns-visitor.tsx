@@ -135,11 +135,17 @@ export const columnsVisitor: ColumnDef<
     cell: ({ row }) => {
       const {
         original: {
-          ticket: { id, status, price },
+          ticket: { id, status, category },
         },
       } = row
       if (!status) return null
-      return <TriggerTicketStatus id={id} ticketStatus={status} price={price} />
+      return (
+        <TriggerTicketStatus
+          id={id}
+          ticketStatus={status}
+          price={category?.price}
+        />
+      )
     },
     filterFn: (row, id, value: Status) => {
       return value.includes(row.getValue(id))

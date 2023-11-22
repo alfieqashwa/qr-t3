@@ -22,6 +22,14 @@ type TicketInfoProps = {
 export const TicketInfo = ({ ticket }: TicketInfoProps) => {
   const router = useRouter()
   const utils = api.useUtils()
+
+  // Queries
+  const category = api.category.getByIdPublic.useQuery(
+    { id: ticket?.categoryId as string },
+    { enabled: !!ticket?.categoryId },
+  )
+
+  // Mutations
   const { mutate, isLoading, variables } =
     api.visitor.toggleCheckOperatorRole.useMutation({
       async onSuccess() {
@@ -95,15 +103,19 @@ export const TicketInfo = ({ ticket }: TicketInfoProps) => {
         </Wrapper>
 
         <Wrapper title="Ticket Info" className="mt-2">
-          <p>
-            <span>Category: </span>
-            <span className="uppercase text-amber-300">{ticket?.category}</span>
-          </p>
-          {ticket?.event?.profit && (
+          {category.status === "success" && (
+            <p>
+              <span>Category: </span>
+              <span className="uppercase text-amber-300">
+                {category.data?.name}
+              </span>
+            </p>
+          )}
+          {category.status === "success" && ticket?.event?.profit && (
             <p>
               <span>Price: </span>
               <span className="text-amber-300">
-                {formattedPrice.format(ticket?.price as number)}
+                {formattedPrice.format(category.data?.price as number)}
               </span>
             </p>
           )}
