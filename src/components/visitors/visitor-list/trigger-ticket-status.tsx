@@ -38,10 +38,10 @@ import { api } from "~/utils/api"
 type Props = {
   id: string
   ticketStatus: Status
-  price?: number
+  isProfit?: boolean
 }
 
-export function TriggerTicketStatus({ id, ticketStatus, price }: Props) {
+export function TriggerTicketStatus({ id, ticketStatus, isProfit }: Props) {
   const [open, setOpen] = useState(false)
 
   const utils = api.useUtils()
@@ -107,7 +107,19 @@ export function TriggerTicketStatus({ id, ticketStatus, price }: Props) {
 
       <DialogContent className="bg-card">
         <DialogHeader>
-          <DialogTitle>Purchase Ticket</DialogTitle>
+          <DialogTitle>
+            <span
+              className={cn("", {
+                "text-muted-foreground": ticketStatus === "AVAILABLE",
+                "text-amber-500": ticketStatus === "BOOKED",
+                "text-emerald-500": ticketStatus === "PURCHASED",
+                "text-rose-500": ticketStatus === "REFUND",
+              })}
+            >
+              {ticketStatus}
+            </span>{" "}
+            Ticket
+          </DialogTitle>
           <DialogDescription asChild>
             <p>Change your ticket here. Click Update when you&apos;re done.</p>
           </DialogDescription>
@@ -140,9 +152,9 @@ export function TriggerTicketStatus({ id, ticketStatus, price }: Props) {
                       </SelectItem>
                       {/*
                        // ! alternative way to differenciate a non-profit events
-                       // ! because they always have price as null
+                       // ! because defaultCategoryPrice for non-provit event(s) is equal to 0.00
                        */}
-                      {!!price && (
+                      {isProfit && (
                         <>
                           <SelectItem value={Status.PURCHASED}>
                             {Status.PURCHASED}

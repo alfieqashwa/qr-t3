@@ -143,7 +143,7 @@ export const columnsVisitor: ColumnDef<
         <TriggerTicketStatus
           id={id}
           ticketStatus={status}
-          price={category?.price}
+          isProfit={category?.price !== 0}
         />
       )
     },
