@@ -22,7 +22,7 @@ export const visitorRouter = createTRPCRouter({
         ticket: {
           select: {
             id: true,
-            category: { select: { price: true } },
+            category: { select: { name: true, price: true } },
             status: true,
             event: { select: { title: true } },
           },

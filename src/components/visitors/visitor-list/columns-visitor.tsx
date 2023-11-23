@@ -110,7 +110,7 @@ export const columnsVisitor: ColumnDef<
   },
   {
     accessorKey: "ticketCategory",
-    accessorFn: (row) => row.ticket.category,
+    accessorFn: (row) => row.ticket.category?.name,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Ticket Category" />
     ),
