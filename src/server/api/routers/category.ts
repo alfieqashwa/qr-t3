@@ -15,6 +15,7 @@ export const categoryRouter = createTRPCRouter({
     .query(async ({ ctx, input: { eventId } }) => {
       return await ctx.prisma.category.findMany({
         where: { eventId },
+        include: { tickets: true },
       })
     }),
   options: protectedProcedure

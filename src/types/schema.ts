@@ -154,6 +154,7 @@ const visitorSchema = z.object({
     .cuid({ message: "Ticket is required" }),
 })
 
+// TODO: erase bcoz duplicated
 export const createPublicVisitorSchema = visitorSchema.omit({
   id: true,
   // eventOrganizerId: true,
@@ -163,11 +164,20 @@ export const createVisitorSchema = visitorSchema.omit({
 })
 
 export const extendVisitorFormSchema = createVisitorSchema.extend({
-  eventId: z.string({
-    required_error: "Event is required",
-    invalid_type_error: "Event must be a string",
-  }),
-  category: z.string().optional(),
+  eventId: z
+    .string({
+      required_error: "Event is required",
+      invalid_type_error: "Event must be a string",
+    })
+    .cuid({ message: "Event is required" }),
+  categoryId: z
+    .string({
+      required_error: "Category is required",
+      invalid_type_error: "Category must be a string",
+    })
+    .cuid({
+      message: "Category is required",
+    }),
 })
 
 export const updateVisitorSchema = visitorSchema.pick({

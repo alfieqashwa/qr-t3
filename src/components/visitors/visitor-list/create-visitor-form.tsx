@@ -14,6 +14,7 @@ import { Button } from "~/ui/button"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -33,6 +34,7 @@ import { Switch } from "~/ui/switch"
 import { ToastAction } from "~/ui/toast"
 import { toast } from "~/ui/use-toast"
 import { api } from "~/utils/api"
+import { formattedPrice } from "~/utils/formattedPrice"
 import { wait } from "~/utils/wait"
 
 export const CreateVisitorForm = ({
@@ -42,6 +44,7 @@ export const CreateVisitorForm = ({
 }) => {
   const utils = api.useUtils()
 
+  // Mutations
   const { mutate, isLoading } = api.visitor.createEditorRole.useMutation({
     async onSuccess() {
       toast({
@@ -70,53 +73,48 @@ export const CreateVisitorForm = ({
       phone: "",
       email: "",
       eventId: "",
+      categoryId: "",
       ticketId: "",
     },
   })
 
   //! no-need to use useEffect
   const selectedEventId = form.watch("eventId")
-  const selectedCategory = form.watch("category")
+  const selectedCategoryId = form.watch("categoryId")
 
   const [isProfit, setIsProfit] = useState(true)
 
   const events = api.event.getAll.useQuery(undefined, {
     select: (events) =>
+      /**
+       *! NOTE:
+       *! the `!!f.categories.length` is included in filter array
+       *! to exclude the event(s) where doesn't have any category(s)
+       */
       isProfit
-        ? events
-            .filter((f) => f.profit)
-            .map(({ id, title, profit }) => ({
-              id,
-              title,
-              profit,
-            }))
-        : events
-            .filter((f) => !f.profit)
-            .map(({ id, title, profit }) => ({
-              id,
-              title,
-              profit,
-            })),
+        ? events.filter((f) => f.profit && !!f.categories.length)
+        : events.filter((f) => !f.profit && !!f.categories.length),
   })
 
-  const tickets = api.ticket.getAllByEventId.useQuery(
+  // Queries
+  const categories = api.category.getAllByEventId.useQuery(
     { eventId: selectedEventId },
     {
       enabled: !!selectedEventId,
-      select: (tickets) => {
-        const categories = tickets.map((t) => t.category)
-        /**
-         * filtered only AVAILABlE tickets
-         * & by selected category
-         */
-        const filteredTickets = tickets.filter(
-          (t) => t.status === "AVAILABLE" && t.category === selectedCategory,
-        )
-        return {
-          categories: [...new Set(categories)],
-          filteredTickets,
-        }
-      },
+      /**
+       *! NOTE:
+       *! the `!!f.tickets.length` is included in filter array
+       *! to exclude the category(s) where doesn't have any ticket(s)
+       */
+      select: (categories) => categories.filter((c) => !!c.tickets.length),
+    },
+  )
+  const filteredTickets = api.ticket.getAllByCategoryiId.useQuery(
+    { categoryId: selectedCategoryId },
+    {
+      enabled: !!selectedEventId,
+      // filtered only AVAILABlE tickets
+      select: (tickets) => tickets.filter((t) => t.status === "AVAILABLE"),
     },
   )
 
@@ -130,6 +128,10 @@ export const CreateVisitorForm = ({
       ticketId,
     })
   }
+
+  const selectedCategoryPrice = formattedPrice.format(
+    categories.data?.find((c) => c.id === selectedCategoryId)?.price as number,
+  )
 
   return (
     <Form {...form}>
@@ -212,7 +214,7 @@ export const CreateVisitorForm = ({
         />
         <FormField
           control={form.control}
-          name="category"
+          name="categoryId"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-right">Category</FormLabel>
@@ -223,18 +225,22 @@ export const CreateVisitorForm = ({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {tickets.status === "success" &&
-                    tickets.data.categories.map((category, i) => (
-                      <SelectItem
-                        value={category}
-                        key={i}
-                        className="uppercase"
-                      >
-                        {category}
+                  {categories.status === "success" &&
+                    categories.data.map((c) => (
+                      <SelectItem key={c.id} value={c.id} className="uppercase">
+                        {c.name}
                       </SelectItem>
                     ))}
                 </SelectContent>
               </Select>
+              {!!selectedCategoryId && (
+                <FormDescription className="pt-2 text-base font-semibold">
+                  Price:{" "}
+                  <span className="text-amber-300">
+                    {selectedCategoryPrice}
+                  </span>
+                </FormDescription>
+              )}
               <FormMessage />
             </FormItem>
           )}
@@ -253,15 +259,14 @@ export const CreateVisitorForm = ({
                 </FormControl>
                 <SelectContent>
                   <ScrollArea className="h-56">
-                    {tickets.status === "success" &&
-                      tickets.data.filteredTickets.map((ticket) => {
-                        const ticketCategory = `${
-                          ticket.category
-                        }-${ticket.id.slice(-8, -1)}`
+                    {filteredTickets.status === "success" &&
+                      filteredTickets.data.map((t) => {
+                        const ticketCategory = `${t.category
+                          ?.name}-${t.id.slice(-8, -1)}`
                         return (
                           <SelectItem
-                            key={ticket.id}
-                            value={ticket.id}
+                            key={t.id}
+                            value={t.id}
                             className="uppercase"
                           >
                             {ticketCategory}

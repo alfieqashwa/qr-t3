@@ -44,6 +44,7 @@ export const eventRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.event.findMany({
       where: { eventOrganizerId: ctx.session.user.eventOrganizerId as string },
+      include: { categories: true },
       orderBy: { date: "asc" },
     })
   }),
