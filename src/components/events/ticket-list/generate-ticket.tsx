@@ -206,12 +206,14 @@ export function GenerateTicket(): JSX.Element {
                       </SelectGroup>
                     </SelectContent>
                   </Select>
-                  <FormDescription className="pt-2 text-base font-semibold">
-                    Price:{" "}
-                    <span className="text-amber-300">
-                      {selectedCategoryPrice}
-                    </span>
-                  </FormDescription>
+                  {field.value !== "" && (
+                    <FormDescription className="pt-2 text-base font-semibold">
+                      Price:{" "}
+                      <span className="text-amber-300">
+                        {selectedCategoryPrice}
+                      </span>
+                    </FormDescription>
+                  )}
                 </FormItem>
               )}
             />
