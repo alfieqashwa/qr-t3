@@ -260,7 +260,7 @@ export function CreateEventForm(props: Props) {
                 </FormItem>
               )}
             />
-            <SheetFooter className="absolute bottom-8 left-0 right-0 px-6">
+            <SheetFooter className="absolute bottom-4 left-0 right-0 px-6">
               <Button
                 type="button"
                 variant="outline"
@@ -270,7 +270,7 @@ export function CreateEventForm(props: Props) {
               </Button>
               <Button
                 type="button"
-                size="sm"
+                className="mb-1.5"
                 disabled={disabledNextBtn}
                 onClick={() => setStep(2)}
               >
@@ -281,7 +281,7 @@ export function CreateEventForm(props: Props) {
         )}
         {step === 2 && (
           <>
-            <ScrollArea className="-mx-4 max-h-[32rem] overflow-y-auto">
+            <ScrollArea className="-mx-4 max-h-[28rem] overflow-y-auto md:max-h-[43rem]">
               {fields.map((field, index) => (
                 <section className="space-y-4 px-4" key={field.id}>
                   <FormField
@@ -313,10 +313,10 @@ export function CreateEventForm(props: Props) {
                           hidden: !form.watch("profit"),
                         })}
                       >
-                        <FormLabel>Price</FormLabel>
+                        <FormLabel>Price {index + 1}</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder={`price ${index + 1}`}
+                            placeholder="price"
                             name={field.name}
                             value={formattedInputPriceValue(field.value)}
                             onChange={field.onChange}
@@ -330,7 +330,7 @@ export function CreateEventForm(props: Props) {
                   <div className="flex items-center justify-end space-x-2">
                     <Button
                       type="button"
-                      variant="ghost"
+                      variant="secondary"
                       className={cn("", {
                         hidden: form.watch("categories").length > 5,
                       })}
@@ -352,7 +352,7 @@ export function CreateEventForm(props: Props) {
                 </section>
               ))}
             </ScrollArea>
-            <SheetFooter className="absolute bottom-8 left-0 right-0 px-6">
+            <SheetFooter className="absolute bottom-4 left-0 right-0 px-6">
               <Button
                 type="button"
                 variant="outline"
@@ -361,12 +361,16 @@ export function CreateEventForm(props: Props) {
                 Previous
               </Button>
               {isLoading ? (
-                <Button disabled size="sm">
+                <Button disabled>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Please wait
                 </Button>
               ) : (
-                <Button disabled={disabledCreateBtn} type="submit" size="sm">
+                <Button
+                  disabled={disabledCreateBtn}
+                  type="submit"
+                  className="mb-1.5"
+                >
                   Create Event
                 </Button>
               )}
