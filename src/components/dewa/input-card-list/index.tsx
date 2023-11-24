@@ -4,9 +4,11 @@ import { ToastAction } from "~/ui/toast"
 import { toast } from "~/ui/use-toast"
 import { api } from "~/utils/api"
 import { FormCard } from "./form-card"
+import { useRouter } from "next/router"
 
 // TODO: Styling
 export const InputCardList = () => {
+  const router = useRouter()
   const utils = api.useUtils()
 
   // QUERIES
@@ -102,6 +104,7 @@ export const InputCardList = () => {
         description: "All Event Organizers have been deleted.",
       })
       await utils.eo.getAllDewaRole.invalidate()
+      await router.push("/")
       /* auto-closed after succeed submit the dialog form */
     },
     onError() {
