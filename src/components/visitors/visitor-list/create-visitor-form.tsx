@@ -109,7 +109,7 @@ export const CreateVisitorForm = ({
       select: (categories) => categories.filter((c) => !!c.tickets.length),
     },
   )
-  const filteredTickets = api.ticket.getAllByCategoryiId.useQuery(
+  const filteredTickets = api.ticket.getAllByCategoryId.useQuery(
     { categoryId: selectedCategoryId },
     {
       enabled: !!selectedEventId,

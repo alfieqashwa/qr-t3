@@ -51,7 +51,7 @@ export const ticketRouter = createTRPCRouter({
         orderBy: { id: "asc" },
       })
     }),
-  getAllByCategoryiId: protectedProcedure
+  getAllByCategoryId: protectedProcedure
     .input(z.object({ categoryId: z.string().cuid() }))
     .query(async ({ ctx, input: { categoryId } }) => {
       return await ctx.prisma.ticket.findMany({
