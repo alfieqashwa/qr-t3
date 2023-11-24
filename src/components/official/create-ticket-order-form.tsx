@@ -236,8 +236,12 @@ export const CreateTicketOrderForm = ({
                       >
                         {!!field.value && tickets.status === "success" ? (
                           tickets.data
-                            .find((t) => t.id === field.value)
-                            ?.id.slice(-8)
+                            .filter((t) => t.id === field.value)
+                            .map((t) => {
+                              const ticketCategory = `${t.category
+                                ?.name}-${t.id.slice(-8, t.id.length)}`
+                              return ticketCategory
+                            })
                         ) : (
                           <span className="capitalize text-muted-foreground">
                             Select ticket...
