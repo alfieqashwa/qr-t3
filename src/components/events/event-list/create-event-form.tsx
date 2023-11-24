@@ -240,8 +240,15 @@ export function CreateEventForm(props: Props) {
                       {field.value ? "Provit" : "Non-provit"}
                     </FormLabel>
                     <FormDescription className="space-x-1">
-                      <span>Switch to left to create a non-profit event.</span>
-                      <span>e.g: wedding, party, etc</span>
+                      <span>
+                        Switch to {field.value ? "left" : "right"} to create a{" "}
+                        {field.value ? "non-profit" : "profit"} event.
+                      </span>
+                      <span>
+                        {field.value
+                          ? "e.g: wedding, party, etc"
+                          : "e.g: concert, gigs, training"}
+                      </span>
                     </FormDescription>
                   </div>
                   <FormControl>
