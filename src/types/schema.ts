@@ -157,8 +157,20 @@ const visitorSchema = z.object({
 // TODO: erase bcoz duplicated
 export const createPublicVisitorSchema = visitorSchema.omit({
   id: true,
-  // eventOrganizerId: true,
 })
+export const extendCreatePublicVisitorSchema = createPublicVisitorSchema.extend(
+  {
+    categoryId: z
+      .string({
+        required_error: "Category is required",
+        invalid_type_error: "Category must be a string",
+      })
+      .cuid({
+        message: "Category is required",
+      }),
+  },
+)
+
 export const createVisitorSchema = visitorSchema.omit({
   id: true,
 })

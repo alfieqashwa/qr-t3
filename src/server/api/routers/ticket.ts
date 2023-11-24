@@ -11,14 +11,15 @@ import {
 
 export const ticketRouter = createTRPCRouter({
   // Queries - Public Procedure
-  getAllByEventIdPublic: publicProcedure
-    .input(z.object({ eventId: z.string().cuid() }))
-    .query(async ({ ctx, input: { eventId } }) => {
+  getAllByCategoryIdPublic: publicProcedure
+    .input(z.object({ categoryId: z.string().cuid() }))
+    .query(async ({ ctx, input: { categoryId } }) => {
       return await ctx.prisma.ticket.findMany({
         where: {
-          eventId,
+          categoryId,
           status: "AVAILABLE",
         },
+        include: { category: true },
       })
     }),
   // Queries - Protected Procedure

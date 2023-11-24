@@ -2,11 +2,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Check, ChevronsUpDown, Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import type { z } from "zod"
-import { createPublicVisitorSchema } from "~/src/types/schema"
 import { cn } from "~/src/utils"
-import { api } from "~/src/utils/api"
-import { formattedPrice } from "~/src/utils/formattedPrice"
-import { wait } from "~/src/utils/wait"
+import { extendCreatePublicVisitorSchema } from "~/types/schema"
 import { Button } from "~/ui/button"
 import {
   Command,
@@ -35,16 +32,22 @@ import {
 } from "~/ui/select"
 import { ToastAction } from "~/ui/toast"
 import { toast } from "~/ui/use-toast"
+import { api, type RouterOutputs } from "~/utils/api"
+import { formattedPrice } from "~/utils/formattedPrice"
+import { wait } from "~/utils/wait"
 
 type CreateTicketOrderFormProps = {
+  event: RouterOutputs["event"]["getByIdPublic"]
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const CreateTicketOrderForm = ({
+  event,
   setOpen,
 }: CreateTicketOrderFormProps) => {
   const utils = api.useUtils()
 
+  // Mutations
   const { mutate, isLoading } = api.visitor.createPublic.useMutation({
     async onSuccess() {
       toast({
@@ -52,8 +55,7 @@ export const CreateTicketOrderForm = ({
         variant: "default",
         description: "Your ticket has been successfully ordered.",
       })
-      await utils.ticket.getAllByEventIdPublic.invalidate()
-      await utils.visitor.getAll.invalidate()
+      await utils.ticket.getAllByCategoryIdPublic.invalidate()
       await wait().then(() => setOpen(false))
     },
     onError() {
@@ -66,59 +68,31 @@ export const CreateTicketOrderForm = ({
     },
   })
 
-  // const { data: tickets, status: ticketStatus } =
-  //   api.ticket.getAllByEventIdPublic.useQuery(
-  //     { eventId: props.eventId },
-  //     {
-  //       enabled: !!props.eventId,
-  //       select: (tickets) => {
-  //         const categories = tickets.map((ticket) => ticket.category)
-  //         const _visitorTicketIds = tickets
-  //           .filter((t) => t.visitors.length > 0)
-  //           .map((t) => t.visitors)
-  //           .reduce((acc, current) => {
-  //             current.forEach((ticket) => {
-  //               acc.push(ticket)
-  //             })
-  //             return acc
-  //           }, [])
-  //           .map((t) => ({ ticketId: t.ticketId }))
-  //         const _selectedTicketIds = new Set(
-  //           _visitorTicketIds.map((ticket) => ticket.ticketId),
-  //         )
-  //         const filteredTicketIds = tickets.filter(
-  //           (ticket) => !_selectedTicketIds.has(ticket.id),
-  //         )
-
-  //         return {
-  //           categories: [...new Set(categories)],
-  //           filteredTicketIds,
-  //         }
-  //       },
-  //     },
-  //   )
-
-  type CreatePublicVisitorSchema = z.infer<typeof createPublicVisitorSchema>
+  type CreatePublicVisitorSchema = z.infer<
+    typeof extendCreatePublicVisitorSchema
+  >
   const form = useForm<CreatePublicVisitorSchema>({
-    resolver: zodResolver(createPublicVisitorSchema),
+    resolver: zodResolver(extendCreatePublicVisitorSchema),
     defaultValues: {
       name: "",
       phone: "",
       email: "",
+      categoryId: "",
       ticketId: "",
     },
   })
 
-  // const selectedCategory = form.watch("category")
+  const selectedCategoryId = form.watch("categoryId")
 
-  // select the price based on selectedCategory
-  // const selectedPrice = [
-  //   ...new Set(
-  //     tickets?.filteredTicketIds
-  //       .filter((f) => f.category === selectedCategory)
-  //       .map((t) => t.price),
-  //   ),
-  // ]?.[0]
+  // Queries
+  const tickets = api.ticket.getAllByCategoryIdPublic.useQuery(
+    { categoryId: selectedCategoryId },
+    { enabled: !!selectedCategoryId },
+  )
+
+  const selectedPrice = event?.categories?.find(
+    (c) => c.id === selectedCategoryId,
+  )?.price
 
   function onSubmit(values: CreatePublicVisitorSchema) {
     const { name, phone, email, ticketId } = values
@@ -193,9 +167,9 @@ export const CreateTicketOrderForm = ({
             </FormItem>
           )}
         />
-        {/* <FormField
+        <FormField
           control={form.control}
-          name="category"
+          name="categoryId"
           render={({ field }) => (
             <FormItem>
               <div className="grid grid-cols-6 items-center gap-x-4">
@@ -211,20 +185,22 @@ export const CreateTicketOrderForm = ({
                     )}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select an Event" />
+                      <SelectValue placeholder="Select Category" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {ticketStatus === "success" &&
-                      tickets.categories.map((category) => (
-                        <SelectItem
-                          value={category}
-                          key={category}
-                          className="uppercase"
-                        >
-                          {category}
-                        </SelectItem>
-                      ))}
+                    {event?.categories &&
+                      event.categories
+                        .filter((c) => !!c.tickets.length)
+                        .map((c) => (
+                          <SelectItem
+                            key={c.id}
+                            value={c.id}
+                            className="uppercase"
+                          >
+                            {c.name}
+                          </SelectItem>
+                        ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -239,8 +215,8 @@ export const CreateTicketOrderForm = ({
               ? formattedPrice.format(selectedPrice).replace(/,\d+$/, "")
               : ""}
           </div>
-        </div> */}
-        {/* <FormField
+        </div>
+        <FormField
           control={form.control}
           name="ticketId"
           render={({ field }) => (
@@ -258,9 +234,9 @@ export const CreateTicketOrderForm = ({
                           !field.value && "text-muted-foreground",
                         )}
                       >
-                        {!!field.value && ticketStatus === "success" ? (
-                          tickets.filteredTicketIds
-                            .find((ticket) => ticket.id === field.value)
+                        {!!field.value && tickets.status === "success" ? (
+                          tickets.data
+                            .find((t) => t.id === field.value)
                             ?.id.slice(-8)
                         ) : (
                           <span className="capitalize text-muted-foreground">
@@ -277,16 +253,18 @@ export const CreateTicketOrderForm = ({
                       <CommandEmpty>No ticket found.</CommandEmpty>
                       <CommandGroup>
                         <ScrollArea className="h-48">
-                          {ticketStatus === "success" &&
-                            tickets.filteredTicketIds
+                          {tickets.status === "success" &&
+                            tickets.data
                               .filter(
                                 (ticket) =>
-                                  ticket.category === selectedCategory,
+                                  ticket.categoryId === selectedCategoryId,
                               )
                               .map((ticket) => {
-                                const ticketCategory = `${
-                                  ticket.category
-                                }-${ticket.id.slice(-8, ticket.id.length)}`
+                                const ticketCategory = `${ticket.category
+                                  ?.name}-${ticket.id.slice(
+                                  -8,
+                                  ticket.id.length,
+                                )}`
                                 return (
                                   <CommandItem
                                     key={ticket.id}
@@ -317,7 +295,7 @@ export const CreateTicketOrderForm = ({
               <FormMessage className="pl-20" />
             </FormItem>
           )}
-        /> */}
+        />
         <div className="mt-8">
           {isLoading ? (
             <Button disabled size="sm">

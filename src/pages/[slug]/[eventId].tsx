@@ -22,12 +22,11 @@ const EventIdPage: NextPage = () => {
     { id: eventId },
     { enabled: !!eventId },
   )
-
   return (
     <>
       <HeadMetaData
-        title={slug.toUpperCase()}
-        metaDescription={`QR-Code Event Organizer - ${slug.toUpperCase()} Application`}
+        title={slug?.toUpperCase()}
+        metaDescription={`QR-Code Event Organizer - ${slug?.toUpperCase()} Application`}
         pathname={`/${slug}`}
       />
       <LayoutEventOrganizer>
@@ -56,21 +55,23 @@ const EventIdPage: NextPage = () => {
                 </p>
               </div>
               <ul className="mt-2">
-                {event.categories.map((t) => (
-                  <li
-                    className="text-lg font-bold capitalize lg:text-xl"
-                    key={t.name}
-                  >
-                    <span className="ml-auto">{t.name}:</span>
-                    <span className="ml-2 text-amber-300">
-                      {/* remove decimal numbers using regex instead of set 'minimumFractionDigits' within fn formattedPrice */}
-                      {formattedPrice.format(t.price).replace(/,\d+$/, "")}
-                    </span>
-                  </li>
-                ))}
+                {event.categories
+                  .filter((c) => !!c.tickets.length)
+                  .map((c) => (
+                    <li
+                      className="text-lg font-bold capitalize lg:text-xl"
+                      key={c.name}
+                    >
+                      <span className="ml-auto">{c.name}:</span>
+                      <span className="ml-2 text-amber-300">
+                        {/* remove decimal numbers using regex instead of set 'minimumFractionDigits' within fn formattedPrice */}
+                        {formattedPrice.format(c.price).replace(/,\d+$/, "")}
+                      </span>
+                    </li>
+                  ))}
               </ul>
               <CountdownTimer date={event.date} className="mt-4 text-2xl" />
-              <CreateNewTicketOrder eventId={event.id} className="mt-2" />
+              <CreateNewTicketOrder event={event} className="mt-2" />
             </section>
 
             <section className="relative mt-8 flex w-full justify-center lg:w-1/2">

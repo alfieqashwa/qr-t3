@@ -1,5 +1,6 @@
 import { FilePlus2 } from "lucide-react"
 import { useState } from "react"
+import { cn } from "~/src/utils"
 import { Button } from "~/ui/button"
 import {
   Dialog,
@@ -9,13 +10,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/ui/dialog"
+import { type RouterOutputs } from "~/utils/api"
 import { CreateTicketOrderForm } from "./create-ticket-order-form"
-import { cn } from "~/src/utils"
 
 export function CreateNewTicketOrder({
+  event,
   className,
 }: {
-  eventId: string
+  event: RouterOutputs["event"]["getByIdPublic"]
   className?: string
 }) {
   const [open, setOpen] = useState(false)
@@ -38,7 +40,7 @@ export function CreateNewTicketOrder({
             Fill the form here. Click Order Ticket when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <CreateTicketOrderForm setOpen={setOpen} />
+        <CreateTicketOrderForm event={event} setOpen={setOpen} />
       </DialogContent>
     </Dialog>
   )
