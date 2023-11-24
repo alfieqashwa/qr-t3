@@ -1,18 +1,17 @@
 import { Role } from "@prisma/client"
-import { useSession } from "next-auth/react"
 import type { ReactNode } from "react"
+import { api } from "~/utils/api"
 
 type Props = {
   children: ReactNode
 }
 
 export function AdminOnly({ children }: Props): JSX.Element | null {
-  const session = useSession()
+  const { data: me, status } = api.user.me.useQuery()
 
-  if (session.status !== "authenticated") return null
   if (
-    session.data?.user.role === Role.DEWA ||
-    session.data?.user.role === Role.ADMIN
+    status === "success" &&
+    (me?.role === Role.DEWA || me?.role === Role.ADMIN)
   ) {
     return <>{children}</>
   }

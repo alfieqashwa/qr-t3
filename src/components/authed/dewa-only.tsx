@@ -1,15 +1,15 @@
 import { Role } from "@prisma/client"
-import { useSession } from "next-auth/react"
 import type { ReactNode } from "react"
+import { api } from "~/utils/api"
 
 type Props = {
   children: ReactNode
 }
 
-export function DewaOnly({ children }: Props): JSX.Element {
-  const { data: session, status } = useSession({
-    required: true,
-  })
+export function DewaOnly({ children }: Props): JSX.Element | null {
+  const { data: me, status } = api.user.me.useQuery()
 
-  return <>{status && session?.user.role === Role.DEWA && children}</>
+  if (status === "success" && me?.role === Role.DEWA) return <>{children}</>
+
+  return null
 }
