@@ -1,7 +1,6 @@
 import { format } from "date-fns"
 import { id } from "date-fns/locale"
 import { useState } from "react"
-import type { RouterOutputs } from "~/src/utils/api"
 import {
   Card,
   CardContent,
@@ -17,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/ui/select"
+import type { RouterOutputs } from "~/utils/api"
 import { formattedPrice } from "~/utils/formattedPrice"
 
 type CardEventProps = {
@@ -24,44 +24,30 @@ type CardEventProps = {
 }
 
 export function CardEvent({ event }: CardEventProps) {
-  const { title, venue, date, profit, tickets } = event
+  const { title, venue, date, profit, tickets, categories } = event
+  const [categoryId, setCategoryId] = useState("all")
 
-  const formattedDate = format(date, "PPPP", { locale: id })
-  const categoryList = [...new Set(tickets.map((t) => t.category))]
-
-  const [value, setValue] = useState("")
-
-  const totalPrice = (category: string) => {
-    let getTotal: number
-    if (category === "") {
-      getTotal = tickets.reduce((total, ticket) => {
-        if (ticket.price !== null) {
-          return total + ticket.price
-        } else {
-          return total
-        }
-      }, 0)
-      return formattedPrice.format(getTotal)
+  function totalPrice(categoryId: string) {
+    let getTotal
+    if (categoryId === "all") {
+      getTotal =
+        categories.reduce((total, c) => total + c.price, 0) * tickets.length
+    } else {
+      const selectedCategoryPrice = categories.find((c) => c.id === categoryId)
+        ?.price
+      if (!selectedCategoryPrice) return
+      getTotal = selectedCategoryPrice * tickets.length
     }
 
-    getTotal = tickets
-      .filter((t) => t.category === category)
-      .reduce((total, ticket) => {
-        if (ticket.price !== null) {
-          return total + ticket.price
-        } else {
-          return total
-        }
-      }, 0)
     return formattedPrice.format(getTotal)
   }
 
-  function totalTicket(category: string) {
-    if (category === "all") {
+  function totalTicket(categoryId: string) {
+    if (categoryId === "all") {
       return tickets.length
     } else {
+      return tickets.filter((t) => t.categoryId === categoryId).length
     }
-    return tickets.filter((l) => l.category === category).length
   }
 
   return (
@@ -71,7 +57,9 @@ export function CardEvent({ event }: CardEventProps) {
           <div>
             <CardTitle className="capitalize">{title}</CardTitle>
             <div className="mt-2 font-bold capitalize">
-              <CardDescription>Date: {formattedDate}</CardDescription>
+              <CardDescription>
+                Date: {format(date, "PPPP", { locale: id })}
+              </CardDescription>
               <CardDescription>Venue: {venue}</CardDescription>
             </div>
           </div>
@@ -79,7 +67,9 @@ export function CardEvent({ event }: CardEventProps) {
             {profit ? (
               <>
                 <CardDescription>Total Omzet</CardDescription>
-                <CardTitle className="text-xl">{totalPrice(value)}</CardTitle>
+                <CardTitle className="text-xl">
+                  {totalPrice(categoryId)}
+                </CardTitle>
               </>
             ) : (
               <CardDescription className="text-primary">
@@ -87,7 +77,7 @@ export function CardEvent({ event }: CardEventProps) {
               </CardDescription>
             )}
             <CardDescription className="mt-1">Total Ticket</CardDescription>
-            <CardTitle className="text-xl">{totalTicket(value)}</CardTitle>
+            <CardTitle className="text-xl">{totalTicket(categoryId)}</CardTitle>
           </div>
         </div>
       </CardHeader>
@@ -97,10 +87,10 @@ export function CardEvent({ event }: CardEventProps) {
             <Label htmlFor="category" className="sr-only">
               Category
             </Label>
-            {!categoryList.length ? (
+            {!categories.length ? (
               <h1>&nbsp;</h1>
             ) : (
-              <Select onValueChange={setValue}>
+              <Select onValueChange={setCategoryId} defaultValue={categoryId}>
                 <SelectTrigger id="category" className="capitalize">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
@@ -108,13 +98,9 @@ export function CardEvent({ event }: CardEventProps) {
                   <SelectItem className="uppercase" value="all">
                     All
                   </SelectItem>
-                  {categoryList.map((category) => (
-                    <SelectItem
-                      className="uppercase"
-                      value={category}
-                      key={category}
-                    >
-                      {category}
+                  {categories.map((c) => (
+                    <SelectItem className="uppercase" key={c.id} value={c.id}>
+                      {c.name}
                     </SelectItem>
                   ))}
                 </SelectContent>

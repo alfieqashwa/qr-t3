@@ -68,6 +68,7 @@ export const eventRouter = createTRPCRouter({
       orderBy: { date: "asc" },
       include: {
         tickets: { include: { visitor: true } },
+        categories: true,
       },
     })
   }),
