@@ -134,7 +134,7 @@ export function GenerateSeat(): JSX.Element {
               control={form.control}
               name="eventId"
               render={({ field }) => (
-                <FormItem className="pt-4">
+                <FormItem>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -172,7 +172,7 @@ export function GenerateSeat(): JSX.Element {
               control={form.control}
               name="categoryId"
               render={({ field }) => (
-                <FormItem className="pt-4">
+                <FormItem>
                   <FormLabel>Category</FormLabel>
                   <Select
                     onValueChange={field.onChange}
@@ -206,7 +206,7 @@ export function GenerateSeat(): JSX.Element {
               control={form.control}
               name="qty"
               render={({ field }) => (
-                <FormItem className="pt-4">
+                <FormItem>
                   <FormLabel>Qty</FormLabel>
                   <FormControl>
                     <Input placeholder="How many seat(s)..." {...field} />
@@ -215,23 +215,21 @@ export function GenerateSeat(): JSX.Element {
                 </FormItem>
               )}
             />
-            <SheetFooter className="absolute bottom-8 left-0 right-0 px-6">
+            <SheetFooter className="absolute bottom-4 left-0 right-0 px-6">
               <Button
-                className="mt-2 sm:mt-0"
                 type="button"
                 variant="outline"
-                size="sm"
                 onClick={() => setOpen(false)}
               >
                 Cancel
               </Button>
               {isLoading ? (
-                <Button disabled size="sm">
+                <Button disabled>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Please wait
                 </Button>
               ) : (
-                <Button type="submit" disabled={disabled} size="sm">
+                <Button disabled={disabled} type="submit" className="mb-1.5">
                   Generate Seat
                 </Button>
               )}
