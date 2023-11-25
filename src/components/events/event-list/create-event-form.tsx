@@ -67,7 +67,7 @@ export function CreateEventForm(props: Props) {
     defaultValues: {
       title: "",
       venue: "",
-      date: new Date(),
+      date: undefined,
       profit: true,
       categories: [
         {
@@ -131,43 +131,9 @@ export function CreateEventForm(props: Props) {
     disabledNextBtn || form.watch("categories").some((c) => c.name === "")
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 py-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
         {step === 1 && (
           <>
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Event</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="title"
-                      {...field}
-                      className="capitalize"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="venue"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Venue</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="venue"
-                      {...field}
-                      className="capitalize"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="date"
@@ -184,7 +150,7 @@ export function CreateEventForm(props: Props) {
                             !field.value && "text-muted-foreground",
                           )}
                         >
-                          {field.value ? (
+                          {!!field.value ? (
                             <p>
                               <span>
                                 {format(field.value, "PPPP", { locale: id })}
@@ -225,6 +191,40 @@ export function CreateEventForm(props: Props) {
                   <FormDescription>
                     Your date of event is used to calculate the due date.
                   </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Event</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="title"
+                      {...field}
+                      className="capitalize"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="venue"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Venue</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="venue"
+                      {...field}
+                      className="capitalize"
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
