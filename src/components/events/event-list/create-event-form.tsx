@@ -199,7 +199,7 @@ export function CreateEventForm(props: Props) {
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
+                    <PopoverContent className="w-auto p-0" align="center">
                       <Calendar
                         mode="single"
                         selected={field.value}
@@ -283,12 +283,12 @@ export function CreateEventForm(props: Props) {
           <>
             <ScrollArea className="-mx-4 max-h-[28rem] overflow-y-auto md:max-h-[43rem]">
               {fields.map((field, index) => (
-                <section className="space-y-4 px-4" key={field.id}>
+                <section className="space-y-2 px-4" key={field.id}>
                   <FormField
                     control={form.control}
                     name={`categories.${index}.name`}
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="pt-2">
                         <FormLabel>Category {index + 1}</FormLabel>
                         <FormControl>
                           <Input
