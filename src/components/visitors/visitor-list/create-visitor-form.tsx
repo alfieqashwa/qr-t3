@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ScrollArea } from "@radix-ui/react-scroll-area"
 import { Loader2 } from "lucide-react"
-import React, { useState } from "react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import PhoneInput from "react-phone-number-input"
 import type { z } from "zod"
@@ -131,13 +131,24 @@ export const CreateVisitorForm = ({
     })
   }
 
+  const selectedEmail = form.watch("email") as string
+
+  const validateEmail = (email: string) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      )
+  }
+
   const selectedCategoryPrice = formattedPrice.format(
     categories.data?.find((c) => c.id === selectedCategoryId)?.price as number,
   )
+
   const disabledNextBtn =
     form.watch("name")?.length < 3 ||
     form.watch("phone")?.length < 12 ||
-    !form.watch("email")
+    validateEmail(selectedEmail) == null
 
   const disabledCreateBtn =
     disabledNextBtn ||
