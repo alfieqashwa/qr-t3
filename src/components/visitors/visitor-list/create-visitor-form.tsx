@@ -42,6 +42,8 @@ export const CreateVisitorForm = ({
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
+  const [step, setStep] = useState<1 | 2>(1)
+
   const utils = api.useUtils()
 
   // Mutations
@@ -132,176 +134,229 @@ export const CreateVisitorForm = ({
   const selectedCategoryPrice = formattedPrice.format(
     categories.data?.find((c) => c.id === selectedCategoryId)?.price as number,
   )
+  const disabledNextBtn =
+    form.watch("name")?.length < 3 ||
+    form.watch("phone")?.length < 12 ||
+    !form.watch("email")
+
+  const disabledCreateBtn =
+    disabledNextBtn ||
+    !form.watch("eventId") ||
+    !form.watch("categoryId") ||
+    !form.watch("ticketId")
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 py-4">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input placeholder="name" {...field} className="capitalize" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="phone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Phone</FormLabel>
-              <FormControl>
-                <PhoneInput
-                  defaultCountry="ID"
-                  value={field.value.replace(/[^0-9+]/g, "")} //! [^0-9+] <-- only allowed user to type numeric-characters and '+' symbol
-                  onChange={field.onChange}
-                  className="flex h-10 w-[280px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input type="email" placeholder="Email" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="eventId"
-          render={({ field }) => (
-            <FormItem>
-              <ToggleProfit isProfit={isProfit} setIsProfit={setIsProfit} />
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl className="capitalize">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select an event" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {events.status === "success" &&
-                    events.data.map((event) => (
-                      <SelectItem
-                        value={event.id}
-                        key={event.id}
-                        className="capitalize"
-                      >
-                        <span className="pr-1">{event.title}</span>
-                        <span className="lowercase text-amber-300">
-                          {!!event.profit ? "(profit)" : "(non-profit)"}
-                        </span>
-                      </SelectItem>
-                    ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="categoryId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-right">Category</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl className={cn("", field.value && "uppercase")}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Category" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {categories.status === "success" &&
-                    categories.data.map((c) => (
-                      <SelectItem key={c.id} value={c.id} className="uppercase">
-                        {c.name}
-                      </SelectItem>
-                    ))}
-                </SelectContent>
-              </Select>
-              {!!selectedCategoryId && (
-                <FormDescription className="pt-2 text-base font-semibold">
-                  Price:{" "}
-                  <span className="text-amber-300">
-                    {selectedCategoryPrice}
-                  </span>
-                </FormDescription>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
+        {step === 1 && (
+          <>
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="name"
+                      {...field}
+                      className="capitalize"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
               )}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="ticketId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-right">Ticket</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl className="col-span-3 w-[240px] uppercase">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select ticket" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <ScrollArea className="h-56">
-                    {filteredTickets.status === "success" &&
-                      filteredTickets.data.map((t) => {
-                        const ticketCategory = `${t.category
-                          ?.name}-${t.id.slice(-8, -1)}`
-                        return (
+            />
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phone</FormLabel>
+                  <FormControl>
+                    <PhoneInput
+                      defaultCountry="ID"
+                      value={field.value.replace(/[^0-9+]/g, "")} //! [^0-9+] <-- only allowed user to type numeric-characters and '+' symbol
+                      onChange={field.onChange}
+                      className="flex h-10 w-[230px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input type="email" placeholder="Email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <SheetFooter className="absolute bottom-4 left-0 right-0 px-6">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="button"
+                className="mb-1.5"
+                disabled={disabledNextBtn}
+                onClick={() => setStep(2)}
+              >
+                Next Step
+              </Button>
+            </SheetFooter>
+          </>
+        )}
+        {step === 2 && (
+          <>
+            <FormField
+              control={form.control}
+              name="eventId"
+              render={({ field }) => (
+                <FormItem>
+                  <ToggleProfit isProfit={isProfit} setIsProfit={setIsProfit} />
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl className="capitalize">
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select an event" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {events.status === "success" &&
+                        events.data.map((event) => (
                           <SelectItem
-                            key={t.id}
-                            value={t.id}
+                            value={event.id}
+                            key={event.id}
+                            className="capitalize"
+                          >
+                            <span className="pr-1">{event.title}</span>
+                            <span className="lowercase text-amber-300">
+                              {!!event.profit ? "(profit)" : "(non-profit)"}
+                            </span>
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="categoryId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-right">Category</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl className={cn("", field.value && "uppercase")}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Category" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {categories.status === "success" &&
+                        categories.data.map((c) => (
+                          <SelectItem
+                            key={c.id}
+                            value={c.id}
                             className="uppercase"
                           >
-                            {ticketCategory}
+                            {c.name}
                           </SelectItem>
-                        )
-                      })}
-                  </ScrollArea>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <SheetFooter className="absolute bottom-8 left-0 right-0 px-6">
-          <Button
-            className="mt-2 sm:mt-0"
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => setOpen(false)}
-          >
-            Cancel
-          </Button>
-          {isLoading ? (
-            <Button disabled size="sm">
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Please wait
-            </Button>
-          ) : (
-            <Button type="submit" size="sm">
-              Create Visitor
-            </Button>
-          )}
-        </SheetFooter>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                  {!!selectedCategoryId && (
+                    <FormDescription className="pt-2 text-base font-semibold">
+                      Price:{" "}
+                      <span className="text-amber-300">
+                        {selectedCategoryPrice}
+                      </span>
+                    </FormDescription>
+                  )}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="ticketId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-right">Ticket</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl className="col-span-3 w-[240px] uppercase">
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select ticket" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <ScrollArea className="h-56">
+                        {filteredTickets.status === "success" &&
+                          filteredTickets.data.map((t) => {
+                            const ticketCategory = `${t.category
+                              ?.name}-${t.id.slice(-8, -1)}`
+                            return (
+                              <SelectItem
+                                key={t.id}
+                                value={t.id}
+                                className="uppercase"
+                              >
+                                {ticketCategory}
+                              </SelectItem>
+                            )
+                          })}
+                      </ScrollArea>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <SheetFooter className="absolute bottom-4 left-0 right-0 px-6">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setStep(1)}
+              >
+                Previous
+              </Button>
+              {isLoading ? (
+                <Button disabled>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Please wait
+                </Button>
+              ) : (
+                <Button
+                  disabled={disabledCreateBtn}
+                  type="submit"
+                  className="mb-1.5"
+                >
+                  Create Visitor
+                </Button>
+              )}
+            </SheetFooter>
+          </>
+        )}
       </form>
     </Form>
   )
@@ -313,10 +368,24 @@ type TogglePRofitProps = {
 }
 
 const ToggleProfit = ({ isProfit, setIsProfit }: TogglePRofitProps) => (
-  <div className="flex items-center space-x-2">
-    <Switch id="is-profit" checked={isProfit} onCheckedChange={setIsProfit} />
-    <Label htmlFor="is-profit" className="text-xs text-amber-300">
-      {isProfit ? "Profit Mode" : "Non-Profit Mode"}
-    </Label>
+  <div className="pb-2">
+    <div className="flex items-center space-x-2">
+      <Switch id="is-profit" checked={isProfit} onCheckedChange={setIsProfit} />
+      <Label
+        htmlFor="is-profit"
+        className="text-sm font-semibold text-amber-300"
+      >
+        {isProfit ? "Profit" : "Non-Profit"}
+      </Label>
+    </div>
+    <FormDescription className="mt-2 space-x-1">
+      <span>
+        Switch to {isProfit ? "left" : "right"} to create a{" "}
+        {isProfit ? "non-profit" : "profit"} event.
+      </span>
+      <span>
+        {isProfit ? "e.g: wedding, party, etc" : "e.g: concert, gigs, training"}
+      </span>
+    </FormDescription>
   </div>
 )
