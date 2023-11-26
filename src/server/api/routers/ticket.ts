@@ -2,6 +2,7 @@ import { Status } from "@prisma/client"
 import { z } from "zod"
 import { generateTicketSchema } from "~/src/types/schema"
 import {
+  adminProcedure,
   createTRPCRouter,
   editorProcedure,
   operatorProcedure,
@@ -128,7 +129,7 @@ export const ticketRouter = createTRPCRouter({
     .mutation(async ({ ctx, input: { id } }) => {
       return await ctx.prisma.ticket.delete({ where: { id } })
     }),
-  deleteSelected: editorProcedure
+  deleteSelectedAdminRole: adminProcedure
     .input(z.array(z.object({ id: z.string().cuid() })))
     .mutation(async ({ ctx, input }) => {
       return await ctx.prisma.ticket.deleteMany({

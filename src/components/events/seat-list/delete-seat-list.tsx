@@ -40,7 +40,7 @@ export function DeleteSeatList<TData>({ table }: DeleteEventListProps<TData>) {
     (row) => row.status !== "AVAILABLE",
   )
 
-  const { mutate, isLoading } = api.ticket.deleteSelected.useMutation({
+  const { mutate, isLoading } = api.ticket.deleteSelectedAdminRole.useMutation({
     async onSuccess() {
       // delete user from team
       toast({
