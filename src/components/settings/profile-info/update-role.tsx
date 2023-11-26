@@ -78,7 +78,7 @@ export function UpdateRole({ id, currentRole, username }: Props) {
           <DialogDescription asChild>
             <p>
               Edit
-              <span className="px-1.5 font-medium uppercase text-primary">
+              <span className="px-1.5 font-medium capitalize text-amber-300">
                 {username}
               </span>
               role here. Click Update when you&apos;re done.
@@ -87,7 +87,9 @@ export function UpdateRole({ id, currentRole, username }: Props) {
         </DialogHeader>
         <form className="grid gap-4 py-3" onSubmit={handleSubmit}>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">User Role</Label>
+            <Label htmlFor="name" className="mb-1">
+              User Role
+            </Label>
             <SelectRole role={currentRole} />
             {error?.data?.zodError?.fieldErrors.role && (
               <span className="text-xs text-destructive">
