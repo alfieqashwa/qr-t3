@@ -3,8 +3,8 @@ import { ScrollArea } from "@radix-ui/react-scroll-area"
 import { Loader2 } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import PhoneInput from "react-phone-number-input"
 import type { z } from "zod"
+import { FlagPhoneInput } from "~/components/flag-phone-input"
 import {
   createVisitorSchema,
   type extendVisitorFormSchema,
@@ -185,11 +185,9 @@ export const CreateVisitorForm = ({
                 <FormItem>
                   <FormLabel>Phone</FormLabel>
                   <FormControl>
-                    <PhoneInput
-                      defaultCountry="ID"
-                      value={field.value.replace(/[^0-9+]/g, "")} //! [^0-9+] <-- only allowed user to type numeric-characters and '+' symbol
+                    <FlagPhoneInput
+                      value={field.value}
                       onChange={field.onChange}
-                      className="flex h-10 w-[230px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     />
                   </FormControl>
                   <FormMessage />

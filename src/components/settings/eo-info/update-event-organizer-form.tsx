@@ -3,10 +3,10 @@ import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import type { z } from "zod"
 import { CommandCombobox } from "~/components/combobox"
-import type { District, Province, Regency, Village } from "~/src/types/address"
-import { updateEventOrganizerSchema } from "~/src/types/schema"
-import { api, type RouterOutputs } from "~/src/utils/api"
+import { FlagPhoneInput } from "~/components/flag-phone-input"
 import { wait } from "~/src/utils/wait"
+import type { District, Province, Regency, Village } from "~/types/address"
+import { updateEventOrganizerSchema } from "~/types/schema"
 import { Button } from "~/ui/button"
 import { CardDescription } from "~/ui/card"
 import { DialogFooter } from "~/ui/dialog"
@@ -21,6 +21,7 @@ import {
 import { Input } from "~/ui/input"
 import { ToastAction } from "~/ui/toast"
 import { toast } from "~/ui/use-toast"
+import { api, type RouterOutputs } from "~/utils/api"
 
 type UpdateEventOrganizerFormProps = {
   eo: RouterOutputs["eo"]["read"]
@@ -43,6 +44,7 @@ export const UpdateEventOrganizerForm = ({
       await utils.eo.read.invalidate()
       /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(false))
+      // TODOS: SLUG BUGS
     },
     onError() {
       toast({
@@ -188,7 +190,11 @@ export const UpdateEventOrganizerForm = ({
             <FormItem className="grid grid-cols-4 items-center gap-x-4">
               <FormLabel className="mt-2 text-right">Phone</FormLabel>
               <FormControl>
-                <Input {...field} className="col-span-3 w-[240px] capitalize" />
+                <FlagPhoneInput
+                  value={field.value}
+                  onChange={field.onChange}
+                  className="w-[240px]"
+                />
               </FormControl>
             </FormItem>
           )}
