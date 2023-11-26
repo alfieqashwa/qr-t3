@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
+import { useRouter } from "next/router"
 import { useForm } from "react-hook-form"
 import type { z } from "zod"
 import { CommandCombobox } from "~/components/combobox"
@@ -33,18 +34,22 @@ export const UpdateEventOrganizerForm = ({
   setOpen,
 }: UpdateEventOrganizerFormProps) => {
   const utils = api.useUtils()
+  const router = useRouter()
 
-  const { mutate, isLoading } = api.eo.updateAdminRole.useMutation({
+  const { mutate, isLoading, variables } = api.eo.updateAdminRole.useMutation({
     async onSuccess() {
       toast({
         title: "Succeed!",
         variant: "default",
         description: "Your EO has been updated.",
       })
+
       await utils.eo.read.invalidate()
       /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(false))
-      // TODOS: SLUG BUGS
+
+      const name = variables?.name.replace(/\s+/g, "-") as string // update slug with updated name of EO
+      await router.push(`/${name}/settings`)
     },
     onError() {
       toast({
