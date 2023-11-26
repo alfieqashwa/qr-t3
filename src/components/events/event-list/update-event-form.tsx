@@ -47,6 +47,10 @@ export function UpdateEventForm({ event, open, setOpen }: Props): JSX.Element {
     { eventId: event?.id as string },
     {
       enabled: !!event?.id,
+      /**
+       * This configuration below is to disallowed the user to switch profit/non-profit mode
+       * if the event has already have ticket(s)
+       */
       select: (tickets) => tickets.length > 0,
     },
   )
