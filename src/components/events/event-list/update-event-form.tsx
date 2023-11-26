@@ -210,8 +210,8 @@ const StepOneForm = ({
         control={form.control}
         name="date"
         render={({ field }) => (
-          <FormItem className="grid grid-cols-6 items-center gap-4">
-            <FormLabel className="mt-2 text-right">Date</FormLabel>
+          <FormItem className="grid grid-cols-1 items-center gap-x-4 sm:grid-cols-6">
+            <FormLabel className="sm:text-right">Date</FormLabel>
             <Popover>
               <PopoverTrigger asChild>
                 <FormControl>
@@ -226,7 +226,7 @@ const StepOneForm = ({
                       <p>
                         <span>
                           {!!field.value &&
-                            format(field.value, "Pp", { locale: id })}
+                            format(field.value, "PP", { locale: id })}
                         </span>
                         <span className="px-1">Pukul</span>
                         <span>{timeValue}</span>
@@ -270,7 +270,7 @@ const StepOneForm = ({
         name="title"
         render={({ field }) => (
           <FormItem className="grid grid-cols-1 items-center gap-x-4 sm:grid-cols-6">
-            <FormLabel className="mt-2 sm:text-right">Title</FormLabel>
+            <FormLabel className="sm:text-right">Title</FormLabel>
             <FormControl>
               <Input
                 {...field}
@@ -287,7 +287,7 @@ const StepOneForm = ({
         name="venue"
         render={({ field }) => (
           <FormItem className="grid grid-cols-1 items-center gap-x-4 sm:grid-cols-6">
-            <FormLabel className="mt-2 sm:text-right">Venue</FormLabel>
+            <FormLabel className="sm:text-right">Venue</FormLabel>
             <FormControl>
               <Input
                 {...field}
@@ -388,7 +388,7 @@ const StepTwoForm = ({
                       value={field.value.replace(/\s/g, "")}
                       onChange={field.onChange}
                       placeholder="category"
-                      className="uppercase placeholder:capitalize"
+                      className="w-[280px] uppercase placeholder:capitalize"
                     />
                   </FormControl>
                   <FormMessage />
@@ -405,14 +405,14 @@ const StepTwoForm = ({
                     hidden: !form.watch("profit"),
                   })}
                 >
-                  <FormLabel>Price</FormLabel>
+                  <FormLabel>Price {index + 1}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder={`price ${index + 1}`}
+                      placeholder="price"
                       name={field.name}
                       value={formattedInputPriceValue(field.value)}
                       onChange={field.onChange}
-                      className="capitalize"
+                      className="w-[280px] uppercase placeholder:capitalize"
                     />
                   </FormControl>
                   <FormMessage />

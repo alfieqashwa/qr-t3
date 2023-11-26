@@ -139,7 +139,7 @@ export function CreateEventForm(props: Props) {
               name="date"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Date of Event</FormLabel>
+                  <FormLabel>Date</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -153,7 +153,7 @@ export function CreateEventForm(props: Props) {
                           {!!field.value ? (
                             <p>
                               <span>
-                                {format(field.value, "Pp", { locale: id })}
+                                {format(field.value, "PP", { locale: id })}
                               </span>
                               <span className="px-1">Pukul</span>
                               <span>{timeValue}</span>
