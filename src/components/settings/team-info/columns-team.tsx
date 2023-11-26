@@ -86,7 +86,7 @@ export const columnsTeam: ColumnDef<
           variant="secondary"
           className={cn(
             "px-3 py-1.5",
-            hasActiveUser ? "text-amber-300" : "text-muted-foreground"
+            hasActiveUser ? "text-amber-300" : "text-muted-foreground",
           )}
         >
           <User className="mr-2 h-4 w-4" />
@@ -151,10 +151,12 @@ export const columnsTeam: ColumnDef<
     id: "update",
     cell: ({ row }) => {
       const {
-        original: { id, name, role },
+        original: { id, name, email, role },
       } = row
 
-      return <UpdateTeam id={id} username={name} currentRole={role} />
+      return (
+        <UpdateTeam id={id} username={name} email={email} currentRole={role} />
+      )
     },
   },
   {

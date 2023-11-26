@@ -18,11 +18,12 @@ import { api } from "~/utils/api"
 
 type Props = {
   id: string
-  currentRole: Role
   username: string | null
+  email: string
+  currentRole: Role
 }
 
-export function UpdateTeam({ id, currentRole, username }: Props) {
+export function UpdateTeam({ id, username, currentRole, email }: Props) {
   const utils = api.useUtils()
   const { toast } = useToast()
 
@@ -49,7 +50,7 @@ export function UpdateTeam({ id, currentRole, username }: Props) {
           action: <ToastAction altText="Try again">Try again</ToastAction>,
         })
       },
-    }
+    },
   )
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -73,20 +74,26 @@ export function UpdateTeam({ id, currentRole, username }: Props) {
       </DialogTrigger>
       <DialogContent className="bg-card">
         <DialogHeader>
-          <DialogTitle>Update Team</DialogTitle>
-          <DialogDescription asChild>
-            <p>
-              Edit
-              <span className="px-1.5 font-medium uppercase text-primary">
-                {username}
-              </span>
-              role of your team here. Click Update Team when you&apos;re done.
-            </p>
+          <DialogTitle>
+            Update Team{" "}
+            <span
+              className={cn("capitalize text-amber-300", {
+                lowercase: username == null,
+              })}
+            >
+              {username ?? email}
+            </span>
+          </DialogTitle>
+          <DialogDescription>
+            Edit role of your team here. Click Update Team when you&apos;re
+            done.
           </DialogDescription>
         </DialogHeader>
         <form className="grid gap-4 py-3" onSubmit={handleSubmit}>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">User Role</Label>
+            <Label htmlFor="name" className="mb-1">
+              User Role
+            </Label>
             <SelectRole role={currentRole} />
             {error?.data?.zodError?.fieldErrors.role && (
               <span className="text-xs text-destructive">
@@ -110,7 +117,7 @@ export function UpdateTeam({ id, currentRole, username }: Props) {
               </Button>
             ) : (
               <Button type="submit" size="sm">
-                Update
+                Update Team
               </Button>
             )}
           </DialogFooter>
@@ -130,6 +137,7 @@ import {
   SelectValue,
 } from "~/components/ui/select"
 import { wait } from "~/src/utils/wait"
+import { cn } from "~/src/utils"
 
 export function SelectRole({ role }: { role: Role }) {
   return (
