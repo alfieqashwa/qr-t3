@@ -116,14 +116,6 @@ export function UpdateEventForm({ event, open, setOpen }: Props): JSX.Element {
   function onSubmit(values: UpdateEventSchema) {
     const { id, title, profit, date, venue, categories: _categories } = values
 
-    const initialPrice = 0.0 // for a non-profit value
-    const categories = _categories.map((c) => ({
-      id: c.id,
-      name: c.name.toLowerCase(),
-      price:
-        c.price === "" ? initialPrice : parseFloat(c.price.replace(/,/g, "")),
-    }))
-
     /**
      * Source: https://react-day-picker.js.org/guides/input-fields
      */
@@ -138,6 +130,16 @@ export function UpdateEventForm({ event, open, setOpen }: Props): JSX.Element {
       hours,
       minutes,
     )
+
+    const initialPrice = 0.0 // for a non-profit value
+    const categories = _categories.map((c) => ({
+      id: c.id,
+      name: c.name.toLowerCase(),
+      price:
+        !profit || c.price === "" // if user updating profit -> non-profit, so the previous price of each category will set to 0.0
+          ? initialPrice
+          : parseFloat(c.price.replace(/,/g, "")),
+    }))
 
     mutate({
       id,
@@ -238,7 +240,7 @@ const StepOneForm = ({
                   </Button>
                 </FormControl>
               </PopoverTrigger>
-              <PopoverContent className="p-2" align="start">
+              <PopoverContent className="p-2" align="center">
                 <Calendar
                   mode="single"
                   selected={field.value}

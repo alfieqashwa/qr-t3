@@ -93,13 +93,6 @@ export function CreateEventForm(props: Props) {
   function onSubmit(values: z.infer<typeof extendCreateEventSchema>) {
     const { title, venue, profit, date, categories: _categories } = values
 
-    const initialPrice = 0.0 // -> non-profit condition
-    const categories = _categories.map((c) => ({
-      name: c.name.toLowerCase(),
-      price:
-        c.price === "" ? initialPrice : parseFloat(c.price.replace(/,/g, "")),
-    }))
-
     //github.com/shadcn-ui/ui/issues/657#issuecomment-1633006421
     /**
      * Source: https://react-day-picker.js.org/guides/input-fields
@@ -115,6 +108,15 @@ export function CreateEventForm(props: Props) {
       hours,
       minutes,
     )
+
+    const initialPrice = 0.0 // -> non-profit condition
+    const categories = _categories.map((c) => ({
+      name: c.name.toLowerCase(),
+      price:
+        !profit || c.price === ""
+          ? initialPrice
+          : parseFloat(c.price.replace(/,/g, "")),
+    }))
 
     mutate({
       title,
