@@ -114,7 +114,7 @@ export const CreateVisitorForm = ({
   const filteredTickets = api.ticket.getAllByCategoryId.useQuery(
     { categoryId: selectedCategoryId },
     {
-      enabled: !!selectedEventId,
+      enabled: !!selectedCategoryId,
       // filtered only AVAILABlE tickets
       select: (tickets) => tickets.filter((t) => t.status === "AVAILABLE"),
     },
