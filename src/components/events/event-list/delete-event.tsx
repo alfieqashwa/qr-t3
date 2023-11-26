@@ -58,6 +58,7 @@ export function DeleteEvent({ id, title, open, setOpen }: Props) {
 
   return (
     <Dialog>
+      {/* // TODO: Disabled delete the event if there's at least a booked ticket.  */}
       <DialogTrigger className="group flex w-full items-center">
         <Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70 group-hover:text-primary" />
         <span className="group-hover:text-primary">Delete</span>
