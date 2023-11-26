@@ -74,20 +74,18 @@ export function UpdateTeam({ id, username, currentRole, email }: Props) {
       </DialogTrigger>
       <DialogContent className="bg-card">
         <DialogHeader>
-          <DialogTitle>
-            Update Team{" "}
+          <DialogTitle>Update Team</DialogTitle>
+          <p>
+            Edit
             <span
-              className={cn("capitalize text-amber-300", {
+              className={cn("px-1 capitalize text-amber-300", {
                 lowercase: username == null,
               })}
             >
               {username ?? email}
             </span>
-          </DialogTitle>
-          <DialogDescription>
-            Edit role of your team here. Click Update Team when you&apos;re
-            done.
-          </DialogDescription>
+            role of your team here. Click Update Team when you&apos;re done.
+          </p>
         </DialogHeader>
         <form className="grid gap-4 py-3" onSubmit={handleSubmit}>
           <div className="flex flex-col space-y-1.5">
