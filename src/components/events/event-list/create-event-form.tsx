@@ -153,7 +153,7 @@ export function CreateEventForm(props: Props) {
                           {!!field.value ? (
                             <p>
                               <span>
-                                {format(field.value, "PPPP", { locale: id })}
+                                {format(field.value, "Pp", { locale: id })}
                               </span>
                               <span className="px-1">Pukul</span>
                               <span>{timeValue}</span>

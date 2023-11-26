@@ -205,40 +205,6 @@ const StepOneForm = ({
 }: StepOneFormProps) => {
   return (
     <>
-      {/* title */}
-      <FormField
-        control={form.control}
-        name="title"
-        render={({ field }) => (
-          <FormItem className="grid grid-cols-1 items-center gap-x-4 sm:grid-cols-6">
-            <FormLabel className="mt-2 sm:text-right">Title</FormLabel>
-            <FormControl>
-              <Input
-                {...field}
-                className="w-[280px] capitalize sm:col-span-3"
-              />
-            </FormControl>
-            <FormMessage className="sm:col-span-5 sm:text-center" />
-          </FormItem>
-        )}
-      />
-      {/* venue*/}
-      <FormField
-        control={form.control}
-        name="venue"
-        render={({ field }) => (
-          <FormItem className="grid grid-cols-1 items-center gap-x-4 sm:grid-cols-6">
-            <FormLabel className="mt-2 sm:text-right">Venue</FormLabel>
-            <FormControl>
-              <Input
-                {...field}
-                className="w-[280px] capitalize sm:col-span-3"
-              />
-            </FormControl>
-            <FormMessage className="sm:col-span-5 sm:text-center" />
-          </FormItem>
-        )}
-      />
       {/* Date */}
       <FormField
         control={form.control}
@@ -252,7 +218,7 @@ const StepOneForm = ({
                   <Button
                     variant={"outline"}
                     className={cn(
-                      "w-[320px] pl-3 text-left font-normal",
+                      "w-[280px] pl-3 text-left font-normal",
                       !field.value && "text-muted-foreground",
                     )}
                   >
@@ -260,7 +226,7 @@ const StepOneForm = ({
                       <p>
                         <span>
                           {!!field.value &&
-                            format(field.value, "PPPP", { locale: id })}
+                            format(field.value, "Pp", { locale: id })}
                         </span>
                         <span className="px-1">Pukul</span>
                         <span>{timeValue}</span>
@@ -295,6 +261,40 @@ const StepOneForm = ({
                 />
               </PopoverContent>
             </Popover>
+          </FormItem>
+        )}
+      />
+      {/* title */}
+      <FormField
+        control={form.control}
+        name="title"
+        render={({ field }) => (
+          <FormItem className="grid grid-cols-1 items-center gap-x-4 sm:grid-cols-6">
+            <FormLabel className="mt-2 sm:text-right">Title</FormLabel>
+            <FormControl>
+              <Input
+                {...field}
+                className="w-[280px] capitalize sm:col-span-3"
+              />
+            </FormControl>
+            <FormMessage className="sm:col-span-5 sm:text-center" />
+          </FormItem>
+        )}
+      />
+      {/* venue*/}
+      <FormField
+        control={form.control}
+        name="venue"
+        render={({ field }) => (
+          <FormItem className="grid grid-cols-1 items-center gap-x-4 sm:grid-cols-6">
+            <FormLabel className="mt-2 sm:text-right">Venue</FormLabel>
+            <FormControl>
+              <Input
+                {...field}
+                className="w-[280px] capitalize sm:col-span-3"
+              />
+            </FormControl>
+            <FormMessage className="sm:col-span-5 sm:text-center" />
           </FormItem>
         )}
       />
