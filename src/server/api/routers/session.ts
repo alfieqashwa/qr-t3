@@ -1,9 +1,9 @@
 import { z } from "zod"
-import { createTRPCRouter, dewaProcedure } from "../trpc"
+import { createTRPCRouter, adminProcedure, dewaProcedure } from "../trpc"
 
 export const sessionRouter = createTRPCRouter({
   // Queries - Admin Procedure
-  getAllByEOIdAdminRole: dewaProcedure.query(async ({ ctx }) => {
+  getAllByEOIdAdminRole: adminProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.session.findMany()
   }),
   // Mutations - Dewa Procedure
