@@ -17,7 +17,7 @@ export const visitorRouter = createTRPCRouter({
   // Queries - Protected Procedure
   getAll: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.visitor.findMany({
-      orderBy: { updatedAt: "asc" },
+      orderBy: { name: "asc" },
       include: {
         ticket: {
           select: {

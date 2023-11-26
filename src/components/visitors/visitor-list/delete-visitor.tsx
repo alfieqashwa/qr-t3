@@ -35,9 +35,9 @@ export function DeleteVisitor({ id, title, ticketStatus, setOpen }: Props) {
         variant: "default",
         description: "The visitor has been deleted.",
       })
-      await utils.visitor.getAll.invalidate()
       /* auto-closed after succeed submit the dialog form */
       await wait().then(() => setOpen(false))
+      await utils.visitor.getAll.invalidate()
     },
     onError() {
       toast({
