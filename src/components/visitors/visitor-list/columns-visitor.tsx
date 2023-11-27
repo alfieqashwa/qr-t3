@@ -269,7 +269,7 @@ export const columnsVisitor: ColumnDef<
   {
     accessorKey: "createdAt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="CreatedAt" />
+      <DataTableColumnHeader column={column} title="Created At" />
     ),
     cell: ({ row }) => (
       <div className="whitespace-nowrap">
@@ -280,7 +280,7 @@ export const columnsVisitor: ColumnDef<
   {
     accessorKey: "updatedAt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="UpdatedAt" />
+      <DataTableColumnHeader column={column} title="Updated At" />
     ),
     cell: ({ row }) => {
       const date = formatDistance(

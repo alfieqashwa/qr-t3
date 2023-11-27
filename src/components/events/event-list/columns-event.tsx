@@ -116,7 +116,7 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
   {
     accessorKey: "createdAt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="CreatedAt" />
+      <DataTableColumnHeader column={column} title="Created At" />
     ),
     cell: ({ row }) => (
       <div className="whitespace-nowrap">
@@ -127,7 +127,7 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
   {
     accessorKey: "updatedAt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="UpdatedAt" />
+      <DataTableColumnHeader column={column} title="Updated At" />
     ),
     cell: ({ row }) => {
       const date = formatDistance(
