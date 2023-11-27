@@ -37,7 +37,7 @@ export const userRouter = createTRPCRouter({
   }),
 
   // Queries - Dewa Procedure
-  getAllUsers: dewaProcedure.query(async ({ ctx }) => {
+  getAllDewaRole: dewaProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.user.findMany({
       include: { eventOrganizer: { select: { name: true } } },
     })
