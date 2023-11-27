@@ -1,13 +1,13 @@
 import type { Status } from "@prisma/client"
 import type { ColumnDef } from "@tanstack/react-table"
-import { Calendar, Mail, Tags, User } from "lucide-react"
+import { BadgeCent, Calendar, Hash, Mail, Tags, User } from "lucide-react"
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header"
 import { STATUS } from "~/constants/status"
+import { cn } from "~/src/utils"
 import { Badge } from "~/ui/badge"
 import { Checkbox } from "~/ui/checkbox"
 import type { RouterOutputs } from "~/utils/api"
 import { RowTicketActions } from "./row-ticket-actions"
-import { cn } from "~/src/utils"
 
 export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
   [
@@ -39,13 +39,20 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="ID" />
       ),
-      cell: ({ row }) => <div className="w-auto">{row.getValue("id")}</div>,
+      cell: ({ row }) => (
+        <Badge variant="secondary" className="px-3 py-1.5">
+          <Hash className="mr-2 h-4 w-4 text-muted-foreground" />
+          <span className="max-w-[500px] truncate font-medium">
+            {row.getValue("id")}
+          </span>
+        </Badge>
+      ),
     },
     {
       accessorKey: "price",
       accessorFn: (row) => row.category?.price,
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="price" />
+        <DataTableColumnHeader column={column} title="Price" />
       ),
       cell: ({ row }) => {
         const price = row.getValue("price")
@@ -53,7 +60,14 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
           style: "currency",
           currency: "IDR",
         }).format(Number(price))
-        return <div className="w-[80px]">{formatPrice}</div>
+        return (
+          <Badge variant="secondary" className="px-3 py-1.5">
+            <BadgeCent className="mr-2 h-4 w-4 text-muted-foreground" />
+            <span className="max-w-[500px] truncate font-medium capitalize text-amber-300">
+              {formatPrice}
+            </span>
+          </Badge>
+        )
       },
     },
     {
@@ -63,9 +77,9 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
         <DataTableColumnHeader column={column} title="Category" />
       ),
       cell: ({ row }) => (
-        <Badge variant="secondary" className="whitespace-nowrap px-3 py-1.5">
+        <Badge variant="secondary" className="px-3 py-1.5">
           <Tags className="mr-2 h-4 w-4 text-muted-foreground" />
-          <span className="max-w-[500px] truncate font-medium uppercase">
+          <span className="max-w-[500px] truncate font-medium uppercase text-amber-300">
             {row.getValue("category")}
           </span>
         </Badge>
@@ -82,7 +96,7 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
       ),
       cell: ({ row }) => {
         return (
-          <div className="flex items-center">
+          <div className="flex items-center whitespace-nowrap">
             <Calendar className="mr-2 h-4 w-4 text-muted-foreground" />
             <span className="whitespace-nowrap font-medium capitalize">
               {row.getValue("event")}

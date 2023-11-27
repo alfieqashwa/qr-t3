@@ -1,8 +1,9 @@
 import type { ColumnDef } from "@tanstack/react-table"
 import { format, formatDistance, subDays } from "date-fns"
 import { id } from "date-fns/locale"
-import { CheckCircle2, DollarSign, MapPin, Star } from "lucide-react"
+import { BadgeCent, Calendar, CheckCircle2, MapPin, Star } from "lucide-react"
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header"
+import { cn } from "~/src/utils"
 import { Badge } from "~/ui/badge"
 import { Checkbox } from "~/ui/checkbox"
 import type { RouterOutputs } from "~/utils/api"
@@ -36,12 +37,12 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
       <DataTableColumnHeader column={column} title="Title" />
     ),
     cell: ({ row }) => (
-      <div className="flex items-center">
+      <Badge variant="secondary" className="px-3 py-1.5">
         <Star className="mr-2 h-4 w-4 text-muted-foreground" />
         <span className="whitespace-nowrap capitalize">
           {row.getValue("title")}
         </span>
-      </div>
+      </Badge>
     ),
   },
   {
@@ -69,13 +70,12 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
       <DataTableColumnHeader column={column} title="Date" />
     ),
     cell: ({ row }) => (
-      <div className="flex space-x-2">
-        <Badge variant="secondary" className="px-3 py-1.5">
-          <span className="max-w-[500px] truncate font-medium capitalize">
-            {format(row.getValue("date"), "PPPPpp", { locale: id })}
-          </span>
-        </Badge>
-      </div>
+      <Badge variant="secondary" className="px-3 py-1.5">
+        <Calendar className="mr-2 h-4 w-4 text-muted-foreground" />
+        <span className="max-w-[500px] truncate font-medium capitalize">
+          {format(row.getValue("date"), "PPPPpp", { locale: id })}
+        </span>
+      </Badge>
     ),
   },
   {
@@ -86,10 +86,18 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
     cell: ({ row }) => {
       const profit = row.getValue("profit")
       return (
-        <div className="flex items-center">
+        <Badge
+          variant="secondary"
+          className={cn("px-3 py-1.5", !!profit && "text-amber-300")}
+        >
           {profit ? (
             <>
-              <DollarSign className="mr-2 h-[18px] w-[18px] text-muted-foreground" />
+              <BadgeCent
+                className={cn(
+                  "mr-2 h-[18px] w-[18px]",
+                  !!profit ? "text-amber-300" : "text-muted-foreground",
+                )}
+              />
               <span className="whitespace-nowrap capitalize">Profit</span>
             </>
           ) : (
@@ -98,7 +106,7 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
               <span className="whitespace-nowrap capitalize">Non Profit</span>
             </>
           )}
-        </div>
+        </Badge>
       )
     },
     filterFn: (row, id, value: string) => {
@@ -128,7 +136,7 @@ export const columnsEvent: ColumnDef<RouterOutputs["event"]["getAll"][0]>[] = [
         {
           addSuffix: true,
           locale: id,
-        }
+        },
       )
       return <div className="whitespace-nowrap">{date}</div>
     },
