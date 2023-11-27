@@ -35,6 +35,9 @@ export const Copyright = () => (
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
+      <span className="pl-1 text-amber-300">
+        v{process.env.NEXT_PUBLIC_VERSION}
+      </span>
     </div>
   </footer>
 )
