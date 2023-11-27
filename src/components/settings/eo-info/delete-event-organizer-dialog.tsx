@@ -1,8 +1,8 @@
+import { Role } from "@prisma/client"
 import { Loader2, Trash2 } from "lucide-react"
 import { useRouter } from "next/router"
 import { useState } from "react"
-import { api } from "~/src/utils/api"
-import { wait } from "~/src/utils/wait"
+import { LoadingSpinner } from "~/components/loading"
 import { Button } from "~/ui/button"
 import {
   Dialog,
@@ -15,6 +15,8 @@ import {
 } from "~/ui/dialog"
 import { ToastAction } from "~/ui/toast"
 import { useToast } from "~/ui/use-toast"
+import { api } from "~/utils/api"
+import { wait } from "~/utils/wait"
 
 type Props = {
   id: string
@@ -26,6 +28,9 @@ export function DeleteEventOrganizerDialog({ id }: Props) {
   const { toast } = useToast()
 
   const [open, setOpen] = useState(false)
+
+  const { data: me, status } = api.user.me.useQuery()
+  console.log({ me })
 
   const { mutate, isLoading } = api.eo.deleteAdminRole.useMutation({
     async onSuccess() {
@@ -56,19 +61,23 @@ export function DeleteEventOrganizerDialog({ id }: Props) {
       id,
     })
   }
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button
-          variant="destructive"
-          size="sm"
-          className="flex items-center space-x-1"
-        >
-          <Trash2 size={16} />
-          <span>Delete</span>
-        </Button>
-      </DialogTrigger>
+      {status !== "success" ? (
+        <LoadingSpinner />
+      ) : (
+        <DialogTrigger asChild>
+          <Button
+            disabled={me?.role !== Role.DEWA}
+            variant="destructive"
+            size="sm"
+            className="flex items-center space-x-1"
+          >
+            <Trash2 size={16} />
+            <span>Delete</span>
+          </Button>
+        </DialogTrigger>
+      )}
 
       <DialogContent className="sm:max-w-1/2">
         <form onSubmit={handleSubmit}>
