@@ -32,7 +32,7 @@ export function DeleteUser({ id, email, ...props }: Props) {
         variant: "default",
         description: "The user has been deleted.",
       })
-      await utils.user.getAllUsers.invalidate()
+      await utils.user.getAllDewaRole.invalidate()
       /* auto-closed after succeed submit the dialog form */
       await wait().then(() => props.setOpen(false))
     },
