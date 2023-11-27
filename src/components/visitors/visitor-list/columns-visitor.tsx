@@ -1,3 +1,4 @@
+import type { Status } from "@prisma/client"
 import type { ColumnDef } from "@tanstack/react-table"
 import { format, formatDistance, subDays } from "date-fns"
 import { id } from "date-fns/locale"
@@ -14,11 +15,11 @@ import {
 import { GenerateQRCode } from "~/components/qrcode"
 import { DataTableColumnHeader } from "~/components/table/data-table-column-header"
 import { cn } from "~/src/utils"
+import { Badge } from "~/ui/badge"
 import { Checkbox } from "~/ui/checkbox"
 import type { RouterOutputs } from "~/utils/api"
 import { RowVisitorActions } from "./row-visitor-actions"
 import { TriggerTicketStatus } from "./trigger-ticket-status"
-import type { Status } from "@prisma/client"
 
 export const columnsVisitor: ColumnDef<
   RouterOutputs["visitor"]["getAll"][0]
@@ -74,7 +75,7 @@ export const columnsVisitor: ColumnDef<
     cell: ({ row }) => (
       <div className="flex items-center">
         <User className="mr-2 h-4 w-4 text-muted-foreground" />
-        <span className="whitespace-nowrap capitalize">
+        <span className="whitespace-nowrap font-medium capitalize">
           {row.getValue("name")}
         </span>
       </div>
@@ -103,7 +104,9 @@ export const columnsVisitor: ColumnDef<
       return (
         <div className="flex items-center">
           <Mail className="mr-2 h-4 w-4 text-muted-foreground" />
-          <span>{row.getValue("email")}</span>
+          <span className="whitespace-nowrap font-medium text-amber-300">
+            {row.getValue("email")}
+          </span>
         </div>
       )
     },
@@ -117,12 +120,12 @@ export const columnsVisitor: ColumnDef<
     cell: ({ row }) => {
       const ticketCategory = row.getValue("ticketCategory")
       return (
-        <div className="flex items-center">
+        <Badge variant="secondary" className="px-3 py-1.5">
           <Tags className="mr-2 h-4 w-4 text-muted-foreground" />
-          <span className="whitespace-nowrap font-medium uppercase">
+          <span className="max-w-[500px] whitespace-nowrap font-medium uppercase text-amber-300">
             {ticketCategory as string}
           </span>
-        </div>
+        </Badge>
       )
     },
   },
@@ -158,10 +161,21 @@ export const columnsVisitor: ColumnDef<
       <DataTableColumnHeader column={column} title="Event" />
     ),
     cell: ({ row }) => {
+      const {
+        original: {
+          ticket: { event },
+        },
+      } = row
+      const profit = event?.profit
       return (
-        <div className="flex items-center">
-          <Calendar className="mr-2 h-4 w-4 text-muted-foreground" />
-          <span className="whitespace-nowrap font-medium uppercase">
+        <div className="flex items-center whitespace-nowrap">
+          <Calendar
+            className={cn(
+              "mr-2 h-4 w-4",
+              !!profit ? "text-amber-300" : "text-muted-foreground",
+            )}
+          />
+          <span className="whitespace-nowrap font-medium capitalize">
             {row.getValue("eventTitle")}
           </span>
         </div>

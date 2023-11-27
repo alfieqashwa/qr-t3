@@ -68,11 +68,16 @@ export const GenerateQRCode = ({
   return (
     <Dialog>
       <DialogTrigger className="flex justify-center px-6">
-        {ticketStatus !== "AVAILABLE" && <QrCode size={28} />}
+        {ticketStatus !== "AVAILABLE" && (
+          <QrCode
+            size={28}
+            className="m-1 rounded border-2 border-muted-foreground transition-colors duration-200 ease-in-out hover:border-amber-300"
+          />
+        )}
       </DialogTrigger>
 
       {status === "success" && (
-        <DialogContent className="">
+        <DialogContent>
           <DialogHeader>
             <DialogTitle className="mx-auto">Generate QR Code</DialogTitle>
             <DialogDescription asChild>

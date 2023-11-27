@@ -3,7 +3,7 @@ import {
   createPublicVisitorSchema,
   createVisitorSchema,
   updateVisitorSchema,
-} from "~/src/types/schema"
+} from "~/types/schema"
 import {
   adminProcedure,
   createTRPCRouter,
@@ -24,7 +24,7 @@ export const visitorRouter = createTRPCRouter({
             id: true,
             category: { select: { name: true, price: true } },
             status: true,
-            event: { select: { title: true } },
+            event: { select: { title: true, profit: true } },
           },
         },
       },
