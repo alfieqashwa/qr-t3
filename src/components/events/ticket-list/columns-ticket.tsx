@@ -122,6 +122,8 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
           return null
         }
 
+        const available =
+          status.value === "AVAILABLE" && "text-muted-foreground"
         const booked = status.value === "BOOKED" && "text-amber-500"
         const purchased = status.value === "PURCHASED" && "text-emerald-500"
         const refund = status.value === "REFUND" && "text-destructive"
@@ -130,7 +132,8 @@ export const columnsTicket: ColumnDef<RouterOutputs["ticket"]["getAll"][0]>[] =
             {status.icon && (
               <status.icon
                 className={cn(
-                  "mr-2 h-4 w-4 text-muted-foreground",
+                  "mr-2 h-4 w-4",
+                  available,
                   booked,
                   purchased,
                   refund,

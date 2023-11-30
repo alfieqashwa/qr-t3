@@ -1,5 +1,6 @@
 import { format } from "date-fns"
 import { id } from "date-fns/locale"
+import dynamic from "next/dynamic"
 import { useState } from "react"
 import {
   Card,
@@ -18,6 +19,13 @@ import {
 } from "~/ui/select"
 import type { RouterOutputs } from "~/utils/api"
 import { formattedPrice } from "~/utils/formattedPrice"
+
+const PieChartActiveShape = dynamic(
+  () => import("~/components/pie-chart-active-shape"),
+  {
+    ssr: false,
+  },
+)
 
 type CardEventProps = {
   event: RouterOutputs["event"]["getAllEditorRole"][0]
@@ -50,6 +58,40 @@ export function CardEvent({ event }: CardEventProps) {
     }
   }
 
+  const totalStatus = (categoryId: string) => {
+    if (categoryId === "all") {
+      const available = tickets.filter((t) => t.status === "AVAILABLE").length
+      const booked = tickets.filter((t) => t.status === "BOOKED").length
+      const purchased = tickets.filter((t) => t.status === "PURCHASED").length
+      const refund = tickets.filter((t) => t.status === "REFUND").length
+      return [
+        { color: "#8884d8", name: "Available", value: available },
+        { color: "#ffc658", name: "Booked", value: booked },
+        { color: "#82ca9d", name: "Purchased", value: purchased },
+        { color: "#ff7300", name: "Refund", value: refund },
+      ]
+    } else {
+      const available = tickets.filter(
+        (t) => t.categoryId === categoryId && t.status === "AVAILABLE",
+      ).length
+      const booked = tickets.filter(
+        (t) => t.categoryId === categoryId && t.status === "BOOKED",
+      ).length
+      const purchased = tickets.filter(
+        (t) => t.categoryId === categoryId && t.status === "PURCHASED",
+      ).length
+      const refund = tickets.filter(
+        (t) => t.categoryId === categoryId && t.status === "REFUND",
+      ).length
+      return [
+        { color: "#8884d8", name: "Available", value: available },
+        { color: "#ffc658", name: "Booked", value: booked },
+        { color: "#82ca9d", name: "Purchased", value: purchased },
+        { color: "#ff7300", name: "Refund", value: refund },
+      ]
+    }
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -58,55 +100,59 @@ export function CardEvent({ event }: CardEventProps) {
             <CardTitle className="capitalize">{title}</CardTitle>
             <div className="mt-2 font-bold capitalize">
               <CardDescription>
-                Date: {format(date, "PPPP", { locale: id })}
+                {format(date, "PPPP", { locale: id })}
               </CardDescription>
-              <CardDescription>Venue: {venue}</CardDescription>
+              <CardDescription>in {venue}</CardDescription>
             </div>
           </div>
-          <div className="text-right">
+          <div>
             {profit ? (
-              <>
+              <div className="space-y-1 text-right">
                 <CardDescription>Total Omzet</CardDescription>
-                <CardTitle className="text-xl">
+                <CardTitle className="text-base">
                   {totalPrice(categoryId)}
                 </CardTitle>
-              </>
+              </div>
             ) : (
               <CardDescription className="text-primary">
                 Non-Profit Event
               </CardDescription>
             )}
-            <CardDescription className="mt-1">Total Ticket</CardDescription>
-            <CardTitle className="text-xl">{totalTicket(categoryId)}</CardTitle>
+            <div className="space-y-1 text-right">
+              <CardDescription>Total Ticket</CardDescription>
+              <CardTitle className="text-base">
+                {totalTicket(categoryId)}
+              </CardTitle>
+            </div>
           </div>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="mt-4 grid w-full items-center gap-4">
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="category" className="sr-only">
-              Category
-            </Label>
-            {!categories.length ? (
-              <h1>&nbsp;</h1>
-            ) : (
-              <Select onValueChange={setCategoryId} defaultValue={categoryId}>
-                <SelectTrigger id="category" className="capitalize">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                  <SelectItem className="uppercase" value="all">
-                    All
+        <PieChartActiveShape data={totalStatus(categoryId)} />
+
+        <div className="flex flex-col space-y-1.5">
+          <Label htmlFor="category" className="sr-only">
+            Category
+          </Label>
+          {!categories.length ? (
+            <h1>&nbsp;</h1>
+          ) : (
+            <Select onValueChange={setCategoryId} defaultValue={categoryId}>
+              <SelectTrigger id="category" className="capitalize">
+                <SelectValue placeholder="Select" />
+              </SelectTrigger>
+              <SelectContent position="popper">
+                <SelectItem className="uppercase" value="all">
+                  All
+                </SelectItem>
+                {categories.map((c) => (
+                  <SelectItem className="uppercase" key={c.id} value={c.id}>
+                    {c.name}
                   </SelectItem>
-                  {categories.map((c) => (
-                    <SelectItem className="uppercase" key={c.id} value={c.id}>
-                      {c.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
-          </div>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         </div>
       </CardContent>
     </Card>
