@@ -109,18 +109,21 @@ export function CardEvent({ event }: CardEventProps) {
             {profit ? (
               <div className="space-y-1 text-right">
                 <CardDescription>Total Omzet</CardDescription>
-                <CardTitle className="text-base">
+                <CardTitle className="text-base text-amber-300">
                   {totalPrice(categoryId)}
                 </CardTitle>
               </div>
             ) : (
-              <CardDescription className="text-primary">
-                Non-Profit Event
-              </CardDescription>
+              <div className="space-y-1 text-right">
+                <CardDescription className="text-primary">
+                  Non-Profit Event
+                </CardDescription>
+                <CardTitle className="text-base">&nbsp;</CardTitle>
+              </div>
             )}
             <div className="space-y-1 text-right">
               <CardDescription>Total Ticket</CardDescription>
-              <CardTitle className="text-base">
+              <CardTitle className="text-base text-amber-300">
                 {totalTicket(categoryId)}
               </CardTitle>
             </div>

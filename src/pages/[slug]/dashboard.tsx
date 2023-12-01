@@ -14,7 +14,7 @@ const DashboardPage: NextPage = () => {
   return (
     <Layout title={title}>
       {status === "loading" && <LoadingSpinner />}
-      <div className="mt-4 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3 xl:gap-8">
+      <div className="mt-4 grid min-w-max grid-cols-1 gap-8 pr-2 md:grid-cols-2 xl:grid-cols-3 xl:gap-8">
         {status === "success" &&
           events.map((event) => {
             return <CardEvent event={event} key={event.id} />

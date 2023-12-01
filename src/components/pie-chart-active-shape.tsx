@@ -2,7 +2,6 @@ import { useCallback, useState, type FunctionComponent } from "react"
 import { Cell, Pie, PieChart, Sector, type SectorProps } from "recharts"
 import { type PieSectorDataItem } from "recharts/types/polar/Pie"
 import { type ActiveShape } from "recharts/types/util/types"
-// import "./styles.css"
 
 export interface DataItem {
   color: string
@@ -84,8 +83,9 @@ const renderActiveShape: FunctionComponent<RenderActiveShapeProps> = (
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
         textAnchor={textAnchor}
-        fill="#333"
-      >{`PV ${value}`}</text>
+        // fill="#666"
+        className="fill-amber-300 text-sm"
+      >{`Qty ${value}`}</text>
       <text
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
@@ -93,7 +93,7 @@ const renderActiveShape: FunctionComponent<RenderActiveShapeProps> = (
         textAnchor={textAnchor}
         fill="#999"
       >
-        {`(Rate ${(percent * 100).toFixed(2)}%)`}
+        {`${(percent * 100).toFixed(2)}%`}
       </text>
     </g>
   )
@@ -110,7 +110,7 @@ export default function PieChartActiveShape(props: PieChartActiveShapeProps) {
   )
 
   return (
-    <PieChart width={450} height={350} className="">
+    <PieChart width={400} height={400} className="mx-auto">
       <Pie
         activeIndex={activeIndex}
         activeShape={renderActiveShape as ActiveShape<PieSectorDataItem>}
@@ -122,6 +122,7 @@ export default function PieChartActiveShape(props: PieChartActiveShapeProps) {
         fill="#8884d8"
         dataKey="value"
         onMouseEnter={onPieEnter}
+        className="font-semibold"
       >
         {props.data.map((entry, index) => (
           <Cell key={`cell-${index}`} fill={entry.color} />
