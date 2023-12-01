@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Check, ChevronsUpDown, Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import type { z } from "zod"
+import { FlagPhoneInput } from "~/components/flag-phone-input"
 import { cn } from "~/src/utils"
 import { extendCreatePublicVisitorSchema } from "~/types/schema"
 import { Button } from "~/ui/button"
@@ -98,9 +99,9 @@ export const CreateTicketOrderForm = ({
     const { name, phone, email, ticketId } = values
 
     mutate({
-      name,
+      name: name.toLowerCase(),
       phone,
-      email,
+      email: email?.toLowerCase(),
       ticketId,
     })
   }
@@ -135,11 +136,10 @@ export const CreateTicketOrderForm = ({
               <div className="grid grid-cols-6 items-center gap-x-4">
                 <FormLabel className="text-right">Phone</FormLabel>
                 <FormControl>
-                  <Input
-                    type="number"
-                    placeholder="phone"
-                    {...field}
-                    className="col-span-3 w-[240px] capitalize"
+                  <FlagPhoneInput
+                    value={field.value}
+                    onChange={field.onChange}
+                    className="w-[240px]"
                   />
                 </FormControl>
               </div>
