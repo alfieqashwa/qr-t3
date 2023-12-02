@@ -1,6 +1,10 @@
 import { Role } from "@prisma/client"
 import { z } from "zod"
-import { createTeamSchema, updateTeamSchema } from "~/src/types/schema"
+import {
+  createTeamSchema,
+  updateTeamSchema,
+  updateUserSchema,
+} from "~/src/types/schema"
 import {
   adminProcedure,
   createTRPCRouter,
@@ -42,6 +46,13 @@ export const userRouter = createTRPCRouter({
       include: { eventOrganizer: { select: { name: true } } },
     })
   }),
+  getByIdDewaRole: dewaProcedure
+    .input(z.object({ id: z.string().cuid() }))
+    .query(async ({ ctx, input: { id } }) => {
+      return await ctx.prisma.user.findUnique({
+        where: { id },
+      })
+    }),
 
   // Mutations - Protected Procedure
   updateRoleToAdmin: protectedProcedure
@@ -103,6 +114,14 @@ export const userRouter = createTRPCRouter({
     .mutation(async ({ ctx, input: { id } }) => {
       return await ctx.prisma.user.delete({
         where: { id },
+      })
+    }),
+  updateUserDewaRole: dewaProcedure
+    .input(updateUserSchema)
+    .mutation(async ({ ctx, input: { id, name, role } }) => {
+      return await ctx.prisma.user.update({
+        where: { id },
+        data: { role, name },
       })
     }),
 })

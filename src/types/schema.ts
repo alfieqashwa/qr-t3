@@ -207,3 +207,15 @@ const userSchema = z.object({
 })
 export const createTeamSchema = userSchema.omit({ id: true })
 export const updateTeamSchema = userSchema.omit({ email: true })
+export const updateUserSchema = userSchema.omit({ email: true }).extend({
+  name: z
+    .string({
+      required_error: "Name is required",
+      invalid_type_error: "Name must be a string",
+    })
+    .optional(),
+  // .min(3, {
+  //   message: "Name must be at least 3 character(s)",
+  // })
+  // .max(25, { message: "Name must contain at most 25 character(s)" }),
+})

@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "~/ui/dropdown-menu"
 import { DeleteUser } from "./delete-user"
+import { UpdateUser } from "./update-user"
 
 interface DataTableRowActionsProps {
   userId: string
@@ -50,10 +51,17 @@ export function RowUserActions(props: DataTableRowActionsProps) {
             Copy Event ID
           </DropdownMenuItem>
         )}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+          <UpdateUser id={userId} email={email} setOpen={setOpen} />
+        </DropdownMenuItem>
         {role !== "DEWA" && (
-          <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-            <DeleteUser id={userId} email={email} setOpen={setOpen} />
-          </DropdownMenuItem>
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+              <DeleteUser id={userId} email={email} setOpen={setOpen} />
+            </DropdownMenuItem>
+          </>
         )}
       </DropdownMenuContent>
     </DropdownMenu>
