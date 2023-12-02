@@ -11,8 +11,7 @@ export const HeadMetaData: React.FC<{
   metaDescription,
   // ogImageUrl = "https://i.pinimg.com/originals/d7/86/80/d7868094ee2c24230997cff414f37b1d.jpg",
   // ogImageUrl = "https://images.unsplash.com/photo-1516450137517-162bfbeb8dba",
-  ogImageUrl = "/img/cover.webp",
-
+  ogImageUrl = "https://raw.githubusercontent.com/alfieqashwa/me/main/public/img/cover.webp",
   pathname = "",
 }) => {
   const defaultTitle = "QR Event Organizer"
