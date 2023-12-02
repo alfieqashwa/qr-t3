@@ -86,7 +86,7 @@ export function CreateTeamForm(props: Props) {
     }
 
     createTeam.mutate({
-      email,
+      email: email.toLowerCase(),
       role,
     })
   }

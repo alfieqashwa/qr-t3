@@ -147,8 +147,8 @@ export function UpdateEventForm({ event, open, setOpen }: Props): JSX.Element {
 
     mutate({
       id,
-      title,
-      venue,
+      title: title.toLowerCase(),
+      venue: venue.toLowerCase(),
       profit,
       date: newSelectedDate,
       categories,

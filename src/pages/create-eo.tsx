@@ -147,15 +147,14 @@ const CreateEOPage: NextPage = (): JSX.Element => {
       postalCode,
     } = values
 
-    //? mutate
     mutate({
-      name,
+      name: name.toLowerCase(),
       phone,
+      street: street.toLowerCase(),
       province,
       regency,
       district,
       village,
-      street,
       postalCode,
     })
   }

@@ -69,9 +69,9 @@ export const UpdateVisitorForm = ({ visitor, setOpen }: Props): JSX.Element => {
 
     mutate({
       id,
-      name,
+      name: name.toLowerCase(),
       phone,
-      email,
+      email: email?.toLowerCase(),
     })
   }
 

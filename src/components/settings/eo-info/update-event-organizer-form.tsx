@@ -148,12 +148,11 @@ export const UpdateEventOrganizerForm = ({
       postalCode,
     } = values
 
-    //? mutate
     mutate({
       id: eo?.id as string,
-      name,
+      name: name.toLowerCase(),
       phone,
-      street,
+      street: street.toLowerCase(),
       province,
       regency,
       district,

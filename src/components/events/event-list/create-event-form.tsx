@@ -119,8 +119,8 @@ export function CreateEventForm(props: Props) {
     }))
 
     mutate({
-      title,
-      venue,
+      title: title.toLowerCase(),
+      venue: venue.toLowerCase(),
       profit,
       date: newSelectedDate,
       categories,

@@ -124,7 +124,7 @@ export const CreateVisitorForm = ({
     const { name, phone, email, ticketId } = values
 
     mutate({
-      name,
+      name: name.toLowerCase(),
       phone,
       email,
       ticketId,
