@@ -10,7 +10,7 @@ export const HeadMetaData: React.FC<{
   title = "QR-Code Event Organizer Application.",
   metaDescription,
   // ogImageUrl = "https://i.pinimg.com/originals/d7/86/80/d7868094ee2c24230997cff414f37b1d.jpg",
-  ogImageUrl = "https://images.unsplash.com/photo-1516450137517-162bfbeb8dba?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  ogImageUrl = "https://images.unsplash.com/photo-1516450137517-162bfbeb8dba",
 
   pathname = "",
 }) => {
