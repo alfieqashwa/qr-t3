@@ -20,9 +20,11 @@ export const CardDisplayTotal = ({
   <TooltipProvider>
     <Tooltip>
       <TooltipTrigger>
-        <Card className="flex w-auto items-center justify-center space-x-4 p-4">
+        <Card className="flex w-auto items-center justify-center space-x-3 p-3 md:space-x-4 md:p-4">
           <CardTitle>{icon}</CardTitle>
-          <CardTitle className="text-amber-300">{total}</CardTitle>
+          <CardTitle className="text-lg text-amber-300 md:text-2xl">
+            {total}
+          </CardTitle>
         </Card>
       </TooltipTrigger>
       <TooltipContent className="capitalize">{tooltipMessage}</TooltipContent>

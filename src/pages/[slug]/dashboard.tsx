@@ -43,27 +43,27 @@ const DashboardPage: NextPage = () => {
     <Layout title={title}>
       {status === "loading" && <LoadingSpinner />}
       {status === "success" && (
-        <div className="flex w-full items-center justify-end space-x-4">
+        <div className="flex w-full items-center space-x-4 md:justify-end">
           <CardDisplayTotal
             total={events.all.length}
-            tooltipMessage="total events"
-            icon={<Calendar />}
+            tooltipMessage="total event"
+            icon={<Calendar className="h-5 w-5 md:h-6 md:w-6" />}
           />
           <CardDisplayTotal
             total={events.totalTickets}
-            tooltipMessage="total tickets"
-            icon={<Tag />}
+            tooltipMessage="total ticket"
+            icon={<Tag className="h-5 w-5 md:h-6 md:w-6" />}
           />
           <CardDisplayTotal
             total={events.totalVisitors}
-            tooltipMessage="total visitors"
-            icon={<User />}
+            tooltipMessage="total visitor"
+            icon={<User className="h-5 w-5 md:h-6 md:w-6" />}
           />
           {users.status === "success" && (
             <CardDisplayTotal
               total={users.data?.length}
               tooltipMessage="total team"
-              icon={<UserCog />}
+              icon={<UserCog className="h-5 w-5 md:h-6 md:w-6" />}
             />
           )}
         </div>
