@@ -1,6 +1,7 @@
 import { Calendar, Tag, User, UserCog } from "lucide-react"
 import type { GetServerSideProps, NextPage } from "next"
 import { getServerSession } from "next-auth/next"
+import { AdminOnly } from "~/components/authed"
 import { CardEvent } from "~/components/dashboard"
 import { CardDisplayTotal } from "~/components/dashboard/card-display-total"
 import { Layout } from "~/components/layout"
@@ -59,13 +60,15 @@ const DashboardPage: NextPage = () => {
             tooltipMessage="total visitor"
             icon={<User className="h-5 w-5 md:h-6 md:w-6" />}
           />
-          {users.status === "success" && (
-            <CardDisplayTotal
-              total={users.data?.length}
-              tooltipMessage="total team"
-              icon={<UserCog className="h-5 w-5 md:h-6 md:w-6" />}
-            />
-          )}
+          <AdminOnly>
+            {users.status === "success" && (
+              <CardDisplayTotal
+                total={users.data?.length}
+                tooltipMessage="total team"
+                icon={<UserCog className="h-5 w-5 md:h-6 md:w-6" />}
+              />
+            )}
+          </AdminOnly>
         </div>
       )}
       <div className="mt-4 grid min-w-max grid-cols-1 gap-8 pr-2 md:grid-cols-2 xl:grid-cols-3 xl:gap-8">
