@@ -95,34 +95,39 @@ export function CardEvent({ event }: CardEventProps) {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-start justify-between">
+        <div className="flex justify-between">
           <div>
             <CardTitle className="capitalize">{title}</CardTitle>
-            <div className="mt-2 font-bold capitalize">
+            <div className="mt-1 font-bold capitalize">
               <CardDescription>
                 {format(date, "PPPP", { locale: id })}
               </CardDescription>
               <CardDescription>in {venue}</CardDescription>
             </div>
           </div>
-          <div>
+
+          <div className="flex flex-col justify-start">
             {profit ? (
-              <div className="space-y-1 text-right">
-                <CardDescription>Total Omzet</CardDescription>
+              <div className="mt-1 text-right">
+                <CardDescription className="font-medium">
+                  Total Omzet
+                </CardDescription>
                 <CardTitle className="text-base text-amber-300">
                   {totalPrice(categoryId)}
                 </CardTitle>
               </div>
             ) : (
               <div className="space-y-1 text-right">
-                <CardDescription className="text-primary">
+                <CardDescription className="font-medium text-white">
                   Non-Profit Event
                 </CardDescription>
                 <CardTitle className="text-base">&nbsp;</CardTitle>
               </div>
             )}
-            <div className="space-y-1 text-right">
-              <CardDescription>Total Ticket</CardDescription>
+            <div className="mt-1 text-right">
+              <CardDescription className="font-medium">
+                Total Ticket
+              </CardDescription>
               <CardTitle className="text-base text-amber-300">
                 {totalTicket(categoryId)}
               </CardTitle>

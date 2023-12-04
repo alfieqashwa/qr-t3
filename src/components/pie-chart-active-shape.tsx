@@ -9,6 +9,12 @@ export interface DataItem {
   value: number
 }
 
+/*
+  ! BUG:
+  * client.js:1 Warning: Encountered two children with the same key, `sector-360=360`.
+  * Keys should be unique so that components maintain their identity across updates.
+  * Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+*/
 interface RenderActiveShapeProps extends SectorProps {
   cx: number
   cy: number
@@ -40,8 +46,9 @@ const renderActiveShape: FunctionComponent<RenderActiveShapeProps> = (
     percent,
     value,
   } = props
-  const sin = Math.sin(-RADIAN * midAngle)
+
   const cos = Math.cos(-RADIAN * midAngle)
+  const sin = Math.sin(-RADIAN * midAngle)
   const sx = cx + (outerRadius + 10) * cos
   const sy = cy + (outerRadius + 10) * sin
   const mx = cx + (outerRadius + 30) * cos
@@ -100,6 +107,7 @@ const renderActiveShape: FunctionComponent<RenderActiveShapeProps> = (
 }
 
 type PieChartActiveShapeProps = { data: DataItem[] }
+
 export default function PieChartActiveShape(props: PieChartActiveShapeProps) {
   const [activeIndex, setActiveIndex] = useState<number>(0)
   const onPieEnter = useCallback(
@@ -125,7 +133,10 @@ export default function PieChartActiveShape(props: PieChartActiveShapeProps) {
         className="font-semibold"
       >
         {props.data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={entry.color} />
+          <Cell
+            key={`cell-${index}-${entry.name}-${entry.color}`}
+            fill={entry.color}
+          />
         ))}
       </Pie>
     </PieChart>
