@@ -22,7 +22,7 @@ export const CountdownTimer = ({ date, className }: CountdownTimerProps) => {
       setDays(d)
 
       const h = Math.floor(
-        (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
       )
       setHours(h)
 
@@ -46,7 +46,7 @@ export const CountdownTimer = ({ date, className }: CountdownTimerProps) => {
         <div
           className={cn(
             "flex items-center justify-center p-2 text-base font-semibold",
-            className
+            className,
           )}
         >
           <TimeCard time={days} label="Days" />
